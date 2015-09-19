@@ -1,28 +1,25 @@
 package clientcommunicator.operations;
+import model.player.PlayerIdx;
 
 public class AcceptTradeRequest implements IJSONSerializable {
 
-    public PlayerIdx getAcceptingPlayerIdx() {
+    public PlayerIdx getAcceptingPlayerIdx() 
+    {
         return acceptingPlayerIdx;
     }
 
-    public void setAcceptingPlayerIdx(PlayerIdx acceptingPlayerIdx) {
-        this.acceptingPlayerIdx = acceptingPlayerIdx;
-    }
-
-    public boolean isWillAccept() {
+    public boolean willAccept() 
+    {
         return willAccept;
     }
 
-    public void setWillAccept(boolean willAccept) {
-        this.willAccept = willAccept;
-    }
 
     private PlayerIdx acceptingPlayerIdx;
     private boolean willAccept;
     
     @Override
-    public String Serialize() {
+    public String Serialize() 
+    {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

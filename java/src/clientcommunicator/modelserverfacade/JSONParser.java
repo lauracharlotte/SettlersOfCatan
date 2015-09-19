@@ -5,7 +5,7 @@
  */
 package clientcommunicator.modelserverfacade;
 
-import clientcommunicator.operations.Game;
+import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.IJSONSerializable;
 import java.util.Collection;
 
@@ -25,12 +25,12 @@ public class JSONParser
         throw new UnsupportedOperationException("Not Supported Yet");
     }
     
-    public static Collection<Game> fromJSONToGameCollection(String gameListJSON)
+    public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON)
     {
         throw new UnsupportedOperationException("Not Supported Yet");
     }
     
-    public static Game fromJSONToGame(String gameJSON)
+    public static GameJSONResponse fromJSONToGame(String gameJSON)
     {
         throw new UnsupportedOperationException("Not Supported Yet");
     }

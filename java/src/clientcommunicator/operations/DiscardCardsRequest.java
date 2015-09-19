@@ -9,6 +9,13 @@ package clientcommunicator.operations;
  *
  * @author Michael
  */
-public class DiscardCardsRequest {
+public class DiscardCardsRequest implements IJSONSerializable
+{
+
+    @Override
+    public String Serialize()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -5,10 +5,38 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.locations.EdgeLocation;
+
 /**
  *
  * @author Michael
  */
-public class BuildRoadRequest {
+public class BuildRoadRequest implements IJSONSerializable
+{
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public EdgeLocation getLocation()
+    {
+        return location;
+    }
+
+    public boolean isFree()
+    {
+        return free;
+    }
     
+    private PlayerIdx playerIndex;
+    private EdgeLocation location;
+    private boolean free;
+
+    @Override
+    public String Serialize()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

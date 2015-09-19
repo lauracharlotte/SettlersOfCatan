@@ -7,7 +7,7 @@ package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.Server.IServerProxy;
 import clientcommunicator.operations.CreateGameRequest;
-import clientcommunicator.operations.Game;
+import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import java.util.Collection;
 
@@ -18,12 +18,12 @@ import java.util.Collection;
 public class GameServerOperationsManager implements IServerOperationsManager 
 {
 
-    public Collection<Game> listGames()
+    public Collection<GameJSONResponse> listGames()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Game createGame(CreateGameRequest request)
+    public GameJSONResponse createGame(CreateGameRequest request)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

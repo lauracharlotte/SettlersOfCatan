@@ -9,6 +9,7 @@ package clientcommunicator.operations;
  *
  * @author Michael
  */
-public class SendChatBody {
+public class SendChatBody implements IJSONSerializable
+{
     
 }

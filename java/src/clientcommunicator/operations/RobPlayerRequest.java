@@ -9,6 +9,13 @@ package clientcommunicator.operations;
  *
  * @author Michael
  */
-public class RobPlayerRequest {
+public class RobPlayerRequest implements IJSONSerializable
+{
+
+    @Override
+    public String Serialize()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

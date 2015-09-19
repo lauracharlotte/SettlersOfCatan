@@ -9,6 +9,7 @@ package clientcommunicator.operations;
  *
  * @author Michael
  */
-public class RoadBuildingCardRequest {
+public class RoadBuildingCardRequest implements IJSONSerializable
+{
     
 }

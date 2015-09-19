@@ -9,6 +9,9 @@ package clientcommunicator.operations;
  *
  * @author Michael
  */
-public class Game {
+public class GameJSONResponse
+{
+
+
     
 }
