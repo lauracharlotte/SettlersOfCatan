@@ -4,13 +4,13 @@ public class ServerProxy implements IServerProxy
 {
 
     @Override
-    public String loginUser(String body)
+    public int loginUser(String body)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String registerUser(String body)
+    public int registerUser(String body)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -46,7 +46,7 @@ public class ServerProxy implements IServerProxy
     }
 
     @Override
-    public String getModel()
+    public String getModel(int versionNumber)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
