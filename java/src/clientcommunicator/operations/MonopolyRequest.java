@@ -19,18 +19,30 @@ public class MonopolyRequest implements IJSONSerializable
     private PlayerIdx playerIndex;
     private ResourceType resource;
 
+    /**
+     *
+     * @param playerIndex
+     * @param resource
+     */
     public MonopolyRequest(PlayerIdx playerIndex, ResourceType resource)
     {
         this.playerIndex = playerIndex;
         this.resource = resource;
     }
     
-
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceType getResource()
     {
         return resource;

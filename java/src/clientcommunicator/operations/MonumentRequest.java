@@ -17,12 +17,19 @@ public class MonumentRequest implements IJSONSerializable
     
     private PlayerIdx playerIndex;
     
-    
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @param playerIndex
+     */
     public MonumentRequest(PlayerIdx playerIndex)
     {
         this.playerIndex = playerIndex;

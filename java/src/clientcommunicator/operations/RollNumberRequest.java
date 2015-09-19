@@ -17,11 +17,30 @@ public class RollNumberRequest implements IJSONSerializable
     private PlayerIdx playerIndex;
     private int numberRolled;
 
+    /**
+     *
+     * @param playerIndex
+     * @param numberRolled
+     */
+    public RollNumberRequest(PlayerIdx playerIndex, int numberRolled)
+    {
+        this.playerIndex = playerIndex;
+        this.numberRolled = numberRolled;
+    }
+
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumberRolled()
     {
         return numberRolled;

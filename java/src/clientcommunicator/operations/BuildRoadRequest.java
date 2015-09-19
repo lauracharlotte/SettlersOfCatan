@@ -15,6 +15,12 @@ import shared.locations.EdgeLocation;
 public class BuildRoadRequest implements IJSONSerializable
 {
 
+    /**
+     *
+     * @param playerIndex
+     * @param location
+     * @param free
+     */
     public BuildRoadRequest(PlayerIdx playerIndex, EdgeLocation location, boolean free)
     {
         this.playerIndex = playerIndex;

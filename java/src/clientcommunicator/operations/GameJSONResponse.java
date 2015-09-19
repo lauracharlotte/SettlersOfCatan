@@ -17,32 +17,59 @@ public class GameJSONResponse
     private int gameId;
     private Collection<PlayerJSONResponse> players;
 
+    /**
+     *
+     * @return
+     */
     public String getTitle()
     {
         return title;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getGameId()
     {
         return gameId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Collection<PlayerJSONResponse> getPlayers()
     {
         return players;
     }
 
+    /**
+     *
+     * @param players
+     */
     public void setPlayers(Collection<PlayerJSONResponse> players)
     {
         this.players = players;
     }
 
+    /**
+     *
+     * @param title
+     * @param gameId
+     */
     public GameJSONResponse(String title, int gameId)
     {
         this.title = title;
         this.gameId = gameId;
     }
 
+    /**
+     *
+     * @param title
+     * @param gameId
+     * @param players
+     */
     public GameJSONResponse(String title, int gameId, Collection<PlayerJSONResponse> players)
     {
         this(title, gameId);

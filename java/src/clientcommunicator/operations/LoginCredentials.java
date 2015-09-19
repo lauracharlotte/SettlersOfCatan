@@ -14,6 +14,37 @@ public class LoginCredentials implements IJSONSerializable
 
     private String username;
     private String password;
+
+    /**
+     *
+     * @param username
+     * @param password
+     */
+    public LoginCredentials(String username, String password)
+    {
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getUsername()
+    {
+        return username;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getPassword()
+    {
+        return password;
+    }
+    
+    
     
     @Override
     public String Serialize()

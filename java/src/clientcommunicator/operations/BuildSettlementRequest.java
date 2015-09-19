@@ -19,6 +19,12 @@ public class BuildSettlementRequest implements IJSONSerializable
     private VertexLocation location;
     private boolean free;
 
+    /**
+     *
+     * @param playerIndex
+     * @param location
+     * @param free
+     */
     public BuildSettlementRequest(PlayerIdx playerIndex, VertexLocation location, boolean free)
     {
         this.playerIndex = playerIndex;
@@ -26,18 +32,28 @@ public class BuildSettlementRequest implements IJSONSerializable
         this.free = free;
     }
     
-    
-    
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public VertexLocation getLocation()
     {
         return location;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isFree()
     {
         return free;

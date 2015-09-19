@@ -19,6 +19,12 @@ public class YearOfPlentyRequest implements IJSONSerializable
     private ResourceType resource1;
     private ResourceType resource2;
 
+    /**
+     *
+     * @param playerIndex
+     * @param resource1
+     * @param resource2
+     */
     public YearOfPlentyRequest(PlayerIdx playerIndex, ResourceType resource1, ResourceType resource2)
     {
         this.playerIndex = playerIndex;
@@ -26,16 +32,28 @@ public class YearOfPlentyRequest implements IJSONSerializable
         this.resource2 = resource2;
     }
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceType getResource1()
     {
         return resource1;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceType getResource2()
     {
         return resource2;

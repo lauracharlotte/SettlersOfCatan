@@ -16,11 +16,19 @@ public class FinishTurnRequest implements IJSONSerializable
 
     private PlayerIdx playerIndex;
 
+    /**
+     *
+     * @param playerIndex
+     */
     public FinishTurnRequest(PlayerIdx playerIndex)
     {
         this.playerIndex = playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;

@@ -18,16 +18,29 @@ public class DiscardCardsRequest implements IJSONSerializable
     private PlayerIdx playerIndex;
     private ResourceCardList discardedCards;
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceCardList getDiscardedCards()
     {
         return discardedCards;
     }
 
+    /**
+     *
+     * @param playerIndex
+     * @param discardedCards
+     */
     public DiscardCardsRequest(PlayerIdx playerIndex, ResourceCardList discardedCards)
     {
         this.playerIndex = playerIndex;

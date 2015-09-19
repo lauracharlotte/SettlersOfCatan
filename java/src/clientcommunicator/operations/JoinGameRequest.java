@@ -18,17 +18,30 @@ public class JoinGameRequest implements IJSONSerializable
     private PlayerIdx playerIndex;
     private CatanColor playerColor;
 
+    /**
+     *
+     * @param playerIndex
+     * @param playerColor
+     */
     public JoinGameRequest(PlayerIdx playerIndex, CatanColor playerColor)
     {
         this.playerIndex = playerIndex;
         this.playerColor = playerColor;
     }
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public CatanColor getPlayerColor()
     {
         return playerColor;

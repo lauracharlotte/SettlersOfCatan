@@ -15,6 +15,11 @@ import shared.locations.VertexLocation;
 public class BuildCityRequest implements IJSONSerializable
 {
 
+    /**
+     *
+     * @param playerIndex
+     * @param location
+     */
     public BuildCityRequest(PlayerIdx playerIndex, VertexLocation location)
     {
         this.playerIndex = playerIndex;

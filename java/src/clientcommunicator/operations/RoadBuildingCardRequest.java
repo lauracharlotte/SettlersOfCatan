@@ -18,6 +18,12 @@ public class RoadBuildingCardRequest implements IJSONSerializable
     private EdgeLocation spot1;
     private EdgeLocation spot2;
 
+    /**
+     *
+     * @param playerIndex
+     * @param spot1
+     * @param spot2
+     */
     public RoadBuildingCardRequest(PlayerIdx playerIndex, EdgeLocation spot1, EdgeLocation spot2)
     {
         this.playerIndex = playerIndex;
@@ -25,16 +31,28 @@ public class RoadBuildingCardRequest implements IJSONSerializable
         this.spot2 = spot2;
     }
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public EdgeLocation getSpot1()
     {
         return spot1;
     }
 
+    /**
+     *
+     * @return
+     */
     public EdgeLocation getSpot2()
     {
         return spot2;

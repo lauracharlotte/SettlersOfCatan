@@ -18,19 +18,42 @@ public class RobPlayerRequest implements IJSONSerializable
     private PlayerIdx playerThatsRobbingIndex;
     private PlayerIdx victimIndex;
     private HexLocation location;
+
+    /**
+     *
+     * @param playerThatsRobbingIndex
+     * @param victimIndex
+     * @param location
+     */
+    public RobPlayerRequest(PlayerIdx playerThatsRobbingIndex, PlayerIdx victimIndex, HexLocation location)
+    {
+        this.playerThatsRobbingIndex = playerThatsRobbingIndex;
+        this.victimIndex = victimIndex;
+        this.location = location;
+    }
     
-    
-    
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerThatsRobbingIndex()
     {
         return playerThatsRobbingIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getVictimIndex()
     {
         return victimIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public HexLocation getLocation()
     {
         return location;

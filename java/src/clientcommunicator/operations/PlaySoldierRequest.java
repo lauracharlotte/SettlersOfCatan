@@ -19,6 +19,12 @@ public class PlaySoldierRequest implements IJSONSerializable
     private int victimIndex;
     private HexLocation newLocation;
 
+    /**
+     *
+     * @param playerIndex
+     * @param victimIndex
+     * @param newLocation
+     */
     public PlaySoldierRequest(PlayerIdx playerIndex, int victimIndex, HexLocation newLocation)
     {
         this.playerIndex = playerIndex;
@@ -26,16 +32,28 @@ public class PlaySoldierRequest implements IJSONSerializable
         this.newLocation = newLocation;
     }
   
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getVictimIndex()
     {
         return victimIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public HexLocation getNewLocation()
     {
         return newLocation;

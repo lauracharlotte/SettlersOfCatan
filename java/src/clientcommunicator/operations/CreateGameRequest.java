@@ -16,6 +16,13 @@ public class CreateGameRequest implements IJSONSerializable
     private boolean randomPorts;
     private String name;
     
+    /**
+     *
+     * @param randomTiles
+     * @param randomNumbers
+     * @param randomPorts
+     * @param name
+     */
     public CreateGameRequest(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name)
     {
         this.randomTiles = randomTiles;
@@ -24,21 +31,37 @@ public class CreateGameRequest implements IJSONSerializable
         this.name = name;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isRandomTiles()
     {
         return randomTiles;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRandomNumbers()
     {
         return randomNumbers;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isRandomPorts()
     {
         return randomPorts;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName()
     {
         return name;

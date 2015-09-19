@@ -17,17 +17,42 @@ public class PlayerJSONResponse
     private CatanColor color;
     private String name;
     private int id;
+
+    /**
+     *
+     * @param color
+     * @param name
+     * @param id
+     */
+    public PlayerJSONResponse(CatanColor color, String name, int id)
+    {
+        this.color = color;
+        this.name = name;
+        this.id = id;
+    }
     
+    /**
+     *
+     * @return
+     */
     public CatanColor getColor()
     {
         return color;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId()
     {
         return id;

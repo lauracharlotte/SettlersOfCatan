@@ -21,27 +21,49 @@ public class MaritimeTradeRequest implements IJSONSerializable
     private ResourceType inputResource;
     private ResourceType outputResource;
     
-    
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRatio()
     {
         return ratio;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceType getInputResource()
     {
         return inputResource;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResourceType getOutputResource()
     {
         return outputResource;
     }
 
+    /**
+     *
+     * @param playerIndex
+     * @param ratio
+     * @param inputResource
+     * @param outputResource
+     */
     public MaritimeTradeRequest(PlayerIdx playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource)
     {
         this.playerIndex = playerIndex;
