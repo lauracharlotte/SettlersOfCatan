@@ -26,6 +26,11 @@ public class ModelServerFacadeFactory
         
     }
     
+    public void updateModel(String newModelJSON)
+    {
+        
+    }
+    
     /**
      *
      * @param bodyInformation
