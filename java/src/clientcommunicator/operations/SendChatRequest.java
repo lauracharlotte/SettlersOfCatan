@@ -5,13 +5,18 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+
 /**
  *
  * @author Michael
  */
-public class SendChatBody implements IJSONSerializable
+public class SendChatRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private String content;
+    
     @Override
     public String Serialize()
     {

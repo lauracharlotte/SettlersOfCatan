@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.locations.HexLocation;
+
 /**
  *
  * @author Michael
@@ -12,6 +15,27 @@ package clientcommunicator.operations;
 public class RobPlayerRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerThatsRobbingIndex;
+    private PlayerIdx victimIndex;
+    private HexLocation location;
+    
+    
+    
+    public PlayerIdx getPlayerThatsRobbingIndex()
+    {
+        return playerThatsRobbingIndex;
+    }
+
+    public PlayerIdx getVictimIndex()
+    {
+        return victimIndex;
+    }
+
+    public HexLocation getLocation()
+    {
+        return location;
+    }
+    
     @Override
     public String Serialize()
     {

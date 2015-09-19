@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.cards.ResourceCardList;
+import model.player.PlayerIdx;
+
 /**
  *
  * @author Michael
@@ -12,6 +15,25 @@ package clientcommunicator.operations;
 public class DiscardCardsRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private ResourceCardList discardedCards;
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public ResourceCardList getDiscardedCards()
+    {
+        return discardedCards;
+    }
+
+    public DiscardCardsRequest(PlayerIdx playerIndex, ResourceCardList discardedCards)
+    {
+        this.playerIndex = playerIndex;
+        this.discardedCards = discardedCards;
+    }
+    
     @Override
     public String Serialize()
     {

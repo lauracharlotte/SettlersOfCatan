@@ -5,12 +5,50 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.definitions.ResourceType;
+
 /**
  *
  * @author Michael
  */
 public class MaritimeTradeRequest implements IJSONSerializable
 {
+    
+        
+    private PlayerIdx playerIndex;
+    private int ratio;
+    private ResourceType inputResource;
+    private ResourceType outputResource;
+    
+    
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public int getRatio()
+    {
+        return ratio;
+    }
+
+    public ResourceType getInputResource()
+    {
+        return inputResource;
+    }
+
+    public ResourceType getOutputResource()
+    {
+        return outputResource;
+    }
+
+    public MaritimeTradeRequest(PlayerIdx playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource)
+    {
+        this.playerIndex = playerIndex;
+        this.ratio = ratio;
+        this.inputResource = inputResource;
+        this.outputResource = outputResource;
+    }
 
     @Override
     public String Serialize()

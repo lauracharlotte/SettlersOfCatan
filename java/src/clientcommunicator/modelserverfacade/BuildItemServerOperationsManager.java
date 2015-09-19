@@ -24,21 +24,37 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @param request
+     */
     public void buyDevCard(BuyDevCardRequest request)
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void buildCity(BuildCityRequest request)
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void buildSettlement(BuildSettlementRequest request)
     {
         
     }
 
+    /**
+     *
+     * @param request
+     */
     public void buildRoad(BuildRoadRequest request)
     {
         

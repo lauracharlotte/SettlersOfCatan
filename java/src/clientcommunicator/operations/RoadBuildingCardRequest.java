@@ -5,12 +5,42 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.locations.EdgeLocation;
+
 /**
  *
  * @author Michael
  */
 public class RoadBuildingCardRequest implements IJSONSerializable
 {
+    private PlayerIdx playerIndex;
+    private EdgeLocation spot1;
+    private EdgeLocation spot2;
+
+    public RoadBuildingCardRequest(PlayerIdx playerIndex, EdgeLocation spot1, EdgeLocation spot2)
+    {
+        this.playerIndex = playerIndex;
+        this.spot1 = spot1;
+        this.spot2 = spot2;
+    }
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public EdgeLocation getSpot1()
+    {
+        return spot1;
+    }
+
+    public EdgeLocation getSpot2()
+    {
+        return spot2;
+    }
+    
+    
 
     @Override
     public String Serialize()

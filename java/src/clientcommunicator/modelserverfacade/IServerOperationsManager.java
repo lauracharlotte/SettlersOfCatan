@@ -13,5 +13,10 @@ import clientcommunicator.Server.IServerProxy;
  */
 public interface IServerOperationsManager 
 {
+
+    /**
+     *
+     * @param serverToUse
+     */
     public void setServer(IServerProxy serverToUse);
 }

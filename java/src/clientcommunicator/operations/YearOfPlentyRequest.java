@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.definitions.ResourceType;
+
 /**
  *
  * @author Michael
@@ -12,6 +15,32 @@ package clientcommunicator.operations;
 public class YearOfPlentyRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private ResourceType resource1;
+    private ResourceType resource2;
+
+    public YearOfPlentyRequest(PlayerIdx playerIndex, ResourceType resource1, ResourceType resource2)
+    {
+        this.playerIndex = playerIndex;
+        this.resource1 = resource1;
+        this.resource2 = resource2;
+    }
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public ResourceType getResource1()
+    {
+        return resource1;
+    }
+
+    public ResourceType getResource2()
+    {
+        return resource2;
+    }
+    
     @Override
     public String Serialize()
     {

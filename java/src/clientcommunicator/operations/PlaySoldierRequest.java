@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.locations.HexLocation;
+
 /**
  *
  * @author Michael
@@ -12,6 +15,34 @@ package clientcommunicator.operations;
 public class PlaySoldierRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private int victimIndex;
+    private HexLocation newLocation;
+
+    public PlaySoldierRequest(PlayerIdx playerIndex, int victimIndex, HexLocation newLocation)
+    {
+        this.playerIndex = playerIndex;
+        this.victimIndex = victimIndex;
+        this.newLocation = newLocation;
+    }
+  
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public int getVictimIndex()
+    {
+        return victimIndex;
+    }
+
+    public HexLocation getNewLocation()
+    {
+        return newLocation;
+    }
+    
+    
+    
     @Override
     public String Serialize()
     {

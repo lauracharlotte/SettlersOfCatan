@@ -12,6 +12,9 @@ package clientcommunicator.operations;
 public class LoginCredentials implements IJSONSerializable
 {
 
+    private String username;
+    private String password;
+    
     @Override
     public String Serialize()
     {

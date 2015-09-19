@@ -11,31 +11,53 @@ package clientcommunicator.Server;
  */
 public class ServerPoller 
 {
+
+    /**
+     *
+     * @param server
+     */
     public ServerPoller(IServerProxy server)
     {
         
     }
     
+    /**
+     *
+     */
     public ServerPoller()
     {
         
     }
     
+    /**
+     *
+     * @param server
+     */
     public void setServer(IServerProxy server)
     {
         
     }
     
+    /**
+     *
+     * @param numberOfMilliseconds
+     */
     public void setPollingMilliseconds(int numberOfMilliseconds)
     {
         
     }
     
+    /**
+     *
+     */
     public void run()
     {
         
     }
     
+    /**
+     *
+     */
     public void stop()
     {
         

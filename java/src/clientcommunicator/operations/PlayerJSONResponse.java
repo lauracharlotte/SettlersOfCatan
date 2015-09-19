@@ -5,11 +5,40 @@
  */
 package clientcommunicator.operations;
 
+import shared.definitions.CatanColor;
+
 /**
  *
  * @author Michael
  */
 public class PlayerJSONResponse
 {
+
+    private CatanColor color;
+    private String name;
+    private int id;
     
+    public CatanColor getColor()
+    {
+        return color;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isEmptyPlayer()
+    {
+        throw new UnsupportedOperationException();
+    }
 }

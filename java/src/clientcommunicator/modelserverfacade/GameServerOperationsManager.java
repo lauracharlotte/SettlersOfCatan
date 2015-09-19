@@ -18,36 +18,64 @@ import java.util.Collection;
 public class GameServerOperationsManager implements IServerOperationsManager 
 {
 
+    /**
+     *
+     * @return
+     */
     public Collection<GameJSONResponse> listGames()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     public GameJSONResponse createGame(CreateGameRequest request)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @param request
+     */
     public void joinGame(JoinGameRequest request)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     */
     public void resetGame()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @param AIType
+     */
     public void addAI(String AIType)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @return
+     */
     public Collection<String> listAI()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param serverToUse
+     */
     @Override
     public void setServer(IServerProxy serverToUse)
     {

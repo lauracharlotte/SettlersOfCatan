@@ -6,7 +6,7 @@
 package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.Server.IServerProxy;
-import clientcommunicator.operations.SendChatBody;
+import clientcommunicator.operations.SendChatRequest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,21 +16,43 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ModelServerFacadeFactory
 {
+
+    /**
+     *
+     * @param server
+     */
     public ModelServerFacadeFactory(IServerProxy server)
     {
         
     }
     
-    public void sendChat(SendChatBody bodyInformation) 
+    /**
+     *
+     * @param bodyInformation
+     */
+    public void sendChat(SendChatRequest bodyInformation) 
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @param server
+     */
     public void setServerProxy(IServerProxy server)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     *
+     * @param operationsClass
+     * @return
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public IServerOperationsManager getOperationsManager(Class operationsClass) 
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
     {

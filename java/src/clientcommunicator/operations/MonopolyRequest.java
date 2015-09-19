@@ -5,13 +5,38 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.definitions.ResourceType;
+
 /**
  *
  * @author Michael
  */
 public class MonopolyRequest implements IJSONSerializable
 {
+    
+    
+    private PlayerIdx playerIndex;
+    private ResourceType resource;
 
+    public MonopolyRequest(PlayerIdx playerIndex, ResourceType resource)
+    {
+        this.playerIndex = playerIndex;
+        this.resource = resource;
+    }
+    
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public ResourceType getResource()
+    {
+        return resource;
+    }
+
+    
     @Override
     public String Serialize()
     {

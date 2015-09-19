@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.definitions.CatanColor;
+
 /**
  *
  * @author Michael
@@ -12,6 +15,25 @@ package clientcommunicator.operations;
 public class JoinGameRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private CatanColor playerColor;
+
+    public JoinGameRequest(PlayerIdx playerIndex, CatanColor playerColor)
+    {
+        this.playerIndex = playerIndex;
+        this.playerColor = playerColor;
+    }
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public CatanColor getPlayerColor()
+    {
+        return playerColor;
+    }
+    
     @Override
     public String Serialize()
     {

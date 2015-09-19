@@ -11,16 +11,29 @@ package clientcommunicator.Server;
  */
 public class Cookie 
 {
+    
+    /**
+     *
+     * @return
+     */
     public String getCompleteCookieString()
     {
         throw new UnsupportedOperationException("Not supported yet");
     }
     
+    /**
+     *
+     * @param gameCookieString
+     */
     public void setGameNumberFromCookie(String gameCookieString)
     {
         
     }
     
+    /**
+     *
+     * @param userInformationCookieString
+     */
     public void setUserCookieString(String userInformationCookieString)
     {
         

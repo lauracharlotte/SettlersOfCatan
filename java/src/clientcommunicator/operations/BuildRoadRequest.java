@@ -15,24 +15,43 @@ import shared.locations.EdgeLocation;
 public class BuildRoadRequest implements IJSONSerializable
 {
 
+    public BuildRoadRequest(PlayerIdx playerIndex, EdgeLocation location, boolean free)
+    {
+        this.playerIndex = playerIndex;
+        this.location = location;
+        this.free = free;
+    }
+
+    private PlayerIdx playerIndex;
+    private EdgeLocation location;
+    private boolean free;
+    
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public EdgeLocation getLocation()
     {
         return location;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isFree()
     {
         return free;
     }
-    
-    private PlayerIdx playerIndex;
-    private EdgeLocation location;
-    private boolean free;
 
     @Override
     public String Serialize()

@@ -23,16 +23,28 @@ public class TurnServerOperationsManager implements IServerOperationsManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * 
+     * @param request 
+     */
     void rollNumber(RollNumberRequest request)
     {
         
     }
     
+    /**
+     * 
+     * @param request 
+     */
     void finishTurn(FinishTurnRequest request)
     {
         
     }
     
+    /**
+     * 
+     * @param request 
+     */
     void robPlayer(RobPlayerRequest request)
     {
         

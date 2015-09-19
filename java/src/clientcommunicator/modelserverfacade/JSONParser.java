@@ -15,21 +15,42 @@ import java.util.Collection;
  */
 public class JSONParser 
 {
+
+    /**
+     *
+     * @param serializable
+     * @return
+     */
     public static String toJSON(IJSONSerializable serializable)
     {
         return serializable.Serialize();
     }
     
+    /**
+     *
+     * @param modelJSON
+     * @return
+     */
     public static ClientModel fromJSONToModel(String modelJSON)
     {
         throw new UnsupportedOperationException("Not Supported Yet");
     }
     
+    /**
+     *
+     * @param gameListJSON
+     * @return
+     */
     public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON)
     {
         throw new UnsupportedOperationException("Not Supported Yet");
     }
     
+    /**
+     *
+     * @param gameJSON
+     * @return
+     */
     public static GameJSONResponse fromJSONToGame(String gameJSON)
     {
         throw new UnsupportedOperationException("Not Supported Yet");

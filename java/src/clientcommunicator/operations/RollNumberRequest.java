@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+
 /**
  *
  * @author Michael
@@ -12,6 +14,19 @@ package clientcommunicator.operations;
 public class RollNumberRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    private int numberRolled;
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public int getNumberRolled()
+    {
+        return numberRolled;
+    }
+    
     @Override
     public String Serialize()
     {

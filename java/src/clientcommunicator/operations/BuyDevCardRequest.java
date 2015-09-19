@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+
 /**
  *
  * @author Michael
@@ -12,10 +14,22 @@ package clientcommunicator.operations;
 public class BuyDevCardRequest implements IJSONSerializable
 {
 
+    private PlayerIdx playerIndex;
+    
     @Override
     public String Serialize()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public PlayerIdx getPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public BuyDevCardRequest(PlayerIdx playerIndex)
+    {
+        this.playerIndex = playerIndex;
     }
     
 }

@@ -25,26 +25,46 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param request
+     */
     public void yearOfPlenty(YearOfPlentyRequest request)
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void playRoadBuilding(RoadBuildingCardRequest request)
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void playSoldier(PlaySoldierRequest request) 
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void playMonopoly(MonopolyRequest request)
     {
         
     }
     
+    /**
+     *
+     * @param request
+     */
     public void playMonument(MonumentRequest request)
     {
         

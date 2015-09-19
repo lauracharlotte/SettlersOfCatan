@@ -1,13 +1,36 @@
 package clientcommunicator.operations;
 import model.player.PlayerIdx;
 
+/**
+ *
+ * @author Michael
+ */
 public class AcceptTradeRequest implements IJSONSerializable {
 
+    /**
+     *
+     * @param acceptingPlayerIdx
+     * @param willAccept
+     */
+    public AcceptTradeRequest(PlayerIdx acceptingPlayerIdx, boolean willAccept)
+    {
+        this.acceptingPlayerIdx = acceptingPlayerIdx;
+        this.willAccept = willAccept;
+    }
+
+    /**
+     *
+     * @return
+     */
     public PlayerIdx getAcceptingPlayerIdx() 
     {
         return acceptingPlayerIdx;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean willAccept() 
     {
         return willAccept;
