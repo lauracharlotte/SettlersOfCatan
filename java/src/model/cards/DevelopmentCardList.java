@@ -52,7 +52,8 @@ public class DevelopmentCardList
      * Obvious
      * @return monopoly
      */
-    public int getMonopoly() {
+    public int getMonopoly()
+    {
         return monopoly;
     }
 
@@ -60,7 +61,8 @@ public class DevelopmentCardList
      * Obvious
      * @param monopoly
      */
-    public void setMonopoly(int monopoly) {
+    public void setMonopoly(int monopoly)
+    {
         this.monopoly = monopoly;
     }
 
@@ -68,7 +70,8 @@ public class DevelopmentCardList
      * Obvious
      * @return monument
      */
-    public int getMonument() {
+    public int getMonument()
+    {
         return monument;
     }
 
@@ -76,7 +79,8 @@ public class DevelopmentCardList
      * Obvious
      * @param monument
      */
-    public void setMonument(int monument) {
+    public void setMonument(int monument)
+    {
         this.monument = monument;
     }
 
@@ -84,7 +88,8 @@ public class DevelopmentCardList
      * Obvious
      * @return roadBuilding
      */
-    public int getRoadBuilding() {
+    public int getRoadBuilding()
+    {
         return roadBuilding;
     }
 
@@ -92,7 +97,8 @@ public class DevelopmentCardList
      * Obvious
      * @param roadBuilding
      */
-    public void setRoadBuilding(int roadBuilding) {
+    public void setRoadBuilding(int roadBuilding)
+    {
         this.roadBuilding = roadBuilding;
     }
 
@@ -100,7 +106,8 @@ public class DevelopmentCardList
      * Obvious
      * @return soldier
      */
-    public int getSoldier() {
+    public int getSoldier()
+    {
         return soldier;
     }
 
@@ -108,7 +115,8 @@ public class DevelopmentCardList
      * Obvious
      * @param soldier
      */
-    public void setSoldier(int soldier) {
+    public void setSoldier(int soldier)
+    {
         this.soldier = soldier;
     }
 
@@ -116,7 +124,8 @@ public class DevelopmentCardList
      * Obvious
      * @return yearOfPlenty
      */
-    public int getYearOfPlenty() {
+    public int getYearOfPlenty()
+    {
         return yearOfPlenty;
     }
 
@@ -124,7 +133,8 @@ public class DevelopmentCardList
      * Obvious
      * @param yearOfPlenty
      */
-    public void setYearOfPlenty(int yearOfPlenty) {
+    public void setYearOfPlenty(int yearOfPlenty)
+    {
         this.yearOfPlenty = yearOfPlenty;
     }
 }

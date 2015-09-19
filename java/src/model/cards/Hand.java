@@ -32,7 +32,8 @@ public class Hand
      * Obvious
      * @return resourceCardList
      */
-    public ResourceCardList getResourceCardList() {
+    public ResourceCardList getResourceCardList()
+    {
         return resourceCardList;
     }
 
@@ -40,7 +41,8 @@ public class Hand
      * Obvious
      * @param resourceCardList
      */
-    public void setResourceCardList(ResourceCardList resourceCardList) {
+    public void setResourceCardList(ResourceCardList resourceCardList)
+    {
         this.resourceCardList = resourceCardList;
     }
 
@@ -48,7 +50,8 @@ public class Hand
      * Obvious
      * @return developmentCardList
      */
-    public DevelopmentCardList getDevelopmentCardList() {
+    public DevelopmentCardList getDevelopmentCardList()
+    {
         return developmentCardList;
     }
 
@@ -56,7 +59,8 @@ public class Hand
      * Obvious
      * @param developmentCardList
      */
-    public void setDevelopmentCardList(DevelopmentCardList developmentCardList) {
+    public void setDevelopmentCardList(DevelopmentCardList developmentCardList)
+    {
         this.developmentCardList = developmentCardList;
     }
 }
