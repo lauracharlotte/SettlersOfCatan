@@ -18,22 +18,28 @@ public class ModelServerFacadeFactory
 {
 
     /**
-     *
-     * @param server
+     * @post Same as setServerProxy()
+     * @param server An IServerProxy that can respond to requests by this class and operationsManagers classes.
      */
     public ModelServerFacadeFactory(IServerProxy server)
     {
         
     }
     
+    /**
+     * @pre The parameter has valid JSON for ClientModel contained in it
+     * @post The current ClientModel object is replaced by the model represented by the JSON
+     * @param newModelJSON contains valid JSON for client model
+     */
     public void updateModel(String newModelJSON)
     {
         
     }
     
     /**
-     *
-     * @param bodyInformation
+     * @pre The chat request is valid
+     * @post The chat has been posted to the server
+     * @param bodyInformation contains sender and message information
      */
     public void sendChat(SendChatRequest bodyInformation) 
     {
@@ -41,8 +47,9 @@ public class ModelServerFacadeFactory
     }
     
     /**
-     *
-     * @param server
+     * @pre The IServerProxy is not null--and is a valid IServerProxy
+     * @post Will use the passed in "serverToUse" for future requests--will also give created operationsManagers this server.
+     * @param server The IServerProxy that this class should use to send requests to.
      */
     public void setServerProxy(IServerProxy server)
     {
@@ -50,13 +57,13 @@ public class ModelServerFacadeFactory
     }
     
     /**
-     *
-     * @param operationsClass
-     * @return
-     * @throws NoSuchMethodException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @pre The operationsClass object is the class of an IServerOperationsManager implementation.  A server proxy has been set here.
+     * @param operationsClass The class object of the desired operations manager
+     * @return An IServerOperationsManager of the class given as a parameter
+     * @throws NoSuchMethodException Throws when the class has no default constructor
+     * @throws InstantiationException Throws when the class is abstract
+     * @throws IllegalAccessException The default constructor has a restrictive access modifier
+     * @throws InvocationTargetException The default constructor threw an exception
      */
     public IServerOperationsManager getOperationsManager(Class operationsClass) 
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
