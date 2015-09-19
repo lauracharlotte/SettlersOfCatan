@@ -4,6 +4,7 @@ import model.player.PlayerIdx;
 
 /**
  * The trade offer between two players
+ * @author Scott Hampton
  */
 public class TradeOffer
 {

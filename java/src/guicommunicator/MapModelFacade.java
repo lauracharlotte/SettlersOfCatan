@@ -4,6 +4,7 @@ package guicommunicator;
  * The mediator between the client GUI controllers and the model classes
  * There are more than one mediator; this Facade is specifically for the
  * map model classes
+ * @author Scott Hampton
  */
 public class MapModelFacade
 {

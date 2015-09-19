@@ -2,6 +2,7 @@ package model.cards;
 
 /**
  * Contains the list of resource and development cards the player/bank has
+ * @author Scott Hampton
  */
 public class Hand
 {
