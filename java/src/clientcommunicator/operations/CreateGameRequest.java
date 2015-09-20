@@ -18,10 +18,10 @@ public class CreateGameRequest implements IJSONSerializable
     
     /**
      *
-     * @param randomTiles
-     * @param randomNumbers
-     * @param randomPorts
-     * @param name
+     * @param randomTiles If the tiles should be placed randomly
+     * @param randomNumbers If the numbers should be placed on the tiles randomly
+     * @param randomPorts If the ports should be placed randomly
+     * @param name The name of the game
      */
     public CreateGameRequest(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String name)
     {
@@ -33,7 +33,7 @@ public class CreateGameRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return If the tiles should be placed randomly
      */
     public boolean isRandomTiles()
     {
@@ -42,7 +42,7 @@ public class CreateGameRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return If the numbers should be placed on the tiles randomly
      */
     public boolean isRandomNumbers()
     {
@@ -51,7 +51,7 @@ public class CreateGameRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return If the ports should be placed randomly
      */
     public boolean isRandomPorts()
     {
@@ -60,7 +60,7 @@ public class CreateGameRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The name of the game
      */
     public String getName()
     {

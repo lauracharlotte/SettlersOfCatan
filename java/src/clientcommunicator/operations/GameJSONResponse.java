@@ -19,7 +19,7 @@ public class GameJSONResponse
 
     /**
      *
-     * @return
+     * @return the title of the game
      */
     public String getTitle()
     {
@@ -28,7 +28,7 @@ public class GameJSONResponse
 
     /**
      *
-     * @return
+     * @return the unique id of the game
      */
     public int getGameId()
     {
@@ -37,7 +37,7 @@ public class GameJSONResponse
 
     /**
      *
-     * @return
+     * @return the players that are associated with the game
      */
     public Collection<PlayerJSONResponse> getPlayers()
     {
@@ -46,7 +46,7 @@ public class GameJSONResponse
 
     /**
      *
-     * @param players
+     * @param players the players that are associated with the game
      */
     public void setPlayers(Collection<PlayerJSONResponse> players)
     {
@@ -55,8 +55,8 @@ public class GameJSONResponse
 
     /**
      *
-     * @param title
-     * @param gameId
+     * @param title the title of the game
+     * @param gameId the unique id of the game
      */
     public GameJSONResponse(String title, int gameId)
     {
@@ -66,9 +66,9 @@ public class GameJSONResponse
 
     /**
      *
-     * @param title
-     * @param gameId
-     * @param players
+     * @param title the title of the game
+     * @param gameId the unique id of the game
+     * @param players the players that are associated with the game
      */
     public GameJSONResponse(String title, int gameId, Collection<PlayerJSONResponse> players)
     {

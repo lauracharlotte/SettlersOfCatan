@@ -15,6 +15,19 @@ public class BuyDevCardRequest implements IJSONSerializable
 {
 
     private PlayerIdx playerIndex;
+
+    
+    
+    /**
+     *
+     * @param playerIndex The index of the player that wants to build a development card.
+     */
+    public BuyDevCardRequest(PlayerIdx playerIndex)
+    {
+        this.playerIndex = playerIndex;
+    }
+    
+    
     
     @Override
     public String Serialize()
@@ -24,20 +37,11 @@ public class BuyDevCardRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player that wants to build a development card.
      */
     public PlayerIdx getPlayerIndex()
     {
         return playerIndex;
-    }
-
-    /**
-     *
-     * @param playerIndex
-     */
-    public BuyDevCardRequest(PlayerIdx playerIndex)
-    {
-        this.playerIndex = playerIndex;
     }
     
 }

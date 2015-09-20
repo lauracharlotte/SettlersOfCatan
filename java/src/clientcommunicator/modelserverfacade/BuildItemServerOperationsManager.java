@@ -25,8 +25,9 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
     }
     
     /**
-     *
-     * @param request
+     * @pre The BuyDevCardRequest is valid--the user has the right number of resources. It's the user's turn.
+     * @post The user has a new development card, and loses the resource cost.
+     * @param request Request object to buy a development card
      */
     public void buyDevCard(BuyDevCardRequest request)
     {
@@ -34,8 +35,9 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
     }
     
     /**
-     *
-     * @param request
+     * @pre The build city request must be valid--it is the user's turn, the user has a settlement on the desired location, and has the required resources(unless it is setup).
+     * @post The city replaces the settlement.  The player loses the resource cost (unless it is setup).  The player loses a city.  The player gains a settlement.
+     * @param request Request object to build a city.
      */
     public void buildCity(BuildCityRequest request)
     {
@@ -43,8 +45,9 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
     }
     
     /**
-     *
-     * @param request
+     * @pre The build settlement request must be valid--it is the user's turn, the user has the required resources, and the desired location is next to a road the user owns (unless it is setup).
+     * @post The settlement is placed on the vertex and the player loses the resource cost unless it is setup.
+     * @param request Request object to build a settlement.
      */
     public void buildSettlement(BuildSettlementRequest request)
     {
@@ -52,8 +55,8 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
     }
 
     /**
-     *
-     * @param request
+     * @pre The BuildRoadRequest is valid.  It is the user's turn, the user has the required resources, and the desired location is next to another road the user owns unless it is setup--then the location must be next to a settlement.
+     * @param request Request object to build a road.
      */
     public void buildRoad(BuildRoadRequest request)
     {

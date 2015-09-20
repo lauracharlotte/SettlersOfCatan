@@ -9,8 +9,8 @@ public class AcceptTradeRequest implements IJSONSerializable {
 
     /**
      *
-     * @param acceptingPlayerIdx
-     * @param willAccept
+     * @param acceptingPlayerIdx The index of the player that is accepting/declining the trade.
+     * @param willAccept If the player will accept or decline the trade. True is accept.
      */
     public AcceptTradeRequest(PlayerIdx acceptingPlayerIdx, boolean willAccept)
     {
@@ -20,7 +20,7 @@ public class AcceptTradeRequest implements IJSONSerializable {
 
     /**
      *
-     * @return
+     * @return The index of the player that is accepting/declining the trade.
      */
     public PlayerIdx getAcceptingPlayerIdx() 
     {
@@ -29,7 +29,7 @@ public class AcceptTradeRequest implements IJSONSerializable {
 
     /**
      *
-     * @return
+     * @return If the player will accept or decline
      */
     public boolean willAccept() 
     {

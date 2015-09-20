@@ -21,9 +21,9 @@ public class RobPlayerRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerThatsRobbingIndex
-     * @param victimIndex
-     * @param location
+     * @param playerThatsRobbingIndex The player that is robbing.
+     * @param victimIndex The player that is being robbed.
+     * @param location The new robber location.
      */
     public RobPlayerRequest(PlayerIdx playerThatsRobbingIndex, PlayerIdx victimIndex, HexLocation location)
     {
@@ -34,7 +34,7 @@ public class RobPlayerRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return The player that is robbing.
      */
     public PlayerIdx getPlayerThatsRobbingIndex()
     {
@@ -43,7 +43,7 @@ public class RobPlayerRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The player that is being robbed.
      */
     public PlayerIdx getVictimIndex()
     {
@@ -52,7 +52,7 @@ public class RobPlayerRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The new robber location.
      */
     public HexLocation getLocation()
     {

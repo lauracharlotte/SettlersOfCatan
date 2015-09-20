@@ -19,8 +19,8 @@ public class RollNumberRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param numberRolled
+     * @param playerIndex The index of the player that rolled the number
+     * @param numberRolled The number that was rolled on the dice
      */
     public RollNumberRequest(PlayerIdx playerIndex, int numberRolled)
     {
@@ -30,7 +30,7 @@ public class RollNumberRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player that rolled the number
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -39,7 +39,7 @@ public class RollNumberRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The number that was rolled on the dice
      */
     public int getNumberRolled()
     {

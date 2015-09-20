@@ -21,9 +21,9 @@ public class YearOfPlentyRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param resource1
-     * @param resource2
+     * @param playerIndex The index of the player who is playing the card
+     * @param resource1 The first resource desired
+     * @param resource2 The second resource desired
      */
     public YearOfPlentyRequest(PlayerIdx playerIndex, ResourceType resource1, ResourceType resource2)
     {
@@ -34,7 +34,7 @@ public class YearOfPlentyRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player who is playing the card
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -43,7 +43,7 @@ public class YearOfPlentyRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The first resource desired
      */
     public ResourceType getResource1()
     {
@@ -52,7 +52,7 @@ public class YearOfPlentyRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The second resource desired
      */
     public ResourceType getResource2()
     {

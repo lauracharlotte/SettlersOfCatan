@@ -21,8 +21,8 @@ public class MonopolyRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param resource
+     * @param playerIndex The index of the player playing the card
+     * @param resource The resource type desired
      */
     public MonopolyRequest(PlayerIdx playerIndex, ResourceType resource)
     {
@@ -32,7 +32,7 @@ public class MonopolyRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return The index of the player playing the card
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -41,7 +41,7 @@ public class MonopolyRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The resource type desired
      */
     public ResourceType getResource()
     {

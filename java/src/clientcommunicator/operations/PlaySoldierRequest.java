@@ -21,9 +21,9 @@ public class PlaySoldierRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param victimIndex
-     * @param newLocation
+     * @param playerIndex The index of the player playing the card
+     * @param victimIndex The index of the player being robbed
+     * @param newLocation The location where the robber should be placed
      */
     public PlaySoldierRequest(PlayerIdx playerIndex, int victimIndex, HexLocation newLocation)
     {
@@ -34,7 +34,7 @@ public class PlaySoldierRequest implements IJSONSerializable
   
     /**
      *
-     * @return
+     * @return The index of the player playing the card
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -43,7 +43,7 @@ public class PlaySoldierRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player being robbed
      */
     public int getVictimIndex()
     {
@@ -52,7 +52,7 @@ public class PlaySoldierRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The location where the robber should be placed
      */
     public HexLocation getNewLocation()
     {

@@ -18,7 +18,7 @@ public class FinishTurnRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
+     * @param playerIndex The index of the player who is finishing their turn
      */
     public FinishTurnRequest(PlayerIdx playerIndex)
     {
@@ -27,7 +27,7 @@ public class FinishTurnRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player who is finishing their turn
      */
     public PlayerIdx getPlayerIndex()
     {

@@ -17,8 +17,8 @@ public class LoginCredentials implements IJSONSerializable
 
     /**
      *
-     * @param username
-     * @param password
+     * @param username The user's username
+     * @param password The user's password
      */
     public LoginCredentials(String username, String password)
     {
@@ -28,7 +28,7 @@ public class LoginCredentials implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The user's username
      */
     public String getUsername()
     {
@@ -37,7 +37,7 @@ public class LoginCredentials implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The user's password
      */
     public String getPassword()
     {

@@ -23,7 +23,7 @@ public class MaritimeTradeRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return the index of the player trading
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -32,7 +32,7 @@ public class MaritimeTradeRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return the ratio of the trade
      */
     public int getRatio()
     {
@@ -41,7 +41,7 @@ public class MaritimeTradeRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return the type of resource the player is giving
      */
     public ResourceType getInputResource()
     {
@@ -50,7 +50,7 @@ public class MaritimeTradeRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return the type of the resource the player is getting
      */
     public ResourceType getOutputResource()
     {
@@ -59,10 +59,10 @@ public class MaritimeTradeRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param ratio
-     * @param inputResource
-     * @param outputResource
+     * @param playerIndex the index of the player trading
+     * @param ratio the ratio of the trade
+     * @param inputResource the type of resource the player is giving
+     * @param outputResource the type of the resource the player is getting
      */
     public MaritimeTradeRequest(PlayerIdx playerIndex, int ratio, ResourceType inputResource, ResourceType outputResource)
     {

@@ -20,9 +20,9 @@ public class PlayerJSONResponse
 
     /**
      *
-     * @param color
-     * @param name
-     * @param id
+     * @param color The color of this player
+     * @param name The name of this player
+     * @param id The id of this player
      */
     public PlayerJSONResponse(CatanColor color, String name, int id)
     {
@@ -33,7 +33,7 @@ public class PlayerJSONResponse
     
     /**
      *
-     * @return
+     * @return The color of this player
      */
     public CatanColor getColor()
     {
@@ -42,7 +42,7 @@ public class PlayerJSONResponse
 
     /**
      *
-     * @return
+     * @return The name of this player
      */
     public String getName()
     {
@@ -51,8 +51,8 @@ public class PlayerJSONResponse
 
     /**
      *
-     * @return
-     */
+     * @return The id of this player
+     */ 
     public int getId()
     {
         return id;

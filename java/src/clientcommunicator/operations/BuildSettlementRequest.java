@@ -21,9 +21,9 @@ public class BuildSettlementRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param location
-     * @param free
+     * @param playerIndex The index of the player that wants to build the settlement
+     * @param location The VertexLocation the player wants to build on
+     * @param free True if in setup phase, false otherwise
      */
     public BuildSettlementRequest(PlayerIdx playerIndex, VertexLocation location, boolean free)
     {
@@ -34,7 +34,7 @@ public class BuildSettlementRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return The index of the player that wants to build the settlement
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -43,7 +43,7 @@ public class BuildSettlementRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The VertexLocation the player wants to build on
      */
     public VertexLocation getLocation()
     {
@@ -52,7 +52,7 @@ public class BuildSettlementRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return True if in setup phase, false otherwise
      */
     public boolean isFree()
     {

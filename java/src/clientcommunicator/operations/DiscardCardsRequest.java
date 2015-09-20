@@ -20,7 +20,7 @@ public class DiscardCardsRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player that is discarding
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -29,7 +29,7 @@ public class DiscardCardsRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The resources that the player is discarding
      */
     public ResourceCardList getDiscardedCards()
     {
@@ -38,8 +38,8 @@ public class DiscardCardsRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param discardedCards
+     * @param playerIndex The index of the player that is discarding
+     * @param discardedCards The resources that the player is discarding
      */
     public DiscardCardsRequest(PlayerIdx playerIndex, ResourceCardList discardedCards)
     {

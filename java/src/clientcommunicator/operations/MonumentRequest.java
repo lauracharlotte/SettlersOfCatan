@@ -19,7 +19,7 @@ public class MonumentRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return The index of the player playing the card
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -28,7 +28,7 @@ public class MonumentRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
+     * @param playerIndex The index of the player playing the card
      */
     public MonumentRequest(PlayerIdx playerIndex)
     {

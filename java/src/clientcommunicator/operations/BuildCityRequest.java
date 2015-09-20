@@ -17,8 +17,8 @@ public class BuildCityRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param location
+     * @param playerIndex The index of the player that wants to build the city
+     * @param location The vertex location that the player wants to put the city at
      */
     public BuildCityRequest(PlayerIdx playerIndex, VertexLocation location)
     {
@@ -28,7 +28,7 @@ public class BuildCityRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player that wants to build the city
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -37,7 +37,7 @@ public class BuildCityRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The vertex location that the player wants to put the city at
      */
     public VertexLocation getLocation()
     {

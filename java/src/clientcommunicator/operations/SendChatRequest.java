@@ -19,7 +19,7 @@ public class SendChatRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The index of the player sending the message
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -28,7 +28,7 @@ public class SendChatRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return The message being sent
      */
     public String getContent()
     {
@@ -37,8 +37,8 @@ public class SendChatRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param content
+     * @param playerIndex The index of the player sending the message
+     * @param content The message being sent
      */
     public SendChatRequest(PlayerIdx playerIndex, String content)
     {

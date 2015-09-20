@@ -17,9 +17,9 @@ public class BuildRoadRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex
-     * @param location
-     * @param free
+     * @param playerIndex The index of the player that wants to build the road
+     * @param location Where the player wants to build the road
+     * @param free True if in setup phase, false otherwise
      */
     public BuildRoadRequest(PlayerIdx playerIndex, EdgeLocation location, boolean free)
     {
@@ -34,7 +34,7 @@ public class BuildRoadRequest implements IJSONSerializable
     
     /**
      *
-     * @return
+     * @return The index of the player that wants to build the road
      */
     public PlayerIdx getPlayerIndex()
     {
@@ -43,7 +43,7 @@ public class BuildRoadRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return Where the player wants to build the road
      */
     public EdgeLocation getLocation()
     {
@@ -52,7 +52,7 @@ public class BuildRoadRequest implements IJSONSerializable
 
     /**
      *
-     * @return
+     * @return True if in setup phase, false otherwise
      */
     public boolean isFree()
     {
