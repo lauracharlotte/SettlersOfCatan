@@ -1,9 +1,105 @@
 package model.map;
 
+import shared.locations.*;
+import shared.definitions.*;
+
+/**
+ * Represents a port (taking up 1 edge, 2 vertices) on the CatanMap
+ * @author Madison Brooks
+ *
+ */
 public class Port {
 
+	/**
+	 * Location of Port's Hex on the CatanMap
+	 */
 	private HexLocation hex;
-	private String resource;
-	private String direction;
+	
+	/**
+	 * Port's resource (optional)
+	 */
+	private ResourceType resource;
+	
+	/**
+	 * Direction of Port's edge relative to its Hex
+	 */
+	private EdgeDirection direction;
+	
+	/**
+	 * Port's ratio (?:1); either 2 or 3
+	 */
 	private int ratio;
+	
+	/**
+	 * Constructor for Port
+	 * @param hex
+	 * @param resource
+	 * @param direction
+	 * @param ratio
+	 */
+	public Port(HexLocation hex, ResourceType resource, 
+			EdgeDirection direction, int ratio)
+	{
+		this.hex = hex;
+		this.resource = resource;
+		this.direction = direction;
+		this.ratio = ratio;
+	}
+
+	/**
+	 * @return the hex
+	 */
+	public HexLocation getHex() {
+		return hex;
+	}
+
+	/**
+	 * @param hex the hex to set
+	 */
+	public void setHex(HexLocation hex) {
+		this.hex = hex;
+	}
+
+	/**
+	 * @return the resource (may be null if ratio is 3)
+	 */
+	public ResourceType getResource() {
+		return resource;
+	}
+
+	/**
+	 * @param resource the resource to set
+	 */
+	public void setResource(ResourceType resource) {
+		this.resource = resource;
+	}
+
+	/**
+	 * @return the direction
+	 */
+	public EdgeDirection getDirection() {
+		return direction;
+	}
+
+	/**
+	 * @param direction the direction to set
+	 */
+	public void setDirection(EdgeDirection direction) {
+		this.direction = direction;
+	}
+
+	/**
+	 * @return the ratio
+	 */
+	public int getRatio() {
+		return ratio;
+	}
+
+	/**
+	 * @param ratio the ratio to set
+	 */
+	public void setRatio(int ratio) {
+		this.ratio = ratio;
+	}
+	
 }
