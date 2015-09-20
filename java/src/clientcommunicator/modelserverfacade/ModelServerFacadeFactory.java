@@ -57,9 +57,20 @@ public class ModelServerFacadeFactory
     }
     
     /**
+     * 
+     * Use of this method--assuming we have a ModelServerFacadeFactory, f, instantiated somewhere else and its server was set prior
+     * 
+     * DevCardServerOperationsManager devManager = (DevCardServerOperationsManager)f.getOperationsManager(DevCardServerOperationsManager.Class);
+     * 
+     * now the devManager is instantiated and has a reference to the ModelServerFacadeFactory's IServerProxy so now can do things like:
+     * 
+     * devManager.playMonopoly(new MonopolyRequest(...)); 
+     * 
+     * for example.
+     * 
      * @pre The operationsClass object is the class of an IServerOperationsManager implementation.  A server proxy has been set here.
      * @param operationsClass The class object of the desired operations manager
-     * @return An IServerOperationsManager of the class given as a parameter
+     * @return An IServerOperationsManager of the class given as a parameter.  The server of the returned object is set to the server of this class.
      * @throws NoSuchMethodException Throws when the class has no default constructor
      * @throws InstantiationException Throws when the class is abstract
      * @throws IllegalAccessException The default constructor has a restrictive access modifier

@@ -24,8 +24,9 @@ public class TurnServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     * 
-     * @param request 
+     * @pre It is the player's turn.  The status is rolling.
+     * @post The turn status has changed.
+     * @param request The request that represents what player rolled what number
      */
     void rollNumber(RollNumberRequest request)
     {
@@ -33,8 +34,9 @@ public class TurnServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     * 
-     * @param request 
+     * @pre It is the player's turn.
+     * @post It is not the player's turn anymore.
+     * @param request The request that represents a player ending his/her turn.
      */
     void finishTurn(FinishTurnRequest request)
     {
@@ -42,8 +44,9 @@ public class TurnServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     * 
-     * @param request 
+     * @pre The player just rolled a 7.
+     * @post The robbed player loses a resource (if they have any) to the robbing player.
+     * @param request The request that represents the robbing and robbed players.
      */
     void robPlayer(RobPlayerRequest request)
     {

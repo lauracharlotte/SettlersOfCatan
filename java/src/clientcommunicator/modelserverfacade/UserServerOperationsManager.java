@@ -22,9 +22,10 @@ public class UserServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     *
-     * @param creds
-     * @return
+     * @pre The user was not logged in.  The credentials are valid for a registered user.
+     * @post The user is logged in and the player id in the model is set.
+     * @param creds The username and password as put into the gui by the client
+     * @return The unique player id of the player
      */
     public int loginUser(LoginCredentials creds)
     {
@@ -32,9 +33,10 @@ public class UserServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     *
-     * @param creds
-     * @return
+     * @pre The user was not logged in and the username is not in use by another user.
+     * @post The user is logged in, and the player id in the model is set.  The credentials are now valid for login.
+     * @param creds The username and password as put into the gui by the client
+     * @return The unique player id of the player
      */
     public int registerUser(LoginCredentials creds)
     {
