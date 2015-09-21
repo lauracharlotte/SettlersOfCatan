@@ -8,6 +8,7 @@ package clientcommunicator.modelserverfacade;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.IJSONSerializable;
 import java.util.Collection;
+import model.ClientModel;
 
 /**
  *

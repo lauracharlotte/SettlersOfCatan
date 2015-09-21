@@ -1,5 +1,9 @@
 package guicommunicator;
 
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+
 /**
  * The mediator between the client GUI controllers and the model classes
  * There are more than one mediator; this Facade is specifically for the
@@ -21,7 +25,7 @@ public class MapModelFacade
      * @param edgeLocation
      * @return boolean
      */
-    public boolean canPlaceRoad(edgeLocation)
+    public boolean canPlaceRoad(EdgeLocation location)
     {
         return true;
     }
@@ -32,7 +36,7 @@ public class MapModelFacade
      * @param vertexLocation
      * @return boolean
      */
-    public boolean canPlaceSettlement(vertexLocation)
+    public boolean canPlaceSettlement(VertexLocation location)
     {
         return true;
     }
@@ -43,7 +47,7 @@ public class MapModelFacade
      * @param vertexLocation
      * @return boolean
      */
-    public boolean canPlaceCity(vertexLocation)
+    public boolean canPlaceCity(VertexLocation location)
     {
         return true;
     }
@@ -54,7 +58,7 @@ public class MapModelFacade
      * @param hexLocation
      * @return boolean
      */
-    public boolean canPlaceRobber(hexLocation)
+    public boolean canPlaceRobber(HexLocation location)
     {
         return true;
     }

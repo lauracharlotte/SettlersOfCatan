@@ -39,7 +39,7 @@ public class DevelopmentCardList
      * @param soldier
      * @param yearOfPlenty
      */
-    public DevelopmentCardList(monopoly, monument, roadBuilding, soldier, yearOfPlenty)
+    public DevelopmentCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty)
     {
         this.monopoly = monopoly;
         this.monument = monument;

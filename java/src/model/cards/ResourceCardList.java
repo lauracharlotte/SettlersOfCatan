@@ -39,7 +39,7 @@ public class ResourceCardList
      * @param ore
      * @param wool
      */
-    public ResourceCardList(brick, grain, lumber, ore, wool)
+    public ResourceCardList(int brick, int grain, int lumber, int ore, int wool)
     {
         this.brick = brick;
         this.grain = grain;

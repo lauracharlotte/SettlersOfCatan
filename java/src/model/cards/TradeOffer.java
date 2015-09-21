@@ -27,7 +27,7 @@ public class TradeOffer
     /**
      * The Constructor of a TradeOffer
      */
-    public TradeOffer(senderNumber, receiverNumber, resourceCardList)
+    public TradeOffer(PlayerIdx senderNumber, PlayerIdx receiverNumber, ResourceCardList resourceCardList)
     {
         this.senderNumber = senderNumber;
         this.receiverNumber = receiverNumber;
@@ -74,7 +74,7 @@ public class TradeOffer
      * Obvious
      * @return resourceCardList
      */
-    public ResourceCardList getReceiverNumber()
+    public ResourceCardList getResourceCardList()
     {
         return resourceCardList;
     }

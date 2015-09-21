@@ -23,10 +23,10 @@ public class Hand
      * @param resourceCardList
      * @param developmentCardList
      */
-    public Hand(resourceCardList, developmentCardList)
+    public Hand(ResourceCardList list, DevelopmentCardList devList)
     {
-        this.resourceCardList = resourceCardList;
-        this.developmentCardList = developmentCardList;
+        this.resourceCardList = list;
+        this.developmentCardList = devList;
     }
 
     /**
