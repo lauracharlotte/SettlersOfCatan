@@ -109,13 +109,29 @@ public class Player {
 	
 	/**
 	 * Does the Player have the recourses asked for to trade?
-	 * @return
+	 * @return If the person has recources to trade
 	 */
 	public Boolean canTrade(ResourceCardList cardsToTrade)
 	{
 		return null;
 	}
-	
+	/**
+	 * Has the player already played a DevCard?
+	 * @return If the player can play the card.
+	 */
+	public Boolean canPlayDev()
+	{
+		return null;
+	}
+	/**
+	 * Checks whether the player has more than 7 cards to see 
+	 * if the player needs to discard cards when a robber is rolled.
+	 * @return if dicard is needed.
+	 */
+	public Boolean needtoDiscard()
+	{
+		return null;
+	}
 	/**
 	 * Gets the number of cities left
 	 * @return cities

@@ -14,7 +14,7 @@ public class TurnTracker {
 	/**
 	 * The current status of the game.
 	 */
-	private String status;
+	private TurnStatusEnumeration status;
 	/**
 	 * The index of the player who currently holds the largest road.
 	 */
@@ -24,6 +24,7 @@ public class TurnTracker {
 	 */
 	private PlayerIdx largestArmy;
 	
+	
 	/**
 	 * Constructor for the TurnTracker
 	 * @param currentTurnn
@@ -31,7 +32,7 @@ public class TurnTracker {
 	 * @param longestRoadd
 	 * @param largestArmyy
 	 */
-	public TurnTracker(PlayerIdx currentTurn, String status, PlayerIdx longestRoad, PlayerIdx largestArmy)
+	public TurnTracker(PlayerIdx currentTurn, TurnStatusEnumeration status, PlayerIdx longestRoad, PlayerIdx largestArmy)
 	{
 		this.currentTurn = currentTurn;
 		this.status = status;
@@ -57,40 +58,40 @@ public class TurnTracker {
 	 * Gets the current Status.
 	 * @return status
 	 */
-	public String getStatus() {
+	public TurnStatusEnumeration getStatus() {
 		return status;
 	}
 	/**
 	 * Sets the current Status.
 	 * @param status
 	 */
-	public void setStatus(String status) {
+	public void setStatus(TurnStatusEnumeration status) {
 		this.status = status;
 	}
 	/**
 	 * Gets who has the longest road.
-	 * @return longestRoad
+	 * @return index of player with longestRoad
 	 */
 	public PlayerIdx getLongestRoad() {
 		return longestRoad;
 	}
 	/**
 	 * Sets which player has the longest road
-	 * @param longestRoad
+	 * @param index of new player with longestRoad
 	 */
 	public void setLongestRoad(PlayerIdx longestRoad) {
 		this.longestRoad = longestRoad;
 	}
 	/**
 	 * Gets which player has the largest army
-	 * @return largestArmy
+	 * @return index of player with largestArmy
 	 */
 	public PlayerIdx getLargestArmy() {
 		return largestArmy;
 	}
 	/**
 	 * Sets which player has the largest army
-	 * @param largestArmy
+	 * @param index of new player with largestArmy
 	 */
 	public void setLargestArmy(PlayerIdx largestArmy) {
 		this.largestArmy = largestArmy;
