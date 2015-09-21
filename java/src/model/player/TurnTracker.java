@@ -31,12 +31,12 @@ public class TurnTracker {
 	 * @param longestRoadd
 	 * @param largestArmyy
 	 */
-	public TurnTracker(PlayerIdx currentTurnn, String statuss, PlayerIdx longestRoadd, PlayerIdx largestArmyy)
+	public TurnTracker(PlayerIdx currentTurn, String status, PlayerIdx longestRoad, PlayerIdx largestArmy)
 	{
-		currentTurn = currentTurnn;
-		status = statuss;
-		longestRoad = longestRoadd;
-		largestArmy = largestArmyy;
+		this.currentTurn = currentTurn;
+		this.status = status;
+		this.longestRoad = longestRoad;
+		this.largestArmy = largestArmy;
 	}
 	
 	/**

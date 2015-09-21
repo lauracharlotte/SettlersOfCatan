@@ -17,9 +17,9 @@ public class NullablePlayerIdx {
 	 * Constructor for the Nullable Player Idx.
 	 * @param indexx
 	 */
-	public NullablePlayerIdx(PlayerIdx indexx)
+	public NullablePlayerIdx(PlayerIdx index)
 	{
-		index = indexx;
+		this.index = index;
 	}
 
 	/**
@@ -36,7 +36,4 @@ public class NullablePlayerIdx {
 	public void setIndex(PlayerIdx index) {
 		this.index = index;
 	}
-	
-	
-
 }

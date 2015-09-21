@@ -10,7 +10,7 @@ public class PlayerIdx {
 	/**
 	 * The players index, a number 0-3.
 	 */
-	int playerIdx;
+	int index;
 	
 	/**
 	 * The Constructor for the PlayerIdx
@@ -18,7 +18,7 @@ public class PlayerIdx {
 	 */
 	public PlayerIdx(int index)
 	{
-		playerIdx = index;
+		this.index = index;
 	}
 
 	/**
@@ -26,14 +26,14 @@ public class PlayerIdx {
 	 * @return playerIdx
 	 */
 	public int getPlayerIdx() {
-		return playerIdx;
+		return index;
 	}
 	/**
 	 * Sets the Player's Idx
 	 * @param playerIdx
 	 */
-	public void setPlayerIdx(int playerIdx) {
-		this.playerIdx = playerIdx;
+	public void setPlayerIdx(int index) {
+		this.index = index;
 	}
 
 }

@@ -80,22 +80,22 @@ public class Player {
 	 * @param victoryPointss
 	 * @param handd
 	 */
-	public Player(int citiess, CatanColor colorr, Boolean discardedd, int monumentss, String namee, PlayerIdx playerIndexx,
-				  Boolean playedDevCardd, int playerIdd, int roadss, int settlementss, int soldierss, int victoryPointss, Hand handd)
+	public Player(int cities, CatanColor color, Boolean discarded, int monuments, String name, PlayerIdx playerIndex,
+				  Boolean playedDevCard, int playerId, int roads, int settlements, int soldiers, int victoryPoints, Hand hand)
 	{
-		cities = cities;
-		color = colorr;
-		discarded = discardedd;
-		monuments = monumentss;
-		name = namee;
-		playerIndex = playerIndexx;
-		playedDevCard = playedDevCardd;
-		playerId = playerIdd;
-		roads = roadss;
-		settlements = settlementss;
-		soldiers = soldierss;
-		victoryPoints = victoryPointss;
-		hand = handd;
+		this.cities = cities;
+		this.color = color;
+		this.discarded = discarded;
+		this.monuments = monuments;
+		this.name = name;
+		this.playerIndex = playerIndex;
+		this.playedDevCard = playedDevCard;
+		this.playerId = playerId;
+		this.roads = roads;
+		this.settlements = settlements;
+		this.soldiers = soldiers;
+		this.victoryPoints = victoryPoints;
+		this.hand = hand;
 	}
 
 	/**
