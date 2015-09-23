@@ -24,7 +24,7 @@ public class JSONParser
      */
     public static String toJSON(IJSONSerializable serializable)
     {
-        return serializable.Serialize();
+        return serializable.serialize();
     }
     
     /**

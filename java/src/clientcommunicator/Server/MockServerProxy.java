@@ -6,7 +6,7 @@
 package clientcommunicator.Server;
 
 /**
- *
+ * 
  * @author Michael
  */
 public class MockServerProxy implements IServerProxy
@@ -15,43 +15,131 @@ public class MockServerProxy implements IServerProxy
     @Override
     public int loginUser(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 55;
     }
 
     @Override
     public int registerUser(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 55;
     }
 
     @Override
     public String listGames()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return "[\n" +
+"  {\n" +
+"    \"title\": \"Default Game\",\n" +
+"    \"id\": 0,\n" +
+"    \"players\": [\n" +
+"      {\n" +
+"        \"color\": \"orange\",\n" +
+"        \"name\": \"Sam\",\n" +
+"        \"id\": 0\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"blue\",\n" +
+"        \"name\": \"Brooke\",\n" +
+"        \"id\": 1\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"red\",\n" +
+"        \"name\": \"Pete\",\n" +
+"        \"id\": 10\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"green\",\n" +
+"        \"name\": \"Mark\",\n" +
+"        \"id\": 11\n" +
+"      }\n" +
+"    ]\n" +
+"  },\n" +
+"  {\n" +
+"    \"title\": \"AI Game\",\n" +
+"    \"id\": 1,\n" +
+"    \"players\": [\n" +
+"      {\n" +
+"        \"color\": \"orange\",\n" +
+"        \"name\": \"Pete\",\n" +
+"        \"id\": 10\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"yellow\",\n" +
+"        \"name\": \"Ken\",\n" +
+"        \"id\": -2\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"puce\",\n" +
+"        \"name\": \"Miguel\",\n" +
+"        \"id\": -3\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"blue\",\n" +
+"        \"name\": \"Scott\",\n" +
+"        \"id\": -4\n" +
+"      }\n" +
+"    ]\n" +
+"  },\n" +
+"  {\n" +
+"    \"title\": \"Empty Game\",\n" +
+"    \"id\": 2,\n" +
+"    \"players\": [\n" +
+"      {\n" +
+"        \"color\": \"orange\",\n" +
+"        \"name\": \"Sam\",\n" +
+"        \"id\": 0\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"blue\",\n" +
+"        \"name\": \"Brooke\",\n" +
+"        \"id\": 1\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"red\",\n" +
+"        \"name\": \"Pete\",\n" +
+"        \"id\": 10\n" +
+"      },\n" +
+"      {\n" +
+"        \"color\": \"green\",\n" +
+"        \"name\": \"Mark\",\n" +
+"        \"id\": 11\n" +
+"      }\n" +
+"    ]\n" +
+"  }\n" +
+"]";
     }
 
     @Override
     public String createGame(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "{\n" +
+"  \"title\": \"new game1\",\n" +
+"  \"id\": 3,\n" +
+"  \"players\": [\n" +
+"    {},\n" +
+"    {},\n" +
+"    {},\n" +
+"    {}\n" +
+"  ]\n" +
+"}";
     }
 
     @Override
     public String joinGame(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Success";
     }
 
     @Override
     public String saveGame(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Success";
     }
 
     @Override
     public String loadGame(String body)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return "Success";
     }
 
     @Override
