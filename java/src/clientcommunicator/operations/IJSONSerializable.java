@@ -16,5 +16,5 @@ public interface IJSONSerializable
      * @pre The object has all the necessary, valid data to serialize to JSON
      * @return String that represents object as JSON.
      */
-    public String Serialize();
+    public String serialize();
 }

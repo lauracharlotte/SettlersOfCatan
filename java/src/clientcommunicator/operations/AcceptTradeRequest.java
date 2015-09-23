@@ -41,7 +41,7 @@ public class AcceptTradeRequest implements IJSONSerializable {
     private boolean willAccept;
     
     @Override
-    public String Serialize() 
+    public String serialize() 
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

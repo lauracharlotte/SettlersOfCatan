@@ -48,7 +48,7 @@ public class JoinGameRequest implements IJSONSerializable
     }
     
     @Override
-    public String Serialize()
+    public String serialize()
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
