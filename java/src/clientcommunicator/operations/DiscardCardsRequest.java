@@ -50,7 +50,7 @@ public class DiscardCardsRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-
+    	return null;
     }
     
 }
