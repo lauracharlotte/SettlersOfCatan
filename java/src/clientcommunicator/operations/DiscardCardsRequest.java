@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.Gson;
+
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 
@@ -50,7 +52,7 @@ public class DiscardCardsRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-
+    	Gson gson = new Gson();
     }
     
 }
