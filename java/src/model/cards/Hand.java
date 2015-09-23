@@ -26,7 +26,7 @@ public class Hand
     public Hand(ResourceCards resourceCards, DevelopmentCards developmentCards)
     {
         this.resourceCards = resourceCards;
-        this.DevelopmentCards = developmentCards;
+        this.developmentCards = developmentCards;
     }
 
     /**
