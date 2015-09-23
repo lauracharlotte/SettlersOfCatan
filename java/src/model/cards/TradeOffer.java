@@ -19,19 +19,19 @@ public class TradeOffer
     private PlayerIdx receiverNumber;
 
     /**
-     * The ResourceCardList of the offer
+     * The ResourceCards of the offer
      * Positive numbers are resources being offered. Negative are resources being asked for.
      */
-    private ResourceCardList resourceCardList;
+    private ResourceCards resourceCards;
 
     /**
      * The Constructor of a TradeOffer
      */
-    public TradeOffer(PlayerIdx senderNumber, PlayerIdx receiverNumber, ResourceCardList resourceCardList)
+    public TradeOffer(PlayerIdx senderNumber, PlayerIdx receiverNumber, ResourceCards resourceCards)
     {
         this.senderNumber = senderNumber;
         this.receiverNumber = receiverNumber;
-        this.resourceCardList = resourceCardList;
+        this.resourceCards = resourceCards;
     }
 
     /**
@@ -72,19 +72,19 @@ public class TradeOffer
 
     /**
      * Obvious
-     * @return resourceCardList
+     * @return ResourceCards
      */
-    public ResourceCardList getResourceCardList()
+    public ResourceCards getResourceCards()
     {
-        return resourceCardList;
+        return resourceCards;
     }
 
     /**
      * Obvious
-     * @param resourceCardList
+     * @param ResourceCards
      */
-    public void setReceiverNumber(ResourceCardList resourceCardList)
+    public void setReceiverNumber(ResourceCards resourceCards)
     {
-        this.resourceCardList = resourceCardList;
+        this.resourceCards = resourceCards;
     }
 }

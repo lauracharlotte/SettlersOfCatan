@@ -4,7 +4,7 @@ package model.cards;
  * Contains the amount of development cards a player/bank has.
  * @author Scott Hampton
  */
-public class DevelopmentCardList
+public class DevelopmentCards
 {
     /**
      * Amount of monopoly cards
@@ -32,14 +32,14 @@ public class DevelopmentCardList
     private int yearOfPlenty;
 
     /**
-     * Constructor for DevelopmentCardList
+     * Constructor for DevelopmentCards
      * @param monopoly
      * @param monument
      * @param roadBuilding
      * @param soldier
      * @param yearOfPlenty
      */
-    public DevelopmentCardList(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty)
+    public DevelopmentCards(int monopoly, int monument, int roadBuilding, int soldier, int yearOfPlenty)
     {
         this.monopoly = monopoly;
         this.monument = monument;

@@ -4,7 +4,7 @@ package model.cards;
  * Contains the amount of resource cards the player/bank has.
  * @author Scott Hampton
  */
-public class ResourceCardList
+public class ResourceCards
 {
     /**
      * brick holds the amount of brick resource cards
@@ -32,14 +32,14 @@ public class ResourceCardList
     private int wool;
 
     /**
-     * Constructor for a ResourceCardList
+     * Constructor for a ResourceCards
      * @param brick
      * @param grain
      * @param lumber
      * @param ore
      * @param wool
      */
-    public ResourceCardList(int brick, int grain, int lumber, int ore, int wool)
+    public ResourceCards(int brick, int grain, int lumber, int ore, int wool)
     {
         this.brick = brick;
         this.grain = grain;

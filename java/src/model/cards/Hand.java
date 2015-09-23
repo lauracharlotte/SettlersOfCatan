@@ -7,61 +7,61 @@ package model.cards;
 public class Hand
 {
     /**
-     * An instance of a ResourceCardList
+     * An instance of a ResourceCards
      * (The list of resource cards)
       */
-    private ResourceCardList resourceCardList;
+    private ResourceCards resourceCards;
 
     /**
-     * An instance of a DevelopmentCardList
+     * An instance of a DevelopmentCards
      * (The list of development cards)
      */
-    private DevelopmentCardList developmentCardList;
+    private DevelopmentCards developmentCards;
 
     /**
      * Constructor for the Hand
-     * @param resourceCardList
-     * @param developmentCardList
+     * @param resourceCards
+     * @param developmentCards
      */
-    public Hand(ResourceCardList list, DevelopmentCardList devList)
+    public Hand(ResourceCards resourceCards, DevelopmentCards developmentCards)
     {
-        this.resourceCardList = list;
-        this.developmentCardList = devList;
+        this.resourceCards = resourceCards;
+        this.DevelopmentCards = developmentCards;
     }
 
     /**
      * Obvious
-     * @return resourceCardList
+     * @return resourceCards
      */
-    public ResourceCardList getResourceCardList()
+    public ResourceCards getResourceCards()
     {
-        return resourceCardList;
+        return resourceCards;
     }
 
     /**
      * Obvious
-     * @param resourceCardList
+     * @param resourceCards
      */
-    public void setResourceCardList(ResourceCardList resourceCardList)
+    public void setResourceCards(ResourceCards resourceCards)
     {
-        this.resourceCardList = resourceCardList;
+        this.resourceCards = resourceCards;
     }
 
     /**
      * Obvious
-     * @return developmentCardList
+     * @return developmentCards
      */
-    public DevelopmentCardList getDevelopmentCardList()
+    public DevelopmentCards getDevelopmentCards()
     {
-        return developmentCardList;
+        return developmentCards;
     }
 
     /**
      * Obvious
-     * @param developmentCardList
+     * @param DevelopmentCards
      */
-    public void setDevelopmentCardList(DevelopmentCardList developmentCardList)
+    public void setDevelopmentCards(DevelopmentCards developmentCards)
     {
-        this.developmentCardList = developmentCardList;
+        this.developmentCards = developmentCards;
     }
 }
