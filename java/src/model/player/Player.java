@@ -1,6 +1,6 @@
 package model.player;
 
-import model.cards.ResourceCardList;
+import model.cards.ResourceCards;
 import shared.definitions.CatanColor;
 import model.cards.Hand;
 
@@ -111,7 +111,7 @@ public class Player {
 	 * Does the Player have the recourses asked for to trade?
 	 * @return If the person has recources to trade
 	 */
-	public Boolean canTrade(ResourceCardList cardsToTrade)
+	public Boolean canTrade(ResourceCards cardsToTrade)
 	{
 		return null;
 	}

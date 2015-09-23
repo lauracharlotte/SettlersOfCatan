@@ -5,7 +5,7 @@
  */
 package clientcommunicator.operations;
 
-import model.cards.ResourceCardList;
+import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 
 /**
@@ -16,7 +16,7 @@ public class DiscardCardsRequest implements IJSONSerializable
 {
 
     private PlayerIdx playerIndex;
-    private ResourceCardList discardedCards;
+    private ResourceCards discardedCards;
 
     /**
      *
@@ -31,7 +31,7 @@ public class DiscardCardsRequest implements IJSONSerializable
      *
      * @return The resources that the player is discarding
      */
-    public ResourceCardList getDiscardedCards()
+    public ResourceCards getDiscardedCards()
     {
         return discardedCards;
     }
@@ -41,7 +41,7 @@ public class DiscardCardsRequest implements IJSONSerializable
      * @param playerIndex The index of the player that is discarding
      * @param discardedCards The resources that the player is discarding
      */
-    public DiscardCardsRequest(PlayerIdx playerIndex, ResourceCardList discardedCards)
+    public DiscardCardsRequest(PlayerIdx playerIndex, ResourceCards discardedCards)
     {
         this.playerIndex = playerIndex;
         this.discardedCards = discardedCards;
