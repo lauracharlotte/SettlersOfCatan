@@ -102,4 +102,22 @@ public class Port {
 		this.ratio = ratio;
 	}
 	
+	@Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Port:\nHex Location:\n");
+		str.append(hex.toString());
+		str.append("\nDirection: ");
+		str.append(direction.toString());
+		str.append("\nRatio: ");
+		str.append(ratio);
+		if (resource != null)
+		{
+			str.append("\nResource: ");
+			str.append(resource.toString());
+		}
+		return str.toString();
+	}
+	
 }

@@ -1,5 +1,8 @@
 package model.messages;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Holds a list of MessageLines
  * @author Madison Brooks
@@ -10,13 +13,13 @@ public class MessageList {
 	/**
 	 * All messages in list
 	 */
-	private MessageLine[] lines;
+	private Collection<MessageLine> lines;
 	
 	/**
 	 * Constructor for MessageList
 	 * @param lines
 	 */
-	public MessageList(MessageLine[] lines)
+	public MessageList(Collection<MessageLine> lines)
 	{
 		this.lines = lines;
 	}
@@ -24,15 +27,27 @@ public class MessageList {
 	/**
 	 * @return the lines
 	 */
-	public MessageLine[] getLines() {
+	public Collection<MessageLine> getLines() {
 		return lines;
 	}
 
 	/**
 	 * @param lines the lines to set
 	 */
-	public void setLines(MessageLine[] lines) {
+	public void setLines(Collection<MessageLine> lines) {
 		this.lines = lines;
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		for (int i = 0; i < lines.size(); i++)
+		{
+			str.append(((ArrayList<MessageLine>)lines).get(i).toString());
+			str.append("\n");
+		}
+		return str.toString();
 	}
 	
 }

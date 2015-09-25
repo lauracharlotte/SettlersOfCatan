@@ -3,6 +3,10 @@ package model;
 import model.messages.*;
 import model.map.*;
 import model.player.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import model.cards.*;
 
 /**
@@ -11,12 +15,7 @@ import model.cards.*;
  *
  */
 public class ClientModel
-{
-	/**
-	 * Static instance of the ClientModel
-	 */
-	private static ClientModel _instance = null;
-	
+{	
 	/**
 	 * Bank of unused Resource and Development cards
 	 */
@@ -40,7 +39,7 @@ public class ClientModel
 	/**
 	 * List of players (at least 2)
 	 */
-	private Player[] players;
+	private Collection<Player> players;
 	
 	/**
 	 * Current trade offer; may be null
@@ -61,54 +60,34 @@ public class ClientModel
 	 * Winner of the game; may be null
 	 */
 	private NullablePlayerIdx winner;
+
 	
 	/**
-	 * Gets the ClientModel singleton
-	 * @return the instance of the ClientModel
+	 * Constructor for ClientModel
+	 * @param bank
+	 * @param chat
+	 * @param log
+	 * @param map
+	 * @param players
+	 * @param tradeOffer
+	 * @param turnTracker
+	 * @param version
+	 * @param winner
 	 */
-	public static ClientModel getInstance()
+	public ClientModel(Hand bank, MessageList chat, MessageList log,
+			CatanMap map, Collection<Player> players, TradeOffer tradeOffer,
+			TurnTracker turnTracker, int version, NullablePlayerIdx winner)
 	{
-		if (_instance == null)
-		{
-			_instance = new ClientModel();
-		}
-		return _instance;
+		this.bank = bank;
+		this.chat = chat;
+		this.log = log;
+		this.map = map;
+		this.players = players;
+		this.tradeOffer = tradeOffer;
+		this.turnTracker = turnTracker;
+		this.version = version;
+		this.winner = winner;
 	}
-	
-	/**
-	 * Private constructor for ClientModel; only called by getInstance()
-	 */
-	private ClientModel()
-	{
-		
-	}
-	
-//	/**
-//	 * Constructor for ClientModel
-//	 * @param bank
-//	 * @param chat
-//	 * @param log
-//	 * @param map
-//	 * @param players
-//	 * @param tradeOffer
-//	 * @param turnTracker
-//	 * @param version
-//	 * @param winner
-//	 */
-//	public ClientModel(Hand bank, MessageList chat, MessageList log,
-//			CatanMap map, Player[] players, TradeOffer tradeOffer,
-//			TurnTracker turnTracker, int version, NullablePlayerIdx winner)
-//	{
-//		this.bank = bank;
-//		this.chat = chat;
-//		this.log = log;
-//		this.map = map;
-//		this.players = players;
-//		this.tradeOffer = tradeOffer;
-//		this.turnTracker = turnTracker;
-//		this.version = version;
-//		this.winner = winner;
-//	}
 
 	/**
 	 * @return the bank
@@ -169,14 +148,14 @@ public class ClientModel
 	/**
 	 * @return the players
 	 */
-	public Player[] getPlayers() {
+	public Collection<Player> getPlayers() {
 		return players;
 	}
 
 	/**
 	 * @param players the players to set
 	 */
-	public void setPlayers(Player[] players) {
+	public void setPlayers(Collection<Player> players) {
 		this.players = players;
 	}
 
@@ -259,6 +238,30 @@ public class ClientModel
             return this.version == other.version;
         }
 	
-        
+        @Override
+        public String toString()
+        {
+        	StringBuilder str = new StringBuilder();
+        	str.append("ClientModel, version ");
+        	str.append(version);
+        	str.append(":\n\nBank:\n");
+        	str.append(bank.toString());
+        	str.append("\n\nChat:\n");
+        	str.append(chat.toString());
+        	str.append("\n\nLog:\n");
+        	str.append(log.toString());
+        	str.append("\n\n");
+        	str.append(map.toString());
+        	str.append("\n\nList of Players:\n");
+        	for (int i = 0; i < players.size(); i++)
+        	{
+        		str.append(((ArrayList<Player>) players).get(i).toString());
+        		str.append("\n\n");
+        	}
+        	str.append(tradeOffer.toString());
+        	str.append("\n\nWinner:");
+        	str.append(winner.toString());
+        	return str.toString();
+        }
 
 }
