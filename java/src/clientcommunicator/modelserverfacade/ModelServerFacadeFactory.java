@@ -9,6 +9,8 @@ import clientcommunicator.Server.IServerProxy;
 import clientcommunicator.operations.SendChatRequest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import model.ClientModel;
+import model.ClientModelSupplier;
 
 /**
  *
@@ -27,13 +29,18 @@ public class ModelServerFacadeFactory
     }
     
     /**
+     * This function should also make sure that replacing the current model is necessary by comparing version numbers
      * @pre The parameter has valid JSON for ClientModel contained in it
      * @post The current ClientModel object is replaced by the model represented by the JSON
      * @param newModelJSON contains valid JSON for client model
      */
     public void updateModel(String newModelJSON)
     {
-        
+        ClientModel model = JSONParser.fromJSONToModel(newModelJSON);
+        if (!model.equals(ClientModelSupplier.getInstance().getModel()))
+        {
+            ClientModelSupplier.getInstance().setModel(model);
+        }
     }
     
     /**

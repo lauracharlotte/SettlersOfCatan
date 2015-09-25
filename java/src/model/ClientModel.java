@@ -235,5 +235,30 @@ public class ClientModel
 	public void setWinner(NullablePlayerIdx winner) {
 		this.winner = winner;
 	}
+
+        @Override
+        public int hashCode()
+        {
+            int hash = 7;
+            hash = 67 * hash + this.version;
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (getClass() != obj.getClass())
+            {
+                return false;
+            }
+            final ClientModel other = (ClientModel) obj;
+            return this.version == other.version;
+        }
 	
+        
+
 }
