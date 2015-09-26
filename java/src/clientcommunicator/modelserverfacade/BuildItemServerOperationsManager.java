@@ -17,11 +17,14 @@ import clientcommunicator.operations.BuyDevCardRequest;
  */
 public class BuildItemServerOperationsManager implements IServerOperationsManager
 {
-
+    private IServerProxy currentServer;
+    
     @Override
     public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
     
     /**
@@ -31,7 +34,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      */
     public void buyDevCard(BuyDevCardRequest request)
     {
-        
+        this.currentServer.buyDevCard(JSONParser.toJSON(request));
     }
     
     /**
@@ -41,7 +44,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      */
     public void buildCity(BuildCityRequest request)
     {
-        
+        this.currentServer.buildCity(JSONParser.toJSON(request));
     }
     
     /**
@@ -51,7 +54,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      */
     public void buildSettlement(BuildSettlementRequest request)
     {
-        
+        this.currentServer.buildSettlement(JSONParser.toJSON(request));
     }
 
     /**
@@ -60,7 +63,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      */
     public void buildRoad(BuildRoadRequest request)
     {
-        
+        this.currentServer.buildRoad(JSONParser.toJSON(request));
     }
     
 }

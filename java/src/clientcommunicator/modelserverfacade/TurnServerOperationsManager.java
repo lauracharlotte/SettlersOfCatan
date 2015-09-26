@@ -17,10 +17,14 @@ import clientcommunicator.operations.RollNumberRequest;
 public class TurnServerOperationsManager implements IServerOperationsManager
 {
 
+    private IServerProxy currentServer;
+    
     @Override
-    public void setServer(IServerProxy serverToUse)
+    public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
     
     /**
@@ -28,9 +32,9 @@ public class TurnServerOperationsManager implements IServerOperationsManager
      * @post The turn status has changed.
      * @param request The request that represents what player rolled what number
      */
-    void rollNumber(RollNumberRequest request)
+    public void rollNumber(RollNumberRequest request)
     {
-        
+        this.currentServer.rollNumber(JSONParser.toJSON(request));
     }
     
     /**
@@ -38,9 +42,9 @@ public class TurnServerOperationsManager implements IServerOperationsManager
      * @post It is not the player's turn anymore.
      * @param request The request that represents a player ending his/her turn.
      */
-    void finishTurn(FinishTurnRequest request)
+    public void finishTurn(FinishTurnRequest request)
     {
-        
+        this.currentServer.finishTurn(JSONParser.toJSON(request));
     }
     
     /**
@@ -48,8 +52,8 @@ public class TurnServerOperationsManager implements IServerOperationsManager
      * @post The robbed player loses a resource (if they have any) to the robbing player.
      * @param request The request that represents the robbing and robbed players.
      */
-    void robPlayer(RobPlayerRequest request)
+    public void robPlayer(RobPlayerRequest request)
     {
-        
+        this.currentServer.robPlayer(JSONParser.toJSON(request));
     }
 }

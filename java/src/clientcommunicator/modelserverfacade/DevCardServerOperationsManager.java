@@ -18,11 +18,14 @@ import clientcommunicator.operations.YearOfPlentyRequest;
  */
 public class DevCardServerOperationsManager implements IServerOperationsManager
 {
-
+    private IServerProxy currentServer;
+    
     @Override
     public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
 
     /**
@@ -32,7 +35,7 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      */
     public void yearOfPlenty(YearOfPlentyRequest request)
     {
-        
+        this.currentServer.yearOfPlenty(JSONParser.toJSON(request));
     }
     
     /**
@@ -42,7 +45,7 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      */
     public void playRoadBuilding(RoadBuildingCardRequest request)
     {
-        
+        this.currentServer.playRoadBuilding(JSONParser.toJSON(request));
     }
     
     /**
@@ -52,7 +55,7 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      */
     public void playSoldier(PlaySoldierRequest request) 
     {
-        
+        this.currentServer.playSoldier(JSONParser.toJSON(request));
     }
     
     /**
@@ -61,7 +64,7 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      */
     public void playMonopoly(MonopolyRequest request)
     {
-        
+        this.currentServer.playMonopoly(JSONParser.toJSON(request));
     }
     
     /**
@@ -71,7 +74,7 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      */
     public void playMonument(MonumentRequest request)
     {
-        
+        this.currentServer.playMonument(JSONParser.toJSON(request));
     }
     
 }

@@ -15,10 +15,14 @@ import clientcommunicator.operations.LoginCredentials;
 public class UserServerOperationsManager implements IServerOperationsManager
 {
 
+    private IServerProxy currentServer;
+    
     @Override
-    public void setServer(IServerProxy serverToUse)
+    public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
     
     /**
@@ -29,7 +33,7 @@ public class UserServerOperationsManager implements IServerOperationsManager
      */
     public int loginUser(LoginCredentials creds)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.currentServer.loginUser(JSONParser.toJSON(creds));
     }
     
     /**
@@ -40,7 +44,7 @@ public class UserServerOperationsManager implements IServerOperationsManager
      */
     public int registerUser(LoginCredentials creds)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.currentServer.registerUser(JSONParser.toJSON(creds));
     }
     
 }

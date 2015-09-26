@@ -19,13 +19,15 @@ import model.ClientModelSupplier;
 public class ModelServerFacadeFactory
 {
 
+    private IServerProxy currentServer;
+    
     /**
      * @post Same as setServerProxy()
      * @param server An IServerProxy that can respond to requests by this class and operationsManagers classes.
      */
     public ModelServerFacadeFactory(IServerProxy server)
     {
-        
+       this.currentServer = server; 
     }
     
     /**
@@ -50,7 +52,7 @@ public class ModelServerFacadeFactory
      */
     public void sendChat(SendChatRequest bodyInformation) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.currentServer.sendChat(JSONParser.toJSON(bodyInformation));
     }
     
     /**
@@ -60,7 +62,9 @@ public class ModelServerFacadeFactory
      */
     public void setServerProxy(IServerProxy server)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(server == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = server;
     }
     
     /**
@@ -93,6 +97,5 @@ public class ModelServerFacadeFactory
         manager.setServer(this.currentServer);
         return manager;
     }
-    
-    private IServerProxy currentServer;
+   
 }
