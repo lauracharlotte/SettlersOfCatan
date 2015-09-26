@@ -6,19 +6,13 @@ package model.player;
  *
  */
 
-public class PlayerIdx {
-	/**
-	 * The players index, a number 0-3.
-	 */
-	int index;
-	
-	/**
-	 * The Constructor for the PlayerIdx
-	 * @param index
-	 */
+public class PlayerIdx extends NullablePlayerIdx
+{
 	public PlayerIdx(int index)
 	{
-		this.index = index;
+            if(index == -1)
+                throw new IllegalArgumentException(); 
+            this.setIndex(index);
 	}
 
 	/**
@@ -32,8 +26,39 @@ public class PlayerIdx {
 	 * Sets the Player's Idx
 	 * @param playerIdx
 	 */
-	public void setPlayerIdx(int index) {
-		this.index = index;
+	public void setPlayerIdx(int index) 
+        {
+            if(index == -1)
+                throw new IllegalArgumentException();
+            super.setIndex(index);
 	}
+
+        @Override
+        public void setIndex(int index)
+        {
+            if(index == -1)
+                throw new IllegalArgumentException(); 
+            super.setIndex(index); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void setToNull()
+        {
+           throw new IllegalStateException();
+        }
+
+        @Override
+        public boolean isNotNull()
+        {
+            return true;
+        }
+
+        @Override
+        public boolean isNull()
+        {
+            return false;
+        }
+        
+        
 
 }
