@@ -5,9 +5,12 @@
  */
 package clientcommunicator.Server;
 
+import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -84,7 +87,11 @@ public class ServerPoller
             @Override
             public void run()
             {
-                communicator.updateModel(server.getModel(-1));
+                try {
+                    communicator.updateModel(server.getModel(-1));
+                } catch (ClientException ex) {
+                    Logger.getLogger(ServerPoller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         this.timer = new Timer();
