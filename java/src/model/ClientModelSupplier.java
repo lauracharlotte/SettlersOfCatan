@@ -7,6 +7,18 @@ public class ClientModelSupplier {
 	 */
 	private static ClientModelSupplier _instance = null;
 	
+        private int playerID = -1;
+
+        public int getPlayerID()
+        {
+            return playerID;
+        }
+
+        public void setPlayerID(int playerID)
+        {
+            this.playerID = playerID;
+        }
+        
 	/**
 	 * Current version of the ClientModel
 	 */
