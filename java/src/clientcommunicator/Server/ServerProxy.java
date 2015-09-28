@@ -18,8 +18,6 @@ public class ServerProxy implements IServerProxy
         String result = this.post("/user/login", body);
         Cookie cookie = new Cookie();
         try {
-            System.out.println("HERE");
-            System.out.println(result);
             return cookie.setUserCookieString(result);
         } catch (MalformedCookieException e) {
             throw new ClientException(String.format("cookie error: %s", e.getMessage()), e);
@@ -223,10 +221,16 @@ public class ServerProxy implements IServerProxy
     {
         try
         {
+            Cookie cookie = new Cookie();
+            String cookieString = cookie.getCompleteCookieString();
             // Connect with the server
             URL myURL = new URL(URL_PREFIX + path);
             HttpURLConnection connect = (HttpURLConnection) myURL.openConnection();
             connect.setRequestMethod("GET");
+            if (cookieString != "")
+            {
+                connect.setRequestProperty("Cookie", cookieString);
+            }
             
             // If the server sends back a response code that is not 200
             if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) 
@@ -270,6 +274,8 @@ public class ServerProxy implements IServerProxy
     {
         try
         {
+            Cookie cookie = new Cookie();
+            String cookieString = cookie.getCompleteCookieString();
             // Connect to the server
             URL myURL = new URL(URL_PREFIX + path);
             HttpURLConnection connect = (HttpURLConnection) myURL.openConnection();
@@ -278,6 +284,10 @@ public class ServerProxy implements IServerProxy
             connect.setRequestMethod("POST");
             connect.setRequestProperty("Content-Type", "application/json");
             connect.setRequestProperty("Content-Length", Integer.toString(body.length()));
+            if (cookieString != "")
+            {
+                connect.setRequestProperty("Cookie", cookieString);
+            }
 
             // Send the body if there is something to send
             if (body.length() > 1)
@@ -293,10 +303,10 @@ public class ServerProxy implements IServerProxy
                 throw new ClientException(String.format("post failed: %s (http code %d)", path, connect.getResponseCode()));
             }
             
-            String cookie = connect.getHeaderField("Set-cookie");
-            if (cookie != null)
+            String result_cookie = connect.getHeaderField("Set-cookie");
+            if (result_cookie != null)
             {
-                return cookie;
+                return result_cookie;
             }
             
             // Buffer-read the result from the server
@@ -322,23 +332,6 @@ public class ServerProxy implements IServerProxy
         catch (IOException e) 
         {
             throw new ClientException(String.format("post failed: %s", e.getMessage()), e);
-        }
-    }
-    
-    public static void main(String[] args)
-    {
-        System.out.println("HEY");
-        ServerProxy sp = new ServerProxy();
-        
-        try 
-        {
-            sp.loginUser("{'username': 'myspace', 'password': 'password'}");
-//            String result = sp.listGames();
-//            System.out.println(result);
-        } 
-        catch (ClientException e)
-        {
-            System.out.println(String.format("ERROR: %s", e.getMessage()));
         }
     }
 }
