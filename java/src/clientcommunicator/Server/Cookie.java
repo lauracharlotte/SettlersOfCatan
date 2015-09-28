@@ -82,7 +82,7 @@ public class Cookie
     {
         userInformationCookieString = userInformationCookieString.trim();
         userInformationCookieString = userInformationCookieString.replaceFirst("catan.user=", "");
-        userInformationCookieString = userInformationCookieString.replaceFirst("Path=/;", "");
+        userInformationCookieString = userInformationCookieString.substring(0, userInformationCookieString.length() - 7);
         String urlDecoded = userInformationCookieString.substring(0, userInformationCookieString.length() - 1);
         this.userInformationString = urlDecoded;
         JsonElement element;
