@@ -1,5 +1,15 @@
 package guicommunicator;
 
+import java.util.Iterator;
+import model.ClientModel;
+import model.ClientModelSupplier;
+import model.map.CatanMap;
+import model.map.Hex;
+import model.map.VertexObject;
+import model.player.Player;
+import model.player.PlayerIdx;
+import shared.definitions.CatanColor;
+import shared.definitions.HexType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -49,7 +59,23 @@ public class MapModelFacade
      */
     public boolean canPlaceCity(VertexLocation location)
     {
-        return true;
+        location = location.getNormalizedLocation();
+        CatanMap currentMap = this.getCurrentMap();
+        CatanColor pieceColor = null;
+        PlayerIdx playerIndex = null;
+        for(VertexObject obj : currentMap.getSettlements())
+            if(obj.getLocation().equals(location))
+                playerIndex = obj.getOwner();
+        if(playerIndex == null)
+            return false;
+        Iterator<Player> itr = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+        while(itr.hasNext())
+        {
+            Player possiblePlayer = itr.next();
+            if(possiblePlayer.getPlayerIndex().equals(playerIndex))
+                return ClientModelSupplier.getInstance().getClientPlayerObject().equals(possiblePlayer);
+        }
+        return false;
     }
 
     /**
@@ -60,6 +86,30 @@ public class MapModelFacade
      */
     public boolean canPlaceRobber(HexLocation location)
     {
+        //The robber must be moved. You may not choose to leave the robber in the same hex. 
+        //Can be placed on any hex
+        CatanMap currentMap = this.getCurrentMap();
+        if(location.equals(currentMap.getRobber()))
+            return false;
+        Hex hexOfDesiredRobberLocation = null;
+        for(Hex current: currentMap.getHexes())
+            if(current.getLocation().equals(location))
+            {
+                hexOfDesiredRobberLocation = current;
+                break;
+            }
+        if(hexOfDesiredRobberLocation == null)
+            return false;
+        if(hexOfDesiredRobberLocation.getType().equals(HexType.WATER))
+            return false;
         return true;
+    }
+    
+    private CatanMap getCurrentMap()
+    {
+        ClientModel model = ClientModelSupplier.getInstance().getModel();
+        if(model == null)
+            throw new IllegalStateException();
+        return model.getMap();
     }
 }
