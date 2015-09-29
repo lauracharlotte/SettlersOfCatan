@@ -305,6 +305,17 @@ public class Player {
 	{
 		this.victoryPoints = victoryPoints;
 	}
-
+        
+        public boolean hasEnoughResources(ResourceCards resourcesNeeded)
+        {
+            boolean hasEnough = true;
+            ResourceCards playersResources = this.hand.getResourceCards();
+            hasEnough = hasEnough && (resourcesNeeded.getBrick()<=playersResources.getBrick());
+            hasEnough = hasEnough && (resourcesNeeded.getGrain()<=playersResources.getGrain());
+            hasEnough = hasEnough && (resourcesNeeded.getLumber()<=playersResources.getLumber());
+            hasEnough = hasEnough && (resourcesNeeded.getOre()<=playersResources.getOre());
+            hasEnough = hasEnough && (resourcesNeeded.getWool()<=playersResources.getWool());
+            return hasEnough;
+        }
 	
 }

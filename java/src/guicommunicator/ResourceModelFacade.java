@@ -99,17 +99,7 @@ public class ResourceModelFacade
         if(currentPlayer == null)
             throw new IllegalStateException();
         ResourceCards hasCards = this.getPlayersResources(currentPlayer);
-        return this.hasEnoughResources(neededCards, hasCards);
+        return currentPlayer.hasEnoughResources(neededCards);
     }
-    
-    private boolean hasEnoughResources(ResourceCards neededList, ResourceCards playersResources)
-    {
-        boolean hasEnough = true;
-        hasEnough = hasEnough && (neededList.getBrick()<=playersResources.getBrick());
-        hasEnough = hasEnough && (neededList.getGrain()<=playersResources.getGrain());
-        hasEnough = hasEnough && (neededList.getLumber()<=playersResources.getLumber());
-        hasEnough = hasEnough && (neededList.getOre()<=playersResources.getOre());
-        hasEnough = hasEnough && (neededList.getWool()<=playersResources.getWool());
-        return hasEnough;
-    }
+
 }
