@@ -1,17 +1,22 @@
 package guicommunicator;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.map.CatanMap;
+import model.map.EdgeObject;
 import model.map.Hex;
 import model.map.VertexObject;
 import model.player.Player;
 import model.player.PlayerIdx;
 import shared.definitions.CatanColor;
 import shared.definitions.HexType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -48,7 +53,52 @@ public class MapModelFacade
      */
     public boolean canPlaceSettlement(VertexLocation location)
     {
-        return true;
+        location = location.getNormalizedLocation();
+        CatanMap currentMap = this.getCurrentMap();
+        Set<VertexLocation> vertexLocations = new HashSet<>();
+        //is there already something here
+        for(VertexObject obj : currentMap.getCities())
+            vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        for(VertexObject obj : currentMap.getSettlements())
+            vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        
+        //Is there a vertex between this one and another piece
+        Set<VertexLocation> toBeTested = new HashSet<>();
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation());
+        if(location.getDir().equals(VertexDirection.NorthEast))
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), VertexDirection.NorthWest).getNormalizedLocation());
+        }
+        else //Northwest
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), VertexDirection.NorthEast).getNormalizedLocation());
+        }
+        //test it
+        if(vertexLocations.removeAll(toBeTested)) //returns true if vertexLocations changed
+            return false;
+        
+        //do I have a road connecting here
+        Set<EdgeLocation> edgeLocations = new HashSet<>();
+        PlayerIdx currentPlayerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+        if(location.getDir().equals(VertexDirection.NorthEast))
+        {
+            edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
+            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.SouthWest).getNormalizedLocation());
+        }
+        else
+        {
+            edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
+            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        for(EdgeObject road: currentMap.getRoads())
+            if(edgeLocations.contains(road.getLocation()))
+                if(road.getOwner().equals(currentPlayerIdx))
+                    return true;
+        return false;
     }
 
     /**
