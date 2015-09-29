@@ -68,6 +68,11 @@ public class Player {
         {
             return hand;
         }
+
+        public void setHand(Hand hand)
+        {
+            this.hand = hand;
+        }
 	
 	/**
 	 * Constructor for player.

@@ -76,9 +76,7 @@ public class ResourceModelFacade
     {
         ResourceCards neededCards = new ResourceCards(0, 1, 0, 1, 1);
         Player player = this.getClientPlayer();
-        if(!this.checkPlayerAndResources(player, neededCards))
-            return false;
-        return true;
+        return this.checkPlayerAndResources(player, neededCards);
     }
     
     private ResourceCards getPlayersResources(Player currentPlayer)

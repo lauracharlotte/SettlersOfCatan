@@ -89,6 +89,11 @@ public class ClientModel
 		this.winner = winner;
 	}
 
+        public ClientModel() //only should be used for testing
+        {
+            
+        }
+        
 	/**
 	 * @return the bank
 	 */
