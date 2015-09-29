@@ -25,7 +25,7 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * 
      * @return a collection of games that are on the server
      */
-    public Collection<GameJSONResponse> listGames()
+    public Collection<GameJSONResponse> listGames() throws ClientException
     {
         String jsonResponse = this.currentServer.listGames();
         return JSONParser.fromJSONToGameCollection(jsonResponse);
@@ -36,7 +36,7 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @param request a createGameRequest that should be performed
      * @return A game object that represents the game that was just created
      */
-    public GameJSONResponse createGame(CreateGameRequest request)
+    public GameJSONResponse createGame(CreateGameRequest request) throws ClientException
     {
         String response = this.currentServer.createGame(JSONParser.toJSON(request));
         return JSONParser.fromJSONToGame(response);
@@ -47,7 +47,7 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @post The user joins the specified game
      * @param request A join game request that should be performed
      */
-    public void joinGame(JoinGameRequest request)
+    public void joinGame(JoinGameRequest request) throws ClientException
     {
        this.currentServer.joinGame(JSONParser.toJSON(request));
     }
@@ -56,7 +56,7 @@ public class GameServerOperationsManager implements IServerOperationsManager
      *  @pre The user is associated with a game
      *  @post The game the user is in is set to the beginning or just after the setup phase (see the IServerProxy documentation)
      */
-    public void resetGame()
+    public void resetGame() throws ClientException
     {
         String response = this.currentServer.resetGame();
         //check response here
@@ -66,7 +66,7 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @pre The user is logged in and in a game with an empty seat
      * @post The game the user is in has an AI player added
      */
-    public void addAI()
+    public void addAI() throws ClientException
     {
         String addAiRequest = "{\n"
                 + "\"AIType\": \"LARGEST_ARMY\""

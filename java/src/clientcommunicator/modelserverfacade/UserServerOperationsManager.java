@@ -31,7 +31,7 @@ public class UserServerOperationsManager implements IServerOperationsManager
      * @param creds The username and password as put into the gui by the client
      * @return The unique player id of the player
      */
-    public int loginUser(LoginCredentials creds)
+    public int loginUser(LoginCredentials creds) throws ClientException
     {
         return this.currentServer.loginUser(JSONParser.toJSON(creds));
     }
@@ -42,7 +42,7 @@ public class UserServerOperationsManager implements IServerOperationsManager
      * @param creds The username and password as put into the gui by the client
      * @return The unique player id of the player
      */
-    public int registerUser(LoginCredentials creds)
+    public int registerUser(LoginCredentials creds) throws ClientException
     {
         return this.currentServer.registerUser(JSONParser.toJSON(creds));
     }

@@ -50,7 +50,7 @@ public class ModelServerFacadeFactory
      * @post The chat has been posted to the server
      * @param bodyInformation contains sender and message information
      */
-    public void sendChat(SendChatRequest bodyInformation) 
+    public void sendChat(SendChatRequest bodyInformation) throws ClientException
     {
         this.currentServer.sendChat(JSONParser.toJSON(bodyInformation));
     }
@@ -60,7 +60,7 @@ public class ModelServerFacadeFactory
      * @post Will use the passed in "serverToUse" for future requests--will also give created operationsManagers this server.
      * @param server The IServerProxy that this class should use to send requests to.
      */
-    public void setServerProxy(IServerProxy server)
+    public void setServerProxy(IServerProxy server) throws ClientException
     {
         if(server == null)
             throw new IllegalArgumentException("Cannot set server to null.");

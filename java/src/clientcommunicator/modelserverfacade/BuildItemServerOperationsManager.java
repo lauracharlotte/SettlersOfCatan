@@ -32,7 +32,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      * @post The user has a new development card, and loses the resource cost.
      * @param request Request object to buy a development card
      */
-    public void buyDevCard(BuyDevCardRequest request)
+    public void buyDevCard(BuyDevCardRequest request) throws ClientException
     {
         this.currentServer.buyDevCard(JSONParser.toJSON(request));
     }
@@ -42,7 +42,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      * @post The city replaces the settlement.  The player loses the resource cost (unless it is setup).  The player loses a city.  The player gains a settlement.
      * @param request Request object to build a city.
      */
-    public void buildCity(BuildCityRequest request)
+    public void buildCity(BuildCityRequest request) throws ClientException
     {
         this.currentServer.buildCity(JSONParser.toJSON(request));
     }
@@ -52,7 +52,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      * @post The settlement is placed on the vertex and the player loses the resource cost unless it is setup.
      * @param request Request object to build a settlement.
      */
-    public void buildSettlement(BuildSettlementRequest request)
+    public void buildSettlement(BuildSettlementRequest request) throws ClientException
     {
         this.currentServer.buildSettlement(JSONParser.toJSON(request));
     }
@@ -61,7 +61,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
      * @pre The BuildRoadRequest is valid.  It is the user's turn, the user has the required resources, and the desired location is next to another road the user owns unless it is setup--then the location must be next to a settlement.
      * @param request Request object to build a road.
      */
-    public void buildRoad(BuildRoadRequest request)
+    public void buildRoad(BuildRoadRequest request) throws ClientException
     {
         this.currentServer.buildRoad(JSONParser.toJSON(request));
     }
