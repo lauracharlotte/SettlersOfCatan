@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Collection;
+import model.player.Player;
+
 public class ClientModelSupplier {
 	
 	/**
@@ -7,16 +10,30 @@ public class ClientModelSupplier {
 	 */
 	private static ClientModelSupplier _instance = null;
 	
-        private int playerID = -1;
+        private int ClientPlayerID = -1;
 
-        public int getPlayerID()
+        public int getClientPlayerID()
         {
-            return playerID;
+            return ClientPlayerID;
         }
 
-        public void setPlayerID(int playerID)
+        public void setClientPlayerID(int ClientPlayerID)
         {
-            this.playerID = playerID;
+            this.ClientPlayerID = ClientPlayerID;
+        }
+        
+        public Player getClientPlayerObject()
+        {
+            if(this.ClientPlayerID == -1)
+                return null;
+            else
+            {
+                Collection<Player> allPlayers = this.currentModel.getPlayers();
+                for(Player player: allPlayers)
+                    if(player.getPlayerId() == this.ClientPlayerID)
+                        return player;
+            }
+            return null;
         }
         
 	/**

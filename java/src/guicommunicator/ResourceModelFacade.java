@@ -1,5 +1,9 @@
 package guicommunicator;
 
+import model.ClientModelSupplier;
+import model.cards.ResourceCards;
+import model.player.Player;
+
 /**
  * The mediator between the client GUI controllers and the model classes
  * There are more than one mediator; this Facade is specifically for the
@@ -20,6 +24,14 @@ public class ResourceModelFacade
      */
     public boolean canBuildCity()
     {
+        ResourceCards neededCards = new ResourceCards(0, 2, 0, 3, 0);
+        Player player = this.getClientPlayer();
+        if(!this.checkPlayerAndResources(player, neededCards))
+            return false;
+        if(player.getCities() == 0)
+            return false;
+        if(player.getSettlements() == 5)
+            return false;
         return true;
     }
 
@@ -30,6 +42,12 @@ public class ResourceModelFacade
      */
     public boolean canBuildRoad()
     {
+        ResourceCards neededCards = new ResourceCards(1, 0, 1, 0, 0);
+        Player player = this.getClientPlayer();
+        if(!this.checkPlayerAndResources(player, neededCards))
+            return false;
+        if(player.getRoads()==0)
+            return false;
         return true;
     }
 
@@ -40,6 +58,12 @@ public class ResourceModelFacade
      */
     public boolean canBuildSettlement()
     {
+        ResourceCards neededCards = new ResourceCards(1, 1, 1, 0, 1);
+        Player player = this.getClientPlayer();
+        if(!this.checkPlayerAndResources(player, neededCards))
+            return false;
+        if(player.getSettlements() == 0)
+            return false;
         return true;
     }
 
@@ -50,6 +74,42 @@ public class ResourceModelFacade
      */
     public boolean canBuyDevCard()
     {
+        ResourceCards neededCards = new ResourceCards(0, 1, 0, 1, 1);
+        Player player = this.getClientPlayer();
+        if(!this.checkPlayerAndResources(player, neededCards))
+            return false;
         return true;
+    }
+    
+    private ResourceCards getPlayersResources(Player currentPlayer)
+    {
+        return currentPlayer.getHand().getResourceCards();
+    }
+    
+    private Player getClientPlayer()
+    {
+        return ClientModelSupplier.getInstance().getClientPlayerObject();
+    }
+    
+    /**
+    @return returns true if the player is valid and if the player has enough resources
+    **/
+    private boolean checkPlayerAndResources(Player currentPlayer, ResourceCards neededCards)
+    {
+        if(currentPlayer == null)
+            throw new IllegalStateException();
+        ResourceCards hasCards = this.getPlayersResources(currentPlayer);
+        return this.hasEnoughResources(neededCards, hasCards);
+    }
+    
+    private boolean hasEnoughResources(ResourceCards neededList, ResourceCards playersResources)
+    {
+        boolean hasEnough = true;
+        hasEnough = hasEnough && (neededList.getBrick()<=playersResources.getBrick());
+        hasEnough = hasEnough && (neededList.getGrain()<=playersResources.getGrain());
+        hasEnough = hasEnough && (neededList.getLumber()<=playersResources.getLumber());
+        hasEnough = hasEnough && (neededList.getOre()<=playersResources.getOre());
+        hasEnough = hasEnough && (neededList.getWool()<=playersResources.getWool());
+        return hasEnough;
     }
 }

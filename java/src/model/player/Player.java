@@ -63,6 +63,11 @@ public class Player {
 	 * The hand the player has (hand contains the list of development cards and resource cards.
 	 */
 	private Hand hand;
+
+        public Hand getHand()
+        {
+            return hand;
+        }
 	
 	/**
 	 * Constructor for player.
@@ -78,7 +83,7 @@ public class Player {
 	 * @param settlementss
 	 * @param soldierss
 	 * @param victoryPointss
-	 * @param handd
+	 * @param hand
 	 */
 	public Player(int cities, CatanColor color, Boolean discarded, int monuments, String name, PlayerIdx playerIndex,
 				  Boolean playedDevCard, int playerId, int roads, int settlements, int soldiers, int victoryPoints, Hand hand)
@@ -98,14 +103,6 @@ public class Player {
 		this.hand = hand;
 	}
 
-	/**
-	 * Checks if the player has the: resource and number of objects left to build a road, city, settlement, or  buy card
-	 * @return
-	 */
-	public Boolean canBuy(String type)
-	{
-		return null;
-	}
 	
 	/**
 	 * Does the Player have the recourses asked for to trade?
