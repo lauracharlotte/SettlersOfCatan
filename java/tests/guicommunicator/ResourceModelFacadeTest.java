@@ -52,7 +52,7 @@ public class ResourceModelFacadeTest
             String name = Double.toHexString(rand.nextDouble());
             PlayerIdx playerIndex = new PlayerIdx(i);
             boolean playedDevCard = rand.nextBoolean();
-            int playerId = rand.nextInt(30);
+            int playerId = rand.nextInt(clientPlayerID);
             int roads = rand.nextInt(15);
             int settlements = rand.nextInt(4);
             int soldiers = rand.nextInt(3);
@@ -115,7 +115,7 @@ public class ResourceModelFacadeTest
         result = instance.canBuildCity();
         assertEquals(expResult, result);
         System.out.println("Test when no settlements on map passed.");
-        System.out.println("canBuildCity test ending");
+        System.out.println("canBuildCity test ended successfully");
     }
 
     /**
@@ -124,13 +124,41 @@ public class ResourceModelFacadeTest
     @Test
     public void testCanBuildRoad()
     {
-        System.out.println("canBuildRoad");
+        System.out.println("Setting up player for canBuildRoad Test...");
+        Iterator<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+        Random rand = new Random();
+        int index = rand.nextInt(4);
+        for(int i=0; i<index; i++)
+            players.next();
+        Player currentPlayer = players.next();
+        currentPlayer.setRoads(15);
+        currentPlayer.setPlayerId(clientPlayerID);
+        currentPlayer.setHand(new Hand(new ResourceCards(0, 5, 0, 5, 5), new DevelopmentCards(0,0,0,0,0)));
         ResourceModelFacade instance = new ResourceModelFacade();
+        System.out.println("canBuildRoad test starting...");
         boolean expResult = false;
         boolean result = instance.canBuildRoad();
         assertEquals(expResult, result);
+        currentPlayer.setHand(new Hand(new ResourceCards(1, 5, 0, 5, 5), new DevelopmentCards(0,0,0,0,0)));
+        expResult = false;
+        result = instance.canBuildRoad();
+        assertEquals(expResult, result);
+        currentPlayer.setHand(new Hand(new ResourceCards(0, 5, 1, 5, 5), new DevelopmentCards(0,0,0,0,0)));
+        expResult = false;
+        result = instance.canBuildRoad();
+        assertEquals(expResult, result);
+        currentPlayer.setHand(new Hand(new ResourceCards(1, 5, 1, 5, 5), new DevelopmentCards(0,0,0,0,0)));
+        expResult = true;
+        result = instance.canBuildRoad();
+        assertEquals(expResult, result);
+        System.out.println("All resource tests for canBuildRoad completed successfully.");
+        currentPlayer.setRoads(0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        expResult = false;
+        result = instance.canBuildRoad();
+        assertEquals(expResult, result);
+        System.out.println("Out of roads test completed successfully.");
+        System.out.println("CanBuildRoad test ended successfully.");
     }
 
     /**
@@ -139,13 +167,37 @@ public class ResourceModelFacadeTest
     @Test
     public void testCanBuildSettlement()
     {
-        System.out.println("canBuildSettlement");
+        System.out.println("Setting up player for canBuildSettlement Test...");
+        Iterator<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+        Random rand = new Random();
+        int index = rand.nextInt(4);
+        for(int i=0; i<index; i++)
+            players.next();
+        Player currentPlayer = players.next();
+        currentPlayer.setPlayerId(clientPlayerID);
+        currentPlayer.setSettlements(3);
+        currentPlayer.setCities(4);
+        currentPlayer.setHand(new Hand(new ResourceCards(5, 0, 5, 0, 5), new DevelopmentCards(0,0,0,0,0)));
         ResourceModelFacade instance = new ResourceModelFacade();
+        System.out.println("canBuildSettlement test starting...");
         boolean expResult = false;
         boolean result = instance.canBuildSettlement();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        currentPlayer.setHand(new Hand(new ResourceCards(5, 1, 5, 0, 5), new DevelopmentCards(0,0,0,0,0)));
+        expResult = true;
+        result = instance.canBuildSettlement();
+        assertEquals(expResult, result);
+        currentPlayer.setHand(new Hand(new ResourceCards(5, 1, 5, 0, 0), new DevelopmentCards(0,0,0,0,0)));
+        expResult = false;
+        result = instance.canBuildSettlement();
+        assertEquals(expResult, result);
+        System.out.println("Resource cost testing for settlement building completed successfully.");
+        currentPlayer.setSettlements(0);
+        expResult = false;
+        result = instance.canBuildSettlement();
+        assertEquals(expResult, result);
+        System.out.println("Test for settlement building when player is out of settlements passed");
+        System.out.println("All canBuildSettlement tests from resource standpoint passed.");
     }
 
     /**
@@ -154,13 +206,29 @@ public class ResourceModelFacadeTest
     @Test
     public void testCanBuyDevCard()
     {
-        System.out.println("canBuyDevCard");
+        System.out.println("canBuyDevCard setting up player");
+         Iterator<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+        Random rand = new Random();
+        int index = rand.nextInt(4);
+        for(int i=0; i<index; i++)
+            players.next();
+        Player currentPlayer = players.next();
+        currentPlayer.setPlayerId(clientPlayerID);
+        System.out.println("Starting devCardBuilding test");
+        currentPlayer.setHand(new Hand(new ResourceCards(5, 1, 5, 0, 0), new DevelopmentCards(0,0,0,0,0)));
         ResourceModelFacade instance = new ResourceModelFacade();
         boolean expResult = false;
         boolean result = instance.canBuyDevCard();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        currentPlayer.setHand(new Hand(new ResourceCards(5, 1, 5, 0, 1), new DevelopmentCards(0,0,0,0,0)));
+        expResult = false;
+        result = instance.canBuyDevCard();
+        assertEquals(expResult, result);
+        currentPlayer.setHand(new Hand(new ResourceCards(0, 4, 0, 1, 3), new DevelopmentCards(0,0,0,0,0)));
+        expResult = true;
+        result = instance.canBuyDevCard();
+        assertEquals(expResult, result);
+        System.out.println("All devCardBuilding tests from resource standpoint finished");
     }
     
 }
