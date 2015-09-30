@@ -9,6 +9,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * 
+ * @author Scott
+ */
 public class ServerProxy implements IServerProxy
 {
 
