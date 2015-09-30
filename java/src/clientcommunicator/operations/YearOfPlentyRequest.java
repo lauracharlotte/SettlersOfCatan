@@ -5,6 +5,7 @@
  */
 package clientcommunicator.operations;
 
+import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 import shared.definitions.ResourceType;
 
@@ -60,9 +61,27 @@ public class YearOfPlentyRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()
+    public String serialize()//good, just need Enum
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String rec1 = resource1.toString();
+    	String recLower1 = rec1.toLowerCase();
+    	String rec2 = resource2.toString();
+    	String recLower2 = rec2.toLowerCase();
+    	String serializing = "{type: \"Year_of_Plenty\", playerIndex: " + playerIndex.getPlayerIdx()
+    	+ ", resource1: \"" + recLower1 + "\", resource2: \""+ recLower2 + "\"}";
+    	return serializing;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void main(final String[] args)
+    {
+    	
+    	PlayerIdx index = new PlayerIdx(2);
+    	ResourceType firstResource = ResourceType.BRICK;
+    	ResourceType secondResource = ResourceType.ORE;
+    	YearOfPlentyRequest yearOfPlentReq = new YearOfPlentyRequest(index, firstResource, secondResource);
+    	String work = yearOfPlentReq.serialize();
+    	System.out.println(work);
     }
     
 }

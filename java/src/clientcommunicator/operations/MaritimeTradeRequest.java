@@ -75,7 +75,26 @@ public class MaritimeTradeRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String rec1 = inputResource.toString();
+    	String rec2 = outputResource.toString();
+    	String rec1Lower = rec1.toLowerCase();
+    	String rec2Lower = rec2.toLowerCase();
+    	String serializing = "{type: \"maritimeTrade\", playerIndex: " + playerIndex.getPlayerIdx()
+    						+ ", ratio: " + ratio + ", inputResource: \"" +rec1Lower + "\", "
+    						+ "outputResource: \""+ rec2Lower + "\"}";
+        return serializing;
+    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void main(final String[] args)
+    {
+    	PlayerIdx index = new PlayerIdx(2);
+    	int theRatio = 3;
+    	ResourceType inputRes = ResourceType.BRICK;
+    	ResourceType outputRes = ResourceType.ORE;
+    	MaritimeTradeRequest MarTradeReq = new MaritimeTradeRequest(index, theRatio, inputRes, outputRes);
+    	String work = MarTradeReq.serialize();
+    	System.out.println(work);
     }
     
 }

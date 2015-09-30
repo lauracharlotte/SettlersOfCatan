@@ -62,9 +62,22 @@ public class PlaySoldierRequest implements IJSONSerializable
     
     
     @Override
-    public String serialize()
+    public String serialize()//???
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getPlayerIdx() +
+    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y:" + newLocation.getY()+"}}";
+    	return serializing;
     }
     
+    public static void main(final String[] args)
+    {
+    	
+    	PlayerIdx index = new PlayerIdx(2);
+    	int vicIndex =-1;
+    	HexLocation hexLoc = new HexLocation(1,1);
+    	
+    	PlaySoldierRequest soldierReq = new PlaySoldierRequest(index, vicIndex, hexLoc);
+    	String work = soldierReq.serialize();
+    	System.out.println(work);
+    }
 }

@@ -15,7 +15,7 @@ import shared.definitions.CatanColor;
 public class JoinGameRequest implements IJSONSerializable
 {
 
-    private PlayerIdx playerIndex;
+    private int gameId;
     private CatanColor playerColor;
 
     /**
@@ -23,9 +23,9 @@ public class JoinGameRequest implements IJSONSerializable
      * @param playerIndex The player index the user would like to join at
      * @param playerColor The color the player would like to use
      */
-    public JoinGameRequest(PlayerIdx playerIndex, CatanColor playerColor)
+    public JoinGameRequest(int gameId, CatanColor playerColor)
     {
-        this.playerIndex = playerIndex;
+        this.gameId = gameId;
         this.playerColor = playerColor;
     }
 
@@ -33,9 +33,9 @@ public class JoinGameRequest implements IJSONSerializable
      *
      * @return The player index the user would like to join at
      */
-    public PlayerIdx getPlayerIndex()
+    public int getPlayerIndex()
     {
-        return playerIndex;
+        return gameId;
     }
 
     /**
@@ -48,9 +48,22 @@ public class JoinGameRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()
+    public String serialize()//NEED TO CHANGE PERAMETERS, ASK IF IT AFFECTS ANYTHING ALSO ???
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String stringColor = playerColor.toString();
+    	String lowerCaseColor = stringColor.toLowerCase();
+    	String serializing = "{id: "+ gameId + ", color: \""+ lowerCaseColor+"\"}";
+    	return serializing;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void main(final String[] args)
+    {
+    	int theGameId = 5;
+    	CatanColor theColor = CatanColor.BLUE;
+    	JoinGameRequest joinGameReq = new JoinGameRequest(theGameId, theColor);
+    	String work = joinGameReq.serialize();
+    	System.out.println(work);
     }
     
 }

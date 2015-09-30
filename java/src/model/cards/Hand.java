@@ -58,7 +58,7 @@ public class Hand
 
     /**
      * Obvious
-     * @param developmentCards
+     * @param DevelopmentCards
      */
     public void setDevelopmentCards(DevelopmentCards developmentCards)
     {

@@ -1,4 +1,5 @@
 package clientcommunicator.operations;
+import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 
 /**
@@ -43,7 +44,20 @@ public class AcceptTradeRequest implements IJSONSerializable {
     @Override
     public String serialize() 
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	String serializing = "{type: \"acceptTrade\", "
+    			+"playerIndex: " + acceptingPlayerIdx.getPlayerIdx() + ", "
+    			+"willAccept: "+willAccept+"}";
+    	return serializing;
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static void main(final String[] args)
+    {
+    	PlayerIdx index = new PlayerIdx(2);
+    	Boolean accepting = false;
+    	AcceptTradeRequest thisTrade = new AcceptTradeRequest(index, accepting);
+    	String work = thisTrade.serialize();
+    	System.out.println(work);
     }
 
 }

@@ -6,6 +6,8 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -60,11 +62,29 @@ public class BuildSettlementRequest implements IJSONSerializable
     }
 
     @Override
-    public String serialize()
+    public String serialize()//400
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    	String theDirection = location.getDir().toString();
+    	Abbreviate abrev = new Abbreviate();
+    	theDirection = abrev.abbreviate(theDirection);
+    	
+    	String serializing = "{type: \"buildSettlement\", playerIndex: "
+				+ playerIndex.getPlayerIdx() + ", vertexLocation: {" 
+				+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
+				+ ", direction: \""+ theDirection + "\"}, free: " + free +"}";
+    	return serializing;
+     }
     
-
+    public static void main(final String[] args)
+    {
+    	PlayerIdx index = new PlayerIdx(2);
+    	HexLocation hexLoc = new HexLocation(1,1);
+    	VertexDirection vertDir = VertexDirection.NorthEast;
+    	VertexLocation newLocation = new VertexLocation(hexLoc, vertDir);
+    	Boolean isFree = true;
+    	BuildSettlementRequest thisTrade = new BuildSettlementRequest(index, newLocation, isFree);
+    	String work = thisTrade.serialize();
+    	System.out.println(work);
+    }
     
 }

@@ -6,6 +6,7 @@ package model.player;
  *
  */
 
+
 public class PlayerIdx extends NullablePlayerIdx
 {
 	public PlayerIdx(int index)

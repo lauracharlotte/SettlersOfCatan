@@ -495,10 +495,11 @@ public class JSONParser
     	CatanMap newMap = fromJSONToMap(map);
     	JSONArray players = model.getJSONArray("players");
     	ArrayList<Player> newPlayers = fromJSONToPlayers(players);
-    	JSONObject tradeOffer = model.getJSONObject("tradeOffer");
+    	JSONObject tradeOffer;
     	TradeOffer newTradeOffer;
-    	if (tradeOffer != null)
-    	{
+    	if (model.has("tradeOffer"))
+		{
+    		tradeOffer = model.getJSONObject("tradeOffer");
     		newTradeOffer = fromJSONToTradeOffer(tradeOffer);
     	}
     	else

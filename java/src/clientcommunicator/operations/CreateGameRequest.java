@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+
 /**
  *
  * @author Michael
@@ -70,7 +72,19 @@ public class CreateGameRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String serializing = "{randomTiles: "+randomTiles +", randomNumbers: "+ randomNumbers+", "
+    						+"randomPorts: "+randomPorts+", name: \""+ name +"\"}";
+		return serializing;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    public static void main(final String[] args)
+    {
+    	Boolean tiles = true;
+    	Boolean numbers = true;
+    	Boolean ports = true;
+    	String gameName = "Laura";
+    	CreateGameRequest thisGame = new CreateGameRequest(tiles, numbers, ports, gameName);
+    	String work = thisGame.serialize();
+    	System.out.println(work);
+    }
 }

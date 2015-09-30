@@ -6,7 +6,9 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 
 /**
  *
@@ -58,12 +60,69 @@ public class RoadBuildingCardRequest implements IJSONSerializable
         return spot2;
     }
     
-    
+    /*private String abbreviate(String originalDirection)
+    {
+    	String newDirection = "";
+    	if(originalDirection.equals("South"))
+    	{
+    		newDirection = "S";
+    	}
+    	else if(originalDirection.equals("SouthWest")) 
+    	{
+    		newDirection = "SW";
+    	}
+    	else if(originalDirection.equals("SouthEast")) 
+    	{
+    		newDirection = "SE";
+    	}
+    	else if(originalDirection.equals("North")) 
+    	{
+    		newDirection = "N";
+    	}
+    	else if(originalDirection.equals("NorthWest")) 
+    	{
+    		newDirection = "NE";
+    	}
+    	else if(originalDirection.equals("NorthEast")) 
+    	{
+    		newDirection = "NW";
+    	}
+    	return newDirection;
+    }*/
 
     @Override
-    public String serialize()
+    public String serialize() //???
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	
+    	String theDirection1 = spot1.getDir().toString();
+    	String theDirection2 = spot2.getDir().toString();
+    	
+    	Abbreviate abrev = new Abbreviate();    	
+    	theDirection1 = abrev.abbreviate(theDirection1);
+    	theDirection2 = abrev.abbreviate(theDirection2);
+
+    	String serializing = "{type:\"Road_Building\", playerIndex: " + playerIndex.getPlayerIdx()
+    	+ ", spot1: {x: "+spot1.getHexLoc().getX()+", y: "+ spot1.getHexLoc().getY()+", direction: \""+ theDirection1+"\"}, spot2: {"
+    	+ "x:"+spot2.getHexLoc().getX() + ", y: "+spot2.getHexLoc().getY()+", direction: \""+theDirection2+"\"}}";
+        return serializing;
+    }
+    
+    public static void main(final String[] args)
+    {
+    	
+    	PlayerIdx index = new PlayerIdx(2);
+    	int vicIndex =1;
+    	HexLocation hexLoc = new HexLocation(1,1);
+    	EdgeDirection edgeDir = EdgeDirection.South;
+    	EdgeLocation newLocation = new EdgeLocation(hexLoc, edgeDir);
+    	
+    	HexLocation hexLoc2 = new HexLocation(1,1);
+    	EdgeDirection edgeDir2 = EdgeDirection.SouthEast;
+    	EdgeLocation newLocation2 = new EdgeLocation(hexLoc2, edgeDir2);
+    	    	
+    	RoadBuildingCardRequest soldierReq = new RoadBuildingCardRequest(index, newLocation, newLocation2);
+    	String work = soldierReq.serialize();
+    	System.out.println(work);
     }
     
 }
