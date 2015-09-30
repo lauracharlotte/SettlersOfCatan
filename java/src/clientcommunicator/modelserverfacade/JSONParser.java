@@ -7,7 +7,13 @@ package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.IJSONSerializable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+
+import com.google.gson.Gson;
+
 import model.ClientModel;
 
 /**
@@ -34,7 +40,11 @@ public class JSONParser
      */
     public static ClientModel fromJSONToModel(String modelJSON)
     {
-        throw new UnsupportedOperationException("Not Supported Yet");
+    	Gson gson = new Gson();
+    	ClientModel newModel = gson.fromJson(modelJSON, ClientModel.class);
+    	return newModel;
+    	
+        //throw new UnsupportedOperationException("Not Supported Yet");
     }
     
     /**
@@ -44,7 +54,12 @@ public class JSONParser
      */
     public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON)
     {
-        throw new UnsupportedOperationException("Not Supported Yet");
+    	Gson gson = new Gson();
+    	GameJSONResponse[] games = gson.fromJson(gameListJSON, GameJSONResponse[].class);
+    	Collection<GameJSONResponse> gameCollection = new ArrayList<GameJSONResponse>(Arrays.asList(games));
+    	return gameCollection;
+    	
+        //throw new UnsupportedOperationException("Not Supported Yet");
     }
     
     /**
@@ -54,6 +69,10 @@ public class JSONParser
      */
     public static GameJSONResponse fromJSONToGame(String gameJSON)
     {
-        throw new UnsupportedOperationException("Not Supported Yet");
+    	Gson gson = new Gson();
+    	GameJSONResponse game = gson.fromJson(gameJSON, GameJSONResponse.class);
+    	return game;
+    	
+        //throw new UnsupportedOperationException("Not Supported Yet");
     }
 }
