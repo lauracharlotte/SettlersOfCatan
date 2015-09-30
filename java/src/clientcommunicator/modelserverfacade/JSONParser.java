@@ -10,10 +10,7 @@ import clientcommunicator.operations.IJSONSerializable;
 import clientcommunicator.operations.PlayerJSONResponse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-
-import com.google.gson.Gson;
 
 import model.ClientModel;
 import model.cards.DevelopmentCards;
@@ -60,6 +57,81 @@ public class JSONParser
         return serializable.serialize();
     }
     
+    /**
+     * @pre modelJSon is valid JSON for ClientModel
+     * @param modelJSON A string that contains a ClientModel JSON object
+     * @return The clientModel that the model JSON represented
+     * @throws JSONException 
+     */
+    public static ClientModel fromJSONToModel(String modelJSON) throws JSONException
+    {
+    	JSONObject model = new JSONObject(modelJSON);
+    	JSONObject bank = model.getJSONObject("bank");
+    	Hand newBank = new Hand(fromJSONToResourceCards(bank), null);
+    	JSONObject chat = model.getJSONObject("chat");
+    	MessageList newChat = fromJSONToMessageList(chat);
+    	JSONObject log = model.getJSONObject("log");
+    	MessageList newLog = fromJSONToMessageList(log);
+    	JSONObject map = model.getJSONObject("map");
+    	CatanMap newMap = fromJSONToMap(map);
+    	JSONArray players = model.getJSONArray("players");
+    	ArrayList<Player> newPlayers = fromJSONToPlayers(players);
+    	JSONObject tradeOffer;
+    	TradeOffer newTradeOffer;
+    	if (model.has("tradeOffer"))
+		{
+    		tradeOffer = model.getJSONObject("tradeOffer");
+    		newTradeOffer = fromJSONToTradeOffer(tradeOffer);
+    	}
+    	else
+    	{
+    		newTradeOffer = null;
+    	}
+    	JSONObject turnTracker = model.getJSONObject("turnTracker");
+    	TurnTracker newTurnTracker = fromJSONToTurnTracker(turnTracker);
+    	int version = model.getInt("version");
+    	int winner = model.getInt("winner");
+    	NullablePlayerIdx newWinner = new NullablePlayerIdx(winner);
+    	
+    	ClientModel newModel = new ClientModel(newBank, newChat, newLog, newMap, newPlayers,
+    			newTradeOffer, newTurnTracker, version, newWinner);
+    	return newModel;
+    }
+    
+    /**
+     * @pre gameListJSON is valid JSON for a game list.
+     * @param gameListJSON Represents a list of games -- as in response to listGames API.
+     * @return Collection of GameJSONResponses which holds all games that were specified in the JSON
+     * @throws JSONException 
+     */
+    public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON) throws JSONException
+    {
+    	ArrayList<GameJSONResponse> games = new ArrayList<>();
+    	JSONArray gamesJSON = new JSONArray(gameListJSON);
+    	for (int i = 0; i < gamesJSON.length(); i++)
+    	{
+    		games.add(fromJSONToGame(gamesJSON.getString(i)));
+    	}
+    	return games;
+    }
+    
+    /**
+     * @pre gameJSON is valid JSON for a game.
+     * @param gameJSON Represents valid JSON for a game -- as in listGames.
+     * @return The information extracted from the JSON string
+     * @throws JSONException 
+     */
+    public static GameJSONResponse fromJSONToGame(String gameJSON) throws JSONException
+    {
+    	JSONObject gameObj = new JSONObject(gameJSON);
+    	String title = gameObj.getString("title");
+    	int gameId = gameObj.getInt("id");
+    	JSONArray playersJSON = gameObj.getJSONArray("players");
+    	ArrayList<PlayerJSONResponse> players = fromJSONToPlayerResponses(playersJSON);
+    	GameJSONResponse game = new GameJSONResponse(title, gameId, players);
+    	return game;
+    }
+    
     private static ResourceCards fromJSONToResourceCards(JSONObject resources) throws JSONException
     {
     	int brick = resources.getInt("brick");
@@ -103,20 +175,21 @@ public class JSONParser
     	if (hex.has("resource"))
     	{
     		resource = hex.getString("resource");
+    		resource = resource.toLowerCase();
     		switch (resource) {
-    		case "Brick":
+    		case "brick":
     			type = HexType.BRICK;
     			break;
-    		case "Wood":
+    		case "wood":
     			type = HexType.WOOD;
     			break;
-    		case "Sheep":
+    		case "sheep":
     			type = HexType.SHEEP;
     			break;
-    		case "Wheat":
+    		case "wheat":
     			type = HexType.WHEAT;
     			break;
-    		case "Ore":
+    		case "ore":
     			type = HexType.ORE;
     			break;
     		default:
@@ -178,20 +251,21 @@ public class JSONParser
     	if (port.has("resource"))
     	{
     		resource = port.getString("resource");
+    		resource = resource.toLowerCase();
     		switch (resource) {
-    		case "Brick":
+    		case "brick":
     			type = ResourceType.BRICK;
     			break;
-    		case "Wood":
+    		case "wood":
     			type = ResourceType.WOOD;
     			break;
-    		case "Sheep":
+    		case "sheep":
     			type = ResourceType.SHEEP;
     			break;
-    		case "Wheat":
+    		case "wheat":
     			type = ResourceType.WHEAT;
     			break;
-    		case "Ore":
+    		case "ore":
     			type = ResourceType.ORE;
     			break;
     		default:
@@ -206,24 +280,25 @@ public class JSONParser
     	HexLocation location = fromJSONToHexLocation(port.getJSONObject("location"));
     	EdgeDirection direction;
     	String direct = port.getString("direction");
+    	direct = direct.toLowerCase();
     	switch (direct)
     	{
-    	case "NW":
+    	case "nw":
     		direction = EdgeDirection.NorthWest;
     		break;
-    	case "N":
+    	case "n":
     		direction = EdgeDirection.North;
     		break;
-    	case "NE":
+    	case "ne":
     		direction = EdgeDirection.NorthEast;
     		break;
-    	case "S":
+    	case "s":
     		direction = EdgeDirection.South;
     		break;
-    	case "SW":
+    	case "sw":
     		direction = EdgeDirection.SouthWest;
     		break;
-    	case "SE":
+    	case "se":
     		direction = EdgeDirection.SouthEast;
     		break;
     	default:
@@ -252,24 +327,25 @@ public class JSONParser
     	HexLocation newLocation = fromJSONToHexLocation(location);
     	VertexDirection direction;
     	String direct = location.getString("direction");
+    	direct = direct.toLowerCase();
     	switch (direct)
     	{
-    	case "E":
+    	case "e":
     		direction = VertexDirection.East;
     		break;
-    	case "NE":
+    	case "ne":
     		direction = VertexDirection.NorthEast;
     		break;
-    	case "NW":
+    	case "nw":
     		direction = VertexDirection.NorthWest;
     		break;
-    	case "SE":
+    	case "se":
     		direction = VertexDirection.SouthEast;
     		break;
-    	case "SW":
+    	case "sw":
     		direction = VertexDirection.SouthWest;
     		break;
-    	case "W":
+    	case "w":
     		direction = VertexDirection.West;
     		break;
     	default:
@@ -289,24 +365,25 @@ public class JSONParser
     	HexLocation newLocation = fromJSONToHexLocation(location);
     	EdgeDirection direction;
     	String direct = location.getString("direction");
+    	direct = direct.toLowerCase();
     	switch (direct)
     	{
-    	case "NW":
+    	case "nw":
     		direction = EdgeDirection.NorthWest;
     		break;
-    	case "N":
+    	case "n":
     		direction = EdgeDirection.North;
     		break;
-    	case "NE":
+    	case "ne":
     		direction = EdgeDirection.NorthEast;
     		break;
-    	case "S":
+    	case "s":
     		direction = EdgeDirection.South;
     		break;
-    	case "SW":
+    	case "sw":
     		direction = EdgeDirection.SouthWest;
     		break;
-    	case "SE":
+    	case "se":
     		direction = EdgeDirection.SouthEast;
     		break;
     	default:
@@ -369,33 +446,34 @@ public class JSONParser
     	int cities = player.getInt("cities");
     	String color = player.getString("color");
     	CatanColor newColor;
+    	color = color.toLowerCase();
     	switch (color)
     	{
-    	case "BLUE":
+    	case "blue":
     		newColor = CatanColor.BLUE;
     		break;
-    	case "BROWN":
+    	case "brown":
     		newColor = CatanColor.BROWN;
     		break;
-    	case "GREEN":
+    	case "green":
     		newColor = CatanColor.GREEN;
     		break;
-    	case "ORANGE":
+    	case "orange":
     		newColor = CatanColor.ORANGE;
     		break;
-    	case "PUCE":
+    	case "puce":
     		newColor = CatanColor.PUCE;
     		break;
-    	case "PURPLE":
+    	case "purple":
     		newColor = CatanColor.PURPLE;
     		break;
-    	case "RED":
+    	case "red":
     		newColor = CatanColor.RED;
     		break;
-    	case "WHITE":
+    	case "white":
     		newColor = CatanColor.WHITE;
     		break;
-    	case "YELLOW":
+    	case "yellow":
     		newColor = CatanColor.YELLOW;
     		break;
     	default:
@@ -417,7 +495,7 @@ public class JSONParser
     	int soldiers = player.getInt("soldiers");
     	int victoryPoints = player.getInt("victoryPoints");
     	Player newPlayer  = new Player(cities, newColor, discarded, monuments, name, index,
-    			playedDevCard, playerID, roads, settlements, soldiers, victoryPoints, hand);
+    			playedDevCard, newDevCards, playerID, roads, settlements, soldiers, victoryPoints, hand);
     	return newPlayer;
     }
     
@@ -444,25 +522,26 @@ public class JSONParser
     {
     	PlayerIdx currentTurn = new PlayerIdx(turnTracker.getInt("currentTurn"));
     	String status = turnTracker.getString("status");
+    	status = status.toLowerCase();
     	TurnStatusEnumeration newStatus;
     	switch (status)
     	{
-    	case "Rolling":
+    	case "rolling":
     		newStatus = TurnStatusEnumeration.rolling;
     		break;
-    	case "Robbing":
+    	case "robbing":
     		newStatus = TurnStatusEnumeration.robbing;
     		break;
-    	case "Playing":
+    	case "playing":
     		newStatus = TurnStatusEnumeration.playing;
     		break;
-    	case "Discarding":
+    	case "discarding":
     		newStatus = TurnStatusEnumeration.discarding;
     		break;
-    	case "FirstRound":
+    	case "firstRound":
     		newStatus = TurnStatusEnumeration.firstround;
     		break;
-    	case "SecondRound":
+    	case "secondRound":
     		newStatus = TurnStatusEnumeration.secondround;
     		break;
     	default:
@@ -475,101 +554,43 @@ public class JSONParser
     	return newTurnTracker;
     }
     
-    /**
-     * @pre modelJSon is valid JSON for ClientModel
-     * @param modelJSON A string that contains a ClientModel JSON object
-     * @return The clientModel that the model JSON represented
-     * @throws JSONException 
-     */
-    public static ClientModel fromJSONToModel(String modelJSON) throws JSONException
-    {
-    	//ClientModel newModel = new ClientModel();
-    	JSONObject model = new JSONObject(modelJSON);
-    	JSONObject bank = model.getJSONObject("bank");
-    	Hand newBank = new Hand(fromJSONToResourceCards(bank), null);
-    	JSONObject chat = model.getJSONObject("chat");
-    	MessageList newChat = fromJSONToMessageList(chat);
-    	JSONObject log = model.getJSONObject("log");
-    	MessageList newLog = fromJSONToMessageList(log);
-    	JSONObject map = model.getJSONObject("map");
-    	CatanMap newMap = fromJSONToMap(map);
-    	JSONArray players = model.getJSONArray("players");
-    	ArrayList<Player> newPlayers = fromJSONToPlayers(players);
-    	JSONObject tradeOffer;
-    	TradeOffer newTradeOffer;
-    	if (model.has("tradeOffer"))
-		{
-    		tradeOffer = model.getJSONObject("tradeOffer");
-    		newTradeOffer = fromJSONToTradeOffer(tradeOffer);
-    	}
-    	else
-    	{
-    		newTradeOffer = null;
-    	}
-    	JSONObject turnTracker = model.getJSONObject("turnTracker");
-    	TurnTracker newTurnTracker = fromJSONToTurnTracker(turnTracker);
-    	int version = model.getInt("version");
-    	int winner = model.getInt("winner");
-    	NullablePlayerIdx newWinner = new NullablePlayerIdx(winner);
-    	
-    	ClientModel newModel = new ClientModel(newBank, newChat, newLog, newMap, newPlayers,
-    			newTradeOffer, newTurnTracker, version, newWinner);
-    	return newModel;
-    }
-    
-    /**
-     * @pre gameListJSON is valid JSON for a game list.
-     * @param gameListJSON Represents a list of games -- as in response to listGames API.
-     * @return Collection of GameJSONResponses which holds all games that were specified in the JSON
-     * @throws JSONException 
-     */
-    public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON) throws JSONException
-    {
-    	ArrayList<GameJSONResponse> games = new ArrayList<>();
-    	JSONArray gamesJSON = new JSONArray(gameListJSON);
-    	for (int i = 0; i < gamesJSON.length(); i++)
-    	{
-    		games.add(fromJSONToGame(gamesJSON.getString(i)));
-    	}
-    	return games;
-    }
-    
     private static ArrayList<PlayerJSONResponse> fromJSONToPlayerResponses(JSONArray playersJSON) throws JSONException
     {
     	ArrayList<PlayerJSONResponse> playersArray = new ArrayList<>();
     	for (int i = 0; i < playersJSON.length(); i++)
     	{
     		String colorStr = playersJSON.getJSONObject(i).getString("color");
+    		colorStr = colorStr.toLowerCase();
     		String name = playersJSON.getJSONObject(i).getString("name");
     		int id = playersJSON.getJSONObject(i).getInt("id");
     		CatanColor color;
         	switch (colorStr)
         	{
-        	case "BLUE":
+        	case "blue":
         		color = CatanColor.BLUE;
         		break;
-        	case "BROWN":
+        	case "brown":
         		color = CatanColor.BROWN;
         		break;
-        	case "GREEN":
+        	case "green":
         		color = CatanColor.GREEN;
         		break;
-        	case "ORANGE":
+        	case "orange":
         		color = CatanColor.ORANGE;
         		break;
-        	case "PUCE":
+        	case "puce":
         		color = CatanColor.PUCE;
         		break;
-        	case "PURPLE":
+        	case "purple":
         		color = CatanColor.PURPLE;
         		break;
-        	case "RED":
+        	case "red":
         		color = CatanColor.RED;
         		break;
-        	case "WHITE":
+        	case "white":
         		color = CatanColor.WHITE;
         		break;
-        	case "YELLOW":
+        	case "yellow":
         		color = CatanColor.YELLOW;
         		break;
         	default:
@@ -581,22 +602,4 @@ public class JSONParser
     	}
     	return playersArray;
     }
-    
-    /**
-     * @pre gameJSON is valid JSON for a game.
-     * @param gameJSON Represents valid JSON for a game -- as in listGames.
-     * @return The information extracted from the JSON string
-     * @throws JSONException 
-     */
-    public static GameJSONResponse fromJSONToGame(String gameJSON) throws JSONException
-    {
-    	JSONObject gameObj = new JSONObject(gameJSON);
-    	String title = gameObj.getString("title");
-    	int gameId = gameObj.getInt("gameId");
-    	JSONArray playersJSON = gameObj.getJSONArray("players");
-    	ArrayList<PlayerJSONResponse> players = fromJSONToPlayerResponses(playersJSON);
-    	GameJSONResponse game = new GameJSONResponse(title, gameId, players);
-    	return game;
-    }
-    
 }

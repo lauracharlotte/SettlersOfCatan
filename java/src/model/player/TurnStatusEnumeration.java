@@ -13,6 +13,6 @@ public enum TurnStatusEnumeration {
 	/**
 	 * We are rolling right now
 	 */
-	rolling, robbing, playing, firstround, secondround;
+	rolling, robbing, playing, discarding, firstround, secondround;
 	
 }

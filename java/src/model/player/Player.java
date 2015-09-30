@@ -2,6 +2,7 @@ package model.player;
 
 import model.cards.ResourceCards;
 import shared.definitions.CatanColor;
+import model.cards.DevelopmentCards;
 import model.cards.Hand;
 
 /**
@@ -39,6 +40,10 @@ public class Player {
 	 * Whether or not the player had played a development card yet on their turn.
 	 */
 	private Boolean playedDevCard;
+	/**
+	 * Development cards bought this player's last/current turn
+	 */
+	private DevelopmentCards newDevCards;
 	/**
 	 * The player's ID.
 	 */
@@ -83,6 +88,7 @@ public class Player {
 	 * @param namee
 	 * @param playerIndexx
 	 * @param playedDevCardd
+	 * @param newDevCards
 	 * @param playerIdd
 	 * @param roadss
 	 * @param settlementss
@@ -91,7 +97,7 @@ public class Player {
 	 * @param hand
 	 */
 	public Player(int cities, CatanColor color, Boolean discarded, int monuments, String name, PlayerIdx playerIndex,
-				  Boolean playedDevCard, int playerId, int roads, int settlements, int soldiers, int victoryPoints, Hand hand)
+				  Boolean playedDevCard, DevelopmentCards newDevCards, int playerId, int roads, int settlements, int soldiers, int victoryPoints, Hand hand)
 	{
 		this.cities = cities;
 		this.color = color;
@@ -100,6 +106,7 @@ public class Player {
 		this.name = name;
 		this.playerIndex = playerIndex;
 		this.playedDevCard = playedDevCard;
+		this.newDevCards = newDevCards;
 		this.playerId = playerId;
 		this.roads = roads;
 		this.settlements = settlements;
@@ -123,7 +130,15 @@ public class Player {
 	 */
 	public Boolean canPlayDev()
 	{
-		return null;
+		return !playedDevCard;
+	}
+	public DevelopmentCards getNewDevCards()
+	{
+		return newDevCards;
+	}
+	public void setNewDevCards(DevelopmentCards newDevCards)
+	{
+		this.newDevCards = newDevCards;
 	}
 	/**
 	 * Checks whether the player has more than 7 cards to see 
