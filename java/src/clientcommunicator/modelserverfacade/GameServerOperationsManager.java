@@ -12,6 +12,8 @@ import clientcommunicator.operations.JoinGameRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.json.JSONException;
+
 /**
  *
  * @author Michael
@@ -24,8 +26,9 @@ public class GameServerOperationsManager implements IServerOperationsManager
     /**
      * 
      * @return a collection of games that are on the server
+     * @throws JSONException 
      */
-    public Collection<GameJSONResponse> listGames() throws ClientException
+    public Collection<GameJSONResponse> listGames() throws ClientException, JSONException
     {
         String jsonResponse = this.currentServer.listGames();
         return JSONParser.fromJSONToGameCollection(jsonResponse);
@@ -35,8 +38,9 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @pre The user should not have entered into a game yet but should be logged in.
      * @param request a createGameRequest that should be performed
      * @return A game object that represents the game that was just created
+     * @throws JSONException 
      */
-    public GameJSONResponse createGame(CreateGameRequest request) throws ClientException
+    public GameJSONResponse createGame(CreateGameRequest request) throws ClientException, JSONException
     {
         String response = this.currentServer.createGame(JSONParser.toJSON(request));
         return JSONParser.fromJSONToGame(response);

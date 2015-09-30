@@ -7,6 +7,7 @@ package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.IJSONSerializable;
+import clientcommunicator.operations.PlayerJSONResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -519,24 +520,81 @@ public class JSONParser
      * @pre gameListJSON is valid JSON for a game list.
      * @param gameListJSON Represents a list of games -- as in response to listGames API.
      * @return Collection of GameJSONResponses which holds all games that were specified in the JSON
+     * @throws JSONException 
      */
-    public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON)
+    public static Collection<GameJSONResponse> fromJSONToGameCollection(String gameListJSON) throws JSONException
     {
-    	Gson gson = new Gson();
-    	GameJSONResponse[] games = gson.fromJson(gameListJSON, GameJSONResponse[].class);
-    	Collection<GameJSONResponse> gameCollection = new ArrayList<GameJSONResponse>(Arrays.asList(games));
-    	return gameCollection;
+    	ArrayList<GameJSONResponse> games = new ArrayList<>();
+    	JSONArray gamesJSON = new JSONArray(gameListJSON);
+    	for (int i = 0; i < gamesJSON.length(); i++)
+    	{
+    		games.add(fromJSONToGame(gamesJSON.getString(i)));
+    	}
+    	return games;
+    }
+    
+    private static ArrayList<PlayerJSONResponse> fromJSONToPlayerResponses(JSONArray playersJSON) throws JSONException
+    {
+    	ArrayList<PlayerJSONResponse> playersArray = new ArrayList<>();
+    	for (int i = 0; i < playersJSON.length(); i++)
+    	{
+    		String colorStr = playersJSON.getJSONObject(i).getString("color");
+    		String name = playersJSON.getJSONObject(i).getString("name");
+    		int id = playersJSON.getJSONObject(i).getInt("id");
+    		CatanColor color;
+        	switch (colorStr)
+        	{
+        	case "BLUE":
+        		color = CatanColor.BLUE;
+        		break;
+        	case "BROWN":
+        		color = CatanColor.BROWN;
+        		break;
+        	case "GREEN":
+        		color = CatanColor.GREEN;
+        		break;
+        	case "ORANGE":
+        		color = CatanColor.ORANGE;
+        		break;
+        	case "PUCE":
+        		color = CatanColor.PUCE;
+        		break;
+        	case "PURPLE":
+        		color = CatanColor.PURPLE;
+        		break;
+        	case "RED":
+        		color = CatanColor.RED;
+        		break;
+        	case "WHITE":
+        		color = CatanColor.WHITE;
+        		break;
+        	case "YELLOW":
+        		color = CatanColor.YELLOW;
+        		break;
+        	default:
+        		color = null;
+        		break;
+        	}
+        	PlayerJSONResponse player = new PlayerJSONResponse(color, name, id);
+        	playersArray.add(player);
+    	}
+    	return playersArray;
     }
     
     /**
      * @pre gameJSON is valid JSON for a game.
      * @param gameJSON Represents valid JSON for a game -- as in listGames.
      * @return The information extracted from the JSON string
+     * @throws JSONException 
      */
-    public static GameJSONResponse fromJSONToGame(String gameJSON)
+    public static GameJSONResponse fromJSONToGame(String gameJSON) throws JSONException
     {
-    	Gson gson = new Gson();
-    	GameJSONResponse game = gson.fromJson(gameJSON, GameJSONResponse.class);
+    	JSONObject gameObj = new JSONObject(gameJSON);
+    	String title = gameObj.getString("title");
+    	int gameId = gameObj.getInt("gameId");
+    	JSONArray playersJSON = gameObj.getJSONArray("players");
+    	ArrayList<PlayerJSONResponse> players = fromJSONToPlayerResponses(playersJSON);
+    	GameJSONResponse game = new GameJSONResponse(title, gameId, players);
     	return game;
     }
     
