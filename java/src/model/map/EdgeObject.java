@@ -59,4 +59,14 @@ public class EdgeObject {
 		this.owner = owner;
 	}
 
+	@Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Location: \n");
+		str.append(location.toString());
+		str.append("\nOwner: ");
+		str.append(owner.toString());
+		return str.toString();
+	}
 }

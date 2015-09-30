@@ -64,4 +64,15 @@ public class Hand
     {
         this.developmentCards = developmentCards;
     }
+    
+    @Override
+    public String toString()
+    {
+    	StringBuilder str = new StringBuilder();
+    	str.append("Hand:\n");
+    	str.append(developmentCards.toString());
+    	str.append("\n");
+    	str.append(resourceCards.toString());
+    	return str.toString();
+    }
 }

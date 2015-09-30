@@ -10,6 +10,11 @@ import clientcommunicator.operations.SendChatRequest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.json.JSONException;
+
+import model.ClientModel;
+import model.ClientModelSupplier;
+
 /**
  *
  * @author Michael
@@ -17,23 +22,31 @@ import java.lang.reflect.InvocationTargetException;
 public class ModelServerFacadeFactory
 {
 
+    private IServerProxy currentServer;
+    
     /**
      * @post Same as setServerProxy()
      * @param server An IServerProxy that can respond to requests by this class and operationsManagers classes.
      */
     public ModelServerFacadeFactory(IServerProxy server)
     {
-        
+       this.currentServer = server; 
     }
     
     /**
+     * This function should also make sure that replacing the current model is necessary by comparing version numbers
      * @pre The parameter has valid JSON for ClientModel contained in it
      * @post The current ClientModel object is replaced by the model represented by the JSON
      * @param newModelJSON contains valid JSON for client model
+     * @throws JSONException 
      */
-    public void updateModel(String newModelJSON)
+    public void updateModel(String newModelJSON) throws JSONException
     {
-        
+        ClientModel model = JSONParser.fromJSONToModel(newModelJSON);
+        if (!model.equals(ClientModelSupplier.getInstance().getModel()))
+        {
+            ClientModelSupplier.getInstance().setModel(model);
+        }
     }
     
     /**
@@ -41,9 +54,9 @@ public class ModelServerFacadeFactory
      * @post The chat has been posted to the server
      * @param bodyInformation contains sender and message information
      */
-    public void sendChat(SendChatRequest bodyInformation) 
+    public void sendChat(SendChatRequest bodyInformation) throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.currentServer.sendChat(JSONParser.toJSON(bodyInformation));
     }
     
     /**
@@ -51,9 +64,11 @@ public class ModelServerFacadeFactory
      * @post Will use the passed in "serverToUse" for future requests--will also give created operationsManagers this server.
      * @param server The IServerProxy that this class should use to send requests to.
      */
-    public void setServerProxy(IServerProxy server)
+    public void setServerProxy(IServerProxy server) throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(server == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = server;
     }
     
     /**
@@ -86,6 +101,5 @@ public class ModelServerFacadeFactory
         manager.setServer(this.currentServer);
         return manager;
     }
-    
-    private IServerProxy currentServer;
+   
 }

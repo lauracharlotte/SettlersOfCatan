@@ -18,11 +18,14 @@ import clientcommunicator.operations.YearOfPlentyRequest;
  */
 public class DevCardServerOperationsManager implements IServerOperationsManager
 {
-
+    private IServerProxy currentServer;
+    
     @Override
     public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
 
     /**
@@ -30,9 +33,9 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      * @post The year of plenty card is played and the player has the resulting resources
      * @param request A valid YearOfPlentyRequest
      */
-    public void yearOfPlenty(YearOfPlentyRequest request)
+    public void yearOfPlenty(YearOfPlentyRequest request) throws ClientException
     {
-        
+        this.currentServer.yearOfPlenty(JSONParser.toJSON(request));
     }
     
     /**
@@ -40,9 +43,9 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      * @post The player has two less roads, because they are put on the map in the given locations.
      * @param request A valid RoadBuildingCardRequest
      */
-    public void playRoadBuilding(RoadBuildingCardRequest request)
+    public void playRoadBuilding(RoadBuildingCardRequest request) throws ClientException
     {
-        
+        this.currentServer.playRoadBuilding(JSONParser.toJSON(request));
     }
     
     /**
@@ -50,18 +53,18 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      * @post The robber is moved.  The player playing the card may or may not steal a card from another player.
      * @param request A valid PlaySoldierRequest
      */
-    public void playSoldier(PlaySoldierRequest request) 
+    public void playSoldier(PlaySoldierRequest request) throws ClientException
     {
-        
+        this.currentServer.playSoldier(JSONParser.toJSON(request));
     }
     
     /**
      * @pre The player has a monopoly card and the server has been set.  Also, the player hasn't played a dev card this turn.
      * @param request A valid MonopolyRequest 
      */
-    public void playMonopoly(MonopolyRequest request)
+    public void playMonopoly(MonopolyRequest request) throws ClientException
     {
-        
+        this.currentServer.playMonopoly(JSONParser.toJSON(request));
     }
     
     /**
@@ -69,9 +72,9 @@ public class DevCardServerOperationsManager implements IServerOperationsManager
      * @post The player wins
      * @param request A valid MonumentRequest
      */
-    public void playMonument(MonumentRequest request)
+    public void playMonument(MonumentRequest request) throws ClientException
     {
-        
+        this.currentServer.playMonument(JSONParser.toJSON(request));
     }
     
 }

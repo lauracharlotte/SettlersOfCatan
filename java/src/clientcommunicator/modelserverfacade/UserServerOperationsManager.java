@@ -15,10 +15,14 @@ import clientcommunicator.operations.LoginCredentials;
 public class UserServerOperationsManager implements IServerOperationsManager
 {
 
+    private IServerProxy currentServer;
+    
     @Override
-    public void setServer(IServerProxy serverToUse)
+    public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
     
     /**
@@ -27,9 +31,9 @@ public class UserServerOperationsManager implements IServerOperationsManager
      * @param creds The username and password as put into the gui by the client
      * @return The unique player id of the player
      */
-    public int loginUser(LoginCredentials creds)
+    public int loginUser(LoginCredentials creds) throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.currentServer.loginUser(JSONParser.toJSON(creds));
     }
     
     /**
@@ -38,9 +42,9 @@ public class UserServerOperationsManager implements IServerOperationsManager
      * @param creds The username and password as put into the gui by the client
      * @return The unique player id of the player
      */
-    public int registerUser(LoginCredentials creds)
+    public int registerUser(LoginCredentials creds) throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.currentServer.registerUser(JSONParser.toJSON(creds));
     }
     
 }

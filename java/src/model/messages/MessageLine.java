@@ -56,4 +56,15 @@ public class MessageLine {
 		this.source = source;
 	}
 	
+	@Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Message: ");
+		str.append(message);
+		str.append(", Source: ");
+		str.append(source);
+		return str.toString();
+	}
+	
 }

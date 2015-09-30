@@ -80,4 +80,17 @@ public class Hex {
 		this.number = number;
 	}
 	
+	@Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Hex:\nLocation:\n");
+		str.append(location.toString());
+		str.append("\nNumber: ");
+		str.append(number);
+		str.append("\nType: ");
+		str.append(type.toString());
+		return str.toString();
+	}
+	
 }

@@ -9,7 +9,10 @@ import clientcommunicator.Server.IServerProxy;
 import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
+import java.util.ArrayList;
 import java.util.Collection;
+
+import org.json.JSONException;
 
 /**
  *
@@ -18,23 +21,29 @@ import java.util.Collection;
 public class GameServerOperationsManager implements IServerOperationsManager 
 {
 
+    private IServerProxy currentServer;
+    
     /**
      * 
      * @return a collection of games that are on the server
+     * @throws JSONException 
      */
-    public Collection<GameJSONResponse> listGames()
+    public Collection<GameJSONResponse> listGames() throws ClientException, JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String jsonResponse = this.currentServer.listGames();
+        return JSONParser.fromJSONToGameCollection(jsonResponse);
     }
 
     /**
      * @pre The user should not have entered into a game yet but should be logged in.
      * @param request a createGameRequest that should be performed
      * @return A game object that represents the game that was just created
+     * @throws JSONException 
      */
-    public GameJSONResponse createGame(CreateGameRequest request)
+    public GameJSONResponse createGame(CreateGameRequest request) throws ClientException, JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response = this.currentServer.createGame(JSONParser.toJSON(request));
+        return JSONParser.fromJSONToGame(response);
     }
     
     /**
@@ -42,28 +51,31 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @post The user joins the specified game
      * @param request A join game request that should be performed
      */
-    public void joinGame(JoinGameRequest request)
+    public void joinGame(JoinGameRequest request) throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       this.currentServer.joinGame(JSONParser.toJSON(request));
     }
     
     /**
      *  @pre The user is associated with a game
      *  @post The game the user is in is set to the beginning or just after the setup phase (see the IServerProxy documentation)
      */
-    public void resetGame()
+    public void resetGame() throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response = this.currentServer.resetGame();
+        //check response here
     }
     
     /**
      * @pre The user is logged in and in a game with an empty seat
      * @post The game the user is in has an AI player added
-     * @param AIType A string that represents the AI Type that should be used when adding an AI to the game
      */
-    public void addAI(String AIType)
+    public void addAI() throws ClientException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String addAiRequest = "{\n"
+                + "\"AIType\": \"LARGEST_ARMY\""
+                + "\n}";
+        this.currentServer.addAI(addAiRequest);
     }
 
     /**
@@ -72,17 +84,23 @@ public class GameServerOperationsManager implements IServerOperationsManager
      */
     public Collection<String> listAI()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Collection<String> aiTypes = new ArrayList<>();
+        aiTypes.add("LARGEST_ARMY"); //only AIType supported
+        return aiTypes;
     }
 
     /**
      *
      * @param serverToUse The server this manager should start using
-     */
+     */    
     @Override
-    public void setServer(IServerProxy serverToUse)
+    public void setServer(IServerProxy serverToUse) 
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(serverToUse == null)
+            throw new IllegalArgumentException("Cannot set server to null.");
+        this.currentServer = serverToUse;
     }
+    
+    
     
 }

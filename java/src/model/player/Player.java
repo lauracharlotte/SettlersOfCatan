@@ -63,6 +63,16 @@ public class Player {
 	 * The hand the player has (hand contains the list of development cards and resource cards.
 	 */
 	private Hand hand;
+
+        public Hand getHand()
+        {
+            return hand;
+        }
+
+        public void setHand(Hand hand)
+        {
+            this.hand = hand;
+        }
 	
 	/**
 	 * Constructor for player.
@@ -78,7 +88,7 @@ public class Player {
 	 * @param settlementss
 	 * @param soldierss
 	 * @param victoryPointss
-	 * @param handd
+	 * @param hand
 	 */
 	public Player(int cities, CatanColor color, Boolean discarded, int monuments, String name, PlayerIdx playerIndex,
 				  Boolean playedDevCard, int playerId, int roads, int settlements, int soldiers, int victoryPoints, Hand hand)
@@ -98,14 +108,6 @@ public class Player {
 		this.hand = hand;
 	}
 
-	/**
-	 * Checks if the player has the: resource and number of objects left to build a road, city, settlement, or  buy card
-	 * @return
-	 */
-	public Boolean canBuy(String type)
-	{
-		return null;
-	}
 	
 	/**
 	 * Does the Player have the recourses asked for to trade?
@@ -308,6 +310,49 @@ public class Player {
 	{
 		this.victoryPoints = victoryPoints;
 	}
-
+        
+    public boolean hasEnoughResources(ResourceCards resourcesNeeded)
+    {
+        boolean hasEnough = true;
+        ResourceCards playersResources = this.hand.getResourceCards();
+        hasEnough = hasEnough && (resourcesNeeded.getBrick()<=playersResources.getBrick());
+        hasEnough = hasEnough && (resourcesNeeded.getGrain()<=playersResources.getGrain());
+        hasEnough = hasEnough && (resourcesNeeded.getLumber()<=playersResources.getLumber());
+        hasEnough = hasEnough && (resourcesNeeded.getOre()<=playersResources.getOre());
+        hasEnough = hasEnough && (resourcesNeeded.getWool()<=playersResources.getWool());
+        return hasEnough;
+    }
 	
+    @Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Player ");
+		str.append(playerIndex.toString());
+		str.append(":\nName: ");
+		str.append(name);
+		str.append("\nPlayer ID: ");
+		str.append(playerId);
+		str.append("\nColor: ");
+		str.append(color.toString());
+		str.append("\nVictory points: ");
+		str.append(victoryPoints);
+		str.append("\nSettlements left: ");
+		str.append(settlements);
+		str.append("\nCities left: ");
+		str.append(cities);
+		str.append("\nRoads left: ");
+		str.append(roads);
+		str.append("\nSoldiers played: ");
+		str.append(soldiers);
+		str.append("\nMonuments played: ");
+		str.append(monuments);
+		str.append("\nHand:\n");
+		str.append(hand.toString());
+		str.append("\nDiscarded? ");
+		str.append(discarded);
+		str.append("\nPlayed Development Card? ");
+		str.append(playedDevCard);
+		return str.toString();
+	}
 }

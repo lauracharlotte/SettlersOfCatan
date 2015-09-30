@@ -5,7 +5,14 @@
  */
 package clientcommunicator.Server;
 
+import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.json.JSONException;
 
 /**
  *
@@ -13,22 +20,42 @@ import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
  */
 public class ServerPoller 
 {
-
+    private long numberOfMillisecondsBetweenPoll;
+    private ModelServerFacadeFactory communicator;
+    private IServerProxy server;
+    private Timer timer;
+    
+    
     /**
-     * @post The poller uses the passed in IServerProxy for future polling.
-     * @param server
+     * @param communicator
+     * @post The communicator uses the passed in communicator for future polling.
      */
-    public ServerPoller(IServerProxy server)
+    public ServerPoller(ModelServerFacadeFactory communicator)
     {
-        
+        this.communicator = communicator;
     }
     
     /**
      *
      */
     public ServerPoller()
+    {}
+
+    public ServerPoller(ModelServerFacadeFactory communicator, IServerProxy server)
     {
-        
+        this.communicator = communicator;
+        this.server = server;
+    }
+    
+    
+    
+    /**
+     * @param communicator The communicator that should be used
+     * @post The poller will send any model updates to the given facade when polling.
+     */
+    public void setFacade(ModelServerFacadeFactory communicator)
+    {
+        this.communicator = communicator;
     }
     
     /**
@@ -38,28 +65,17 @@ public class ServerPoller
      */
     public void setServer(IServerProxy server)
     {
-        
+        this.server = server;
     }
-    
-    /**
-     * @pre The polling is not currently going
-     * @post The poller will send any model updates to the given facade when polling.
-     * @param facade
-     */
-    public void setFacade(ModelServerFacadeFactory facade)
-    {
-        
-    }
-    
     
     /**
      * @pre The polling is not currently going.
      * @post When run is called, it will poll the server number of milliseconds time.
      * @param numberOfMilliseconds The number of milliseconds between times when the poller polls. 
      */
-    public void setPollingMilliseconds(int numberOfMilliseconds)
+    public void setPollingMilliseconds(long numberOfMilliseconds)
     {
-        
+        this.numberOfMillisecondsBetweenPoll = numberOfMilliseconds;
     }
     
     /**
@@ -68,7 +84,23 @@ public class ServerPoller
      */
     public void run()
     {
-        
+        TimerTask timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    communicator.updateModel(server.getModel(-1));
+                } catch (ClientException ex) {
+                    Logger.getLogger(ServerPoller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        };
+        this.timer = new Timer();
+        this.timer.schedule(timerTask, 0, this.numberOfMillisecondsBetweenPoll);
     }
     
     /**
@@ -77,6 +109,6 @@ public class ServerPoller
      */
     public void stop()
     {
-        
+        this.timer.cancel();
     }
 }
