@@ -97,126 +97,144 @@ public class ClientModel
 	/**
 	 * @return the bank
 	 */
-	public Hand getBank() {
+	public Hand getBank() 
+	{
 		return bank;
 	}
 
 	/**
 	 * @param bank the bank to set
 	 */
-	public void setBank(Hand bank) {
+	public void setBank(Hand bank) 
+	{
 		this.bank = bank;
 	}
 
 	/**
 	 * @return the chat
 	 */
-	public MessageList getChat() {
+	public MessageList getChat() 
+	{
 		return chat;
 	}
 
 	/**
 	 * @param chat the chat to set
 	 */
-	public void setChat(MessageList chat) {
+	public void setChat(MessageList chat) 
+	{
 		this.chat = chat;
 	}
 
 	/**
 	 * @return the log
 	 */
-	public MessageList getLog() {
+	public MessageList getLog() 
+	{
 		return log;
 	}
 
 	/**
 	 * @param log the log to set
 	 */
-	public void setLog(MessageList log) {
+	public void setLog(MessageList log) 
+	{
 		this.log = log;
 	}
 
 	/**
 	 * @return the map
 	 */
-	public CatanMap getMap() {
+	public CatanMap getMap() 
+	{
 		return map;
 	}
 
 	/**
 	 * @param map the map to set
 	 */
-	public void setMap(CatanMap map) {
+	public void setMap(CatanMap map) 
+	{
 		this.map = map;
 	}
 
 	/**
 	 * @return the players
 	 */
-	public Collection<Player> getPlayers() {
+	public Collection<Player> getPlayers() 
+	{
 		return players;
 	}
 
 	/**
 	 * @param players the players to set
 	 */
-	public void setPlayers(Collection<Player> players) {
+	public void setPlayers(Collection<Player> players) 
+	{
 		this.players = players;
 	}
 
 	/**
 	 * @return the tradeOffer
 	 */
-	public TradeOffer getTradeOffer() {
+	public TradeOffer getTradeOffer() 
+	{
 		return tradeOffer;
 	}
 
 	/**
 	 * @param tradeOffer the tradeOffer to set
 	 */
-	public void setTradeOffer(TradeOffer tradeOffer) {
+	public void setTradeOffer(TradeOffer tradeOffer) 
+	{
 		this.tradeOffer = tradeOffer;
 	}
 
 	/**
 	 * @return the turnTracker
 	 */
-	public TurnTracker getTurnTracker() {
+	public TurnTracker getTurnTracker() 
+	{
 		return turnTracker;
 	}
 
 	/**
 	 * @param turnTracker the turnTracker to set
 	 */
-	public void setTurnTracker(TurnTracker turnTracker) {
+	public void setTurnTracker(TurnTracker turnTracker) 
+	{
 		this.turnTracker = turnTracker;
 	}
 
 	/**
 	 * @return the version
 	 */
-	public int getVersion() {
+	public int getVersion() 
+	{
 		return version;
 	}
 
 	/**
 	 * @param version the version to set
 	 */
-	public void setVersion(int version) {
+	public void setVersion(int version) 
+	{
 		this.version = version;
 	}
 
 	/**
 	 * @return the winner
 	 */
-	public NullablePlayerIdx getWinner() {
+	public NullablePlayerIdx getWinner() 
+	{
 		return winner;
 	}
 
 	/**
 	 * @param winner the winner to set
 	 */
-	public void setWinner(NullablePlayerIdx winner) {
+	public void setWinner(NullablePlayerIdx winner) 
+	{
 		this.winner = winner;
 	}
 

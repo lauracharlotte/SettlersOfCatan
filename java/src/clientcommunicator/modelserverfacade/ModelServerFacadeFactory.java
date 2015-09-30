@@ -9,6 +9,9 @@ import clientcommunicator.Server.IServerProxy;
 import clientcommunicator.operations.SendChatRequest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import org.json.JSONException;
+
 import model.ClientModel;
 import model.ClientModelSupplier;
 
@@ -35,8 +38,9 @@ public class ModelServerFacadeFactory
      * @pre The parameter has valid JSON for ClientModel contained in it
      * @post The current ClientModel object is replaced by the model represented by the JSON
      * @param newModelJSON contains valid JSON for client model
+     * @throws JSONException 
      */
-    public void updateModel(String newModelJSON)
+    public void updateModel(String newModelJSON) throws JSONException
     {
         ClientModel model = JSONParser.fromJSONToModel(newModelJSON);
         if (!model.equals(ClientModelSupplier.getInstance().getModel()))

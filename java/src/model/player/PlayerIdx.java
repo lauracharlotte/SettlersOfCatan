@@ -10,27 +10,29 @@ public class PlayerIdx extends NullablePlayerIdx
 {
 	public PlayerIdx(int index)
 	{
-            if(index == -1)
-                throw new IllegalArgumentException(); 
-            this.setIndex(index);
+        if(index == -1)
+            throw new IllegalArgumentException(); 
+        this.setIndex(index);
 	}
 
 	/**
 	 * Gets the Player's Idx
 	 * @return playerIdx
 	 */
-	public int getPlayerIdx() {
+	public int getPlayerIdx() 
+	{
 		return index;
 	}
+	
 	/**
 	 * Sets the Player's Idx
 	 * @param playerIdx
 	 */
 	public void setPlayerIdx(int index) 
-        {
-            if(index == -1)
-                throw new IllegalArgumentException();
-            super.setIndex(index);
+    {
+        if(index == -1)
+            throw new IllegalArgumentException();
+        super.setIndex(index);
 	}
 
         @Override
@@ -59,6 +61,12 @@ public class PlayerIdx extends NullablePlayerIdx
             return false;
         }
         
-        
+        @Override
+    	public String toString()
+    	{
+    		StringBuilder str = new StringBuilder();
+    		str.append(index);
+    		return str.toString();
+    	}
 
 }

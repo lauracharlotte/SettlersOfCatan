@@ -12,6 +12,8 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONException;
+
 /**
  *
  * @author Michael
@@ -91,7 +93,10 @@ public class ServerPoller
                     communicator.updateModel(server.getModel(-1));
                 } catch (ClientException ex) {
                     Logger.getLogger(ServerPoller.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         };
         this.timer = new Timer();

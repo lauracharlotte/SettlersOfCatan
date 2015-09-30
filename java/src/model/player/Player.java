@@ -311,16 +311,48 @@ public class Player {
 		this.victoryPoints = victoryPoints;
 	}
         
-        public boolean hasEnoughResources(ResourceCards resourcesNeeded)
-        {
-            boolean hasEnough = true;
-            ResourceCards playersResources = this.hand.getResourceCards();
-            hasEnough = hasEnough && (resourcesNeeded.getBrick()<=playersResources.getBrick());
-            hasEnough = hasEnough && (resourcesNeeded.getGrain()<=playersResources.getGrain());
-            hasEnough = hasEnough && (resourcesNeeded.getLumber()<=playersResources.getLumber());
-            hasEnough = hasEnough && (resourcesNeeded.getOre()<=playersResources.getOre());
-            hasEnough = hasEnough && (resourcesNeeded.getWool()<=playersResources.getWool());
-            return hasEnough;
-        }
+    public boolean hasEnoughResources(ResourceCards resourcesNeeded)
+    {
+        boolean hasEnough = true;
+        ResourceCards playersResources = this.hand.getResourceCards();
+        hasEnough = hasEnough && (resourcesNeeded.getBrick()<=playersResources.getBrick());
+        hasEnough = hasEnough && (resourcesNeeded.getGrain()<=playersResources.getGrain());
+        hasEnough = hasEnough && (resourcesNeeded.getLumber()<=playersResources.getLumber());
+        hasEnough = hasEnough && (resourcesNeeded.getOre()<=playersResources.getOre());
+        hasEnough = hasEnough && (resourcesNeeded.getWool()<=playersResources.getWool());
+        return hasEnough;
+    }
 	
+    @Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("Player ");
+		str.append(playerIndex.toString());
+		str.append(":\nName: ");
+		str.append(name);
+		str.append("\nPlayer ID: ");
+		str.append(playerId);
+		str.append("\nColor: ");
+		str.append(color.toString());
+		str.append("\nVictory points: ");
+		str.append(victoryPoints);
+		str.append("\nSettlements left: ");
+		str.append(settlements);
+		str.append("\nCities left: ");
+		str.append(cities);
+		str.append("\nRoads left: ");
+		str.append(roads);
+		str.append("\nSoldiers played: ");
+		str.append(soldiers);
+		str.append("\nMonuments played: ");
+		str.append(monuments);
+		str.append("\nHand:\n");
+		str.append(hand.toString());
+		str.append("\nDiscarded? ");
+		str.append(discarded);
+		str.append("\nPlayed Development Card? ");
+		str.append(playedDevCard);
+		return str.toString();
+	}
 }
