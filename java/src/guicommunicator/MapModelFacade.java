@@ -42,7 +42,44 @@ public class MapModelFacade
      */
     public boolean canPlaceRoad(EdgeLocation location)
     {
-        return true;
+        
+        location = location.getNormalizedLocation();
+        Set<EdgeLocation> neededRoadLocations = new HashSet<>();
+        if (location.getDir().equals(EdgeDirection.North))
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        else if(location.getDir().equals(EdgeDirection.NorthWest))
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.South).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
+        }
+        else //NorthEast
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthEast).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.South).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
+        }
+        
+        CatanMap map = this.getCurrentMap();
+        Iterator<EdgeObject> roadItr = map.getRoads().iterator();
+        PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        boolean hasConnector = false;
+        while(roadItr.hasNext())
+        {
+            EdgeObject road = roadItr.next();
+            if(road.getLocation().getNormalizedLocation().equals(location))
+                return false;
+            else if(road.getOwner().equals(currentPlayer) && neededRoadLocations.contains(road.getLocation().getNormalizedLocation()))
+                hasConnector = true;
+        }
+        return hasConnector;
     }
 
     /**
