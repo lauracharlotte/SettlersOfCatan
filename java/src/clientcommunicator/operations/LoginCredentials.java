@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import model.player.PlayerIdx;
+import shared.definitions.CatanColor;
+
 /**
  *
  * @author Michael
@@ -47,9 +50,20 @@ public class LoginCredentials implements IJSONSerializable
     
     
     @Override
-    public String serialize()
+    public String serialize()//???
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String serializing = "{username: \""+username+"\", password: \""+password+"\"}";
+        return serializing;
+    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void main(final String[] args)
+    {
+    	String theUsername = "laura55";
+    	String thePassword = "sweet";
+    	LoginCredentials loginCredentials = new LoginCredentials(theUsername, thePassword);
+    	String work = loginCredentials.serialize();
+    	System.out.println(work);
     }
     
 }

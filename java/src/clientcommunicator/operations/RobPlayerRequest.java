@@ -6,6 +6,8 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 
 /**
@@ -60,9 +62,22 @@ public class RobPlayerRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()
+    public String serialize()//??
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String serializing = "{type: \"robPlayer\", playerIndex: "+ playerThatsRobbingIndex.getPlayerIdx() +", victimIndex: "+victimIndex.getPlayerIdx() + ", location: {x: "+location.getX()+ ", y: " + location.getY()+ "}}";
+        return serializing;
+    }
+    
+    public static void main(final String[] args)
+    {
+    	
+    	PlayerIdx index = new PlayerIdx(2);
+    	PlayerIdx vicIndex = new PlayerIdx(1);
+    	HexLocation hexLoc = new HexLocation(1,1);
+
+    	RobPlayerRequest robPlayReq = new RobPlayerRequest(index, vicIndex, hexLoc);
+    	String work = robPlayReq.serialize();
+    	System.out.println(work);
     }
     
 }

@@ -37,7 +37,17 @@ public class FinishTurnRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String serializing = "{type: \"finishTurn\", playerIndex: " + playerIndex.getPlayerIdx() + "}";
+        return serializing;
+    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static void main(final String[] args)
+    {
+    	PlayerIdx index = new PlayerIdx(3);
+    	FinishTurnRequest finTurnReq = new FinishTurnRequest(index);
+    	String work = finTurnReq.serialize();
+    	System.out.println(work);
     }
     
 }

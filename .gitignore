@@ -1,2 +1,4 @@
 .idea
 demo
+*.class
+java/src/model/cards/Hand.java
