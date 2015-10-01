@@ -60,66 +60,18 @@ public class MapModelFacade
         NullablePlayerIdx westOwner, eastOwner;
         if (location.getDir().equals(EdgeDirection.North))
         {
-            westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
-            eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
-            eastOwner = this.getOwner(allObjects, eastVertex);
-            westOwner = this.getOwner(allObjects, westVertex);
-            if(westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+            if(northCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
                 return true;
-            doesBlockWest = westOwner.isNotNull();
-            doesBlockEast = eastOwner.isNotNull();
-            if(!doesBlockWest)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthWest).getNormalizedLocation());
-            }
-            if(!doesBlockEast)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation()); 
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthEast).getNormalizedLocation());
-            }
         }
         else if(location.getDir().equals(EdgeDirection.NorthWest))
         {
-            westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation();
-            eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
-            eastOwner = this.getOwner(allObjects, eastVertex);
-            westOwner = this.getOwner(allObjects, westVertex);
-            if(westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+            if(northWestCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
                 return true;
-            doesBlockWest = westOwner.isNotNull();
-            doesBlockEast = eastOwner.isNotNull();
-            if(!doesBlockWest)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthWest).getNormalizedLocation());
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.South).getNormalizedLocation());
-            }
-            if(!doesBlockEast)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
-            }
         }
         else //NorthEast
         {
-            westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
-            eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation();
-            eastOwner = this.getOwner(allObjects, eastVertex);
-            westOwner = this.getOwner(allObjects, westVertex);
-            if(westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+            if(northEastCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
                 return true;
-            doesBlockWest = westOwner.isNotNull();
-            doesBlockEast = eastOwner.isNotNull();
-            if(!doesBlockWest)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
-            }
-            if(!doesBlockEast)
-            {
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.South).getNormalizedLocation());
-                neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthEast).getNormalizedLocation());
-            }
         }
         
         if(map.getRoads() == null)
@@ -137,6 +89,99 @@ public class MapModelFacade
                 hasConnector = true;
         }
         return hasConnector;
+    }
+
+    private boolean northCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthWest).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        return false;
+    }
+
+    private boolean northWestCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.South).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
+        }
+        return false;
+    }
+
+    private boolean northEastCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.South).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        return false;
     }
 
     /**
