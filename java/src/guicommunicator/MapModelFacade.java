@@ -149,31 +149,8 @@ public class MapModelFacade
     {
         location = location.getNormalizedLocation();
         CatanMap currentMap = this.getCurrentMap();
-        Set<VertexLocation> vertexLocations = new HashSet<>();
-        //is there already something here
-        if(currentMap.getCities() != null)
-            for(VertexObject obj : currentMap.getCities())
-                vertexLocations.add(obj.getLocation().getNormalizedLocation());
-        if(currentMap.getSettlements() != null)
-            for(VertexObject obj : currentMap.getSettlements())
-                vertexLocations.add(obj.getLocation().getNormalizedLocation());
-
-        //Is there a vertex between this one and another piece
-        Set<VertexLocation> toBeTested = new HashSet<>();
-        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
-        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation());
-        if(location.getDir().equals(VertexDirection.NorthEast))
-        {
-            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation());
-            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), VertexDirection.NorthWest).getNormalizedLocation());
-        }
-        else //Northwest
-        {
-            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation());
-            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), VertexDirection.NorthEast).getNormalizedLocation());
-        }
-        //test it
-        if(vertexLocations.removeAll(toBeTested)) //returns true if vertexLocations changed
+        
+        if(!spaceForSettlement(location, currentMap))
             return false;
         
         //do I have a road connecting here
@@ -196,6 +173,33 @@ public class MapModelFacade
                 if(road.getOwner().equals(currentPlayerIdx))
                     return true;
         return false;
+    }
+
+    public boolean spaceForSettlement(VertexLocation location, CatanMap currentMap)
+    {
+        Set<VertexLocation> vertexLocations = new HashSet<>();
+        //is there already something here
+        if(currentMap.getCities() != null)
+            for(VertexObject obj : currentMap.getCities())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        if(currentMap.getSettlements() != null)
+            for(VertexObject obj : currentMap.getSettlements())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        //Is there a vertex between this one and another piece
+        Set<VertexLocation> toBeTested = new HashSet<>();
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation());
+        if(location.getDir().equals(VertexDirection.NorthEast))
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), VertexDirection.NorthWest).getNormalizedLocation());
+        }
+        else //Northwest
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), VertexDirection.NorthEast).getNormalizedLocation());
+        }
+        return !vertexLocations.removeAll(toBeTested);
     }
 
     /**
