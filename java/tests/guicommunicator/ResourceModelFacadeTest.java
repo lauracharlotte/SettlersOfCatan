@@ -60,7 +60,7 @@ public class ResourceModelFacadeTest
             ResourceCards resources = new ResourceCards(0, 0, 0, 0, 0);
             DevelopmentCards devCards = new DevelopmentCards(0, 0, 0, 0, 0);
             Hand hand = new Hand(resources, devCards);
-            Player newPlayer = new Player(cities, playerColor, discarded, monuments, name, playerIndex, playedDevCard, playerId, roads, settlements, soldiers, victoryPoints, hand);
+            Player newPlayer = new Player(cities, playerColor, discarded, monuments, name, playerIndex, playedDevCard, devCards, playerId, roads, settlements, soldiers, victoryPoints, hand);
             players.add(newPlayer);
         }
         ClientModelSupplier.getInstance().setModel(new ClientModel());
