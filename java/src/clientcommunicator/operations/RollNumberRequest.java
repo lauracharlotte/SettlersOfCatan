@@ -50,7 +50,7 @@ public class RollNumberRequest implements IJSONSerializable
     @Override
     public String serialize()//looks good
     {
-    	String serializing = "{type: \"rollNumber\", playerIndex: " + playerIndex.getPlayerIdx() + ", number: " + numberRolled + "}";
+    	String serializing = "{type: \"rollNumber\", playerIndex: " + playerIndex.getIndex() + ", number: " + numberRolled + "}";
     	return serializing;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

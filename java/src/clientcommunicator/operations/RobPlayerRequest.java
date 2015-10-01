@@ -64,7 +64,7 @@ public class RobPlayerRequest implements IJSONSerializable
     @Override
     public String serialize()//??
     {
-    	String serializing = "{type: \"robPlayer\", playerIndex: "+ playerThatsRobbingIndex.getPlayerIdx() +", victimIndex: "+victimIndex.getPlayerIdx() + ", location: {x: "+location.getX()+ ", y: " + location.getY()+ "}}";
+    	String serializing = "{type: \"robPlayer\", playerIndex: "+ playerThatsRobbingIndex.getIndex() +", victimIndex: "+victimIndex.getIndex() + ", location: {x: "+location.getX()+ ", y: " + location.getY()+ "}}";
         return serializing;
     }
     

@@ -55,7 +55,7 @@ public class MonopolyRequest implements IJSONSerializable
     	String rec = resource.toString();
     	String recLower = rec.toLowerCase();
     	String serializing = "{type: \"Monopoly\", resource: \"" + recLower
-    						+ "\", playerIndex: "+ playerIndex.getPlayerIdx() + "}";
+    						+ "\", playerIndex: "+ playerIndex.getIndex() + "}";
         return serializing;
     	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -67,7 +67,7 @@ public class YearOfPlentyRequest implements IJSONSerializable
     	String recLower1 = rec1.toLowerCase();
     	String rec2 = resource2.toString();
     	String recLower2 = rec2.toLowerCase();
-    	String serializing = "{type: \"Year_of_Plenty\", playerIndex: " + playerIndex.getPlayerIdx()
+    	String serializing = "{type: \"Year_of_Plenty\", playerIndex: " + playerIndex.getIndex()
     	+ ", resource1: \"" + recLower1 + "\", resource2: \""+ recLower2 + "\"}";
     	return serializing;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

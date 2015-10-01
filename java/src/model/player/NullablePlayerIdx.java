@@ -50,19 +50,19 @@ public class NullablePlayerIdx {
 	 * Gets the Nullable Player Idx;
 	 * @return index
 	 */
-	public int getIndex() 
+    public int getIndex() 
     {
-		return index;
-	}
+	return index;
+    }
 	
-	/**
-	 * sets the Nullable Player Idx
-	 * @param index
-	 */
-	public void setIndex(int index) 
-	{
-		if (index < -1 || index > 3)
-			throw new IllegalArgumentException();
+    /**
+     * sets the Nullable Player Idx
+     * @param index
+     */
+    public void setIndex(int index) 
+    {
+        if (index < -1 || index > 3)
+                throw new IllegalArgumentException();
         this.index = index;
-	}
+    }
 }

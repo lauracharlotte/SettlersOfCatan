@@ -110,7 +110,7 @@ public class DiscardCardsRequest implements IJSONSerializable
 
     {
 
-     String longString = "{type: \"discardCards\", playerIndex: " + playerIndex.getPlayerIdx() +", discardedCards: {brick:"+discardedCards.getBrick()+", "
+     String longString = "{type: \"discardCards\", playerIndex: " + playerIndex.getIndex() +", discardedCards: {brick:"+discardedCards.getBrick()+", "
 
      +"ore:"+discardedCards.getOre() +", sheep:"+discardedCards.getWool() + ", wheat:"+discardedCards.getGrain()+", wood:"
 

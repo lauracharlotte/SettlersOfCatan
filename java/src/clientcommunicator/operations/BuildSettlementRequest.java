@@ -69,7 +69,7 @@ public class BuildSettlementRequest implements IJSONSerializable
     	theDirection = abrev.abbreviate(theDirection);
     	
     	String serializing = "{type: \"buildSettlement\", playerIndex: "
-				+ playerIndex.getPlayerIdx() + ", vertexLocation: {" 
+				+ playerIndex.getIndex() + ", vertexLocation: {" 
 				+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
 				+ ", direction: \""+ theDirection + "\"}, free: " + free +"}";
     	return serializing;

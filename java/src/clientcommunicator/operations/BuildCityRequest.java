@@ -57,7 +57,7 @@ public class BuildCityRequest implements IJSONSerializable
     	theDirection = abrev.abbreviate(theDirection);
     	
     	String serializing = "{type: \"buildCity\", playerIndex: "
-    						+ playerIndex.getPlayerIdx() + ", vertexLocation: {" 
+    						+ playerIndex.getIndex() + ", vertexLocation: {" 
     						+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
     						+ ", direction: \""+ theDirection + "\"}}";
     	return serializing;

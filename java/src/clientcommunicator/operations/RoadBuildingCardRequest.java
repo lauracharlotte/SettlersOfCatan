@@ -101,7 +101,7 @@ public class RoadBuildingCardRequest implements IJSONSerializable
     	theDirection1 = abrev.abbreviate(theDirection1);
     	theDirection2 = abrev.abbreviate(theDirection2);
 
-    	String serializing = "{type:\"Road_Building\", playerIndex: " + playerIndex.getPlayerIdx()
+    	String serializing = "{type:\"Road_Building\", playerIndex: " + playerIndex.getIndex()
     	+ ", spot1: {x: "+spot1.getHexLoc().getX()+", y: "+ spot1.getHexLoc().getY()+", direction: \""+ theDirection1+"\"}, spot2: {"
     	+ "x:"+spot2.getHexLoc().getX() + ", y: "+spot2.getHexLoc().getY()+", direction: \""+theDirection2+"\"}}";
         return serializing;

@@ -68,6 +68,8 @@ public class MapModelFacade
         }
         
         CatanMap map = this.getCurrentMap();
+        if(map.getRoads() == null)
+            return false;
         Iterator<EdgeObject> roadItr = map.getRoads().iterator();
         PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         boolean hasConnector = false;
