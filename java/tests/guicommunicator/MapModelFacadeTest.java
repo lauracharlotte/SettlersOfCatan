@@ -125,6 +125,38 @@ public class MapModelFacadeTest
         location = new EdgeLocation(new HexLocation(1,-1), EdgeDirection.SouthWest);
         result = instance.canPlaceRoad(location);
         assertFalse(result);
+        System.out.println("Cannot build on invalid location passed.");
+        roads.clear();
+        myMap.setRoads(roads);
+        Set<VertexObject> settlements = new HashSet<>();
+        settlements.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.West).getNormalizedLocation(), otherPlayerIndex));
+        myMap.setSettlements(settlements);
+        location = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.South).getNormalizedLocation();
+        assertFalse(instance.canPlaceRoad(location));
+        System.out.println("Cannot build next to other settlement passed.");
+        settlements.clear();
+        settlements.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.West).getNormalizedLocation(), index));
+        myMap.setSettlements(settlements);
+        assertTrue(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.NorthWest).getNormalizedLocation();
+        assertTrue(instance.canPlaceRoad(location));
+        System.out.println("Can build next to owned settlement passed.");
+        roads.add(new EdgeObject(location, index));
+        myMap.setRoads(roads);
+        settlements.clear();
+        settlements.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.West).getNormalizedLocation(), otherPlayerIndex));
+        myMap.setSettlements(settlements);
+        location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.SouthWest).getNormalizedLocation();
+        assertFalse(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.South).getNormalizedLocation();
+        assertFalse(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North).getNormalizedLocation();
+        assertTrue(instance.canPlaceRoad(location));
+        roads.clear();
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.SouthWest).getNormalizedLocation(), index));
+        myMap.setRoads(roads);
+        assertFalse(instance.canPlaceRoad(new EdgeLocation(new HexLocation(0,0), EdgeDirection.NorthWest)));
+        System.out.println("Building road next to another player's settlement tests passed.");
         System.out.println("All canPlaceRoad tests passed.");
     }
 
