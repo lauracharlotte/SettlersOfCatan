@@ -17,6 +17,7 @@ import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.map.CatanMap;
 import model.map.EdgeObject;
+import model.map.Hex;
 import model.map.VertexObject;
 import model.player.Player;
 import model.player.PlayerIdx;
@@ -25,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -158,6 +160,8 @@ public class MapModelFacadeTest
         otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthWest), index));
         result = instance.canPlaceSettlement(location);
         assertTrue(result);
+        System.out.println("Testing normalization passed");
+        myMap.setSettlements(otherVertexObjects);
         location = new VertexLocation(new HexLocation(0,0), VertexDirection.West);
         result = instance.canPlaceSettlement(location);
         assertFalse(result);
@@ -171,14 +175,35 @@ public class MapModelFacadeTest
     @Test
     public void testCanPlaceCity()
     {
-        System.out.println("canPlaceCity");
-        VertexLocation location = null;
+        System.out.println("canPlaceCity...");
+        CatanMap myMap = this.currentMap();
+        PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
+        VertexLocation location = new VertexLocation(new HexLocation(0,0), VertexDirection.East);
         MapModelFacade instance = new MapModelFacade();
         boolean expResult = false;
         boolean result = instance.canPlaceCity(location);
         assertEquals(expResult, result);
+        System.out.println("Empty settlement list passed.");
+        Collection<VertexObject> otherVertexObjects = new HashSet<>();
+        otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0, 0), VertexDirection.East), otherPlayerIndex));
+        myMap.setSettlements(otherVertexObjects);
+        result = instance.canPlaceCity(location);
+        System.out.println("Settlement owned by other player passed.");
+        assertFalse(result);
+        location = new VertexLocation(new HexLocation(0,0), VertexDirection.NorthWest);
+        assertFalse(instance.canPlaceCity(location));
+        System.out.println("No object there passed.");
+        otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.NorthWest), index));
+        myMap.setSettlements(otherVertexObjects);
+        assertTrue(instance.canPlaceCity(location));
+        System.out.println("Valid city placement passed.");
+        myMap.setSettlements(new ArrayList<VertexObject>());
+        myMap.setCities(otherVertexObjects);
+        assertFalse(instance.canPlaceCity(location));
+        System.out.println("Already city there test passed.");
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("All canPlaceCity tests passed.");
     }
 
     /**
@@ -187,14 +212,27 @@ public class MapModelFacadeTest
     @Test
     public void testCanPlaceRobber()
     {
-        System.out.println("canPlaceRobber");
-        HexLocation location = null;
+        System.out.println("canPlaceRobber...");
+        Random rand = new Random();
+        int x, y;
+        x = rand.nextInt(11) - 5;
+        y = rand.nextInt(11) - 5;
+        CatanMap myMap = this.currentMap();
+        myMap.setRobber(new HexLocation(x, y));
         MapModelFacade instance = new MapModelFacade();
-        boolean expResult = false;
-        boolean result = instance.canPlaceRobber(location);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        Collection<Hex> hexes = new HashSet<Hex>();
+        
+        for(int i = -5; i<=5; i++)
+            for(int j = -5; j<=5; j++)
+                hexes.add(new Hex(new HexLocation(i, j), HexType.SHEEP, -1));
+        
+        myMap.setHexes(hexes);
+        
+        for(int i = -5; i<=5; i++)
+            for(int j = -5; j<=5; j++)
+                assertTrue(instance.canPlaceRobber(new HexLocation(i, j)) || (i == x && j == y));
+        System.out.println("All canPlaceRobber tests passed.");
     }
     
     private CatanMap currentMap()

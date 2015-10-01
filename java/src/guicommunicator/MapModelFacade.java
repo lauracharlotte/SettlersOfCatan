@@ -137,7 +137,7 @@ public class MapModelFacade
         }
         
         for(EdgeObject road: currentMap.getRoads())
-            if(edgeLocations.contains(road.getLocation()))
+            if(edgeLocations.contains(road.getLocation().getNormalizedLocation()))
                 if(road.getOwner().equals(currentPlayerIdx))
                     return true;
         return false;
@@ -155,8 +155,10 @@ public class MapModelFacade
         CatanMap currentMap = this.getCurrentMap();
         CatanColor pieceColor = null;
         PlayerIdx playerIndex = null;
+        if(currentMap.getSettlements() == null)
+            return false;
         for(VertexObject obj : currentMap.getSettlements())
-            if(obj.getLocation().equals(location))
+            if(obj.getLocation().getNormalizedLocation().equals(location))
                 playerIndex = obj.getOwner();
         if(playerIndex == null)
             return false;
