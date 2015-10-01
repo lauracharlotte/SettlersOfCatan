@@ -96,11 +96,13 @@ public class MapModelFacade
         CatanMap currentMap = this.getCurrentMap();
         Set<VertexLocation> vertexLocations = new HashSet<>();
         //is there already something here
-        for(VertexObject obj : currentMap.getCities())
-            vertexLocations.add(obj.getLocation().getNormalizedLocation());
-        for(VertexObject obj : currentMap.getSettlements())
-            vertexLocations.add(obj.getLocation().getNormalizedLocation());
-        
+        if(currentMap.getCities() != null)
+            for(VertexObject obj : currentMap.getCities())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        if(currentMap.getSettlements() != null)
+            for(VertexObject obj : currentMap.getSettlements())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+
         //Is there a vertex between this one and another piece
         Set<VertexLocation> toBeTested = new HashSet<>();
         toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
@@ -133,6 +135,7 @@ public class MapModelFacade
             edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
             edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.SouthEast).getNormalizedLocation());
         }
+        
         for(EdgeObject road: currentMap.getRoads())
             if(edgeLocations.contains(road.getLocation()))
                 if(road.getOwner().equals(currentPlayerIdx))

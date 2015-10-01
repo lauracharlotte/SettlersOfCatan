@@ -17,6 +17,7 @@ import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.map.CatanMap;
 import model.map.EdgeObject;
+import model.map.VertexObject;
 import model.player.Player;
 import model.player.PlayerIdx;
 import org.junit.After;
@@ -27,6 +28,7 @@ import shared.definitions.CatanColor;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -88,22 +90,40 @@ public class MapModelFacadeTest
     public void testCanPlaceRoad()
     {
         CatanMap myMap = this.currentMap();
-        System.out.println("canPlaceRoad");
+        System.out.println("canPlaceRoad...");
         EdgeLocation location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.South);
         MapModelFacade instance = new MapModelFacade();
         boolean expResult = false;
         boolean result = instance.canPlaceRoad(location);
         assertEquals(expResult, result);
-        Set<EdgeObject> roads = new HashSet<EdgeObject>();
+        System.out.println("Empty road list passed.");
+        Collection<EdgeObject> roads;
+        roads = new HashSet<>();
         PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-        int otherPlayerIndex = (index.getIndex() + 1) % 4;
-        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), new PlayerIdx(otherPlayerIndex)));
+        PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
         myMap.setRoads(roads);
         result = instance.canPlaceRoad(location);
         assertEquals(expResult, result);
+        System.out.println("No adjacent road passed.");
         location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.NorthEast);
         result = instance.canPlaceRoad(location);
         assertEquals(expResult, result);
+        System.out.println("Road adjacent owned by another player passed.");
+        location = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.South);
+        result = instance.canPlaceRoad(location);
+        assertEquals(expResult, result);
+        System.out.println("Road already at location passed.");
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthWest), index));
+        myMap.setRoads(roads);
+        location = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.SouthEast);
+        result = instance.canPlaceRoad(location);
+        assertTrue(result);
+        System.out.println("Can build on valid location passed.");
+        location = new EdgeLocation(new HexLocation(1,-1), EdgeDirection.SouthWest);
+        result = instance.canPlaceRoad(location);
+        assertFalse(result);
+        System.out.println("All canPlaceRoad tests passed.");
     }
 
     /**
@@ -112,14 +132,37 @@ public class MapModelFacadeTest
     @Test
     public void testCanPlaceSettlement()
     {
-        System.out.println("canPlaceSettlement");
-        VertexLocation location = null;
+        System.out.println("canPlaceSettlement...");
+        CatanMap myMap = this.currentMap();
+        Set<EdgeObject> roads = new HashSet<EdgeObject>();
+        PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.South).getNormalizedLocation(), index));
+        myMap.setRoads(roads);
+        VertexLocation location = new VertexLocation(new HexLocation(0,0), VertexDirection.SouthEast);
         MapModelFacade instance = new MapModelFacade();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.canPlaceSettlement(location);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        location = new VertexLocation(new HexLocation(0,0), VertexDirection.SouthWest);
+        result = instance.canPlaceSettlement(location);
+        assertEquals(expResult, result);
+        System.out.println("Testing both sides of road passed");
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.SouthWest), index));
+        myMap.setRoads(roads);
+        result = instance.canPlaceSettlement(location);
+        assertEquals(expResult, result);
+        System.out.println("Placing in middle of roads passed.");
+        Collection<VertexObject> otherVertexObjects = new HashSet<>();
+        otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthWest), index));
+        result = instance.canPlaceSettlement(location);
+        assertTrue(result);
+        location = new VertexLocation(new HexLocation(0,0), VertexDirection.West);
+        result = instance.canPlaceSettlement(location);
+        assertFalse(result);
+        System.out.println("Two vertex rule passed.");
+        System.out.println("All CanPlaceSettlement tests passed.");
     }
 
     /**
