@@ -150,7 +150,7 @@ public class MapModelFacade
         location = location.getNormalizedLocation();
         CatanMap currentMap = this.getCurrentMap();
         
-        if(!spaceForSettlement(location, currentMap))
+        if(!spaceForSettlement(location))
             return false;
         
         //do I have a road connecting here
@@ -175,8 +175,11 @@ public class MapModelFacade
         return false;
     }
 
-    public boolean spaceForSettlement(VertexLocation location, CatanMap currentMap)
+    public boolean spaceForSettlement(VertexLocation location)
     {
+        CatanMap currentMap = this.getCurrentMap();
+        if(currentMap == null)
+            throw new IllegalStateException();
         Set<VertexLocation> vertexLocations = new HashSet<>();
         //is there already something here
         if(currentMap.getCities() != null)
