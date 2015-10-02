@@ -241,6 +241,63 @@ public class JSONParser
     	return newHex;
     }
     
+    private static void addOceanHexes(ArrayList<Hex> hexes)
+    {
+    	Hex hex;
+    	HexLocation location;
+    	HexType type = HexType.WATER;
+    	int number = -1;
+    	int x;
+    	int y = -3;
+    	for (x = 0; x <= 3; x++)
+    	{
+    		location = new HexLocation(x, y);
+    		hex = new Hex(location, type, number);
+    		hexes.add(hex);
+    	}
+    	y = 3;
+    	for (x = -3; x <= 0; x++)
+    	{
+    		location = new HexLocation(x, y);
+    		hex = new Hex(location, type, number);
+    		hexes.add(hex);
+    	}
+    	x = -3;
+    	for (y = 0; y <= 2; y++)
+    	{
+    		location = new HexLocation(x, y);
+    		hex = new Hex(location, type, number);
+    		hexes.add(hex);
+    	}
+    	x = 3;
+    	for (y = -2; y <= 0; y++)
+    	{
+    		location = new HexLocation(x, y);
+    		hex = new Hex(location, type, number);
+    		hexes.add(hex);
+    	}
+    	x = -2;
+    	y = -1;
+    	location = new HexLocation(x, y);
+		hex = new Hex(location, type, number);
+		hexes.add(hex);
+		x = -1;
+		y = -2;
+		location = new HexLocation(x, y);
+		hex = new Hex(location, type, number);
+		hexes.add(hex);
+		x = 2;
+		y = 1;
+		location = new HexLocation(x, y);
+		hex = new Hex(location, type, number);
+		hexes.add(hex);
+		x = 1;
+		y = 2;
+		location = new HexLocation(x, y);
+		hex = new Hex(location, type, number);
+		hexes.add(hex);
+    }
+    
     private static ArrayList<Hex> fromJSONToHexes(JSONArray hexes) throws JSONException
     {
     	ArrayList<Hex> newHexes = new ArrayList<>();
@@ -251,6 +308,7 @@ public class JSONParser
     			newHexes.add(fromJSONToHex(hexes.getJSONObject(i)));
     		}
     	}
+    	addOceanHexes(newHexes);
     	return newHexes;
     }
     
