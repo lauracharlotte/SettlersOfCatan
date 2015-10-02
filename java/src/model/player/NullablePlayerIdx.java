@@ -94,5 +94,11 @@ public class NullablePlayerIdx
         return true;
     }
     
-    
+    @Override
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append(index);
+		return str.toString();
+	}
 }

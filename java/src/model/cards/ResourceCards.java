@@ -137,5 +137,23 @@ public class ResourceCards
     {
         this.wool = wool;
     }
+    
+    @Override
+    public String toString()
+    {
+    	StringBuilder str = new StringBuilder();
+    	str.append("Resource Cards:\n");
+    	str.append("Brick: ");
+    	str.append(brick);
+    	str.append("\nGrain: ");
+    	str.append(grain);
+    	str.append("\nLumber: ");
+    	str.append(lumber);
+    	str.append("\nOre: ");
+    	str.append(ore);
+    	str.append("\nWool: ");
+    	str.append(wool);
+    	return str.toString();
+    }
 
 }

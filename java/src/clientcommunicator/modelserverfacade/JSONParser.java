@@ -67,7 +67,8 @@ public class JSONParser
     {
     	JSONObject model = new JSONObject(modelJSON);
     	JSONObject bank = model.getJSONObject("bank");
-    	Hand newBank = new Hand(fromJSONToResourceCards(bank), null);
+    	JSONObject deck = model.getJSONObject("deck");
+    	Hand newBank = new Hand(fromJSONToResourceCards(bank), fromJSONToDevelopmentCards(deck));
     	JSONObject chat = model.getJSONObject("chat");
     	MessageList newChat = fromJSONToMessageList(chat);
     	JSONObject log = model.getJSONObject("log");
@@ -110,7 +111,10 @@ public class JSONParser
     	JSONArray gamesJSON = new JSONArray(gameListJSON);
     	for (int i = 0; i < gamesJSON.length(); i++)
     	{
-    		games.add(fromJSONToGame(gamesJSON.getString(i)));
+    		if (!gamesJSON.isNull(i))
+    		{
+    			games.add(fromJSONToGame(gamesJSON.getString(i)));
+    		}
     	}
     	return games;
     }
@@ -149,10 +153,13 @@ public class JSONParser
     	ArrayList<MessageLine> messages = new ArrayList<>();
     	for (int i = 0; i < lines.length(); i++)
     	{
-    		String message = lines.getJSONObject(i).getString("message");
-    		String source = lines.getJSONObject(i).getString("source");
-    		MessageLine newLine = new MessageLine(message, source);
-    		messages.add(newLine);
+    		if (!lines.isNull(i))
+    		{
+	    		String message = lines.getJSONObject(i).getString("message");
+	    		String source = lines.getJSONObject(i).getString("source");
+	    		MessageLine newLine = new MessageLine(message, source);
+	    		messages.add(newLine);
+    		}
     	}
     	MessageList newList = new MessageList(messages);
     	return newList;
@@ -239,7 +246,10 @@ public class JSONParser
     	ArrayList<Hex> newHexes = new ArrayList<>();
     	for (int i = 0; i < hexes.length(); i++)
     	{
-    		newHexes.add(fromJSONToHex(hexes.getJSONObject(i)));
+    		if (!hexes.isNull(i))
+    		{
+    			newHexes.add(fromJSONToHex(hexes.getJSONObject(i)));
+    		}
     	}
     	return newHexes;
     }
@@ -315,7 +325,10 @@ public class JSONParser
     	ArrayList<Port> newPorts = new ArrayList<>();
     	for (int i = 0; i < ports.length(); i++)
     	{
-    		newPorts.add(fromJSONToPort(ports.getJSONObject(i)));
+    		if (!ports.isNull(i))
+    		{
+    			newPorts.add(fromJSONToPort(ports.getJSONObject(i)));
+    		}
     	}
     	return newPorts;
     }
@@ -401,7 +414,10 @@ public class JSONParser
     	ArrayList<VertexObject> newObjects = new ArrayList<>();
     	for (int i = 0; i < objects.length(); i++)
     	{
-    		newObjects.add(fromJSONToVertexObject(objects.getJSONObject(i)));
+    		if (!objects.isNull(i))
+    		{
+    			newObjects.add(fromJSONToVertexObject(objects.getJSONObject(i)));
+    		}
     	}
     	return newObjects;
     }
@@ -411,7 +427,10 @@ public class JSONParser
     	ArrayList<EdgeObject> newRoads = new ArrayList<>();
     	for (int i = 0; i < roads.length(); i++)
     	{
-    		newRoads.add(fromJSONToEdgeObject(roads.getJSONObject(i)));
+    		if (!roads.isNull(i))
+    		{
+    			newRoads.add(fromJSONToEdgeObject(roads.getJSONObject(i)));
+    		}
     	}
     	return newRoads;
     }
@@ -504,7 +523,10 @@ public class JSONParser
     	ArrayList<Player> newPlayers = new ArrayList<>();
     	for (int i = 0; i < players.length(); i++)
     	{
-    		newPlayers.add(fromJSONToPlayer(players.getJSONObject(i)));
+    		if (!players.isNull(i))
+    		{
+    			newPlayers.add(fromJSONToPlayer(players.getJSONObject(i)));
+    		}
     	}
     	return newPlayers;
     }
@@ -538,10 +560,10 @@ public class JSONParser
     	case "discarding":
     		newStatus = TurnStatusEnumeration.discarding;
     		break;
-    	case "firstRound":
+    	case "firstround":
     		newStatus = TurnStatusEnumeration.firstround;
     		break;
-    	case "secondRound":
+    	case "secondround":
     		newStatus = TurnStatusEnumeration.secondround;
     		break;
     	default:
@@ -559,46 +581,49 @@ public class JSONParser
     	ArrayList<PlayerJSONResponse> playersArray = new ArrayList<>();
     	for (int i = 0; i < playersJSON.length(); i++)
     	{
-    		String colorStr = playersJSON.getJSONObject(i).getString("color");
-    		colorStr = colorStr.toLowerCase();
-    		String name = playersJSON.getJSONObject(i).getString("name");
-    		int id = playersJSON.getJSONObject(i).getInt("id");
-    		CatanColor color;
-        	switch (colorStr)
-        	{
-        	case "blue":
-        		color = CatanColor.BLUE;
-        		break;
-        	case "brown":
-        		color = CatanColor.BROWN;
-        		break;
-        	case "green":
-        		color = CatanColor.GREEN;
-        		break;
-        	case "orange":
-        		color = CatanColor.ORANGE;
-        		break;
-        	case "puce":
-        		color = CatanColor.PUCE;
-        		break;
-        	case "purple":
-        		color = CatanColor.PURPLE;
-        		break;
-        	case "red":
-        		color = CatanColor.RED;
-        		break;
-        	case "white":
-        		color = CatanColor.WHITE;
-        		break;
-        	case "yellow":
-        		color = CatanColor.YELLOW;
-        		break;
-        	default:
-        		color = null;
-        		break;
-        	}
-        	PlayerJSONResponse player = new PlayerJSONResponse(color, name, id);
-        	playersArray.add(player);
+    		if (!playersJSON.isNull(i))
+    		{
+	    		String colorStr = playersJSON.getJSONObject(i).getString("color");
+	    		colorStr = colorStr.toLowerCase();
+	    		String name = playersJSON.getJSONObject(i).getString("name");
+	    		int id = playersJSON.getJSONObject(i).getInt("id");
+	    		CatanColor color;
+	        	switch (colorStr)
+	        	{
+	        	case "blue":
+	        		color = CatanColor.BLUE;
+	        		break;
+	        	case "brown":
+	        		color = CatanColor.BROWN;
+	        		break;
+	        	case "green":
+	        		color = CatanColor.GREEN;
+	        		break;
+	        	case "orange":
+	        		color = CatanColor.ORANGE;
+	        		break;
+	        	case "puce":
+	        		color = CatanColor.PUCE;
+	        		break;
+	        	case "purple":
+	        		color = CatanColor.PURPLE;
+	        		break;
+	        	case "red":
+	        		color = CatanColor.RED;
+	        		break;
+	        	case "white":
+	        		color = CatanColor.WHITE;
+	        		break;
+	        	case "yellow":
+	        		color = CatanColor.YELLOW;
+	        		break;
+	        	default:
+	        		color = null;
+	        		break;
+	        	}
+	        	PlayerJSONResponse player = new PlayerJSONResponse(color, name, id);
+	        	playersArray.add(player);
+    		}
     	}
     	return playersArray;
     }

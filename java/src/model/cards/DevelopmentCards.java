@@ -137,4 +137,22 @@ public class DevelopmentCards
     {
         this.yearOfPlenty = yearOfPlenty;
     }
+    
+    @Override
+    public String toString()
+    {
+    	StringBuilder str = new StringBuilder();
+    	str.append("Development Cards:\n");
+    	str.append("Monopoly: ");
+    	str.append(monopoly);
+    	str.append("\nMonument: ");
+    	str.append(monument);
+    	str.append("\nRoad Building: ");
+    	str.append(roadBuilding);
+    	str.append("\nSoldier: ");
+    	str.append(soldier);
+    	str.append("\nYear Of Plenty: ");
+    	str.append(yearOfPlenty);
+    	return str.toString();
+    }
 }

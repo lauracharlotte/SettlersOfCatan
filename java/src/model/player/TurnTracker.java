@@ -96,4 +96,19 @@ public class TurnTracker {
 	public void setLargestArmy(NullablePlayerIdx largestArmy) {
 		this.largestArmy = largestArmy;
 	}
+	
+	@Override 
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		str.append("TurnTracker:\nCurrent turn: ");
+		str.append(currentTurn.toString());
+		str.append("\nStatus: ");
+		str.append(status.toString());
+		str.append("\nLongestRoad: ");
+		str.append(longestRoad.toString());
+		str.append("\nLargest Army: ");
+		str.append(largestArmy.toString());
+		return str.toString();
+	}
 }

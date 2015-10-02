@@ -281,7 +281,12 @@ public class ClientModel
         		str.append(((ArrayList<Player>) players).get(i).toString());
         		str.append("\n\n");
         	}
-        	str.append(tradeOffer.toString());
+        	if (tradeOffer != null)
+        	{
+        		str.append(tradeOffer.toString());
+        	}
+        	str.append("\n\n");
+        	str.append(turnTracker.toString());
         	str.append("\n\nWinner:");
         	str.append(winner.toString());
         	return str.toString();
