@@ -168,6 +168,19 @@ public class MapModelFacadeTest
         myMap.setRoads(roads);
         assertFalse(instance.canPlaceRoad(new EdgeLocation(new HexLocation(0,0), EdgeDirection.NorthWest)));
         System.out.println("Building road next to another player's settlement tests passed.");
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast), index));
+        location = new EdgeLocation(new HexLocation(1,-1), EdgeDirection.North);
+        assertTrue(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.SouthEast);
+        assertTrue(instance.canPlaceRoad(location));
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.South), index));
+        location = new EdgeLocation(new HexLocation(1,0), EdgeDirection.NorthEast);
+        assertTrue(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(2,0), EdgeDirection.North);
+        assertFalse(instance.canPlaceRoad(location));
+        location = new EdgeLocation(new HexLocation(2,0), EdgeDirection.NorthEast);
+        assertFalse(instance.canPlaceRoad(location));
+        System.out.println("All roadCanBuild water tests passed.");
         System.out.println("All canPlaceRoad tests passed.");
     }
 
