@@ -59,42 +59,12 @@ public class ServerProxy implements IServerProxy
     }
 
     @Override
-    public String saveGame(String body) throws ClientException
-    {
-        return this.post("/games/save", body);
-    }
-
-    @Override
-    public String loadGame(String body) throws ClientException
-    {
-        return this.post("/games/load", body);
-    }
-
-    @Override
     public String getModel(int versionNumber) throws ClientException
     {
         StringBuilder sb = new StringBuilder();
         sb.append("/games/model?version=");
         sb.append(versionNumber);
         return this.get(sb.toString());
-    }
-
-    @Override
-    public String resetGame() throws ClientException
-    {
-        return this.post("/game/reset", "");
-    }
-
-    @Override
-    public String getCommandsOfGame(String body) throws ClientException
-    {
-        return this.get("/game/commands");
-    }
-
-    @Override
-    public String postCommandsToGame(String body) throws ClientException
-    {
-        return this.post("/game/commands", body);
     }
 
     @Override
