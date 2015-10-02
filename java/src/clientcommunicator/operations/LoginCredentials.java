@@ -47,23 +47,10 @@ public class LoginCredentials implements IJSONSerializable
         return password;
     }
     
-    
-    
     @Override
-    public String serialize()//???
+    public String serialize()
     {
     	String serializing = "{username: \""+username+"\", password: \""+password+"\"}";
         return serializing;
-    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	String theUsername = "laura55";
-    	String thePassword = "sweet";
-    	LoginCredentials loginCredentials = new LoginCredentials(theUsername, thePassword);
-    	String work = loginCredentials.serialize();
-    	System.out.println(work);
-    }
-    
 }

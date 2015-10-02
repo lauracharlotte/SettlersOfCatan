@@ -48,22 +48,11 @@ public class JoinGameRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()//NEED TO CHANGE PERAMETERS, ASK IF IT AFFECTS ANYTHING ALSO ???
+    public String serialize()
     {
     	String stringColor = playerColor.toString();
     	String lowerCaseColor = stringColor.toLowerCase();
     	String serializing = "{id: "+ gameId + ", color: \""+ lowerCaseColor+"\"}";
     	return serializing;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public static void main(final String[] args)
-    {
-    	int theGameId = 5;
-    	CatanColor theColor = CatanColor.BLUE;
-    	JoinGameRequest joinGameReq = new JoinGameRequest(theGameId, theColor);
-    	String work = joinGameReq.serialize();
-    	System.out.println(work);
-    }
-    
+    }    
 }

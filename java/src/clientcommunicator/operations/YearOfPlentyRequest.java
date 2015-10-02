@@ -61,7 +61,7 @@ public class YearOfPlentyRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()//good, just need Enum
+    public String serialize()
     {
     	String rec1 = resource1.toString();
     	String recLower1 = rec1.toLowerCase();
@@ -70,18 +70,5 @@ public class YearOfPlentyRequest implements IJSONSerializable
     	String serializing = "{type: \"Year_of_Plenty\", playerIndex: " + playerIndex.getPlayerIdx()
     	+ ", resource1: \"" + recLower1 + "\", resource2: \""+ recLower2 + "\"}";
     	return serializing;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	
-    	PlayerIdx index = new PlayerIdx(2);
-    	ResourceType firstResource = ResourceType.BRICK;
-    	ResourceType secondResource = ResourceType.ORE;
-    	YearOfPlentyRequest yearOfPlentReq = new YearOfPlentyRequest(index, firstResource, secondResource);
-    	String work = yearOfPlentReq.serialize();
-    	System.out.println(work);
-    }
-    
 }

@@ -58,26 +58,13 @@ public class PlaySoldierRequest implements IJSONSerializable
     {
         return newLocation;
     }
-    
-    
+      
     
     @Override
     public String serialize()//???
     {
     	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getPlayerIdx() +
-    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y:" + newLocation.getY()+"}}";
+    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y: " + newLocation.getY()+"}}";
     	return serializing;
-    }
-    
-    public static void main(final String[] args)
-    {
-    	
-    	PlayerIdx index = new PlayerIdx(2);
-    	int vicIndex =-1;
-    	HexLocation hexLoc = new HexLocation(1,1);
-    	
-    	PlaySoldierRequest soldierReq = new PlaySoldierRequest(index, vicIndex, hexLoc);
-    	String work = soldierReq.serialize();
-    	System.out.println(work);
     }
 }

@@ -33,9 +33,8 @@ public class BuyDevCardRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-    	String serializing = "{type: \"buyDevCard\", playerIndex:" + playerIndex.getPlayerIdx()+"}";
+    	String serializing = "{type: \"buyDevCard\", playerIndex: " + playerIndex.getPlayerIdx()+"}";
         return serializing;
-    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -46,13 +45,4 @@ public class BuyDevCardRequest implements IJSONSerializable
     {
         return playerIndex;
     }
-    
-    public static void main(final String[] args)
-    {
-    	PlayerIdx index = new PlayerIdx(2);
-    	BuyDevCardRequest thisDiscard = new BuyDevCardRequest(index);
-    	String work = thisDiscard.serialize();
-    	System.out.println(work);
-    }
-    
 }

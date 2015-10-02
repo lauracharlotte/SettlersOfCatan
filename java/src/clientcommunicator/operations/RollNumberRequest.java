@@ -48,22 +48,9 @@ public class RollNumberRequest implements IJSONSerializable
     }
     
     @Override
-    public String serialize()//looks good
+    public String serialize()
     {
     	String serializing = "{type: \"rollNumber\", playerIndex: " + playerIndex.getPlayerIdx() + ", number: " + numberRolled + "}";
     	return serializing;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	
-    	PlayerIdx index = new PlayerIdx(2);
-    	int rollNumber = 3;
-
-    	RollNumberRequest roleNumReq = new RollNumberRequest(index, rollNumber);
-    	String work = roleNumReq.serialize();
-    	System.out.println(work);
-    }
-    
 }

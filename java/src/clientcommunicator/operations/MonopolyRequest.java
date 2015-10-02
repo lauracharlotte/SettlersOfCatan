@@ -57,16 +57,5 @@ public class MonopolyRequest implements IJSONSerializable
     	String serializing = "{type: \"Monopoly\", resource: \"" + recLower
     						+ "\", playerIndex: "+ playerIndex.getPlayerIdx() + "}";
         return serializing;
-    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	ResourceType resType = ResourceType.BRICK;
-    	PlayerIdx index = new PlayerIdx(2);
-    	MonopolyRequest monoReq = new MonopolyRequest(index, resType);
-    	String work = monoReq.serialize();
-    	System.out.println(work);
-    }
-    
 }

@@ -50,7 +50,7 @@ public class BuildCityRequest implements IJSONSerializable
     private VertexLocation location;
 
     @Override
-    public String serialize()//400
+    public String serialize()
     {
     	String theDirection = location.getDir().toString();
     	Abbreviate abrev = new Abbreviate();
@@ -61,15 +61,5 @@ public class BuildCityRequest implements IJSONSerializable
     						+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
     						+ ", direction: \""+ theDirection + "\"}}";
     	return serializing;
-    }
-    public static void main(final String[] args)
-    {
-    	PlayerIdx index = new PlayerIdx(2);
-    	HexLocation hexLoc = new HexLocation(1,1);
-    	VertexDirection vertDir = VertexDirection.NorthEast;
-    	VertexLocation newLocation = new VertexLocation(hexLoc, vertDir);
-    	BuildCityRequest thisTrade = new BuildCityRequest(index, newLocation);
-    	String work = thisTrade.serialize();
-    	System.out.println(work);
     }
 }

@@ -42,15 +42,5 @@ public class MonumentRequest implements IJSONSerializable
     {
     	String serializing = "{type: \"Monument\", playerIndex: "+ playerIndex.getPlayerIdx()+ "}";
     	return serializing;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	PlayerIdx index = new PlayerIdx(2);
-    	MonumentRequest monuReq = new MonumentRequest(index);
-    	String work = monuReq.serialize();
-    	System.out.println(work);
-    }
-    
 }

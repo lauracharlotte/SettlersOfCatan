@@ -45,26 +45,12 @@ public class SendChatRequest implements IJSONSerializable
         this.playerIndex = playerIndex;
         this.content = content;
     }
-    
-    
+       
     
     @Override
-    public String serialize()//looks good
+    public String serialize()
     {
     	String serializing = "{type: \"sendChat\", playerIndex: " + playerIndex.getPlayerIdx() + ", content: \"" + content +"\"}";
         return serializing;
-    	//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(final String[] args)
-    {
-    	
-    	PlayerIdx index = new PlayerIdx(2);
-    	String theContent = "hey!! this is Laura!!";
-
-    	SendChatRequest sendChatReq = new SendChatRequest(index, theContent);
-    	String work = sendChatReq.serialize();
-    	System.out.println(work);
-    }
-    
 }
