@@ -50,7 +50,7 @@ public class SendChatRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-    	String serializing = "{type: \"sendChat\", playerIndex: " + playerIndex.getPlayerIdx() + ", content: \"" + content +"\"}";
+    	String serializing = "{type: \"sendChat\", playerIndex: " + playerIndex.getIndex() + ", content: \"" + content +"\"}";
         return serializing;
     }
 }

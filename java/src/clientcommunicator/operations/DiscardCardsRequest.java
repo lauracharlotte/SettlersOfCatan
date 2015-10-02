@@ -82,8 +82,8 @@ public class DiscardCardsRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-     String longString = "{type: \"discardCards\", playerIndex: " + playerIndex.getPlayerIdx() +", discardedCards: {brick: "+discardedCards.getBrick()+", "
-     +"ore: "+discardedCards.getOre() +", sheep: "+discardedCards.getWool() + ", wheat: "+discardedCards.getGrain()+", wood: "
+     String longString = "{type: \"discardCards\", playerIndex: " + playerIndex.getIndex() +", discardedCards: {brick:"+discardedCards.getBrick()+", "
+     +"ore:"+discardedCards.getOre() +", sheep:"+discardedCards.getWool() + ", wheat:"+discardedCards.getGrain()+", wood:"
      +discardedCards.getLumber()+"}}";
      return longString;
     }

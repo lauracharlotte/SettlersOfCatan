@@ -131,18 +131,6 @@ public class MockServerProxy implements IServerProxy
     }
 
     @Override
-    public String saveGame(String body)
-    {
-        return "Success";
-    }
-
-    @Override
-    public String loadGame(String body)
-    {
-       return "Success";
-    }
-
-    @Override
     public String getModel(int versionNumber)
     {
         return "{\n" +
@@ -456,24 +444,6 @@ public class MockServerProxy implements IServerProxy
 "  \"winner\": -1,\n" +
 "  \"version\": 0\n" +
 "}";
-    }
-
-    @Override
-    public String resetGame()
-    {
-        return this.getModel(-1);
-    }
-
-    @Override
-    public String getCommandsOfGame(String body)
-    {
-        return "[]";
-    }
-
-    @Override
-    public String postCommandsToGame(String body)
-    {
-        return this.getModel(-1);
     }
 
     @Override

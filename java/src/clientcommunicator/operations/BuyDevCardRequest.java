@@ -33,7 +33,7 @@ public class BuyDevCardRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-    	String serializing = "{type: \"buyDevCard\", playerIndex: " + playerIndex.getPlayerIdx()+"}";
+    	String serializing = "{type: \"buyDevCard\", playerIndex:" + playerIndex.getIndex()+"}";
         return serializing;
     }
 

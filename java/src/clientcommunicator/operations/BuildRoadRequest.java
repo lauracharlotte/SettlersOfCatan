@@ -69,7 +69,7 @@ public class BuildRoadRequest implements IJSONSerializable
     	String theDirection = location.getDir().toString();
     	Abbreviate abrev = new Abbreviate();
     	theDirection = abrev.abbreviate(theDirection);
-    	String serializing = "{type: \"buildRoad\", playerIndex: " + playerIndex.getPlayerIdx()
+    	String serializing = "{type: \"buildRoad\", playerIndex: " + playerIndex.getIndex()
     						+ ", roadLocation: {" 
     						+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
     						+ ", direction: \""+ theDirection + "\"}, free: " + free + "}";

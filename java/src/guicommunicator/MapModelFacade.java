@@ -1,7 +1,9 @@
 package guicommunicator;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import model.ClientModel;
 import model.ClientModelSupplier;
@@ -9,6 +11,7 @@ import model.map.CatanMap;
 import model.map.EdgeObject;
 import model.map.Hex;
 import model.map.VertexObject;
+import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
 import shared.definitions.CatanColor;
@@ -44,32 +47,38 @@ public class MapModelFacade
     {
         
         location = location.getNormalizedLocation();
+        CatanMap map = this.getCurrentMap();
+        Map<VertexLocation, VertexObject> allObjects = this.getAllVertexObjects(map);
+        PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        
+        boolean doesBlockWest = false;
+        boolean doesBlockEast = false;
+        
+        VertexLocation westVertex, eastVertex;
+        
         Set<EdgeLocation> neededRoadLocations = new HashSet<>();
+        NullablePlayerIdx westOwner, eastOwner;
         if (location.getDir().equals(EdgeDirection.North))
         {
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthWest).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthEast).getNormalizedLocation());
+            if(northCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
+                return true;
         }
         else if(location.getDir().equals(EdgeDirection.NorthWest))
         {
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthWest).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.South).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
+            if(northWestCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
+                return true;
         }
         else //NorthEast
         {
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthEast).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.South).getNormalizedLocation());
-            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
+            if(northEastCanBuildRoad(location, allObjects, currentPlayer, neededRoadLocations))
+                return true;
         }
         
-        CatanMap map = this.getCurrentMap();
+        if(map.getRoads() == null)
+            return false;
+        if(neededRoadLocations.isEmpty())
+            return false;
         Iterator<EdgeObject> roadItr = map.getRoads().iterator();
-        PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         boolean hasConnector = false;
         while(roadItr.hasNext())
         {
@@ -82,6 +91,99 @@ public class MapModelFacade
         return hasConnector;
     }
 
+    private boolean northCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthWest).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.North), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        return false;
+    }
+
+    private boolean northWestCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthWest).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.South).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
+        }
+        return false;
+    }
+
+    private boolean northEastCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
+    {
+        VertexLocation westVertex;
+        VertexLocation eastVertex;
+        NullablePlayerIdx eastOwner;
+        NullablePlayerIdx westOwner;
+        boolean doesBlockWest;
+        boolean doesBlockEast;
+        westVertex = new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation();
+        eastVertex = new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation();
+        eastOwner = this.getOwner(allObjects, eastVertex);
+        westOwner = this.getOwner(allObjects, westVertex);
+        if (westOwner.equals(currentPlayer) || eastOwner.equals(currentPlayer))
+        {
+            return true;
+        }
+        doesBlockWest = westOwner.isNotNull();
+        doesBlockEast = eastOwner.isNotNull();
+        if(!doesBlockWest)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
+        }
+        if(!doesBlockEast)
+        {
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.South).getNormalizedLocation());
+            neededRoadLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.SouthEast).getNormalizedLocation());
+        }
+        return false;
+    }
+
     /**
      * Using the given vertexLocation, determines whether
      * the player can place a settlement on that hex point
@@ -92,29 +194,8 @@ public class MapModelFacade
     {
         location = location.getNormalizedLocation();
         CatanMap currentMap = this.getCurrentMap();
-        Set<VertexLocation> vertexLocations = new HashSet<>();
-        //is there already something here
-        for(VertexObject obj : currentMap.getCities())
-            vertexLocations.add(obj.getLocation().getNormalizedLocation());
-        for(VertexObject obj : currentMap.getSettlements())
-            vertexLocations.add(obj.getLocation().getNormalizedLocation());
         
-        //Is there a vertex between this one and another piece
-        Set<VertexLocation> toBeTested = new HashSet<>();
-        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
-        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation());
-        if(location.getDir().equals(VertexDirection.NorthEast))
-        {
-            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation());
-            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), VertexDirection.NorthWest).getNormalizedLocation());
-        }
-        else //Northwest
-        {
-            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation());
-            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), VertexDirection.NorthEast).getNormalizedLocation());
-        }
-        //test it
-        if(vertexLocations.removeAll(toBeTested)) //returns true if vertexLocations changed
+        if(!spaceForSettlement(location))
             return false;
         
         //do I have a road connecting here
@@ -131,11 +212,42 @@ public class MapModelFacade
             edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
             edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.SouthEast).getNormalizedLocation());
         }
+        
         for(EdgeObject road: currentMap.getRoads())
-            if(edgeLocations.contains(road.getLocation()))
+            if(edgeLocations.contains(road.getLocation().getNormalizedLocation()))
                 if(road.getOwner().equals(currentPlayerIdx))
                     return true;
         return false;
+    }
+
+    public boolean spaceForSettlement(VertexLocation location)
+    {
+        CatanMap currentMap = this.getCurrentMap();
+        if(currentMap == null)
+            throw new IllegalStateException();
+        Set<VertexLocation> vertexLocations = new HashSet<>();
+        //is there already something here
+        if(currentMap.getCities() != null)
+            for(VertexObject obj : currentMap.getCities())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        if(currentMap.getSettlements() != null)
+            for(VertexObject obj : currentMap.getSettlements())
+                vertexLocations.add(obj.getLocation().getNormalizedLocation());
+        //Is there a vertex between this one and another piece
+        Set<VertexLocation> toBeTested = new HashSet<>();
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthEast).getNormalizedLocation());
+        toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.NorthWest).getNormalizedLocation());
+        if(location.getDir().equals(VertexDirection.NorthEast))
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.East).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), VertexDirection.NorthWest).getNormalizedLocation());
+        }
+        else //Northwest
+        {
+            toBeTested.add(new VertexLocation(location.getHexLoc(), VertexDirection.West).getNormalizedLocation());
+            toBeTested.add(new VertexLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), VertexDirection.NorthEast).getNormalizedLocation());
+        }
+        return !vertexLocations.removeAll(toBeTested);
     }
 
     /**
@@ -150,8 +262,10 @@ public class MapModelFacade
         CatanMap currentMap = this.getCurrentMap();
         CatanColor pieceColor = null;
         PlayerIdx playerIndex = null;
+        if(currentMap.getSettlements() == null)
+            return false;
         for(VertexObject obj : currentMap.getSettlements())
-            if(obj.getLocation().equals(location))
+            if(obj.getLocation().getNormalizedLocation().equals(location))
                 playerIndex = obj.getOwner();
         if(playerIndex == null)
             return false;
@@ -198,5 +312,25 @@ public class MapModelFacade
         if(model == null)
             throw new IllegalStateException();
         return model.getMap();
+    }
+    
+    private Map<VertexLocation, VertexObject> getAllVertexObjects(CatanMap currentMap)
+    {
+        Map<VertexLocation, VertexObject> vertexLocations = new HashMap<>();
+        if(currentMap.getCities() != null)
+            for(VertexObject obj : currentMap.getCities())
+                vertexLocations.put(obj.getLocation().getNormalizedLocation(), obj);
+        if(currentMap.getSettlements() != null)
+            for(VertexObject obj : currentMap.getSettlements())
+                vertexLocations.put(obj.getLocation().getNormalizedLocation(), obj);
+        return vertexLocations;
+    }
+    
+    private NullablePlayerIdx getOwner(Map<VertexLocation, VertexObject> map, VertexLocation key)
+    {
+        if(map.containsKey(key))
+            return map.get(key).getOwner();
+        else
+            return new NullablePlayerIdx(-1);
     }
 }

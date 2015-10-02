@@ -47,6 +47,9 @@ public class CatanMap {
 	 */
 	private HexLocation robber;
 	
+        public CatanMap() //just for testing
+        {}
+        
 	/**
 	 * Constructor for the CatanMap
 	 * @param hexes

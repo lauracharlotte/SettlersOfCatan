@@ -79,7 +79,7 @@ public class MaritimeTradeRequest implements IJSONSerializable
     	String rec2 = outputResource.toString();
     	String rec1Lower = rec1.toLowerCase();
     	String rec2Lower = rec2.toLowerCase();
-    	String serializing = "{type: \"maritimeTrade\", playerIndex: " + playerIndex.getPlayerIdx()
+    	String serializing = "{type: \"maritimeTrade\", playerIndex: " + playerIndex.getIndex()
     						+ ", ratio: " + ratio + ", inputResource: \"" +rec1Lower + "\", "
     						+ "outputResource: \""+ rec2Lower + "\"}";
         return serializing;

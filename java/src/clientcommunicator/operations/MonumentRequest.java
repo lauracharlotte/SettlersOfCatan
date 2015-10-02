@@ -40,7 +40,7 @@ public class MonumentRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-    	String serializing = "{type: \"Monument\", playerIndex: "+ playerIndex.getPlayerIdx()+ "}";
+    	String serializing = "{type: \"Monument\", playerIndex: "+ playerIndex.getIndex()+ "}";
     	return serializing;
     }
 }

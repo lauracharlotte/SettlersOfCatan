@@ -45,7 +45,7 @@ public class AcceptTradeRequest implements IJSONSerializable {
     public String serialize() 
     {
     	String serializing = "{type: \"acceptTrade\", "
-    			+"playerIndex: " + acceptingPlayerIdx.getPlayerIdx() + ", "
+    			+"playerIndex: " + acceptingPlayerIdx.getIndex() + ", "
     			+"willAccept: "+willAccept+"}";
     	return serializing;
     }

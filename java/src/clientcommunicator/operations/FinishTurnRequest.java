@@ -37,7 +37,7 @@ public class FinishTurnRequest implements IJSONSerializable
     @Override
     public String serialize()
     {
-    	String serializing = "{type: \"finishTurn\", playerIndex: " + playerIndex.getPlayerIdx() + "}";
+    	String serializing = "{type: \"finishTurn\", playerIndex: " + playerIndex.getIndex() + "}";
         return serializing;
     }
 }

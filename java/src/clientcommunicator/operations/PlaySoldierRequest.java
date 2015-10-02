@@ -63,8 +63,8 @@ public class PlaySoldierRequest implements IJSONSerializable
     @Override
     public String serialize()//???
     {
-    	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getPlayerIdx() +
-    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y: " + newLocation.getY()+"}}";
+    	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getIndex() +
+    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y:" + newLocation.getY()+"}}";
     	return serializing;
     }
 }
