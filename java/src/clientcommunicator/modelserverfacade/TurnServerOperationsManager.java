@@ -6,6 +6,7 @@
 package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.Server.IServerProxy;
+import clientcommunicator.operations.DiscardCardsRequest;
 import clientcommunicator.operations.FinishTurnRequest;
 import clientcommunicator.operations.RobPlayerRequest;
 import clientcommunicator.operations.RollNumberRequest;
@@ -55,5 +56,15 @@ public class TurnServerOperationsManager implements IServerOperationsManager
     public void robPlayer(RobPlayerRequest request) throws ClientException
     {
         this.currentServer.robPlayer(JSONParser.toJSON(request));
+    }
+    
+    /**
+     * @pre The player has more than 7 resource cards.
+     * @post The player loses half of their resource cards, rounded down.
+     * @param request The request that represents a player discarding resource cards.
+     */
+    public void discardCards(DiscardCardsRequest request) throws ClientException
+    {
+        this.currentServer.discardCards(JSONParser.toJSON(request));
     }
 }

@@ -22,7 +22,7 @@ public class BuildItemServerOperationsManager implements IServerOperationsManage
     @Override
     public void setServer(IServerProxy serverToUse) 
     {
-        if(serverToUse == null)
+        if (serverToUse == null)
             throw new IllegalArgumentException("Cannot set server to null.");
         this.currentServer = serverToUse;
     }

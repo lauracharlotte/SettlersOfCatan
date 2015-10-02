@@ -58,55 +58,12 @@ public interface IServerProxy
     String joinGame(String body) throws ClientException;
 
     /**
-     * @pre The game id in the body is valid.  The specified file name is valid.
-     * @post Current game state has been saved to the specified file name
-     * @param body The JSON representation of the required request body for saving a game.
-     * @return The body of the message that is in response to the save game request.
-     * @throws ClientException
-     */
-    String saveGame(String body) throws ClientException;
-
-    /**
-     * @pre A game has been saved to the file that is specified to be loaded
-     * @post The game and state have been loaded into the server.
-     * @param body The JSON representation of the required request body for loading a game.
-     * @return The body of the message that is in response to the load game request.
-     * @throws ClientException
-     */
-    String loadGame(String body) throws ClientException;
-
-    /**
      * @pre The user is logged in and is currently in a game.
      * @param versionNumber The version number of the current working model. -1 if current version number is not known.
      * @return The body of the message that is in response to the get model request. Returns "true" if given versionNumber matches current number. Else returns newest model.
      * @throws ClientException
      */
     String getModel(int versionNumber) throws ClientException;
-
-    /**
-     * @pre The user is logged in and in a game.
-     * @post The game's command history has been cleared.  The games players are not cleared out. 
-     * For games made by users, the game is reverted to very beginning.  Otherwise, the game is reverted to right after piece placement.
-     * @return The body of the message that is in response to the reset game request--should be a client model.
-     * @throws ClientException
-     */
-    String resetGame() throws ClientException;
-
-    /**
-     * @pre The user is logged in and in a game.
-     * @param body The JSON representation of the required request body for getting commands for a game.
-     * @return The body of the message that is in response to the list commands request.
-     */
-    String getCommandsOfGame(String body) throws ClientException;
-
-    /**
-     * @pre The user is logged in and in a game.
-     * @post The list of commands have been applied to the current game.
-     * @param body The JSON representation of the required request body for posting commands to a game.
-     * @return The body of the message that is in response to the post games request.
-     * @throws ClientException
-     */
-    String postCommandsToGame(String body) throws ClientException;
 
     /**
      * @pre The user is logged in and in a game.  The current game has space for another player. The AI Type in the body is valid.

@@ -57,16 +57,6 @@ public class GameServerOperationsManager implements IServerOperationsManager
     }
     
     /**
-     *  @pre The user is associated with a game
-     *  @post The game the user is in is set to the beginning or just after the setup phase (see the IServerProxy documentation)
-     */
-    public void resetGame() throws ClientException
-    {
-        String response = this.currentServer.resetGame();
-        //check response here
-    }
-    
-    /**
      * @pre The user is logged in and in a game with an empty seat
      * @post The game the user is in has an AI player added
      */
