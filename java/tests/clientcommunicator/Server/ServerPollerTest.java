@@ -38,6 +38,7 @@ public class ServerPollerTest {
             Logger.getLogger(ServerPollerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         ClientModel clientMod2 = ClientModelSupplier.getInstance().getModel();
+        testPoller.stop();
         assertNotNull(clientMod2);
     }
 
