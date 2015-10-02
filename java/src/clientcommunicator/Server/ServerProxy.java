@@ -209,7 +209,7 @@ public class ServerProxy implements IServerProxy
             // If the server sends back a response code that is not 200
             if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) 
             {
-                throw new ClientException(String.format("post failed: %s (http code %d)", path, connect.getResponseCode()));
+                throw new ClientException(getErrorResponse(connect));
             }
             
             // Buffer-read the result from the server
@@ -274,7 +274,7 @@ public class ServerProxy implements IServerProxy
             // If the server sends back a response code that is not 200
             if (connect.getResponseCode() != HttpURLConnection.HTTP_OK) 
             {
-                throw new ClientException(String.format("post failed: %s (http code %d)", path, connect.getResponseCode()));
+                throw new ClientException(getErrorResponse(connect));
             }
             
             String result_cookie = connect.getHeaderField("Set-cookie");
@@ -296,7 +296,7 @@ public class ServerProxy implements IServerProxy
             }
             
             // Close the buffer
-            br.close();
+            br.close();            
             // disconnect from the server
             connect.disconnect();
             
@@ -307,5 +307,32 @@ public class ServerProxy implements IServerProxy
         {
             throw new ClientException(String.format("post failed: %s", e.getMessage()), e);
         }
+    }
+    
+    private String getErrorResponse(HttpURLConnection connect)
+    {
+        try {
+            // Buffer-read the result from the server
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                (connect.getErrorStream())));
+
+            // buffer into a string
+            StringBuilder output = new StringBuilder();
+            String line;
+            while( (line = br.readLine()) != null) 
+            {
+               output.append(line);
+            }
+
+            // Close the buffer
+            br.close();
+            
+            return output.toString();
+        } 
+        catch (IOException e)
+        {
+            return "400 Response from server";
+        }
+        
     }
 }
