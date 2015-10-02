@@ -92,6 +92,16 @@ public class MapModelFacadeTest
     public void testCanPlaceRoad()
     {
         CatanMap myMap = this.currentMap();
+        Set<Hex> hexes = new HashSet<>();
+        for(int i = -1; i<2; i++)
+            for(int j = -1; j<2; j++)
+                hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
+        int l=2;
+        for(int j=-2; j<=1; j++)
+            hexes.add(new Hex(new HexLocation(l,j), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,-2), HexType.WATER, -1));
+        myMap.setHexes(hexes);
         System.out.println("canPlaceRoad...");
         EdgeLocation location = new EdgeLocation(new HexLocation(0,0), EdgeDirection.South);
         MapModelFacade instance = new MapModelFacade();
@@ -101,6 +111,7 @@ public class MapModelFacadeTest
         System.out.println("Empty road list passed.");
         Collection<EdgeObject> roads;
         roads = new HashSet<>();
+        assertNotNull(roads);
         PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
@@ -168,7 +179,18 @@ public class MapModelFacadeTest
     {
         System.out.println("canPlaceSettlement...");
         CatanMap myMap = this.currentMap();
-        Set<EdgeObject> roads = new HashSet<EdgeObject>();
+        Set<Hex> hexes = new HashSet<>();
+        for(int i = -1; i<1; i++)
+            for(int j = -1; j<1; j++)
+                hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
+        int l=2;
+        for(int j=-2; j<=1; j++)
+            hexes.add(new Hex(new HexLocation(l,j), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,-2), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,0), HexType.BRICK, -1));
+        myMap.setHexes(hexes);
+        Set<EdgeObject> roads = new HashSet<>();
         PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
@@ -198,6 +220,19 @@ public class MapModelFacadeTest
         result = instance.canPlaceSettlement(location);
         assertFalse(result);
         System.out.println("Two vertex rule passed.");
+        location = new VertexLocation(new HexLocation(2,0), VertexDirection.NorthEast);
+        assertFalse(instance.canPlaceSettlement(location));
+        location = new VertexLocation(new HexLocation(2,0), VertexDirection.East);
+        assertFalse(instance.canPlaceSettlement(location));
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(1,0), EdgeDirection.SouthEast), index));
+        location = new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest);
+        assertTrue(instance.canPlaceSettlement(location));
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(1,-2), EdgeDirection.SouthWest), index));
+        location = new VertexLocation(new HexLocation(1, -2), VertexDirection.West);
+        assertTrue(instance.canPlaceSettlement(location));
+        location = new VertexLocation(new HexLocation(1, -2), VertexDirection.East);
+        assertFalse(instance.canPlaceSettlement(location));
+        System.out.println("All settlements water tests passed.");
         System.out.println("All CanPlaceSettlement tests passed.");
     }
 
