@@ -33,7 +33,7 @@ public class OfferTradeRequest implements IJSONSerializable {
     public String serialize()
     {	
     	String serializing = "{type: \"offerTrade\", playerIndex: " + PlayerIdx+", offer: "
-    			+" {brick: "+offer.getBrick()+", ore: "+offer.getOre()+", sheep: "+offer.getWool()
+    			+"{brick: "+offer.getBrick()+", ore: "+offer.getOre()+", sheep: "+offer.getWool()
     			+", wheat: "+offer.getGrain()+ ", wood: "+offer.getLumber()+"}, receiver: "+receiver+"}";
     	return serializing;
      }

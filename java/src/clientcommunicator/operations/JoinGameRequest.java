@@ -20,7 +20,7 @@ public class JoinGameRequest implements IJSONSerializable
 
     /**
      *
-     * @param playerIndex The player index the user would like to join at
+     * @param gameId The gameId that the player would like to join
      * @param playerColor The color the player would like to use
      */
     public JoinGameRequest(int gameId, CatanColor playerColor)
@@ -31,9 +31,9 @@ public class JoinGameRequest implements IJSONSerializable
 
     /**
      *
-     * @return The player index the user would like to join at
+     * @return The gameId number that the player would like to join
      */
-    public int getPlayerIndex()
+    public int getGameId()
     {
         return gameId;
     }
