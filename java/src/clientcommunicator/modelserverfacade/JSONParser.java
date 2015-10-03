@@ -58,7 +58,7 @@ public class JSONParser
     }
     
     /**
-     * @pre modelJSon is valid JSON for ClientModel
+     * @pre modelJSon is valid JSON for ClientModel. There are no ocean hexes in the modelJSON.
      * @param modelJSON A string that contains a ClientModel JSON object
      * @return The clientModel that the model JSON represented
      * @throws JSONException 

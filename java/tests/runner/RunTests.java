@@ -3,6 +3,7 @@ package runner;
 import clientcommunicator.operations.RequestOperationsTests;
 import clientcommunicator.Server.ServerPollerTest;
 import clientcommunicator.Server.ServerProxyTest;
+import clientcommunicator.modelserverfacade.JSONParserTest;
 import guicommunicator.MapModelFacadeTest;
 import guicommunicator.ResourceModelFacadeTest;
 
@@ -29,6 +30,7 @@ public class RunTests {
       testCases.add(ServerPollerTest.class);
       testCases.add(MapModelFacadeTest.class);
       testCases.add(ResourceModelFacadeTest.class);
+      testCases.add(JSONParserTest.class);
       
         for (Iterator it = testCases.iterator(); it.hasNext();) {
             Class testCase = (Class) it.next();
