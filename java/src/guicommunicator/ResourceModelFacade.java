@@ -100,15 +100,15 @@ public class ResourceModelFacade
         return currentPlayer.hasEnoughResources(neededCards);
     }
     
-    public boolean canPlayDevCard(ResourceCards recCards)
-    {
-    	return checkPlayerAndResources(getClientPlayer(), recCards);
-    }
-    
-    public boolean hasEnoughResource()
+    public boolean canPlayDevCard()
     {
     	Player currentPlayer = getClientPlayer();
     	return currentPlayer.canPlayDev();
+    }
+    
+    public boolean hasEnoughResource(ResourceCards recCards)
+    {
+    	return checkPlayerAndResources(getClientPlayer(), recCards);
     }
 
 }
