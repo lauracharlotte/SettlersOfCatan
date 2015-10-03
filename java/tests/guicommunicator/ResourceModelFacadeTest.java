@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guicommunicator;
+//package guicommunicator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +21,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import guicommunicator.ResourceModelFacade;
+
 import static org.junit.Assert.*;
 import shared.definitions.CatanColor;
 
@@ -60,7 +63,7 @@ public class ResourceModelFacadeTest
             ResourceCards resources = new ResourceCards(0, 0, 0, 0, 0);
             DevelopmentCards devCards = new DevelopmentCards(0, 0, 0, 0, 0);
             Hand hand = new Hand(resources, devCards);
-            Player newPlayer = new Player(cities, playerColor, discarded, monuments, name, playerIndex, playedDevCard, devCards, playerId, roads, settlements, soldiers, victoryPoints, hand);
+            Player newPlayer = new Player(cities, playerColor, discarded, monuments, name, playerIndex, playedDevCard, devCards,playerId, roads, settlements, soldiers, victoryPoints, hand);//addedDevCards
             players.add(newPlayer);
         }
         ClientModelSupplier.getInstance().setModel(new ClientModel());
@@ -231,4 +234,82 @@ public class ResourceModelFacadeTest
         System.out.println("All devCardBuilding tests from resource standpoint finished");
     }
     
+    /**
+     * Tests the CanPlayDevCard method.
+     */
+    
+    @Test
+    public void testCanPlayDevCard()
+    {
+    	System.out.println("Setting up player for CanPlayDevCard test");
+    	
+    	//took this section from the junit tests above
+    	Iterator<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+       	Random rand = new Random();
+       	int index = rand.nextInt(4);
+       	for(int i=0; i<index; i++)
+           players.next();
+       	Player currentPlayer = players.next();
+       	currentPlayer.setPlayerId(clientPlayerID);
+        //--------
+       	
+       	System.out.println("Starting CanPlayDevCard test, from the random booleans");
+    	
+    	currentPlayer.setHand(new Hand(new ResourceCards(0, 0, 0, 0, 0), new DevelopmentCards(1,1,2,1,1)));
+        ResourceModelFacade instance = new ResourceModelFacade();
+        boolean expResult = currentPlayer.canPlayDev();
+        boolean result = instance.canPlayDevCard(); 
+        assertEquals(expResult, result);
+   
+    	System.out.println("All CanPlayDevCard test have been completed successfully");
+    }
+    
+    /**
+     * Tests the has enough resource Method
+     */
+    
+    @Test
+    public void testHasEnoughResource()
+    {
+    	System.out.println("Setting up player for HasEnoughhResource test");
+    	
+    	//took this section from the junit tests above
+    	Iterator<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+       	Random rand = new Random();
+       	int index = rand.nextInt(4);
+       	for(int i=0; i<index; i++)
+           players.next();
+       	Player currentPlayer = players.next();
+       	currentPlayer.setPlayerId(clientPlayerID);
+    	//--------
+    	System.out.println("Starting HasEnoughhResource test");
+
+    	ResourceModelFacade instance = new ResourceModelFacade();
+
+    	currentPlayer.setHand(new Hand(new ResourceCards(0,0,0,0,0),new DevelopmentCards(0,0,0,0,0)));
+        boolean expResult = false;
+    	ResourceCards neededCards = new ResourceCards(0,0,0,1,0);
+    	boolean result = instance.hasEnoughResource(neededCards);
+    	assertEquals(expResult, result);
+    	
+    	currentPlayer.setHand(new Hand(new ResourceCards(5,5,5,5,5),new DevelopmentCards(0,0,0,0,0)));
+    	expResult = true;
+    	neededCards = new ResourceCards(3,3,3,3,3);
+    	result = instance.hasEnoughResource(neededCards);
+    	assertEquals(expResult, result);
+    	
+    	currentPlayer.setHand(new Hand(new ResourceCards(1,3,0,2,2),new DevelopmentCards(0,0,0,0,0)));
+    	expResult = true;
+    	neededCards = new ResourceCards(1,3,0,2,2);
+    	result = instance.hasEnoughResource(neededCards);
+    	assertEquals(expResult, result);
+        
+    	currentPlayer.setHand(new Hand(new ResourceCards(0,0,0,0,0),new DevelopmentCards(0,0,0,0,0)));
+    	expResult = true;
+    	neededCards = new ResourceCards(0,0,0,0,0);
+    	result = instance.hasEnoughResource(neededCards);
+    	assertEquals(expResult, result);
+    	
+    	System.out.println("All HasEnoughhResource test have been completed successfully");
+    }
 }
