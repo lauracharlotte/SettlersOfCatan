@@ -303,7 +303,7 @@ public class RequestOperationsTests
 		System.out.println("\nTesting serialization of PlaySoldierRequest.");
 		
     	PlayerIdx index = new PlayerIdx(2);
-    	int vicIndex = 1;
+    	PlayerIdx vicIndex = new PlayerIdx(1);;
     	HexLocation hexLoc = new HexLocation(1,1);
     	
     	PlaySoldierRequest soldierReq = new PlaySoldierRequest(index, vicIndex, hexLoc);

@@ -16,7 +16,7 @@ public class PlaySoldierRequest implements IJSONSerializable
 {
 
     private PlayerIdx playerIndex;
-    private int victimIndex;
+    private PlayerIdx victimIndex;
     private HexLocation newLocation;
 
     /**
@@ -25,7 +25,7 @@ public class PlaySoldierRequest implements IJSONSerializable
      * @param victimIndex The index of the player being robbed
      * @param newLocation The location where the robber should be placed
      */
-    public PlaySoldierRequest(PlayerIdx playerIndex, int victimIndex, HexLocation newLocation)
+    public PlaySoldierRequest(PlayerIdx playerIndex, PlayerIdx victimIndex, HexLocation newLocation)
     {
         this.playerIndex = playerIndex;
         this.victimIndex = victimIndex;
@@ -45,7 +45,7 @@ public class PlaySoldierRequest implements IJSONSerializable
      *
      * @return The index of the player being robbed
      */
-    public int getVictimIndex()
+    public PlayerIdx getVictimIndex()
     {
         return victimIndex;
     }
@@ -64,7 +64,7 @@ public class PlaySoldierRequest implements IJSONSerializable
     public String serialize()//???
     {
     	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getIndex() +
-    			", victimIndex: "+ victimIndex + ", location: {x: "+ newLocation.getX() + ", y: " + newLocation.getY()+"}}";
+    			", victimIndex: "+ victimIndex.getIndex() + ", location: {x: "+ newLocation.getX() + ", y: " + newLocation.getY()+"}}";
     	return serializing;
     }
 }

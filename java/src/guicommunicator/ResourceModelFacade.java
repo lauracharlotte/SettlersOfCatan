@@ -99,5 +99,16 @@ public class ResourceModelFacade
         ResourceCards hasCards = this.getPlayersResources(currentPlayer);
         return currentPlayer.hasEnoughResources(neededCards);
     }
+    
+    public boolean canPlayDevCard(ResourceCards recCards)
+    {
+    	return checkPlayerAndResources(getClientPlayer(), recCards);
+    }
+    
+    public boolean hasEnoughResource()
+    {
+    	Player currentPlayer = getClientPlayer();
+    	return currentPlayer.canPlayDev();
+    }
 
 }
