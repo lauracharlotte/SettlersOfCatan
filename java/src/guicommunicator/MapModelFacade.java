@@ -1,5 +1,6 @@
 package guicommunicator;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,7 +46,8 @@ public class MapModelFacade
      */
     public boolean canPlaceRoad(EdgeLocation location)
     {
-        
+        if(!this.onLand(location))
+            return false;
         location = location.getNormalizedLocation();
         CatanMap map = this.getCurrentMap();
         Map<VertexLocation, VertexObject> allObjects = this.getAllVertexObjects(map);
@@ -183,6 +185,55 @@ public class MapModelFacade
         }
         return false;
     }
+    
+    public boolean onLand(EdgeLocation location)
+    {
+        location = location.getNormalizedLocation();
+        HexLocation currentLocation = location.getHexLoc();
+        HexLocation locationNeedsToBeLand;
+        switch(location.getDir())
+        {
+            case North:
+            {
+                locationNeedsToBeLand = location.getHexLoc().getNeighborLoc(EdgeDirection.North);
+                break;
+            }
+            case NorthWest:
+            {
+                locationNeedsToBeLand = location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                break;
+            }
+            case NorthEast:
+            {
+                locationNeedsToBeLand = location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                break;
+            }
+            default: return false; //should never happen
+        }
+        Collection<Hex> hexes = this.getCurrentMap().getHexes();
+        boolean doesWork = false;
+        for(Hex h : hexes)
+        {
+            if(h.getLocation().equals(locationNeedsToBeLand))
+                doesWork = doesWork || (h.getType()!= HexType.WATER);
+            if(h.getLocation().equals(currentLocation))
+                doesWork = doesWork || (h.getType()!= HexType.WATER);
+        }
+        return doesWork;
+    }
+    
+    public boolean onLand(VertexLocation location)
+    {
+        location = location.getNormalizedLocation();
+        EdgeLocation tester = new EdgeLocation(location.getHexLoc(), EdgeDirection.North);
+        if(this.onLand(tester))
+            return true;
+        if(location.getDir().equals(VertexDirection.NorthEast))
+            tester = new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast);
+        else
+            tester = new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest);
+        return this.onLand(tester);
+    }
 
     /**
      * Using the given vertexLocation, determines whether
@@ -194,6 +245,9 @@ public class MapModelFacade
     {
         location = location.getNormalizedLocation();
         CatanMap currentMap = this.getCurrentMap();
+        
+        if(!this.onLand(location))
+            return false;
         
         if(!spaceForSettlement(location))
             return false;

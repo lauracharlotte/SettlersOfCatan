@@ -16,18 +16,18 @@ public class OfferTradeRequest implements IJSONSerializable {
     private ResourceCards offer;
     private int receiver;
     
-	public PlayerIdx getPlayerIdx() 
-	{
-		return PlayerIdx;
-	}
-	public ResourceCards getOffer() 
-	{
-		return offer;
-	}
-	public int getReceiver() 
-	{
-		return receiver;
-	}
+    public PlayerIdx getPlayerIdx() 
+    {
+            return PlayerIdx;
+    }
+    public ResourceCards getOffer() 
+    {
+            return offer;
+    }
+    public int getReceiver() 
+    {
+            return receiver;
+    }
     
     @Override
     public String serialize()
