@@ -6,6 +6,7 @@
 package clientcommunicator.modelserverfacade;
 
 import clientcommunicator.Server.IServerProxy;
+import clientcommunicator.Server.ServerProxy;
 import clientcommunicator.operations.SendChatRequest;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,7 +22,8 @@ import model.ClientModelSupplier;
  */
 public class ModelServerFacadeFactory
 {
-
+    private static ModelServerFacadeFactory instance = null;
+    
     private IServerProxy currentServer;
     
     /**
@@ -31,6 +33,13 @@ public class ModelServerFacadeFactory
     public ModelServerFacadeFactory(IServerProxy server)
     {
        this.currentServer = server; 
+    }
+    
+    public static ModelServerFacadeFactory getInstance()
+    {
+        if(instance == null)
+            instance = new ModelServerFacadeFactory(new ServerProxy());
+        return instance;
     }
     
     /**
