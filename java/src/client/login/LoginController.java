@@ -14,80 +14,87 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Implementation for the login controller
  */
-public class LoginController extends Controller implements ILoginController {
+public class LoginController extends Controller implements ILoginController, Observer 
+{
 
-	private IMessageView messageView;
-	private IAction loginAction;
-	
-	/**
-	 * LoginController constructor
-	 * 
-	 * @param view Login view
-	 * @param messageView Message view (used to display error messages that occur during the login process)
-	 */
-	public LoginController(ILoginView view, IMessageView messageView) {
+    private IMessageView messageView;
+    private IAction loginAction;
 
-		super(view);
-		
-		this.messageView = messageView;
-	}
-	
-	public ILoginView getLoginView() {
-		
-		return (ILoginView)super.getView();
-	}
-	
-	public IMessageView getMessageView() {
-		
-		return messageView;
-	}
-	
-	/**
-	 * Sets the action to be executed when the user logs in
-	 * 
-	 * @param value The action to be executed when the user logs in
-	 */
-	public void setLoginAction(IAction value) {
-		
-		loginAction = value;
-	}
-	
-	/**
-	 * Returns the action to be executed when the user logs in
-	 * 
-	 * @return The action to be executed when the user logs in
-	 */
-	public IAction getLoginAction() {
-		
-		return loginAction;
-	}
+    /**
+     * LoginController constructor
+     * 
+     * @param view Login view
+     * @param messageView Message view (used to display error messages that occur during the login process)
+     */
+    public LoginController(ILoginView view, IMessageView messageView) {
 
-	@Override
-	public void start() {
-		
-		getLoginView().showModal();
-	}
+            super(view);
 
-	@Override
-	public void signIn() {
-		
-		// TODO: log in user
-		
+            this.messageView = messageView;
+    }
 
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
-	}
+    public ILoginView getLoginView() {
 
-	@Override
-	public void register() {
-		
-		// TODO: register new user (which, if successful, also logs them in)
-		
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
-	}
+            return (ILoginView)super.getView();
+    }
+
+    public IMessageView getMessageView() {
+
+            return messageView;
+    }
+
+    /**
+     * Sets the action to be executed when the user logs in
+     * 
+     * @param value The action to be executed when the user logs in
+     */
+    public void setLoginAction(IAction value) {
+
+            loginAction = value;
+    }
+
+    /**
+     * Returns the action to be executed when the user logs in
+     * 
+     * @return The action to be executed when the user logs in
+     */
+    public IAction getLoginAction() {
+
+            return loginAction;
+    }
+
+    @Override
+    public void start() {
+
+            getLoginView().showModal();
+    }
+
+    @Override
+    public void signIn() {
+
+            // TODO: log in user
+
+
+            // If log in succeeded
+            getLoginView().closeModal();
+            loginAction.execute();
+    }
+
+    @Override
+    public void register() {
+
+            // TODO: register new user (which, if successful, also logs them in)
+
+            // If register succeeded
+            getLoginView().closeModal();
+            loginAction.execute();
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
 

@@ -1,36 +1,45 @@
 package client.join;
 
 import client.base.*;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * Implementation for the player waiting controller
  */
-public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
+public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer 
+{
 
-	public PlayerWaitingController(IPlayerWaitingView view) {
+    public PlayerWaitingController(IPlayerWaitingView view) {
 
-		super(view);
-	}
+            super(view);
+    }
 
-	@Override
-	public IPlayerWaitingView getView() {
+    @Override
+    public IPlayerWaitingView getView() {
 
-		return (IPlayerWaitingView)super.getView();
-	}
+            return (IPlayerWaitingView)super.getView();
+    }
 
-	@Override
-	public void start() {
+    @Override
+    public void start() {
 
-		getView().showModal();
-	}
+            getView().showModal();
+    }
 
-	@Override
-	public void addAI() {
+    @Override
+    public void addAI() {
 
-		// TEMPORARY
-		getView().closeModal();
-	}
+            // TEMPORARY
+            getView().closeModal();
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
 
