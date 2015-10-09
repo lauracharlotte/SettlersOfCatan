@@ -22,7 +22,7 @@ import model.ClientModelSupplier;
  */
 public class ModelServerFacadeFactory
 {
-    private static ModelServerFacadeFactory instance = null;
+    private static ModelServerFacadeFactory _instance = null;
     
     private IServerProxy currentServer;
     
@@ -37,9 +37,9 @@ public class ModelServerFacadeFactory
     
     public static ModelServerFacadeFactory getInstance()
     {
-        if(instance == null)
-            instance = new ModelServerFacadeFactory(new ServerProxy());
-        return instance;
+        if(_instance == null)
+            _instance = new ModelServerFacadeFactory(new ServerProxy());
+        return _instance;
     }
     
     /**
