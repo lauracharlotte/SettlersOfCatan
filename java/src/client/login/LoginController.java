@@ -9,6 +9,7 @@ import java.util.*;
 import java.lang.reflect.*;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import model.ClientModelSupplier;
 
 
 /**
@@ -19,7 +20,8 @@ public class LoginController extends Controller implements ILoginController, Obs
 
     private IMessageView messageView;
     private IAction loginAction;
-
+    private ILoginState currentState;
+    
     /**
      * LoginController constructor
      * 
@@ -28,20 +30,19 @@ public class LoginController extends Controller implements ILoginController, Obs
      */
     public LoginController(ILoginView view, IMessageView messageView) 
     {
-
             super(view);
             this.messageView = messageView;
+            currentState = new NotLoggedInState();
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public ILoginView getLoginView() 
     {
-
             return (ILoginView)super.getView();
     }
 
     public IMessageView getMessageView() 
     {
-
             return messageView;
     }
 
@@ -52,7 +53,6 @@ public class LoginController extends Controller implements ILoginController, Obs
      */
     public void setLoginAction(IAction value) 
     {
-
             loginAction = value;
     }
 
@@ -61,42 +61,34 @@ public class LoginController extends Controller implements ILoginController, Obs
      * 
      * @return The action to be executed when the user logs in
      */
-    public IAction getLoginAction() {
-
+    public IAction getLoginAction() 
+    {
             return loginAction;
     }
 
     @Override
-    public void start() {
-
+    public void start() 
+    {
             getLoginView().showModal();
     }
 
     @Override
-    public void signIn() {
-
-            // TODO: log in user
-
-
-            // If log in succeeded
-            getLoginView().closeModal();
-            loginAction.execute();
+    public void signIn() 
+    {
+        this.currentState.login(getLoginView().getLoginUsername(), getLoginView().getLoginPassword(), this.getMessageView());
     }
 
     @Override
-    public void register() {
-
-            // TODO: register new user (which, if successful, also logs them in)
-
-            // If register succeeded
-            getLoginView().closeModal();
-            loginAction.execute();
+    public void register() 
+    {
+        this.currentState.registerUser(getLoginView().getRegisterUsername(), getLoginView().getRegisterPassword(), getLoginView().getRegisterPasswordRepeat(), this.getMessageView());
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.currentState = this.currentState.modelUpdated((ClientModelSupplier)o);
+        this.currentState.render(this.getLoginView(), this.loginAction);
     }
 
 }
