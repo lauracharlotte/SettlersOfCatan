@@ -49,7 +49,7 @@ public class ModelServerFacadeFactory
      * @param newModelJSON contains valid JSON for client model
      * @throws JSONException 
      */
-    public void updateModel(String newModelJSON) throws JSONException
+    public synchronized void updateModel(String newModelJSON) throws JSONException
     {
         ClientModel model = JSONParser.fromJSONToModel(newModelJSON);
         if (!model.equals(ClientModelSupplier.getInstance().getModel()))

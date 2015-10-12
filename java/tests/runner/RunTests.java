@@ -36,7 +36,6 @@ public class RunTests {
             Class testCase = (Class) it.next();
             runTestCase(testCase);
         }
-        System.out.println("ALL TESTS PASSED");
    }
     
    private static void runTestCase(Class testCase)

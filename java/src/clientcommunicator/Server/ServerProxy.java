@@ -1,6 +1,7 @@
 package clientcommunicator.Server;
 
 import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONException;
 
 /**
  * 
@@ -76,103 +78,222 @@ public class ServerProxy implements IServerProxy
     @Override
     public String sendChat(String body) throws ClientException
     {
-        return this.post("moves/sendChat", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("moves/sendChat", body));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String rollNumber(String body) throws ClientException
     {
-        return this.post("/moves/rollNumber", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/rollNumber", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String robPlayer(String body) throws ClientException
     {
-        return this.post("/moves/robPlayer", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/robPlayer", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String finishTurn(String body) throws ClientException
     {
-        return this.post("/moves/finishTurn", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/finishTurn", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String buyDevCard(String body) throws ClientException
     {
-        return this.post("/moves/buyDevCard", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/buyDevCard", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String yearOfPlenty(String body) throws ClientException
     {
-        return this.post("/moves/Year_of_Plenty", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/Year_of_Plenty", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String playRoadBuilding(String body) throws ClientException
     {
-        return this.post("/moves/Road_Building", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/Road_Building", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String playSoldier(String body) throws ClientException
     {
-        return this.post("/moves/Soldier", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/Soldier", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String playMonopoly(String body) throws ClientException
     {
-        return this.post("/moves/Monopoly", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/Monopoly", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String playMonument(String body) throws ClientException
     {
-        return this.post("/moves/Monument", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/Monument", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String buildRoad(String body) throws ClientException
     {
-        return this.post("/moves/buildRoad", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/buildRoad", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String buildSettlement(String body) throws ClientException
     {
-        return this.post("/moves/buildSettlement", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/buildSettlement", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String buildCity(String body) throws ClientException
     {
-        return this.post("/moves/buildCity", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/buildCity", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String offerTrade(String body) throws ClientException
     {
-        return this.post("/moves/offerTrade", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/offerTrade", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String acceptTrade(String body) throws ClientException
     {
-        return this.post("/moves/acceptTrade", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/acceptTrade", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String maritimeTrade(String body) throws ClientException
     {
-        return this.post("/moves/maritimeTrade", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/maritimeTrade", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
 
     @Override
     public String discardCards(String body) throws ClientException
     {
-        return this.post("/moves/discardCards", body);
+        // update model
+        ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
+        try {
+            model.updateModel(this.post("/moves/discardCards", body));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return "Success";
     }
     
     // -------------------------------------------------------------------------
