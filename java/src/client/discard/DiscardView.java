@@ -204,7 +204,6 @@ public class DiscardView extends OverlayView implements IDiscardView
 		}
 		
 		this.add(discardButtonPanel, BorderLayout.SOUTH);
-		
 	}
 	
 	private void update()
@@ -304,7 +303,8 @@ public class DiscardView extends OverlayView implements IDiscardView
 		this.update();
 	}
 	
-	private ActionListener actionListener = new ActionListener() {
+	private ActionListener actionListener = new ActionListener() 
+	{
 		private boolean enabled = false;
 		@Override
 		public void actionPerformed(ActionEvent e)
@@ -561,8 +561,6 @@ public class DiscardView extends OverlayView implements IDiscardView
 			c.gridheight = 1;
 			c.insets = new Insets(0, 0, 0, 0);
 			resourcePanel.add(_upButton, c);
-//			if(_maxAmount == 0)
-//				_upButton.setEnabled(false);
 			
 			// Discard Amount Label Configuration
 			_discardAmountLabel = new JLabel(""+this._discardAmount, JLabel.CENTER);
@@ -605,7 +603,8 @@ public class DiscardView extends OverlayView implements IDiscardView
 			return _discardResourcePanel;
 		}
 		
-		private ActionListener _actionListener = new ActionListener() {
+		private ActionListener _actionListener = new ActionListener() 
+		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{

@@ -8,7 +8,6 @@ import shared.definitions.*;
  */
 public interface IDiscardView extends IOverlayView
 {
-	
 	/**
 	 * Used to enable or disable the discard button.
 	 * 

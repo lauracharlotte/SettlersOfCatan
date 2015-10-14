@@ -1,5 +1,6 @@
 package client.discard;
 
-public interface IDiscardState {
+public interface IDiscardState 
+{
 
 }

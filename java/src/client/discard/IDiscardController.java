@@ -30,6 +30,5 @@ public interface IDiscardController extends IController
 	 * This method is called when the user clicks the discard button.
 	 */
 	void discard();
-	
 }
 
