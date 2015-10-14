@@ -37,6 +37,7 @@ public class DiscardController extends Controller implements IDiscardController,
     public DiscardController(IDiscardView view, IWaitView waitView) 
     {
     	super(view);
+        /*
     	this.waitView = waitView;
     	Player player = ClientModelSupplier.getInstance().getClientPlayerObject();
     	totalWood = player.getHand().getResourceCards().getLumber();
@@ -44,6 +45,7 @@ public class DiscardController extends Controller implements IDiscardController,
     	totalSheep = player.getHand().getResourceCards().getWool();
     	totalWheat = player.getHand().getResourceCards().getGrain();
     	totalOre = player.getHand().getResourceCards().getOre();
+        */
     }
 
     public IDiscardView getDiscardView() 

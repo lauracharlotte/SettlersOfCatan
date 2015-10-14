@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONException;
 
 /**
@@ -22,7 +24,6 @@ public class ServerProxy implements IServerProxy
     public int loginUser(String body) throws ClientException
     {
         String result = this.post("/user/login", body);
-        Cookie cookie = new Cookie();
         try {
             return cookie.setUserCookieString(result);
         } catch (MalformedCookieException e) {
@@ -34,7 +35,6 @@ public class ServerProxy implements IServerProxy
     public int registerUser(String body) throws ClientException
     {
         String result = this.post("/user/register", body);
-        Cookie cookie = new Cookie();
         try {
             return cookie.setUserCookieString(result);
         } catch (MalformedCookieException e) {
@@ -51,13 +51,23 @@ public class ServerProxy implements IServerProxy
     @Override
     public String createGame(String body) throws ClientException
     {
-        return this.post("/game/create", body);
+        return this.post("/games/create", body);
     }
 
     @Override
-    public String joinGame(String body) throws ClientException
+    public String joinGame(String body, boolean keepCookie) throws ClientException
     {
-        return this.post("/games/join", body);
+        String gameCookie = this.post("/games/join", body);
+        try
+        {
+            if(keepCookie)
+                this.cookie.setGameNumberFromCookie(gameCookie);
+        }
+        catch (MalformedCookieException ex)
+        {
+            Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Success";
     }
 
     @Override
@@ -304,7 +314,7 @@ public class ServerProxy implements IServerProxy
     private static String SERVER_HOST = "localhost";
     private static String SERVER_PORT = "8081";
     private static String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
-
+    private Cookie cookie = new Cookie();
     /**
      * Performs the HTTP Get Request to the server.
      * Returns the data received from the server in a String JSON
@@ -316,13 +326,12 @@ public class ServerProxy implements IServerProxy
     {
         try
         {
-            Cookie cookie = new Cookie();
             String cookieString = cookie.getCompleteCookieString();
             // Connect with the server
             URL myURL = new URL(URL_PREFIX + path);
             HttpURLConnection connect = (HttpURLConnection) myURL.openConnection();
             connect.setRequestMethod("GET");
-            if (cookieString != "")
+            if (!"".equals(cookieString))
             {
                 connect.setRequestProperty("Cookie", cookieString);
             }
@@ -369,7 +378,6 @@ public class ServerProxy implements IServerProxy
     {
         try
         {
-            Cookie cookie = new Cookie();
             String cookieString = cookie.getCompleteCookieString();
             // Connect to the server
             URL myURL = new URL(URL_PREFIX + path);
@@ -379,7 +387,7 @@ public class ServerProxy implements IServerProxy
             connect.setRequestMethod("POST");
             connect.setRequestProperty("Content-Type", "application/json");
             connect.setRequestProperty("Content-Length", Integer.toString(body.length()));
-            if (cookieString != "")
+            if (!cookieString.equals(""))
             {
                 connect.setRequestProperty("Cookie", cookieString);
             }

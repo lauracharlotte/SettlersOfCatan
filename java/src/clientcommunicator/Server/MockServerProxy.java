@@ -125,7 +125,7 @@ public class MockServerProxy implements IServerProxy
     }
 
     @Override
-    public String joinGame(String body)
+    public String joinGame(String body, boolean keepCookie)
     {
         return "Success";
     }

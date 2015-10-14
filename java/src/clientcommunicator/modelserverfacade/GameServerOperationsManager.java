@@ -51,9 +51,9 @@ public class GameServerOperationsManager implements IServerOperationsManager
      * @post The user joins the specified game
      * @param request A join game request that should be performed
      */
-    public void joinGame(JoinGameRequest request) throws ClientException
+    public void joinGame(JoinGameRequest request, boolean keepCookie) throws ClientException
     {
-       this.currentServer.joinGame(JSONParser.toJSON(request));
+       this.currentServer.joinGame(JSONParser.toJSON(request), keepCookie);
     }
     
     /**

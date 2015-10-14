@@ -113,7 +113,7 @@ public class JSONParser
     	{
     		if (!gamesJSON.isNull(i))
     		{
-    			games.add(fromJSONToGame(gamesJSON.getString(i)));
+    			games.add(fromJSONToGame(gamesJSON.getJSONObject(i).toString()));
     		}
     	}
     	return games;
@@ -639,7 +639,7 @@ public class JSONParser
     	ArrayList<PlayerJSONResponse> playersArray = new ArrayList<>();
     	for (int i = 0; i < playersJSON.length(); i++)
     	{
-    		if (!playersJSON.isNull(i))
+    		if (!playersJSON.isNull(i) && playersJSON.getJSONObject(i).has("name")) //letting through some empty brackets
     		{
 	    		String colorStr = playersJSON.getJSONObject(i).getString("color");
 	    		colorStr = colorStr.toLowerCase();

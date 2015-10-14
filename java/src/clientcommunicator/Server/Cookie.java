@@ -35,9 +35,10 @@ public class Cookie
         else
         {
             StringBuilder cookie = new StringBuilder("catan.user=");
-            cookie.append(this.userInformationString).append(";");
+            cookie.append(this.userInformationString);
             if(this.gameNumber != Integer.MIN_VALUE)
             {
+                cookie.append(";");
                 cookie.append(" catan.game=").append(this.gameNumber);
             }
             return cookie.toString();
@@ -84,7 +85,7 @@ public class Cookie
         userInformationCookieString = userInformationCookieString.replaceFirst("catan.user=", "");
         userInformationCookieString = userInformationCookieString.substring(0, userInformationCookieString.length() - 7);
         String urlDecoded = userInformationCookieString.substring(0, userInformationCookieString.length() - 1);
-        this.userInformationString = urlDecoded;
+        //this.userInformationString = urlDecoded;
         JsonElement element;
         try
         {
@@ -100,12 +101,26 @@ public class Cookie
             JsonObject jobject = element.getAsJsonObject();
             if(jobject.has("playerID"))
             {
-                return jobject.get("playerID").getAsInt();
             }
             else
             {
                 throw new MalformedCookieException();
             }
+            JsonObject resultingCookie = new JsonObject();
+            resultingCookie.add("name", jobject.get("name"));
+            resultingCookie.add("password", jobject.get("password"));
+            resultingCookie.add("playerID", jobject.get("playerID"));
+            try
+            {
+                String realCookie = resultingCookie.toString();
+                realCookie = java.net.URLEncoder.encode(realCookie, "UTF-8");
+                this.userInformationString = realCookie;
+            }
+            catch (UnsupportedEncodingException ex)
+            {
+                Logger.getLogger(Cookie.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return jobject.get("playerID").getAsInt();
         }
         else
         {

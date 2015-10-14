@@ -55,7 +55,7 @@ public interface IServerProxy
      * @return The body of the message that is in response to the join game request.
      * @throws ClientException
      */
-    String joinGame(String body) throws ClientException;
+    String joinGame(String body, boolean keepCookie) throws ClientException;
 
     /**
      * @pre The user is logged in and is currently in a game.
