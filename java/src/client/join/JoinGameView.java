@@ -150,6 +150,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		buttonPanel.add(createButton);
 		//buttonPanel.add(tempJoinButton);		
 		this.add(buttonPanel, BorderLayout.SOUTH);
+                this.revalidate();
 	}
 
 	@Override
@@ -161,10 +162,10 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	@Override
 	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
 	{
-		this.games = games;
-		this.localPlayer = localPlayer;
-		this.removeAll();
-		this.initialize();
+            this.games = games;
+            this.localPlayer = localPlayer;
+            this.removeAll();
+            this.initialize();
 	}
 	
 	private ActionListener actionListener = new ActionListener()

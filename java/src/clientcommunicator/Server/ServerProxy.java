@@ -74,8 +74,9 @@ public class ServerProxy implements IServerProxy
     public String getModel(int versionNumber) throws ClientException
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("/games/model?version=");
-        sb.append(versionNumber);
+        sb.append("/game/model");
+        if(versionNumber != -1)
+            sb.append("?version=").append(versionNumber);
         return this.get(sb.toString());
     }
 
@@ -442,9 +443,12 @@ public class ServerProxy implements IServerProxy
     {
         try {
             // Buffer-read the result from the server
-            BufferedReader br = new BufferedReader(new InputStreamReader(
+            BufferedReader br;
+            if(connect.getErrorStream() != null)
+                br = new BufferedReader(new InputStreamReader(
                 (connect.getErrorStream())));
-
+            else
+                return "";
             // buffer into a string
             StringBuilder output = new StringBuilder();
             String line;

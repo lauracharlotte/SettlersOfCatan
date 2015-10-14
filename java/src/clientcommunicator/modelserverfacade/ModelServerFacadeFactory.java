@@ -80,6 +80,11 @@ public class ModelServerFacadeFactory
         this.currentServer = server;
     }
     
+    public IServerProxy getServerProxy()
+    {
+        return this.currentServer;
+    }
+    
     /**
      * 
      * Use of this method--assuming we have a ModelServerFacadeFactory, f, instantiated somewhere else and its server was set prior

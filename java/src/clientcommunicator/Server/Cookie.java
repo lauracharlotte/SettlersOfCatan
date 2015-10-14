@@ -58,7 +58,10 @@ public class Cookie
         {
             try
             {
-                this.gameNumber = Integer.parseInt(gameCookieString.substring(11,13));
+                int end = 11;
+                while(Character.isDigit(gameCookieString.charAt(end)))
+                    end++;
+                this.gameNumber = Integer.parseInt(gameCookieString.substring(11,end));
             } 
             catch(NumberFormatException e)
             {

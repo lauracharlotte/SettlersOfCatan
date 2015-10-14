@@ -4,6 +4,7 @@ import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
+import clientcommunicator.Server.ServerPoller;
 import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.GameServerOperationsManager;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
@@ -15,6 +16,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ClientModelSupplier;
@@ -24,7 +27,7 @@ import org.json.JSONException;
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController, Observer 
+public class JoinGameController extends Controller implements IJoinGameController
 {
 
     private INewGameView newGameView;
@@ -32,6 +35,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     private IMessageView messageView;
     private IAction joinAction;
     private GameServerOperationsManager manager;
+    private Timer timer;
+    private GameInfo game = null;
     /**
      * JoinGameController constructor
      * 
@@ -118,10 +123,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             this.messageView = messageView;
     }
 
-    @Override
-    public void start() 
+    private synchronized void populateList()
     {
-        getJoinGameView().showModal();
         Collection<GameJSONResponse> gamesCollection = null;
         try
         {
@@ -157,17 +160,36 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         localPlayer.setId(ClientModelSupplier.getInstance().getClientPlayerID());
         getJoinGameView().setGames(games, localPlayer);
     }
+    
+    @Override
+    public void start() 
+    {
+        getJoinGameView().showModal();
+        TimerTask timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                populateList();
+            }
+        };
+        this.timer = new Timer();
+        this.timer.schedule(timerTask, 0, 3000);
+    }
+    
 
     @Override
     public void startCreateNewGame() 
     {
-            getNewGameView().showModal();
+        getJoinGameView().closeModal();
+        getNewGameView().showModal();
     }
 
     @Override
     public void cancelCreateNewGame() 
     {
         getNewGameView().closeModal();
+        getJoinGameView().showModal();
     }
 
     @Override
@@ -187,38 +209,49 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         {
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.start();
+        getJoinGameView().showModal();
+        this.populateList();
     }
 
     @Override
     public void startJoinGame(GameInfo game) 
     {
-
-            getSelectColorView().showModal();
+        this.game = game;
+        Collection<PlayerInfo> playersInGame = game.getPlayers();
+        for(CatanColor color: CatanColor.values())
+            getSelectColorView().setColorEnabled(color, true);
+        for(PlayerInfo pInfo: playersInGame)
+            if(pInfo.getId() != ClientModelSupplier.getInstance().getClientPlayerID())
+                getSelectColorView().setColorEnabled(pInfo.getColor(), false);
+        getSelectColorView().showModal();
     }
 
     @Override
     public void cancelJoinGame() 
     {
-
-            getJoinGameView().closeModal();
+        this.game = null;
+        getJoinGameView().closeModal();
     }
 
     @Override
     public void joinGame(CatanColor color) 
     {
-
-            // If join succeeded
-            getSelectColorView().closeModal();
-            getJoinGameView().closeModal();
-            joinAction.execute();
+        try
+        {
+            this.manager.joinGame(new JoinGameRequest(this.game.getId(), color), true);
+        }
+        catch (ClientException ex)
+        {
+            Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        // If join succeeded
+        this.timer.cancel();
+        getSelectColorView().closeModal();
+        getJoinGameView().closeModal();
+        joinAction.execute();
     }
 
-    @Override
-    public void update(Observable o, Object arg)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
 

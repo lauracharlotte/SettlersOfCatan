@@ -11,6 +11,7 @@ import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import java.util.ArrayList;
 import java.util.Collection;
+import model.ClientModel;
 
 import org.json.JSONException;
 
@@ -68,6 +69,11 @@ public class GameServerOperationsManager implements IServerOperationsManager
         this.currentServer.addAI(addAiRequest);
     }
 
+    public ClientModel getClientModel() throws JSONException, ClientException
+    {
+        return JSONParser.fromJSONToModel(this.currentServer.getModel(-1));
+    }
+    
     /**
      *  
      * @return List of all possible types of AIs that can be added
