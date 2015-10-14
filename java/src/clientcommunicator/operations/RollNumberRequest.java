@@ -6,7 +6,6 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
-import shared.locations.HexLocation;
 
 /**
  *
@@ -14,7 +13,6 @@ import shared.locations.HexLocation;
  */
 public class RollNumberRequest implements IJSONSerializable
 {
-
     private PlayerIdx playerIndex;
     private int numberRolled;
 

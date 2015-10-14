@@ -1,10 +1,16 @@
 package client.roll;
 
 import client.base.*;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
+import clientcommunicator.operations.RollNumberRequest;
 import model.ClientModel;
 import model.ClientModelSupplier;
+import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -64,6 +70,27 @@ public class RollController extends Controller implements IRollController, Obser
     	getRollView().closeModal();
     	getResultView().setRollValue(roll);
     	getResultView().showModal();
+    	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+    	RollNumberRequest request = new RollNumberRequest(index, roll);
+    	try {
+			TurnServerOperationsManager manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+			manager.rollNumber(request);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void stopTimer()
