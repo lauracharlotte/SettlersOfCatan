@@ -14,8 +14,8 @@ import client.utils.ImageUtils;
  * Implementation for the roll result view, which displays the result of a roll
  */
 @SuppressWarnings({"serial", "unused"})
-public class RollResultView extends OverlayView implements IRollResultView {
-
+public class RollResultView extends OverlayView implements IRollResultView 
+{
 	private final int TITLE_TEXT_SIZE = 40;
 	private final int LABEL_TEXT_SIZE = 28;
 	private final int BUTTON_TEXT_SIZE = 28;
@@ -23,14 +23,13 @@ public class RollResultView extends OverlayView implements IRollResultView {
 
 	private JLabel titleLabel;
 	private JButton okayButton;
-	//private JPanel buttonPanel;
 	private JPanel centerPanel;
 	private JLabel rollLabel;
 	private ImageIcon picture;
 	private JLabel pictureLabel;
 
-	public RollResultView() {
-		
+	public RollResultView() 
+	{
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -76,25 +75,27 @@ public class RollResultView extends OverlayView implements IRollResultView {
 		this.add(Box.createRigidArea(new Dimension(50,50)),BorderLayout.WEST);
 	}
 
-	private ActionListener actionListener = new ActionListener() {
+	private ActionListener actionListener = new ActionListener() 
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			if (e.getSource() == okayButton) {
-				
+		public void actionPerformed(ActionEvent e) 
+		{	
+			if (e.getSource() == okayButton) 
+			{
 				closeModal();
 			}
 		}	
 	};
 	
 	@Override
-	public IRollController getController() {
-		
+	public IRollController getController() 
+	{
 		return (IRollController)super.getController();
 	}
 
 	@Override
-	public void setRollValue(int value) {
+	public void setRollValue(int value) 
+	{
 		String rollText = String.format("You rolled a %d.", value);
 		rollLabel.setText(rollText);
 	}

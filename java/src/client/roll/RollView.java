@@ -19,8 +19,8 @@ import client.base.*;
  * Implementation for the roll view, which allows the user to roll the dice
  */
 @SuppressWarnings("serial")
-public class RollView extends OverlayView implements IRollView {
-
+public class RollView extends OverlayView implements IRollView 
+{
 	private final int LABEL_TEXT_SIZE = 20;
 	private final int BUTTON_TEXT_SIZE = 28;
 	private final int BORDER_WIDTH = 10;
@@ -30,8 +30,8 @@ public class RollView extends OverlayView implements IRollView {
 	private JButton rollButton;
 	private JPanel buttonPanel;
 
-	public RollView() {
-		
+	public RollView() 
+	{
 		this.setOpaque(true);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, BORDER_WIDTH));
@@ -42,12 +42,15 @@ public class RollView extends OverlayView implements IRollView {
 		label.setFont(labelFont);
 		this.add(label, BorderLayout.NORTH);
 		
-        try {
+        try 
+        {
             BufferedImage diceImg = ImageIO.read(new File("images/misc/dice.jpg"));
             Image smallDiceImg = diceImg.getScaledInstance(300, 224, Image.SCALE_SMOOTH);
             imageLabel = new JLabel(new ImageIcon(smallDiceImg));
             this.add(imageLabel, BorderLayout.CENTER);
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) 
+        {
             // Handle Exception Here
         }
 
@@ -63,27 +66,29 @@ public class RollView extends OverlayView implements IRollView {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	private ActionListener actionListener = new ActionListener() {
+	private ActionListener actionListener = new ActionListener() 
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			if (e.getSource() == rollButton) {
-				
-				closeModal();
-				
-				getController().rollDice();
+		public void actionPerformed(ActionEvent e) 
+		{
+			if (e.getSource() == rollButton) 
+			{
+				RollController controller = (RollController)getController();
+				controller.stopTimer();
+				controller.rollDice();
 			}
 		}	
 	};
 	
 	@Override
-	public IRollController getController() {
-		
+	public IRollController getController() 
+	{
 		return (IRollController)super.getController();
 	}
 
 	@Override
-	public void setMessage(String message) {
+	public void setMessage(String message) 
+	{
 		label.setText(message);
 	}
 

@@ -7,14 +7,11 @@ import client.base.*;
  */
 public interface IRollView extends IOverlayView
 {
-	
 	/**
 	 * Sets the message displayed in the roll view
 	 * 
-	 * @param message
-	 *            The message to be displayed
+	 * @param message The message to be displayed
 	 */
 	void setMessage(String message);
-	
 }
 

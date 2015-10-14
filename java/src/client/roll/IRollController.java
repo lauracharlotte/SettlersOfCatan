@@ -7,11 +7,9 @@ import client.base.*;
  */
 public interface IRollController extends IController
 {
-	
 	/**
 	 * Called when the user clicks the "Roll!" button in the roll view
 	 */
 	void rollDice();
-	
 }
 
