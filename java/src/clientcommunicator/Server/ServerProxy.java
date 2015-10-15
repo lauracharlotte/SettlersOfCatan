@@ -83,7 +83,7 @@ public class ServerProxy implements IServerProxy
     @Override
     public String addAI(String body) throws ClientException
     {
-        return this.post("/games/addAI", body);
+        return this.post("/game/addAI", body);
     }
 
     @Override

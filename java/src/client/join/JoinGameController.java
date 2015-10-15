@@ -203,7 +203,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         try
         {
             GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceHexes, randomlyPlaceNumbers, randomPorts, title));
-            manager.joinGame(new JoinGameRequest(game.getGameId(), CatanColor.RED), false);
+            //manager.joinGame(new JoinGameRequest(game.getGameId(), CatanColor.RED), randomPorts);
         }
         catch (ClientException | JSONException ex)
         {
@@ -223,6 +223,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         for(PlayerInfo pInfo: playersInGame)
             if(pInfo.getId() != ClientModelSupplier.getInstance().getClientPlayerID())
                 getSelectColorView().setColorEnabled(pInfo.getColor(), false);
+            else
+            {
+                this.joinGame(pInfo.getColor());
+                return;
+            }
         getSelectColorView().showModal();
     }
 

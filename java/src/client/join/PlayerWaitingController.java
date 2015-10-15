@@ -96,6 +96,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         };
         this.timer = new Timer();
         this.timer.schedule(timerTask, 0, 2500);
+        String[] aiChoices = new String[1];
+        manager.listAI().toArray(aiChoices);
+        getView().setAIChoices(aiChoices);
     }
     
     @Override
@@ -104,6 +107,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         try
         {
             manager.addAI();
+            this.checkGame();
         }
         catch (ClientException ex)
         {
