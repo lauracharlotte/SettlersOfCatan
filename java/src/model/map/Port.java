@@ -66,6 +66,21 @@ public class Port {
 	public ResourceType getResource() {
 		return resource;
 	}
+        
+        public PortType getPortType()
+        {
+            PortType typeForPort = PortType.THREE;
+            if(this.getResource()!=null)
+                switch(this.getResource())
+                {
+                    case WOOD: typeForPort = PortType.WOOD; break;
+                    case BRICK: typeForPort = PortType.BRICK; break;
+                    case SHEEP: typeForPort = PortType.SHEEP; break;
+                    case WHEAT: typeForPort = PortType.WHEAT; break;
+                    case ORE: typeForPort = PortType.ORE; break;
+                }
+            return typeForPort;
+        }
 
 	/**
 	 * @param resource the resource to set
