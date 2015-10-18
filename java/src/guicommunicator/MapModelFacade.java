@@ -259,12 +259,12 @@ public class MapModelFacade
         if(location.getDir().equals(VertexDirection.NorthEast))
         {
             edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthEast).getNormalizedLocation());
-            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.SouthWest).getNormalizedLocation());
+            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest).getNormalizedLocation());
         }
         else
         {
             edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.NorthWest).getNormalizedLocation());
-            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.SouthEast).getNormalizedLocation());
+            edgeLocations.add(new EdgeLocation(location.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast).getNormalizedLocation());
         }
         
         for(EdgeObject road: currentMap.getRoads())
