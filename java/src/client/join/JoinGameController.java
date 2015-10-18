@@ -13,6 +13,7 @@ import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import clientcommunicator.operations.PlayerJSONResponse;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,6 +38,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     private GameServerOperationsManager manager;
     private Timer timer;
     private GameInfo game = null;
+    private boolean shouldShowGameList = true;
+    private GameInfo[] lastList = null;
     /**
      * JoinGameController constructor
      * 
@@ -138,13 +141,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             return;
         GameInfo[] games = new GameInfo[gamesCollection.size()];
         int idx = 0;
-        for(GameJSONResponse game: gamesCollection)
+        for(GameJSONResponse gameChoice: gamesCollection)
         {
             games[idx] = new GameInfo();
-            games[idx].setId(game.getGameId());
-            games[idx].setTitle(game.getTitle());
+            games[idx].setId(gameChoice.getGameId());
+            games[idx].setTitle(gameChoice.getTitle());
             int playerIndex = 0;
-            for(PlayerJSONResponse player: game.getPlayers())
+            for(PlayerJSONResponse player: gameChoice.getPlayers())
             {
                 PlayerInfo onePlayersInfo = new PlayerInfo();
                 onePlayersInfo.setColor(player.getColor());
@@ -156,9 +159,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             }
             idx++;   
         }
+        if(Arrays.equals(games, this.lastList))
+            return;
+        this.lastList = games;
         PlayerInfo localPlayer = new PlayerInfo();
         localPlayer.setId(ClientModelSupplier.getInstance().getClientPlayerID());
         getJoinGameView().setGames(games, localPlayer);
+        if(this.shouldShowGameList)
+        {
+            getJoinGameView().closeModal();
+            getJoinGameView().showModal();
+        }
     }
     
     @Override
@@ -182,6 +193,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public void startCreateNewGame() 
     {
         getJoinGameView().closeModal();
+        this.shouldShowGameList = false;
         getNewGameView().showModal();
     }
 
@@ -189,6 +201,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public void cancelCreateNewGame() 
     {
         getNewGameView().closeModal();
+        this.shouldShowGameList = true;
         getJoinGameView().showModal();
     }
 
@@ -199,6 +212,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         boolean randomlyPlaceNumbers = getNewGameView().getRandomlyPlaceNumbers();
         String title = getNewGameView().getTitle();
         boolean randomPorts = getNewGameView().getUseRandomPorts();
+        if(title.trim().equals("") || title == null)
+        {
+            this.getMessageView().setMessage("Invalid title");
+            this.getMessageView().showModal();
+            return;
+        }
         getNewGameView().closeModal();
         try
         {
@@ -210,6 +229,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
         }
         getJoinGameView().showModal();
+        this.shouldShowGameList = true;
         this.populateList();
     }
 
@@ -217,6 +237,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public void startJoinGame(GameInfo game) 
     {
         this.game = game;
+        this.shouldShowGameList = false;
         Collection<PlayerInfo> playersInGame = game.getPlayers();
         for(CatanColor color: CatanColor.values())
             getSelectColorView().setColorEnabled(color, true);
@@ -235,6 +256,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     public void cancelJoinGame() 
     {
         this.game = null;
+        this.shouldShowGameList = true;
         getJoinGameView().closeModal();
     }
 

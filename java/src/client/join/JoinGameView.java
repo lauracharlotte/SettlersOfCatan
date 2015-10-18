@@ -150,7 +150,6 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		buttonPanel.add(createButton);
 		//buttonPanel.add(tempJoinButton);		
 		this.add(buttonPanel, BorderLayout.SOUTH);
-                this.revalidate();
 	}
 
 	@Override

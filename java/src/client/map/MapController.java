@@ -6,6 +6,14 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import model.ClientModel;
+import model.ClientModelSupplier;
+import model.map.CatanMap;
+import model.map.EdgeObject;
+import model.map.Hex;
+import model.map.Port;
+import model.map.VertexObject;
+import model.player.Player;
 
 
 /**
@@ -13,19 +21,25 @@ import client.data.*;
  */
 public class MapController extends Controller implements IMapController, Observer
 {
-	
     private IRobView robView;
+	
+    private IMapState currentState = new NotInGameState();
+    
+    private CatanColor myCatanColor;
+    
+    public MapController(IMapView view, IRobView robView) 
+    {
 
-    public MapController(IMapView view, IRobView robView) {
+        super(view);
 
-            super(view);
+        setRobView(robView);
+        
+        ClientModelSupplier.getInstance().addObserver(this);
 
-            setRobView(robView);
-
-            initFromModel();
     }
 
-    public IMapView getView() {
+    public IMapView getView() 
+    {
 
             return (IMapView)super.getView();
     }
@@ -36,141 +50,126 @@ public class MapController extends Controller implements IMapController, Observe
     private void setRobView(IRobView robView) {
             this.robView = robView;
     }
+    
+    /**
+     * all of this is hard coded info, you need to use these same 
+     * functions and format to generate the map from your model
+     */
 
-    protected void initFromModel() {
-
-            //<temp>
-
-            Random rand = new Random();
-
-            for (int x = 0; x <= 3; ++x) {
-
-                    int maxY = 3 - x;			
-                    for (int y = -3; y <= maxY; ++y) {				
-                            int r = rand.nextInt(HexType.values().length);
-                            HexType hexType = HexType.values()[r];
-                            HexLocation hexLoc = new HexLocation(x, y);
-                            getView().addHex(hexLoc, hexType);
-                            getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-                                            CatanColor.RED);
-                            getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-                                            CatanColor.BLUE);
-                            getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-                                            CatanColor.ORANGE);
-                            getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-                            getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-                    }
-
-                    if (x != 0) {
-                            int minY = x - 3;
-                            for (int y = minY; y <= 3; ++y) {
-                                    int r = rand.nextInt(HexType.values().length);
-                                    HexType hexType = HexType.values()[r];
-                                    HexLocation hexLoc = new HexLocation(-x, y);
-                                    getView().addHex(hexLoc, hexType);
-                                    getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-                                                    CatanColor.RED);
-                                    getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-                                                    CatanColor.BLUE);
-                                    getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-                                                    CatanColor.ORANGE);
-                                    getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-                                    getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
-                            }
-                    }
-            }
-
-            PortType portType = PortType.BRICK;
-            getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-            getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-            getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-            getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-            getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-            getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
-
-            getView().placeRobber(new HexLocation(0, 0));
-
-            getView().addNumber(new HexLocation(-2, 0), 2);
-            getView().addNumber(new HexLocation(-2, 1), 3);
-            getView().addNumber(new HexLocation(-2, 2), 4);
-            getView().addNumber(new HexLocation(-1, 0), 5);
-            getView().addNumber(new HexLocation(-1, 1), 6);
-            getView().addNumber(new HexLocation(1, -1), 8);
-            getView().addNumber(new HexLocation(1, 0), 9);
-            getView().addNumber(new HexLocation(2, -2), 10);
-            getView().addNumber(new HexLocation(2, -1), 11);
-            getView().addNumber(new HexLocation(2, 0), 12);
-
-            //</temp>
+    protected void initFromModel() 
+    {
+        ClientModel model = ClientModelSupplier.getInstance().getModel();
+        CatanMap map = model.getMap();
+        
+        Collection<Hex> hexes = map.getHexes();
+        Collection<EdgeObject> roads = map.getRoads();
+        Collection<VertexObject> settlements = map.getSettlements();
+        Collection<VertexObject> cities = map.getCities();
+        Collection<Port> ports = map.getPorts();
+        
+        for (Hex hex: hexes)
+        {
+            getView().addHex(hex.getLocation(), hex.getType());
+            if(hex.getNumber() != -1)
+                getView().addNumber(hex.getLocation(), hex.getNumber());
+        }
+        
+        for (EdgeObject road: roads)
+            getView().placeRoad(road.getLocation(), ((Player)(model.getPlayers().toArray()[road.getOwner().getIndex()])).getColor());
+        
+        for (VertexObject settlement: settlements)
+            getView().placeSettlement(settlement.getLocation(), ((Player)(model.getPlayers().toArray()[settlement.getOwner().getIndex()])).getColor());
+        
+        for (VertexObject city: cities)
+            getView().placeCity(city.getLocation(), ((Player)(model.getPlayers().toArray()[city.getOwner().getIndex()])).getColor());
+        
+        for (Port port: ports)
+            getView().addPort(new EdgeLocation(port.getHex(), port.getDirection()), port.getPortType());
+        
+        getView().placeRobber(map.getRobber());
+        this.myCatanColor = ClientModelSupplier.getInstance().getClientPlayerObject().getColor();
     }
 
-    public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 
-            return true;
+
+
+
+    //================================================================
+    // For each of the following "Can" methods: call the appropriate canDo(0
+    //For each "Do" send the request to the server and update all info as a result of the 
+    //action (bank amounts, remaining settlements, map...)
+
+
+    public boolean canPlaceRoad(EdgeLocation edgeLoc) 
+    {
+        return this.currentState.canPlaceRoad(edgeLoc);
     }
 
-    public boolean canPlaceSettlement(VertexLocation vertLoc) {
-
-            return true;
+    public boolean canPlaceSettlement(VertexLocation vertLoc) 
+    {
+        return this.currentState.canPlaceSettlement(vertLoc);
     }
 
-    public boolean canPlaceCity(VertexLocation vertLoc) {
-
-            return true;
+    public boolean canPlaceCity(VertexLocation vertLoc) 
+    {
+        return this.currentState.canPlaceCity(vertLoc);
     }
 
-    public boolean canPlaceRobber(HexLocation hexLoc) {
-
-            return true;
+    public boolean canPlaceRobber(HexLocation hexLoc) 
+    {
+        return this.currentState.canPlaceRobber(hexLoc);
     }
 
-    public void placeRoad(EdgeLocation edgeLoc) {
-
-            getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+    public void placeRoad(EdgeLocation edgeLoc) 
+    {
+        this.currentState.placeRoad(edgeLoc);
     }
 
-    public void placeSettlement(VertexLocation vertLoc) {
-
-            getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+    public void placeSettlement(VertexLocation vertLoc) 
+    {
+        this.currentState.placeSettlement(vertLoc);
     }
 
-    public void placeCity(VertexLocation vertLoc) {
-
-            getView().placeCity(vertLoc, CatanColor.ORANGE);
+    public void placeCity(VertexLocation vertLoc) 
+    {
+        this.currentState.placeCity(vertLoc);
     }
 
-    public void placeRobber(HexLocation hexLoc) {
-
-            getView().placeRobber(hexLoc);
-
-            getRobView().showModal();
+    public void placeRobber(HexLocation hexLoc) 
+    {
+        this.currentState.placeRobber(hexLoc);
+        getRobView().showModal();
     }
 
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-
-            getView().startDrop(pieceType, CatanColor.ORANGE, true);
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
+    {	
+        getView().startDrop(pieceType, this.myCatanColor, !isFree);
     }
 
-    public void cancelMove() {
+    public void cancelMove() 
+    {
+    }
+
+    public void playSoldierCard() 
+    {	
 
     }
 
-    public void playSoldierCard() {	
+    public void playRoadBuildingCard() 
+    {	
 
     }
 
-    public void playRoadBuildingCard() {	
-
+    public void robPlayer(RobPlayerInfo victim) 
+    {	
+        this.currentState.robPlayer(victim);
     }
-
-    public void robPlayer(RobPlayerInfo victim) {	
-
-    }
-
+	
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.currentState = this.currentState.update(o, arg);
+        this.currentState.render(this);
     }
 	
 }

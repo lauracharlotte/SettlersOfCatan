@@ -23,11 +23,12 @@ import org.json.JSONException;
 /**
  * Implementation for the player waiting controller
  */
-public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer 
+public class PlayerWaitingController extends Controller implements IPlayerWaitingController
 {
 
     private GameServerOperationsManager manager;
     private Timer timer;
+    private int numPlayers = 0;
     
     public PlayerWaitingController(IPlayerWaitingView view) {
 
@@ -40,7 +41,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         {
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ClientModelSupplier.getInstance().addObserver(this);
     }
 
     @Override
@@ -49,20 +49,25 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
             return (IPlayerWaitingView)super.getView();
     }
 
-    public synchronized void checkGame()
+    public void checkGame()
     {
         try
         {
             ClientModel currentModel = manager.getClientModel();
+            if(this.numPlayers == currentModel.getPlayers().size())
+                return;
             if(currentModel.getPlayers().size() == 4)
             {
                 this.timer.cancel();
                 ServerPoller serverPoller = new ServerPoller();
                 serverPoller.setFacade(ModelServerFacadeFactory.getInstance());
                 serverPoller.setServer(ModelServerFacadeFactory.getInstance().getServerProxy());
-                serverPoller.setPollingMilliseconds(3000);
+                serverPoller.setPollingMilliseconds(2000);
+                getView().closeModal();
                 serverPoller.run();
+                return;
             }
+            this.numPlayers = currentModel.getPlayers().size();
             Collection<Player> currentPlayers = currentModel.getPlayers();
             PlayerInfo[] playerInfo = new PlayerInfo[currentPlayers.size()];
             int idx = 0;
@@ -75,6 +80,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                 idx++;
             }
             getView().setPlayers(playerInfo);
+            if(getView().isModalShowing())
+            {
+                getView().closeModal();
+                getView().showModal();
+            }
         }
         catch (JSONException | ClientException ex)
         {
@@ -86,6 +96,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
     public void start() 
     {
         getView().showModal();
+        String[] aiChoices = new String[1];
+        manager.listAI().toArray(aiChoices);
+        getView().setAIChoices(aiChoices);
         TimerTask timerTask = new TimerTask()
         {
             @Override
@@ -96,9 +109,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         };
         this.timer = new Timer();
         this.timer.schedule(timerTask, 0, 2500);
-        String[] aiChoices = new String[1];
-        manager.listAI().toArray(aiChoices);
-        getView().setAIChoices(aiChoices);
     }
     
     @Override
@@ -113,13 +123,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         {
             Logger.getLogger(PlayerWaitingController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @Override
-    public void update(Observable o, Object arg)
-    {
-        if(arg != null)
-            getView().closeModal();
     }
 
 }

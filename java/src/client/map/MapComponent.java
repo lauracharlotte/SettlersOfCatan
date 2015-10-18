@@ -200,6 +200,7 @@ public class MapComponent extends JComponent
 	private VertexLocation dropVertLoc;
 	private double scale;
 	private AffineTransform transform;
+        private final Object hexLock = new Object();
 	
 	public MapComponent()
 	{
@@ -317,7 +318,10 @@ public class MapComponent extends JComponent
 	{
 		
 		// Add hex to hex map
-		hexes.put(hexLoc, hexType);
+                synchronized(this.hexLock)
+                {
+                    hexes.put(hexLoc, hexType);
+                }
 		
 		// Compute hex point for the new hex
 		allHexPoints.put(hexLoc, getHexPoint(hexLoc));
@@ -618,8 +622,12 @@ public class MapComponent extends JComponent
 	
 	private void drawHexes(Graphics2D g2)
 	{
-		
-		for (Map.Entry<HexLocation, HexType> entry : hexes.entrySet())
+		Map<HexLocation, HexType> hexesTemp = new HashMap<>();
+                synchronized(this.hexLock)
+                {
+                    hexesTemp.putAll(this.hexes);
+                }
+		for (Map.Entry<HexLocation, HexType> entry : hexesTemp.entrySet())
 		{
 			
 			BufferedImage hexImage = getHexImage(entry.getValue());
