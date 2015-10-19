@@ -157,7 +157,9 @@ public class RollController extends Controller implements IRollController, Obser
     		ClientModel model = (ClientModel)arg;
     		TurnStatusEnumeration prevStatus = status;
     		status = model.getTurnTracker().getStatus();
-    		if (status == TurnStatusEnumeration.rolling && prevStatus != TurnStatusEnumeration.rolling)
+    		PlayerIdx client = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+    		if (status == TurnStatusEnumeration.rolling && prevStatus != TurnStatusEnumeration.rolling
+    				&& model.getTurnTracker().getCurrentTurn() == client)
     		{
     	    	getRollView().setMessage(rollMessage);
     			getRollView().showModal();
