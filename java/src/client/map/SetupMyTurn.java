@@ -191,7 +191,7 @@ class SetupMyTurn implements IMapState
     @Override
     public void cancelMove()
     {
-        
+        return;
     }
 
     @Override

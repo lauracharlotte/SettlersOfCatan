@@ -33,7 +33,7 @@ class NotMyTurnNormal implements IMapState
     @Override
     public void render(MapController controller)
     {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        controller.initFromModel();
     }
 
     @Override

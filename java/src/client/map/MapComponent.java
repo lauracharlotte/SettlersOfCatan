@@ -201,6 +201,7 @@ public class MapComponent extends JComponent
 	private double scale;
 	private AffineTransform transform;
         private final Object hexLock = new Object();
+        private final Object numberLock = new Object();
 	
 	public MapComponent()
 	{
@@ -346,9 +347,10 @@ public class MapComponent extends JComponent
 	
 	public void addNumber(HexLocation hexLoc, int num)
 	{
-		
-		numbers.put(hexLoc, num);
-		
+		synchronized(this.numberLock)
+                {
+                    numbers.put(hexLoc, num);
+                }
 		this.repaint();
 	}
 	
@@ -647,7 +649,8 @@ public class MapComponent extends JComponent
 	
 	private void drawNumbers(Graphics2D g2)
 	{
-		
+            synchronized(this.numberLock)
+            {
 		for (Map.Entry<HexLocation, Integer> entry : numbers.entrySet())
 		{
 			
@@ -657,6 +660,7 @@ public class MapComponent extends JComponent
 			
 			drawImage(g2, numImage, hexCenter);
 		}
+            }
 	}
 	
 	private void drawRobber(Graphics2D g2)

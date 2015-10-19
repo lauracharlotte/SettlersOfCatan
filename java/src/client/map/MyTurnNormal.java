@@ -6,7 +6,22 @@
 package client.map;
 
 import client.data.RobPlayerInfo;
+import clientcommunicator.modelserverfacade.BuildItemServerOperationsManager;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
+import clientcommunicator.operations.BuildCityRequest;
+import clientcommunicator.operations.BuildRoadRequest;
+import clientcommunicator.operations.BuildSettlementRequest;
+import clientcommunicator.operations.RobPlayerRequest;
+import guicommunicator.MapModelFacade;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.ClientModel;
+import model.ClientModelSupplier;
+import model.player.PlayerIdx;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -19,69 +34,110 @@ import shared.locations.VertexLocation;
 class MyTurnNormal implements IMapState
 {
 
+    private PlayerIdx playerIndex;
+    private MapModelFacade mapFacade = new MapModelFacade();
+    private BuildItemServerOperationsManager manager;
+    private TurnServerOperationsManager turnManager;
+    private HexLocation robberMovingTo = null;
+    
     public MyTurnNormal()
     {
+        this.playerIndex = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        try
+        {
+            manager = (BuildItemServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(BuildItemServerOperationsManager.class);
+            turnManager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+        }
+        catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex)
+        {
+            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public IMapState update(Observable o, Object arg)
     {
-        return this;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean isMyTurn = ((ClientModel)arg).getTurnTracker().getCurrentTurn().equals(this.playerIndex);
+        if(isMyTurn)
+            return this;
+        else
+            return new NotMyTurnNormal();
     }
 
     @Override
     public void render(MapController controller)
     {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        controller.initFromModel();
     }
 
     @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.mapFacade.canPlaceRoad(edgeLoc);
     }
 
     @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.mapFacade.canPlaceSettlement(vertLoc);
     }
 
     @Override
     public boolean canPlaceCity(VertexLocation vertLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.canPlaceCity(vertLoc);
     }
 
     @Override
     public boolean canPlaceRobber(HexLocation hexLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.canPlaceRobber(hexLoc);
     }
 
     @Override
     public void placeRoad(EdgeLocation edgeLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            manager.buildRoad(new BuildRoadRequest(this.playerIndex, edgeLoc, false));
+        }
+        catch (ClientException ex)
+        {
+            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void placeSettlement(VertexLocation vertLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            manager.buildSettlement(new BuildSettlementRequest(this.playerIndex, vertLoc, false));
+        }
+        catch (ClientException ex)
+        {
+            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void placeCity(VertexLocation vertLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try 
+        {
+           manager.buildCity(new BuildCityRequest(this.playerIndex, vertLoc));
+        }
+        catch (ClientException ex)
+        {
+            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void placeRobber(HexLocation hexLoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(this.canPlaceRobber(hexLoc))
+            this.robberMovingTo = hexLoc;
     }
 
     @Override
@@ -99,7 +155,7 @@ class MyTurnNormal implements IMapState
     @Override
     public void playSoldierCard()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override
@@ -111,7 +167,14 @@ class MyTurnNormal implements IMapState
     @Override
     public void robPlayer(RobPlayerInfo victim)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            this.turnManager.robPlayer(new RobPlayerRequest(this.playerIndex, new PlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
+        }
+        catch (ClientException ex)
+        {
+            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
