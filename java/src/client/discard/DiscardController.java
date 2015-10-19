@@ -3,9 +3,16 @@ package client.discard;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
+import clientcommunicator.operations.DiscardCardsRequest;
 import model.ClientModelSupplier;
+import model.cards.ResourceCards;
 import model.player.Player;
+import model.player.PlayerIdx;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,11 +29,13 @@ public class DiscardController extends Controller implements IDiscardController,
     private int totalWheat;
     private int totalOre;
     
-    private int discardedWood = 0;
-    private int discardedBrick = 0;
-    private int discardedSheep = 0;
-    private int discardedWheat = 0;
-    private int discardedOre = 0;
+    private int discardedWood;
+    private int discardedBrick;
+    private int discardedSheep;
+    private int discardedWheat;
+    private int discardedOre;
+    
+    private int totalToDiscard;
 
     /**
      * DiscardController constructor
@@ -37,15 +46,18 @@ public class DiscardController extends Controller implements IDiscardController,
     public DiscardController(IDiscardView view, IWaitView waitView) 
     {
     	super(view);
-        /*
     	this.waitView = waitView;
-    	Player player = ClientModelSupplier.getInstance().getClientPlayerObject();
-    	totalWood = player.getHand().getResourceCards().getLumber();
-    	totalBrick = player.getHand().getResourceCards().getBrick();
-    	totalSheep = player.getHand().getResourceCards().getWool();
-    	totalWheat = player.getHand().getResourceCards().getGrain();
-    	totalOre = player.getHand().getResourceCards().getOre();
-        */
+    	totalWood = 0;
+    	totalBrick = 0;
+    	totalSheep = 0;
+    	totalWheat = 0;
+    	totalOre = 0;
+    	discardedWood = 0;
+    	discardedBrick = 0;
+    	discardedSheep = 0;
+    	discardedWheat = 0;
+    	discardedOre = 0;
+    	totalToDiscard = 0;
     }
 
     public IDiscardView getDiscardView() 
@@ -57,6 +69,24 @@ public class DiscardController extends Controller implements IDiscardController,
     {
     	return waitView;
     }
+    
+    private void updateDiscardView()
+    {
+    	int totalDiscarded = discardedWood + discardedBrick + discardedSheep + discardedWheat + discardedOre;
+    	StringBuilder str = new StringBuilder();
+    	str.append(totalDiscarded);
+    	str.append("/");
+    	str.append(totalToDiscard);
+    	getDiscardView().setStateMessage(str.toString());
+    	if (totalDiscarded == totalToDiscard) 
+    	{
+    		getDiscardView().setDiscardButtonEnabled(true);
+    	}
+    	else
+    	{
+    		getDiscardView().setDiscardButtonEnabled(false);
+    	}
+    }
 
     @Override
     public void increaseAmount(ResourceType resource) 
@@ -65,22 +95,48 @@ public class DiscardController extends Controller implements IDiscardController,
     	{
     	case WOOD:
     		discardedWood++;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.WOOD, discardedWood);
+    		if (discardedWood == totalWood)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
+    		}
     		break;
     	case BRICK:
     		discardedBrick++;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.BRICK, discardedBrick);
+    		if (discardedBrick == totalBrick)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
+    		}
     		break;
     	case SHEEP:
     		discardedSheep++;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.SHEEP, discardedSheep);
+    		if (discardedSheep == totalSheep)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
+    		}
     		break;
     	case WHEAT:
     		discardedWheat++;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.WHEAT, discardedWheat);
+    		if (discardedWheat == totalWheat)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
+    		}
     		break;
     	case ORE:
     		discardedOre++;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.ORE, discardedOre);
+    		if (discardedOre == totalOre)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
+    		}
     		break;
     	default:
     		break;
     	}
+		updateDiscardView();
     }
 
     @Override
@@ -90,28 +146,70 @@ public class DiscardController extends Controller implements IDiscardController,
     	{
     	case WOOD:
     		discardedWood--;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.WOOD, discardedWood);
+    		if (discardedWood == 0)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+    		}
     		break;
     	case BRICK:
     		discardedBrick--;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.BRICK, discardedBrick);
+    		if (discardedBrick == 0)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
+    		}
     		break;
     	case SHEEP:
     		discardedSheep--;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.SHEEP, discardedSheep);
+    		if (discardedSheep == 0)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+    		}
     		break;
     	case WHEAT:
     		discardedWheat--;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.WHEAT, discardedWheat);
+    		if (discardedWheat == 0)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+    		}
     		break;
     	case ORE:
     		discardedOre--;
+    		getDiscardView().setResourceDiscardAmount(ResourceType.ORE, discardedOre);
+    		if (discardedOre == 0)
+    		{
+    			getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+    		}
     		break;
     	default:
     		break;
     	}
+    	updateDiscardView();
     }
 
     @Override
     public void discard() 
     {
     	getDiscardView().closeModal();
+    	getWaitView().showModal();
+    	ResourceCards cards = new ResourceCards(discardedBrick, discardedWheat, discardedWood, discardedOre, discardedSheep);
+    	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+    	DiscardCardsRequest request = new DiscardCardsRequest(index, cards);
+    	TurnServerOperationsManager manager;
+		try {
+			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+	    	manager.discardCards(request);
+		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+				| InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override
