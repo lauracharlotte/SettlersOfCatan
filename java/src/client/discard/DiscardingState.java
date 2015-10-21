@@ -2,6 +2,8 @@ package client.discard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import client.misc.IWaitView;
 import clientcommunicator.modelserverfacade.ClientException;
@@ -31,10 +33,9 @@ public class DiscardingState implements IDiscardState
     private int discardedWheat = 0;
     private int discardedOre = 0;
     
-    private PlayerIdx whoseTurn;
-    
-    
     private int totalToDiscard;
+    
+    private PlayerIdx whoseTurn;
 	
 	public DiscardingState(IDiscardView view) 
 	{
@@ -46,9 +47,9 @@ public class DiscardingState implements IDiscardState
 		totalWheat = cards.getGrain();
 		totalOre = cards.getOre();
 		totalToDiscard = (int) ((totalWood + totalBrick + totalSheep + totalWheat + totalOre) / 2);
+		this.whoseTurn = ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn();
 		initView(view);
 		updateView(view);
-                this.whoseTurn = ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn();
 	}
 
 	@Override
@@ -59,14 +60,14 @@ public class DiscardingState implements IDiscardState
 		{
 			disView.closeModal();
 			return new NotDiscardingState();
-                }
-                else if(!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
-                {
-                        disView.closeModal();
-                        waitView.closeModal();
-                        return new DiscardingState(disView);
-                }
-                else
+        }
+        else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
+        {
+            disView.closeModal();
+            waitView.closeModal();
+            return new DiscardingState(disView);
+        }
+        else
 		{
 			if (discarded)
 			{
@@ -92,10 +93,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
+            }
     		break;
     	case BRICK:
     		discardedBrick++;
@@ -104,10 +105,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
+            }
     		break;
     	case SHEEP:
     		discardedSheep++;
@@ -116,10 +117,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
+            }
     		break;
     	case WHEAT:
     		discardedWheat++;
@@ -128,10 +129,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
+            }
     		break;
     	case ORE:
     		discardedOre++;
@@ -140,10 +141,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
+            }
     		break;
     	default:
     		break;
@@ -163,10 +164,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
+            }
     		break;
     	case BRICK:
     		discardedBrick--;
@@ -175,10 +176,10 @@ public class DiscardingState implements IDiscardState
     		{
                     view.setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.BRICK, true, true);
+            }
     		break;
     	case SHEEP:
     		discardedSheep--;
@@ -187,10 +188,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, true);
+            }
     		break;
     	case WHEAT:
     		discardedWheat--;
@@ -199,10 +200,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, true);
+            }
     		break;
     	case ORE:
     		discardedOre--;
@@ -211,10 +212,10 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
     		}
-                else
-                {
-                    view.setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
-                }
+            else
+            {
+                view.setResourceAmountChangeEnabled(ResourceType.ORE, true, true);
+            }
     		break;
     	default:
     		break;
@@ -241,11 +242,11 @@ public class DiscardingState implements IDiscardState
 		else view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
 		if (totalOre == 0) view.setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
 		else view.setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
-                view.setResourceDiscardAmount(ResourceType.WOOD, 0);
-                view.setResourceDiscardAmount(ResourceType.WHEAT, 0);
-                view.setResourceDiscardAmount(ResourceType.ORE, 0);
-                view.setResourceDiscardAmount(ResourceType.BRICK, 0);
-                view.setResourceDiscardAmount(ResourceType.SHEEP, 0);
+        view.setResourceDiscardAmount(ResourceType.WOOD, 0);
+        view.setResourceDiscardAmount(ResourceType.WHEAT, 0);
+        view.setResourceDiscardAmount(ResourceType.ORE, 0);
+        view.setResourceDiscardAmount(ResourceType.BRICK, 0);
+        view.setResourceDiscardAmount(ResourceType.SHEEP, 0);
 	}
 
 	private void updateView(IDiscardView view) 
@@ -269,27 +270,22 @@ public class DiscardingState implements IDiscardState
 	@Override
 	public void discard(IDiscardView disView, IWaitView waitView) 
 	{
-            ResourceCards cards = new ResourceCards(discardedBrick, discardedWheat, discardedWood, discardedOre, discardedSheep);
-            PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-            DiscardCardsRequest request = new DiscardCardsRequest(index, cards);
-            TurnServerOperationsManager manager;
-            try 
-            {
-                manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
-                discarded = true;
-                manager.discardCards(request);
-            } 
-            catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-                            | InvocationTargetException | ClientException e) 
-            {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            } 
-
-            
-            //disView.closeModal();
-            
-            return; //new WaitingState(waitView);
+        ResourceCards cards = new ResourceCards(discardedBrick, discardedWheat, discardedWood, discardedOre, discardedSheep);
+        PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        DiscardCardsRequest request = new DiscardCardsRequest(index, cards);
+        TurnServerOperationsManager manager;
+        try 
+        {
+            manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+            discarded = true;
+            manager.discardCards(request);
+        } 
+        catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+        			| InvocationTargetException | ClientException e) 
+        {
+        	Logger.getLogger(DiscardingState.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return;
 	}
 
 }

@@ -16,6 +16,8 @@ import java.util.Observer;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation for the roll controller
@@ -71,13 +73,15 @@ public class RollController extends Controller implements IRollController, Obser
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	RollNumberRequest request = new RollNumberRequest(index, roll);
 		TurnServerOperationsManager manager;
-		try {
+		try 
+		{
 			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
 			manager.rollNumber(request);
-		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-				| InvocationTargetException | ClientException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+				| InvocationTargetException | ClientException e) 
+		{
+			Logger.getLogger(RollController.class.getName()).log(Level.SEVERE, null, e);
 		}
     }
     
@@ -145,7 +149,7 @@ public class RollController extends Controller implements IRollController, Obser
     		ClientModel model = (ClientModel) arg;
     		TurnStatusEnumeration status = model.getTurnTracker().getStatus();
     		PlayerIdx client = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-    		if (status == TurnStatusEnumeration.rolling && model.getTurnTracker().getCurrentTurn() == client)
+    		if (status == TurnStatusEnumeration.rolling && model.getTurnTracker().getCurrentTurn().equals(client))
     		{
     			if (!getRollView().isModalShowing())
     			{

@@ -18,6 +18,8 @@ import model.player.PlayerIdx;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -54,8 +56,7 @@ public class DevCardController extends Controller implements IDevCardController,
     	catch (NoSuchMethodException | InstantiationException | IllegalAccessException
 				| InvocationTargetException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		Logger.getLogger(DevCardController.class.getName()).log(Level.SEVERE, null, e);
 		}
     	
     	ClientModelSupplier.getInstance().addObserver(this);
@@ -97,8 +98,7 @@ public class DevCardController extends Controller implements IDevCardController,
     	catch (NoSuchMethodException | InstantiationException | IllegalAccessException
 				| InvocationTargetException | ClientException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		Logger.getLogger(DevCardController.class.getName()).log(Level.SEVERE, null, e);
 		}
     }
 
@@ -137,6 +137,7 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void playMonopolyCard(ResourceType resource) 
     {
+    	getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	MonopolyRequest request = new MonopolyRequest(index, resource);
     	try 
@@ -145,14 +146,14 @@ public class DevCardController extends Controller implements IDevCardController,
 		} 
     	catch (ClientException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		Logger.getLogger(DevCardController.class.getName()).log(Level.SEVERE, null, e);
 		}
     }
 
     @Override
     public void playMonumentCard() 
     {
+    	getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	MonumentRequest request = new MonumentRequest(index);
     	try 
@@ -161,26 +162,28 @@ public class DevCardController extends Controller implements IDevCardController,
 		} 
     	catch (ClientException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		Logger.getLogger(DevCardController.class.getName()).log(Level.SEVERE, null, e);
 		}
     }
 
     @Override
     public void playRoadBuildCard() 
     {
+    	getPlayCardView().closeModal();
     	roadAction.execute();
     }
 
     @Override
     public void playSoldierCard() 
     {
+    	getPlayCardView().closeModal();
     	soldierAction.execute();
     }
 
     @Override
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) 
     {
+    	getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	YearOfPlentyRequest request = new YearOfPlentyRequest(index, resource1, resource2);
     	try 
@@ -189,8 +192,7 @@ public class DevCardController extends Controller implements IDevCardController,
 		} 
     	catch (ClientException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    		Logger.getLogger(DevCardController.class.getName()).log(Level.SEVERE, null, e);
 		}
     }
 

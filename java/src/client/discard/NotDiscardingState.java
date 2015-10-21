@@ -2,6 +2,8 @@ package client.discard;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import client.misc.IWaitView;
 import clientcommunicator.modelserverfacade.ClientException;
@@ -38,18 +40,19 @@ public class NotDiscardingState implements IDiscardState
 			else
 			{
 				ResourceCards emptyCards = new ResourceCards(0, 0, 0, 0, 0);
-                                PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-                                DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
-                                TurnServerOperationsManager manager;
-				try {
+                PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+                DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
+                TurnServerOperationsManager manager;
+				try 
+				{
 					manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
 			    	manager.discardCards(request);
-				} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-						| InvocationTargetException | ClientException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} 
+				catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+						| InvocationTargetException | ClientException e) 
+				{
+					Logger.getLogger(NotDiscardingState.class.getName()).log(Level.SEVERE, null, e);
 				}
-				
 				return new WaitingState(waitView);
 			}
 		}
