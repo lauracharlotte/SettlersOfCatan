@@ -58,7 +58,6 @@ public class DiscardingState implements IDiscardState
 		ClientModel model = (ClientModel) arg;
 	if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
 	{
-			disView.closeModal();
 			return new NotDiscardingState();
         }
         else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
@@ -276,9 +275,9 @@ public class DiscardingState implements IDiscardState
         TurnServerOperationsManager manager;
         try 
         {
+            disView.closeModal();
             manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
             discarded = true;
-            disView.closeModal();
             manager.discardCards(request);
         } 
         catch (NoSuchMethodException | InstantiationException | IllegalAccessException

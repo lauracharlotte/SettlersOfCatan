@@ -14,7 +14,7 @@ import java.util.Observer;
 public class DiscardController extends Controller implements IDiscardController, Observer
 {
     private IWaitView waitView;
-    
+    private IDiscardView discardView;
     private IDiscardState state;
 
     /**
@@ -27,6 +27,7 @@ public class DiscardController extends Controller implements IDiscardController,
     {
     	super(view);
     	this.waitView = waitView;
+        this.discardView = view;
     	ClientModelSupplier.getInstance().addObserver(this);
     	
     	state = new NotDiscardingState();
@@ -34,7 +35,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
     public IDiscardView getDiscardView() 
     {
-    	return (IDiscardView)super.getView();
+    	return this.discardView;
     }
 
     public IWaitView getWaitView() 
@@ -65,7 +66,7 @@ public class DiscardController extends Controller implements IDiscardController,
     {
     	if (arg != null)
     	{
-    		state = state.modelUpdated(o, arg, getDiscardView(), waitView);
+    		state = state.modelUpdated(o, arg, this.discardView, waitView);
     	}
     }
 
