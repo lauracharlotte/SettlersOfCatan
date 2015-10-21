@@ -3,6 +3,7 @@ package client.discard;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import model.ClientModelSupplier;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -26,6 +27,7 @@ public class DiscardController extends Controller implements IDiscardController,
     {
     	super(view);
     	this.waitView = waitView;
+    	ClientModelSupplier.getInstance().addObserver(this);
     	
     	state = new NotDiscardingState();
     }

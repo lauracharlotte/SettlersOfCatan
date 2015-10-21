@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.ClientModelSupplier;
+import model.messages.MessageLine;
+import model.messages.MessageList;
+
 
 /**
  * Chat controller implementation

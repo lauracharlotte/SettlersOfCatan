@@ -218,17 +218,17 @@ public class DiscardingState implements IDiscardState
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	DiscardCardsRequest request = new DiscardCardsRequest(index, cards);
     	TurnServerOperationsManager manager;
-		try {
+		try 
+		{
 			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
 	    	manager.discardCards(request);
-		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
-				| InvocationTargetException e) {
+		} 
+		catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+				| InvocationTargetException | ClientException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ClientException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		
 		discarded = true;
 		disView.closeModal();
