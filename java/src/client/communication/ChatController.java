@@ -3,25 +3,17 @@ package client.communication;
 import client.base.*;
 import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
-import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
 import clientcommunicator.operations.SendChatRequest;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.messages.MessageLine;
 import model.player.Player;
-import model.player.PlayerIdx;
 import shared.definitions.CatanColor;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import model.ClientModelSupplier;
-import model.messages.MessageLine;
-import model.messages.MessageList;
-
 
 /**
  * Chat controller implementation
@@ -87,6 +79,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	        	LogEntry newEntry = new LogEntry(theColor, theMessage);      	
 	        	myLogList.add(newEntry);
 	    	}
+    		
 	    	getView().setEntries(myLogList);
 	    	ClientModelSupplier.getInstance().getModel().setChat(curModel.getChat());
     	}

@@ -1,9 +1,12 @@
 package client.communication;
 
 import java.util.*;
-import java.util.List;
 
 import client.base.*;
+import model.ClientModel;
+import model.ClientModelSupplier;
+import model.messages.MessageLine;
+import model.player.Player;
 import shared.definitions.*;
 
 
@@ -16,8 +19,8 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
     public GameHistoryController(IGameHistoryView view) {
 
             super(view);
-
             initFromModel();
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     @Override
@@ -29,29 +32,36 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 
     private void initFromModel() 
     {
-
-            //<temp>
-
-        List<LogEntry> entries = new ArrayList<LogEntry>();
-        entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-        entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-        entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-        entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-        entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-        entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-        entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-        entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-
-        getView().setEntries(entries);
-
-        //</temp>
+    	//Is there suppose to be anything here??
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    	if(arg!=null)
+    	{
+    		ClientModel curModel = (ClientModel) arg;
+    		List<LogEntry> myLogList = new ArrayList<LogEntry>();
+    		
+	    	for(MessageLine curMessage : curModel.getLog().getLines())
+	    	{
+	    		String theMessage = curMessage.getMessage();
+	    		String theSource = curMessage.getSource();
+
+	    		CatanColor theColor = null;//CatanColor.valueOf(theSource);
+	    		for(Player playa: curModel.getPlayers())
+	    		{
+	    			if(playa.getName().equals(theSource))
+	    			{
+	    				theColor = playa.getColor();
+	    			}
+	    		}
+	        	LogEntry newEntry = new LogEntry(theColor, theMessage);      	
+	        	myLogList.add(newEntry);
+	    	}
+    		getView().setEntries(myLogList);
+    	}   	
+     }
 	
 }
 
