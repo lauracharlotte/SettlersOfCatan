@@ -4,6 +4,10 @@ import client.base.*;
 import java.util.Observable;
 import java.util.Observer;
 
+import model.ClientModelSupplier;
+import model.messages.MessageLine;
+import model.messages.MessageList;
+
 
 /**
  * Chat controller implementation
@@ -23,7 +27,9 @@ public class ChatController extends Controller implements IChatController, Obser
 
     @Override
     public void sendMessage(String message) {
-
+        MessageList chat = ClientModelSupplier.getInstance().getModel().getChat();
+        chat.getLines().add(new MessageLine(message, "TODO: SOURCE"));
+        // Send the chat to the server
     }
 
     @Override

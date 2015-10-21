@@ -153,43 +153,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         VertexObject[] vertices = new VertexObject[2];
         HexLocation hexLocation = port.getHex();
         EdgeDirection edgeDirection = port.getDirection();
-        VertexDirection[] vertexDirection = convertEdgeDirToVertexDir(edgeDirection);
+        VertexDirection[] vertexDirection = edgeDirection.convertEdgeDirToVertexDir();
         vertices[0] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[0]).getNormalizedLocation(), playerIdx);
         vertices[1] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[1]).getNormalizedLocation(), playerIdx);
         return vertices;
-    }
-    
-    private VertexDirection[] convertEdgeDirToVertexDir(EdgeDirection edgeDirection)
-    {
-        VertexDirection[] vertexDirections = new VertexDirection[2];
-        switch(edgeDirection)
-        {
-            case North:
-                vertexDirections[0] = VertexDirection.NorthEast;
-                vertexDirections[1] = VertexDirection.NorthWest;
-                break;
-            case NorthWest:
-                vertexDirections[0] = VertexDirection.West;
-                vertexDirections[1] = VertexDirection.NorthWest;
-                break;
-            case NorthEast:
-                vertexDirections[0] = VertexDirection.NorthEast;
-                vertexDirections[1] = VertexDirection.East;
-                break;
-            case South:
-                vertexDirections[0] = VertexDirection.SouthEast;
-                vertexDirections[1] = VertexDirection.SouthWest;
-                break;
-            case SouthWest:
-                vertexDirections[0] = VertexDirection.West;
-                vertexDirections[1] = VertexDirection.SouthWest;
-                break;
-            case SouthEast:
-                vertexDirections[0] = VertexDirection.SouthEast;
-                vertexDirections[1] = VertexDirection.East;
-                break;
-        }
-        return vertexDirections;
     }
     
     private void getRatio(Port port)

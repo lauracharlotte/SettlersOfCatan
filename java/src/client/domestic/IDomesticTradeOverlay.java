@@ -92,6 +92,14 @@ public interface IDomesticTradeOverlay extends IOverlayView
 	 *            Whether or not the user may cancel the trade operation
 	 */
 	void setCancelEnabled(boolean enabled);
+        
+        /**
+         * Hides the up down arrows for the given resource
+         * 
+         * @param resource
+         *      The resource that needs to be hidden
+         */
+        void hideUpDownArrows(ResourceType resource);
 	
 }
 
