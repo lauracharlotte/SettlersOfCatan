@@ -48,6 +48,11 @@ public class ResourceCards
         this.wool = wool;
     }
 
+    public int getTotal()
+    {
+        return this.brick + this.grain + this.lumber + this.ore + this.wool;
+    }
+    
     /**
      * Obvious
      * @return brick
