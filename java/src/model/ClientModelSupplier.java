@@ -28,7 +28,7 @@ public class ClientModelSupplier extends Observable
 
     public Player getClientPlayerObject()
     {
-        if(this.ClientPlayerID == -1)
+        if(this.ClientPlayerID == -1 || this.currentModel == null)
             return null;
         else
         {
