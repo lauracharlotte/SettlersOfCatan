@@ -3,6 +3,10 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
+import guicommunicator.ResourceModelFacade;
+import model.ClientModelSupplier;
+import model.cards.ResourceCards;
+import model.player.Player;
 
 
 /**
@@ -18,6 +22,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
             super(view);
 
             elementActions = new HashMap<ResourceBarElement, IAction>();
+            
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     @Override
@@ -73,7 +79,41 @@ public class ResourceBarController extends Controller implements IResourceBarCon
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ResourceModelFacade resourceModelFacade = new ResourceModelFacade();
+        Player player = ClientModelSupplier.getInstance().getClientPlayerObject();
+        if (player != null)
+        {
+            ResourceCards resourceCards = player.getHand().getResourceCards();
+        
+            // update the resources you have
+            this.getView().setElementAmount(ResourceBarElement.WOOD, resourceCards.getLumber());
+            this.getView().setElementAmount(ResourceBarElement.BRICK, resourceCards.getBrick());
+            this.getView().setElementAmount(ResourceBarElement.SHEEP, resourceCards.getWool());
+            this.getView().setElementAmount(ResourceBarElement.ORE, resourceCards.getOre());
+            this.getView().setElementAmount(ResourceBarElement.WHEAT, resourceCards.getGrain());
+
+            // update roads/settlements/cities you have left
+            this.getView().setElementAmount(ResourceBarElement.ROAD, player.getRoads());
+            this.getView().setElementAmount(ResourceBarElement.SETTLEMENT, player.getSettlements());
+            this.getView().setElementAmount(ResourceBarElement.CITY, player.getCities());
+
+            // update soldiers
+            this.getView().setElementAmount(ResourceBarElement.SOLDIERS, player.getSoldiers());
+
+            // update can build road/settlement/city
+            this.getView().setElementEnabled(ResourceBarElement.ROAD, 
+                    resourceModelFacade.canBuildRoad());
+            this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, 
+                    resourceModelFacade.canBuildSettlement());
+            this.getView().setElementEnabled(ResourceBarElement.CITY, 
+                    resourceModelFacade.canBuildCity());
+
+            // update can buy card and can play card
+            this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD,
+                    resourceModelFacade.canPlayDevCard());
+            this.getView().setElementEnabled(ResourceBarElement.BUY_CARD,
+                    resourceModelFacade.canBuyDevCard());
+        }
     }
 
 }

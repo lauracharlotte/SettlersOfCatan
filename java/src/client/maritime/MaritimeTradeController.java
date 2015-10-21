@@ -88,7 +88,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         outputResource = resource;
         this.tradeOverlay.selectGetOption(resource, ratio);
         this.tradeOverlay.setTradeEnabled(true);
-        this.tradeOverlay.setStateMessage("Do you want to trade?");
     }
 
     @Override
@@ -96,14 +95,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         inputResource = resource;
         ratio = ratios.get(resource);
         this.tradeOverlay.selectGiveOption(resource, ratio);
-        this.tradeOverlay.setStateMessage("Choose what to get");
     }
 
     @Override
     public void unsetGetValue() {
         outputResource = null;
         this.tradeOverlay.setTradeEnabled(false);
-        this.tradeOverlay.setStateMessage("Choose what to get");
         this.tradeOverlay.showGetOptions(enabledResources);
     }
 
@@ -112,7 +109,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         inputResource = null;
         ratio = 0;
         this.tradeOverlay.reset();
-        this.tradeOverlay.setStateMessage("Choose what to give up");
     }
 
     @Override
@@ -141,6 +137,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                     {
                         resources.add(port.getResource());
                         getRatio(port);
+                        System.out.println(port.getResource());
                     }
                 }
             }
