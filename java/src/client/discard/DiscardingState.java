@@ -78,7 +78,7 @@ public class DiscardingState implements IDiscardState
     	case WOOD:
     		discardedWood++;
     		view.setResourceDiscardAmount(ResourceType.WOOD, discardedWood);
-    		if (discardedWood == totalWood)
+    		if (discardedWood == totalWood || discardedWood == totalToDiscard)
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
     		}
@@ -86,7 +86,7 @@ public class DiscardingState implements IDiscardState
     	case BRICK:
     		discardedBrick++;
     		view.setResourceDiscardAmount(ResourceType.BRICK, discardedBrick);
-    		if (discardedBrick == totalBrick)
+    		if (discardedBrick == totalBrick || discardedBrick == totalToDiscard)
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
     		}
@@ -94,7 +94,7 @@ public class DiscardingState implements IDiscardState
     	case SHEEP:
     		discardedSheep++;
     		view.setResourceDiscardAmount(ResourceType.SHEEP, discardedSheep);
-    		if (discardedSheep == totalSheep)
+    		if (discardedSheep == totalSheep || discardedSheep == totalToDiscard)
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
     		}
@@ -102,7 +102,7 @@ public class DiscardingState implements IDiscardState
     	case WHEAT:
     		discardedWheat++;
     		view.setResourceDiscardAmount(ResourceType.WHEAT, discardedWheat);
-    		if (discardedWheat == totalWheat)
+    		if (discardedWheat == totalWheat || discardedWheat == totalToDiscard)
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
     		}
@@ -110,7 +110,7 @@ public class DiscardingState implements IDiscardState
     	case ORE:
     		discardedOre++;
     		view.setResourceDiscardAmount(ResourceType.ORE, discardedOre);
-    		if (discardedOre == totalOre)
+    		if (discardedOre == totalOre || discardedOre == totalToDiscard)
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
     		}
@@ -176,11 +176,11 @@ public class DiscardingState implements IDiscardState
 	{
 		view.showModal();
 		view.setDiscardButtonEnabled(false);
-		view.setResourceMaxAmount(ResourceType.WOOD, Integer.min(totalWood, totalToDiscard));
-		view.setResourceMaxAmount(ResourceType.BRICK, Integer.min(totalBrick, totalToDiscard));
-		view.setResourceMaxAmount(ResourceType.SHEEP, Integer.min(totalSheep, totalToDiscard));
-		view.setResourceMaxAmount(ResourceType.WHEAT, Integer.min(totalWheat, totalToDiscard));
-		view.setResourceMaxAmount(ResourceType.ORE, Integer.min(totalOre, totalToDiscard));
+		view.setResourceMaxAmount(ResourceType.WOOD, totalWood);
+		view.setResourceMaxAmount(ResourceType.BRICK, totalBrick);
+		view.setResourceMaxAmount(ResourceType.SHEEP, totalSheep);
+		view.setResourceMaxAmount(ResourceType.WHEAT, totalWheat);
+		view.setResourceMaxAmount(ResourceType.ORE, totalOre);
 		if (totalWood == 0) view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
 		else view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
 		if (totalBrick == 0) view.setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
