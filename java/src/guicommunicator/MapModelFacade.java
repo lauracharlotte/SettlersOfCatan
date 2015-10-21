@@ -1,5 +1,6 @@
 package guicommunicator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +39,19 @@ public class MapModelFacade
      */
     public MapModelFacade() { }
 
+    public boolean canPlaceRoadIfOtherRoadThere(EdgeLocation testingRoad, EdgeLocation ifRoadHere)
+    {
+      if(testingRoad.equals(ifRoadHere))
+          return false;
+      else
+      {
+          Collection<EdgeObject> edgeObjects = new ArrayList<>(this.getCurrentMap().getRoads());
+          EdgeObject newEdgeObject = new EdgeObject(ifRoadHere, ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex());
+          edgeObjects.add(newEdgeObject);
+          return this.canPlaceRoadWithRoadCollection(testingRoad, edgeObjects);
+      }
+    }
+    
     /**
      * Using the given edgeLocation, determines whether
      * the player can place a road on that edge
@@ -46,12 +60,28 @@ public class MapModelFacade
      */
     public boolean canPlaceRoad(EdgeLocation location)
     {
+        return this.canPlaceRoadWithRoadCollection(location, this.getCurrentMap().getRoads());
+    }
+
+    private boolean canPlaceRoadWithRoadCollection(EdgeLocation location, Collection<EdgeObject> roads)
+    {
         if(!this.onLand(location))
             return false;
+        if(roads == null)
+            return false;
+        
         location = location.getNormalizedLocation();
         CatanMap map = this.getCurrentMap();
         Map<VertexLocation, VertexObject> allObjects = this.getAllVertexObjects(map);
         PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        
+        Iterator<EdgeObject> roadItr = roads.iterator();
+        while(roadItr.hasNext())
+        {
+            EdgeObject road = roadItr.next();
+            if(road.getLocation().getNormalizedLocation().equals(location))
+                return false;
+        }
         
         boolean doesBlockWest = false;
         boolean doesBlockEast = false;
@@ -76,11 +106,9 @@ public class MapModelFacade
                 return true;
         }
         
-        if(map.getRoads() == null)
-            return false;
         if(neededRoadLocations.isEmpty())
             return false;
-        Iterator<EdgeObject> roadItr = map.getRoads().iterator();
+        roadItr = roads.iterator();
         boolean hasConnector = false;
         while(roadItr.hasNext())
         {
@@ -92,7 +120,7 @@ public class MapModelFacade
         }
         return hasConnector;
     }
-
+    
     private boolean northCanBuildRoad(EdgeLocation location, Map<VertexLocation, VertexObject> allObjects, PlayerIdx currentPlayer, Set<EdgeLocation> neededRoadLocations)
     {
         VertexLocation westVertex;
