@@ -63,7 +63,10 @@ public class DiscardController extends Controller implements IDiscardController,
     @Override
     public void update(Observable o, Object arg)
     {
-    	state = state.modelUpdated(o, arg, getDiscardView(), waitView);
+    	if (arg != null)
+    	{
+    		state = state.modelUpdated(o, arg, getDiscardView(), waitView);
+    	}
     }
 
 }
