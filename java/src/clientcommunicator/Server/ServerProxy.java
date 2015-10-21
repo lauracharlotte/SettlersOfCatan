@@ -92,7 +92,7 @@ public class ServerProxy implements IServerProxy
         // update model
         ModelServerFacadeFactory model = ModelServerFacadeFactory.getInstance();
         try {
-            model.updateModel(this.post("moves/sendChat", body));
+            model.updateModel(this.post("/moves/sendChat", body));
         } catch (JSONException e) {
             e.printStackTrace();
         }

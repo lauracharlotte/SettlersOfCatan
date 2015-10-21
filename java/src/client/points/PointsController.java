@@ -44,9 +44,9 @@ public class PointsController extends Controller implements IPointsController, O
             this.finishedView = finishedView;
     }
 
-    private void initFromModel() {
+    private void initFromModel() {//CHANGE------------------------------------------------------
             //<temp>		
-            getPointsView().setPoints(5);
+            //getPointsView().setPoints(0);
            //I'm not sure where this is even showing up.
             //</temp>
     }
@@ -66,7 +66,7 @@ public class PointsController extends Controller implements IPointsController, O
 				//Do I need to change the Victory points in the other as well or is that done elsewhere?
 				//I'm not sure where this is even showing up.
 			}
-			if(player.getVictoryPoints() == 10)
+			if(player.getVictoryPoints() >= 10)
 			{
 				if(player.getPlayerIndex().getIndex() == locPlayerIdx)
 				{
