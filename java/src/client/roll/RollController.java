@@ -23,7 +23,6 @@ import java.util.TimerTask;
 public class RollController extends Controller implements IRollController, Observer 
 {
     private IRollResultView resultView;
-    private TurnStatusEnumeration status;
     private final long firstDelay = 1000;
     private final long secondDelay = 2000;
     private final long thirdDelay = 3000;
@@ -43,7 +42,6 @@ public class RollController extends Controller implements IRollController, Obser
     {
     	super(view);
     	setResultView(resultView);
-        status = TurnStatusEnumeration.firstround;
         ClientModelSupplier.getInstance().addObserver(this);
     }
 
@@ -154,16 +152,17 @@ public class RollController extends Controller implements IRollController, Obser
     {
     	if (arg != null)
     	{
-    		ClientModel model = (ClientModel)arg;
-    		TurnStatusEnumeration prevStatus = status;
-    		status = model.getTurnTracker().getStatus();
+    		ClientModel model = (ClientModel) arg;
+    		TurnStatusEnumeration status = model.getTurnTracker().getStatus();
     		PlayerIdx client = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-    		if (status == TurnStatusEnumeration.rolling && prevStatus != TurnStatusEnumeration.rolling
-    				&& model.getTurnTracker().getCurrentTurn() == client)
+    		if (status == TurnStatusEnumeration.rolling && model.getTurnTracker().getCurrentTurn() == client)
     		{
-    	    	getRollView().setMessage(rollMessage);
-    			getRollView().showModal();
-    			startTimer();
+    			if (!getRollView().isModalShowing())
+    			{
+	    	    	getRollView().setMessage(rollMessage);
+	    			getRollView().showModal();
+	    			startTimer();
+    			}
     		}
     	}
     }
