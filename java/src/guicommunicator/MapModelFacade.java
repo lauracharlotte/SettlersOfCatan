@@ -52,6 +52,29 @@ public class MapModelFacade
       }
     }
     
+    public Collection<Player> playersByHex(HexLocation location)
+    {
+        Set<VertexLocation> vertLocations = new HashSet<VertexLocation>();
+        for(VertexDirection dir : VertexDirection.values())
+        {
+            vertLocations.add(new VertexLocation(location, dir).getNormalizedLocation());
+        }
+        Collection<Player> allPlayers = ClientModelSupplier.getInstance().getModel().getPlayers();
+        ArrayList<Player> players = new ArrayList<>();
+        for(VertexObject v: this.getCurrentMap().getCities())
+        {
+            if(vertLocations.contains(v.getLocation()))
+                players.add((Player) allPlayers.toArray()[v.getOwner().getIndex()]);
+                
+        }
+        for(VertexObject v: this.getCurrentMap().getSettlements())
+        {
+            if(vertLocations.contains(v.getLocation()))
+                players.add((Player) allPlayers.toArray()[v.getOwner().getIndex()]);
+        }
+        return players;
+    }
+    
     /**
      * Using the given edgeLocation, determines whether
      * the player can place a road on that edge
