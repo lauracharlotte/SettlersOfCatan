@@ -56,8 +56,8 @@ public class DiscardingState implements IDiscardState
 	public IDiscardState modelUpdated(Observable o, Object arg, IDiscardView disView, IWaitView waitView) 
 	{
 		ClientModel model = (ClientModel) arg;
-		if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
-		{
+	if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
+	{
 			disView.closeModal();
 			return new NotDiscardingState();
         }
@@ -278,6 +278,7 @@ public class DiscardingState implements IDiscardState
         {
             manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
             discarded = true;
+            disView.closeModal();
             manager.discardCards(request);
         } 
         catch (NoSuchMethodException | InstantiationException | IllegalAccessException
