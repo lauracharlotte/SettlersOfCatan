@@ -197,10 +197,7 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void update(Observable o, Object arg)
     {
-    	//Remember to check if arg is null
-    	//Just need to check if it's the player's turn (maybe?)
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	
     }
-
 }
 

@@ -70,22 +70,12 @@ public class RollController extends Controller implements IRollController, Obser
     	getResultView().showModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	RollNumberRequest request = new RollNumberRequest(index, roll);
-    	try {
-			TurnServerOperationsManager manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+		TurnServerOperationsManager manager;
+		try {
+			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
 			manager.rollNumber(request);
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClientException e) {
+		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+				| InvocationTargetException | ClientException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
