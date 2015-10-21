@@ -1,11 +1,17 @@
 package client.discard;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 
 import client.misc.IWaitView;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
+import clientcommunicator.operations.DiscardCardsRequest;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.cards.ResourceCards;
+import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
 import shared.definitions.ResourceType;
 
@@ -31,6 +37,19 @@ public class NotDiscardingState implements IDiscardState
 			}
 			else
 			{
+				ResourceCards emptyCards = new ResourceCards(0, 0, 0, 0, 0);
+		    	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+		    	DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
+		    	TurnServerOperationsManager manager;
+				try {
+					manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+			    	manager.discardCards(request);
+				} catch (NoSuchMethodException | InstantiationException | IllegalAccessException
+						| InvocationTargetException | ClientException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				return new WaitingState(waitView);
 			}
 		}
