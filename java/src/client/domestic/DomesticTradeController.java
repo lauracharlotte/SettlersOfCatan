@@ -4,9 +4,20 @@ import shared.definitions.*;
 import client.base.*;
 import client.data.PlayerInfo;
 import client.misc.*;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TradeServerOperationsManager;
+import clientcommunicator.operations.AcceptTradeRequest;
+import clientcommunicator.operations.OfferTradeRequest;
+import guicommunicator.ResourceModelFacade;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.ClientModel;
 
 import model.ClientModelSupplier;
 import model.cards.ResourceCards;
@@ -39,6 +50,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     private int tradeSheep = 0;
     private boolean sending = false;
     private boolean receiving = false;
+    private boolean personToAsk = false;
     private TradeOffer trade;
 
     /**
@@ -57,6 +69,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
             setTradeOverlay(tradeOverlay);
             setWaitOverlay(waitOverlay);
             setAcceptOverlay(acceptOverlay);
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public IDomesticTradeView getTradeView() {
@@ -243,15 +256,28 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
     @Override
     public void sendTradeOffer() {
-        // send the actual request
+        OfferTradeRequest request = new OfferTradeRequest(trade.getSenderNumber(), 
+                trade.getResourceCards(), trade.getReceiverNumber().getIndex());
+        
+        try 
+        {
             getTradeOverlay().closeModal();
-//		getWaitOverlay().showModal();
+            getWaitOverlay().showModal();
+            TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
+            
+            manager.offerTrade(request);
+            
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClientException ex) {
+            Logger.getLogger(DomesticTradeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void setPlayerToTradeWith(int playerIndex) {        
         // set the player index in the trade offer
         trade.setReceiverNumber(new PlayerIdx(playerIndex));
+        personToAsk = true;
+        updateEnableTrade();
     }
 
     @Override
@@ -273,6 +299,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
                 tradeWheat = -1;
                 break;
         }
+        
         // makes the view show the increase buttons
         tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
     }
@@ -302,7 +329,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         ResourceCards playerCards = clientModelSupplier.getClientPlayerObject().getHand().getResourceCards();
  
         // if the player has none of that resource, the up arrow is disabled
-        if (!playerCardLimit(resource, playerCards, 0))
+        if (playerCardLimit(resource, playerCards, 0))
         {
             tradeOverlay.setResourceAmountChangeEnabled(resource, false, false);
             return;
@@ -344,19 +371,95 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     @Override
     public void cancelTrade() {
         trade = null;
+        tradeWood = 0;
+        tradeBrick = 0;
+        tradeOre = 0;
+        tradeWheat = 0;
+        tradeSheep = 0;
+        sending = false;
+        receiving = false;
+        personToAsk = false;
         getTradeOverlay().closeModal();
     }
 
     @Override
     public void acceptTrade(boolean willAccept) {
-
-        getAcceptOverlay().closeModal();
+        PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        AcceptTradeRequest request = new AcceptTradeRequest(index, willAccept);
+        
+        try {
+            getAcceptOverlay().closeModal();
+            TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
+            manager.acceptTrade(request);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClientException ex) {
+            Logger.getLogger(DomesticTradeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // update if you get a trade
+        ClientModel model = ClientModelSupplier.getInstance().getModel();
+        if (model != null)
+        {
+            TradeOffer currentTrade = ClientModelSupplier.getInstance().getModel().getTradeOffer();
+            
+            
+            if (currentTrade == null && trade != null)
+            {
+                getWaitOverlay().closeModal();
+                cancelTrade();
+            }
+            else if (currentTrade != null)
+            {
+                if (currentTrade.getReceiverNumber().getIndex() == ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex())
+                {
+                    ResourceCards resourceCards = currentTrade.getResourceCards();
+                    String offerer = getPlayerNameByIndex(currentTrade.getSenderNumber().getIndex());
+                    createAcceptOverlay(resourceCards, offerer);
+                }
+            }           
+        }
+    }
+    
+    private String getPlayerNameByIndex(int index)
+    {
+        Collection<Player> players = ClientModelSupplier.getInstance().getModel().getPlayers();
+        for (Player player : players)
+        {
+            if (player.getPlayerIndex().getIndex() == index)
+            {
+                return player.getName();
+            }
+        }
+        return null;
+    }
+    
+    private void createAcceptOverlay(ResourceCards resourceCards, String offerer)
+    {
+        interpretTradeOffer(resourceCards.getLumber(), ResourceType.WOOD);
+        interpretTradeOffer(resourceCards.getBrick(), ResourceType.BRICK);
+        interpretTradeOffer(resourceCards.getGrain(), ResourceType.WHEAT);
+        interpretTradeOffer(resourceCards.getWool(), ResourceType.SHEEP);
+        interpretTradeOffer(resourceCards.getOre(), ResourceType.ORE);
+        getAcceptOverlay().setPlayerName(offerer);
+        getAcceptOverlay().setAcceptEnabled(new ResourceModelFacade().hasEnoughResource(resourceCards));
+        getAcceptOverlay().showModal();
+    }
+    
+    private void interpretTradeOffer(int resourceAmount, ResourceType resource)
+    {
+        if (resourceAmount < 0)
+        {
+            // Player will give this resource
+            getAcceptOverlay().addGiveResource(resource, Math.abs(resourceAmount));
+        }
+        else if (resourceAmount > 0)
+        {
+            // Player will receive this resource
+            getAcceptOverlay().addGetResource(resource, resourceAmount);
+        }
     }
     
     private void decreaseTradeResource(ResourceType resource)
@@ -384,10 +487,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         this.sending = true;
         
         // if the resource is now reached its limit
-        if (!playerCardLimit(resource, playerCards, change))
+        if (playerCardLimit(resource, playerCards, change))
         {
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, false, true);
         }
+        sending = true;
+        updateEnableTrade();
     }
     
     private void decreaseReceiveResource(ResourceType resource)
@@ -416,6 +521,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, true);
         }
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(Math.abs(change)));
+        receiving = true;
+        updateEnableTrade();
     }
     
     private int changeAmountOfCards(ResourceType resource, int amount)
@@ -482,6 +589,30 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
                 break;
         }
         return limit;
+    }
+    
+    private void updateEnableTrade()
+    {
+        if (sending)
+        {
+            if (receiving)
+            {
+                if (personToAsk)
+                {
+                    this.tradeOverlay.setTradeEnabled(true);
+                    this.tradeOverlay.setStateMessage("Trade!");
+                    return;
+                }
+                this.tradeOverlay.setTradeEnabled(false);
+                this.tradeOverlay.setStateMessage("choose with whom you want to trade");
+                return;
+            }
+            this.tradeOverlay.setTradeEnabled(false);
+            this.tradeOverlay.setStateMessage("select the resources you want to trade");
+            return;
+        }
+        this.tradeOverlay.setTradeEnabled(false);
+        this.tradeOverlay.setStateMessage("select the resources you want to trade");
     }
 
 }

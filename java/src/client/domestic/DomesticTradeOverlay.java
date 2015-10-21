@@ -91,7 +91,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 	private JPanel setupUserSelectPanel() {
 		
 		// setup trade button
-		this.tradeButton = new JButton("set the trade you want to make");
+		this.tradeButton = new JButton("select the resources you want to trade");
 		Font buttonFont = this.tradeButton.getFont();
 		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
 		this.tradeButton.setFont(buttonFont);
