@@ -57,7 +57,7 @@ public class DiscardController extends Controller implements IDiscardController,
     @Override
     public void discard() 
     {
-    	state = state.discard(getDiscardView(), waitView);
+    	state.discard(getDiscardView(), waitView);
     }
 
     @Override

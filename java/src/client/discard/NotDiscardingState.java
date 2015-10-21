@@ -38,9 +38,9 @@ public class NotDiscardingState implements IDiscardState
 			else
 			{
 				ResourceCards emptyCards = new ResourceCards(0, 0, 0, 0, 0);
-		    	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-		    	DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
-		    	TurnServerOperationsManager manager;
+                                PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+                                DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
+                                TurnServerOperationsManager manager;
 				try {
 					manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
 			    	manager.discardCards(request);

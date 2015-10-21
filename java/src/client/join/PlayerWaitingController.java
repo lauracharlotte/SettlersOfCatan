@@ -108,7 +108,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
             }
         };
         this.timer = new Timer();
-        this.timer.schedule(timerTask, 0, 2500);
+        this.timer.schedule(timerTask, 0, 2000);
     }
     
     @Override
