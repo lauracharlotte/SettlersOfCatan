@@ -17,9 +17,9 @@ import shared.definitions.ResourceType;
 
 public class DiscardingState implements IDiscardState
 {
-	private boolean discarded;
+    private boolean discarded;
 	
-	private int totalWood;
+    private int totalWood;
     private int totalBrick;
     private int totalSheep;
     private int totalWheat;
@@ -30,6 +30,9 @@ public class DiscardingState implements IDiscardState
     private int discardedSheep = 0;
     private int discardedWheat = 0;
     private int discardedOre = 0;
+    
+    private PlayerIdx whoseTurn;
+    
     
     private int totalToDiscard;
 	
@@ -45,6 +48,7 @@ public class DiscardingState implements IDiscardState
 		totalToDiscard = (int) ((totalWood + totalBrick + totalSheep + totalWheat + totalOre) / 2);
 		initView(view);
 		updateView(view);
+                this.whoseTurn = ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn();
 	}
 
 	@Override
@@ -55,8 +59,14 @@ public class DiscardingState implements IDiscardState
 		{
 			disView.closeModal();
 			return new NotDiscardingState();
-		}
-		else
+                }
+                else if(!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
+                {
+                        disView.closeModal();
+                        waitView.closeModal();
+                        return new DiscardingState(disView);
+                }
+                else
 		{
 			if (discarded)
 			{
@@ -231,6 +241,11 @@ public class DiscardingState implements IDiscardState
 		else view.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
 		if (totalOre == 0) view.setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
 		else view.setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+                view.setResourceDiscardAmount(ResourceType.WOOD, 0);
+                view.setResourceDiscardAmount(ResourceType.WHEAT, 0);
+                view.setResourceDiscardAmount(ResourceType.ORE, 0);
+                view.setResourceDiscardAmount(ResourceType.BRICK, 0);
+                view.setResourceDiscardAmount(ResourceType.SHEEP, 0);
 	}
 
 	private void updateView(IDiscardView view) 
