@@ -2,14 +2,16 @@ package client.domestic;
 
 import shared.definitions.*;
 import client.base.*;
+import client.data.PlayerInfo;
 import client.misc.*;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import model.ClientModel;
 import model.ClientModelSupplier;
 import model.cards.ResourceCards;
 import model.cards.TradeOffer;
+import model.player.Player;
 import model.player.PlayerIdx;
 
 
@@ -35,6 +37,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     private int tradeOre = 0;
     private int tradeWheat = 0;
     private int tradeSheep = 0;
+    private boolean sending = false;
+    private boolean receiving = false;
+    private TradeOffer trade;
 
     /**
      * DomesticTradeController constructor
@@ -85,124 +90,154 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
     @Override
     public void startTrade() {
-
-            getTradeOverlay().showModal();
+        this.tradeOverlay.hideUpDownArrows(ResourceType.WOOD);
+        this.tradeOverlay.hideUpDownArrows(ResourceType.BRICK);
+        this.tradeOverlay.hideUpDownArrows(ResourceType.ORE);
+        this.tradeOverlay.hideUpDownArrows(ResourceType.SHEEP);
+        this.tradeOverlay.hideUpDownArrows(ResourceType.WHEAT);
+        
+        Player[] players = ClientModelSupplier.getInstance().getModel().getPlayers().toArray(new Player[4]);
+        ArrayList<PlayerInfo> playerInfos = new ArrayList();
+        PlayerIdx playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        for (int i = 0; i < players.length; i++) 
+        {
+            if (playerIdx.getIndex() != i)
+            {
+                Player player = players[i];
+                playerInfos.add(new PlayerInfo());
+                playerInfos.get(playerInfos.size() - 1).setId(player.getPlayerId());
+                playerInfos.get(playerInfos.size() - 1).setPlayerIndex(player.getPlayerIndex().getIndex());
+                playerInfos.get(playerInfos.size() - 1).setName(player.getName());
+                playerInfos.get(playerInfos.size() - 1).setColor(player.getColor()); 
+            }
+        }
+        PlayerInfo[] newPlayerInfos = new PlayerInfo[3];
+        this.tradeOverlay.setPlayers(playerInfos.toArray(newPlayerInfos));
+        ResourceCards resourceCards = new ResourceCards(0,0,0,0,0);
+        trade = new TradeOffer(playerIdx, null, resourceCards);
+        
+        getTradeOverlay().showModal();
     }
 
     @Override
     public void decreaseResourceAmount(ResourceType resource) {
-        ResourceCards resourceCards = ClientModelSupplier.getInstance().getModel().getTradeOffer().getResourceCards();
         switch (resource) {
             case WOOD:
                 if (tradeWood == 1)
                 {
-                    decreaseTradeResource(resource, resourceCards);
+                    decreaseTradeResource(resource);
                 }
                 else
                 {
-                    decreaseReceiveResource(resource, resourceCards);
+                    decreaseReceiveResource(resource);
                 }
                 break;
             case BRICK:
                 if (tradeBrick == 1)
                 {
-                    decreaseTradeResource(resource, resourceCards);
+                    decreaseTradeResource(resource);
                 }
                 else
                 {
-                    decreaseReceiveResource(resource, resourceCards);
+                    decreaseReceiveResource(resource);
                 }
                 break;
             case SHEEP:
                 if (tradeSheep == 1)
                 {
-                    decreaseTradeResource(resource, resourceCards);
+                    decreaseTradeResource(resource);
                 }
                 else
                 {
-                    decreaseReceiveResource(resource, resourceCards);
+                    decreaseReceiveResource(resource);
                 }
                 break;
             case ORE:
                 if (tradeOre == 1)
                 {
-                    decreaseTradeResource(resource, resourceCards);
+                    decreaseTradeResource(resource);
                 }
                 else
                 {
-                    decreaseReceiveResource(resource, resourceCards);
+                    decreaseReceiveResource(resource);
                 }
                 break;
             case WHEAT:
                 if (tradeWheat == 1)
                 {
-                    decreaseTradeResource(resource, resourceCards);
+                    decreaseTradeResource(resource);
                 }
                 else
                 {
-                    decreaseReceiveResource(resource, resourceCards);
+                    decreaseReceiveResource(resource);
                 }
                 break;
         }
-
+        if (!sending || !receiving)
+        {
+            // message says choose your trade
+        }
     }
 
     @Override
     public void increaseResourceAmount(ResourceType resource) {
-        ClientModelSupplier clientModelSupplier = ClientModelSupplier.getInstance();
-        ResourceCards playerCards = clientModelSupplier.getClientPlayerObject().getHand().getResourceCards();
-        ResourceCards resourceCards = clientModelSupplier.getModel().getTradeOffer().getResourceCards();
+        ResourceCards playerCards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
         switch (resource) {
             case WOOD:
                 if (tradeWood == 1)
                 {
-                    increaseTradeResource(resource, playerCards, resourceCards);
+                    increaseTradeResource(resource, playerCards);
                 }
                 else
                 {
-                    increaseReceiveResource(resource, resourceCards);
+                    increaseReceiveResource(resource);
                 }
                 break;
             case BRICK:
                 if (tradeBrick == 1)
                 {
-                    increaseTradeResource(resource, playerCards, resourceCards);
+                    increaseTradeResource(resource, playerCards);
                 }
                 else
                 {
-                    increaseReceiveResource(resource, resourceCards);
+                    increaseReceiveResource(resource);
                 }
                 break;
             case SHEEP:
                 if (tradeSheep == 1)
                 {
-                    increaseTradeResource(resource, playerCards, resourceCards);
+                    increaseTradeResource(resource, playerCards);
                 }
                 else
                 {
-                    increaseReceiveResource(resource, resourceCards);
+                    increaseReceiveResource(resource);
                 }
                 break;
             case ORE:
                 if (tradeOre == 1)
                 {
-                    increaseTradeResource(resource, playerCards, resourceCards);
+                    increaseTradeResource(resource, playerCards);
                 }
                 else
                 {
-                    increaseReceiveResource(resource, resourceCards);
+                    increaseReceiveResource(resource);
                 }
                 break;
             case WHEAT:
                 if (tradeWheat == 1)
                 {
-                    increaseTradeResource(resource, playerCards, resourceCards);
+                    increaseTradeResource(resource, playerCards);
                 }
                 else
                 {
-                    increaseReceiveResource(resource, resourceCards);
+                    increaseReceiveResource(resource);
                 }
                 break;
+        }
+        
+        if (sending && receiving)
+        {
+            // message says choose your partner or whatever
         }
     }
 
@@ -214,15 +249,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     }
 
     @Override
-    public void setPlayerToTradeWith(int playerIndex) {
-        PlayerIdx playerToTradeWith = new PlayerIdx(playerIndex);
-        
-        // get current client model
-        ClientModel currentModel = ClientModelSupplier.getInstance().getModel();
-        // get trade offer
-        TradeOffer tradeOffer = currentModel.getTradeOffer();
+    public void setPlayerToTradeWith(int playerIndex) {        
         // set the player index in the trade offer
-        tradeOffer.setReceiverNumber(playerToTradeWith);
+        trade.setReceiverNumber(new PlayerIdx(playerIndex));
     }
 
     @Override
@@ -283,31 +312,30 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
     @Override
     public void unsetResource(ResourceType resource) {
-        ResourceCards resourceCards = ClientModelSupplier.getInstance().getModel().getTradeOffer().getResourceCards();
         switch (resource) {
             case WOOD:
                 tradeWood = 0;
-                resourceCards.setLumber(0);
+                trade.getResourceCards().setLumber(0);
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
             case BRICK:
                 tradeBrick = 0;
-                resourceCards.setBrick(0);
+                trade.getResourceCards().setBrick(0);
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
             case SHEEP:
                 tradeSheep = 0;
-                resourceCards.setWool(0);
+                trade.getResourceCards().setWool(0);
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
             case ORE:
                 tradeOre = 0;
-                resourceCards.setOre(0);
+                trade.getResourceCards().setOre(0);
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
             case WHEAT:
                 tradeWheat = 0;
-                resourceCards.setGrain(0);
+                trade.getResourceCards().setGrain(0);
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
         }
@@ -315,14 +343,14 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
     @Override
     public void cancelTrade() {
-
-            getTradeOverlay().closeModal();
+        trade = null;
+        getTradeOverlay().closeModal();
     }
 
     @Override
     public void acceptTrade(boolean willAccept) {
 
-            getAcceptOverlay().closeModal();
+        getAcceptOverlay().closeModal();
     }
 
     @Override
@@ -331,10 +359,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private void decreaseTradeResource(ResourceType resource, ResourceCards resourceCards)
+    private void decreaseTradeResource(ResourceType resource)
     {
         // decrease the given resource by one
-        int change = changeAmountOfCards(resource, -1, resourceCards);
+        int change = changeAmountOfCards(resource, -1);
         // show the decrease in the overlay
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(change));
         
@@ -342,16 +370,18 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         if (change == 0)
         {
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
+            this.sending = false;
         }
     }
     
-    private void increaseTradeResource(ResourceType resource, ResourceCards playerCards, ResourceCards resourceCards)
+    private void increaseTradeResource(ResourceType resource, ResourceCards playerCards)
     {
         // increase the given resource by one
-        int change = changeAmountOfCards(resource, 1, resourceCards);
+        int change = changeAmountOfCards(resource, 1);
         
         // show the increase in the overlay
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(change));
+        this.sending = true;
         
         // if the resource is now reached its limit
         if (!playerCardLimit(resource, playerCards, change))
@@ -360,10 +390,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         }
     }
     
-    private void decreaseReceiveResource(ResourceType resource, ResourceCards resourceCards)
+    private void decreaseReceiveResource(ResourceType resource)
     {
         // decrease the given resource by one
-        int change = changeAmountOfCards(resource, 1, resourceCards);
+        int change = changeAmountOfCards(resource, 1);
         // show the decrease in the overlay
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(Math.abs(change)));
         
@@ -371,40 +401,46 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         if (change == 0)
         {
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
+            this.receiving = false;
         }
     }
     
-    private void increaseReceiveResource(ResourceType resource, ResourceCards resourceCards)
+    private void increaseReceiveResource(ResourceType resource)
     {
         // decrease the given resource by one
-        int change = changeAmountOfCards(resource, -1, resourceCards);
+        int change = changeAmountOfCards(resource, -1);
+        this.receiving = true;
         // show the decrease in the overlay
+        if (Math.abs(change) == 1)
+        {
+            this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, true);
+        }
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(Math.abs(change)));
     }
     
-    private int changeAmountOfCards(ResourceType resource, int amount, ResourceCards resourceCards)
+    private int changeAmountOfCards(ResourceType resource, int amount)
     {
         int change = 0;
         switch (resource) {
             case WOOD:
-                change = resourceCards.getLumber() + amount;
-                resourceCards.setLumber(change);
+                change = trade.getResourceCards().getLumber() + amount;
+                trade.getResourceCards().setLumber(change);
                 break;
             case BRICK:
-                change = resourceCards.getBrick() + amount;
-                resourceCards.setBrick(change);
+                change = trade.getResourceCards().getBrick() + amount;
+                trade.getResourceCards().setBrick(change);
                 break;
             case SHEEP:
-                change = resourceCards.getWool() + amount;
-                resourceCards.setWool(change);
+                change = trade.getResourceCards().getWool() + amount;
+                trade.getResourceCards().setWool(change);
                 break;
             case ORE:
-                change = resourceCards.getOre() + amount;
-                resourceCards.setOre(change);
+                change = trade.getResourceCards().getOre() + amount;
+                trade.getResourceCards().setOre(change);
                 break;
             case WHEAT:
-                change = resourceCards.getGrain() + amount;
-                resourceCards.setGrain(change);
+                change = trade.getResourceCards().getGrain() + amount;
+                trade.getResourceCards().setGrain(change);
                 break;
         }
         return change;
