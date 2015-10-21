@@ -72,9 +72,9 @@ public class NotDiscardingState implements IDiscardState
 	}
 
 	@Override
-	public IDiscardState discard(IDiscardView disView, IWaitView waitView) 
+	public void discard(IDiscardView disView, IWaitView waitView) 
 	{
-		return null;
+		return;
 	}
 
 }

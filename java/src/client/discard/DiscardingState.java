@@ -82,7 +82,7 @@ public class DiscardingState implements IDiscardState
     		{
     			view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
     		}
-                else if(discardedWood == 0)
+                else
                 {
                     view.setResourceAmountChangeEnabled(ResourceType.WOOD, true, true);
                 }
@@ -252,7 +252,7 @@ public class DiscardingState implements IDiscardState
 	}
 
 	@Override
-	public IDiscardState discard(IDiscardView disView, IWaitView waitView) 
+	public void discard(IDiscardView disView, IWaitView waitView) 
 	{
             ResourceCards cards = new ResourceCards(discardedBrick, discardedWheat, discardedWood, discardedOre, discardedSheep);
             PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
@@ -273,7 +273,8 @@ public class DiscardingState implements IDiscardState
 
             
             //disView.closeModal();
-            return this; //new WaitingState(waitView);
+            
+            return; //new WaitingState(waitView);
 	}
 
 }
