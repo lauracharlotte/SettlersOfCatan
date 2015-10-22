@@ -30,6 +30,7 @@ import model.ClientModelSupplier;
 import model.player.Player;
 import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
+import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -128,36 +129,48 @@ class MyTurnNormal implements IMapState
     }
 
     @Override
-    public void placeRoad(EdgeLocation edgeLoc)
+    public void placeRoad(EdgeLocation edgeLoc, MapController controller)
     {
-        if(this.roadBuilding==2 && this.canPlaceRoad(edgeLoc))
+        if(this.roadBuilding==2)
         {
-            this.roadBuilding1 = edgeLoc;
-            this.roadBuilding--;
-            return;
+            if(this.canPlaceRoad(edgeLoc))
+            {
+                this.roadBuilding1 = edgeLoc;
+                this.roadBuilding--;
+                controller.getView().placeRoad(edgeLoc, ClientModelSupplier.getInstance().getClientPlayerObject().getColor());
+            }
+            this.startMove(PieceType.ROAD, false, false, controller);
         }
         else if(this.roadBuilding == 1)
         {
-            this.roadBuilding2 = edgeLoc;
-            this.roadBuilding--;
+            if(this.canPlaceRoad(edgeLoc))
+            {
+                this.roadBuilding2 = edgeLoc;
+                this.roadBuilding--;
+                try
+                {
+                    this.devCardManager.playRoadBuilding(new RoadBuildingCardRequest(this.playerIndex, this.roadBuilding1, this.roadBuilding2));
+                }
+                catch (ClientException ex)
+                {
+                    Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
+            {
+                this.startMove(PieceType.ROAD, false, false, controller);
+            }
+        }
+        else
+        {
             try
             {
-                this.devCardManager.playRoadBuilding(new RoadBuildingCardRequest(this.playerIndex, this.roadBuilding1, this.roadBuilding2));
+                manager.buildRoad(new BuildRoadRequest(this.playerIndex, edgeLoc, false));
             }
             catch (ClientException ex)
             {
                 Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return;
-        }
-        
-        try
-        {
-            manager.buildRoad(new BuildRoadRequest(this.playerIndex, edgeLoc, false));
-        }
-        catch (ClientException ex)
-        {
-            Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -225,9 +238,10 @@ class MyTurnNormal implements IMapState
     }
 
     @Override
-    public void playSoldierCard()
+    public void playSoldierCard(MapController controller)
     {
         this.soldiering = true;
+        this.startMove(PieceType.ROBBER, false, false, controller);
     }
 
     @Override

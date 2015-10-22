@@ -101,67 +101,80 @@ public class MapController extends Controller implements IMapController, Observe
     //action (bank amounts, remaining settlements, map...)
 
 
+    @Override
     public boolean canPlaceRoad(EdgeLocation edgeLoc) 
     {
         return this.currentState.canPlaceRoad(edgeLoc);
     }
 
+    @Override
     public boolean canPlaceSettlement(VertexLocation vertLoc) 
     {
         return this.currentState.canPlaceSettlement(vertLoc);
     }
 
+    @Override
     public boolean canPlaceCity(VertexLocation vertLoc) 
     {
         return this.currentState.canPlaceCity(vertLoc);
     }
 
+    @Override
     public boolean canPlaceRobber(HexLocation hexLoc) 
     {
         return this.currentState.canPlaceRobber(hexLoc);
     }
 
+    @Override
     public void placeRoad(EdgeLocation edgeLoc) 
     {
-        this.currentState.placeRoad(edgeLoc);
+        this.currentState.placeRoad(edgeLoc, this);
     }
 
+    @Override
     public void placeSettlement(VertexLocation vertLoc) 
     {
         this.currentState.placeSettlement(vertLoc);
         this.cancelMove();
     }
 
+    @Override
     public void placeCity(VertexLocation vertLoc) 
     {
         this.currentState.placeCity(vertLoc);
     }
 
+    @Override
     public void placeRobber(HexLocation hexLoc) 
     {
         this.currentState.placeRobber(hexLoc, this);
     }
 
+    @Override
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
     {	
         this.currentState.startMove(pieceType, isFree, allowDisconnected, this);
     }
 
+    @Override
     public void cancelMove() 
     {
         
     }
 
+    @Override
     public void playSoldierCard() 
     {	
-
+        this.currentState.playSoldierCard(this);
     }
 
+    @Override
     public void playRoadBuildingCard() 
     {	
-
+        this.currentState.playRoadBuildingCard(this);
     }
 
+    @Override
     public void robPlayer(RobPlayerInfo victim) 
     {	
         this.currentState.robPlayer(victim);

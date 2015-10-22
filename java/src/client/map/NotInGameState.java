@@ -79,7 +79,7 @@ public class NotInGameState implements IMapState
     }
 
     @Override
-    public void placeRoad(EdgeLocation edgeLoc)
+    public void placeRoad(EdgeLocation edgeLoc, MapController controller)
     {
         return;
     }
@@ -109,7 +109,7 @@ public class NotInGameState implements IMapState
     }
 
     @Override
-    public void playSoldierCard()
+    public void playSoldierCard(MapController controller)
     {
         return;
     }

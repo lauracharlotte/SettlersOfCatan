@@ -138,7 +138,7 @@ class SetupMyTurn implements IMapState
     }
 
     @Override
-    public void placeRoad(EdgeLocation edgeLoc)
+    public void placeRoad(EdgeLocation edgeLoc, MapController controller)
     {
        if(this.canPlaceRoad(edgeLoc) && !this.placedRoad)
        {
@@ -190,7 +190,7 @@ class SetupMyTurn implements IMapState
     }
 
     @Override
-    public void playSoldierCard()
+    public void playSoldierCard(MapController controller)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

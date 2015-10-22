@@ -22,7 +22,7 @@ public interface IMapState
 
     public boolean canPlaceRobber(HexLocation hexLoc);
 
-    public void placeRoad(EdgeLocation edgeLoc);
+    public void placeRoad(EdgeLocation edgeLoc, MapController controller);
 
     public void placeSettlement(VertexLocation vertLoc);
 
@@ -34,7 +34,7 @@ public interface IMapState
 
     public void cancelMove();
 
-    public void playSoldierCard();
+    public void playSoldierCard(MapController controller);
 
     public void playRoadBuildingCard(MapController controller);
 
