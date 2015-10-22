@@ -30,7 +30,7 @@ public class RollController extends Controller implements IRollController, Obser
     private final long thirdDelay = 3000;
     private final long fourthDelay = 4000;
     private final long fifthDelay = 5000;
-    private final int diceUpperBound = 12;
+    private final int diceUpperBound = 11;
     private final String rollMessage = "Rolling automatically in...";
     private Timer timer;
 
@@ -66,7 +66,7 @@ public class RollController extends Controller implements IRollController, Obser
     public void rollDice() 
     {
     	Random dice = new Random();
-    	int roll = dice.nextInt(diceUpperBound) + 1;
+    	int roll = dice.nextInt(diceUpperBound) + 2;
     	getRollView().closeModal();
     	getResultView().setRollValue(roll);
     	getResultView().showModal();
@@ -76,6 +76,7 @@ public class RollController extends Controller implements IRollController, Obser
 		try 
 		{
 			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
+			System.out.println("number: " + roll);
 			manager.rollNumber(request);
 		} 
 		catch (NoSuchMethodException | InstantiationException | IllegalAccessException
