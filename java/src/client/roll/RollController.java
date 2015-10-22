@@ -76,7 +76,6 @@ public class RollController extends Controller implements IRollController, Obser
 		try 
 		{
 			manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
-			System.out.println("number: " + roll);
 			manager.rollNumber(request);
 		} 
 		catch (NoSuchMethodException | InstantiationException | IllegalAccessException
