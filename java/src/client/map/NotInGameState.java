@@ -97,13 +97,7 @@ public class NotInGameState implements IMapState
     }
 
     @Override
-    public void placeRobber(HexLocation hexLoc)
-    {
-        return;
-    }
-
-    @Override
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected)
+    public void placeRobber(HexLocation hexLoc, MapController mapController)
     {
         return;
     }
@@ -121,13 +115,19 @@ public class NotInGameState implements IMapState
     }
 
     @Override
-    public void playRoadBuildingCard()
+    public void playRoadBuildingCard(MapController controller)
     {
         return;
     }
 
     @Override
     public void robPlayer(RobPlayerInfo victim)
+    {
+        return;
+    }
+
+    @Override
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected, MapController controller)
     {
         return;
     }

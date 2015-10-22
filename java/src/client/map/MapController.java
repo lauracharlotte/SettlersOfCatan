@@ -44,12 +44,13 @@ public class MapController extends Controller implements IMapController, Observe
             return (IMapView)super.getView();
     }
 
-    private IRobView getRobView() {
+    protected IRobView getRobView() {
             return robView;
     }
     private void setRobView(IRobView robView) {
             this.robView = robView;
     }
+    
     
     /**
      * all of this is hard coded info, you need to use these same 
@@ -128,6 +129,7 @@ public class MapController extends Controller implements IMapController, Observe
     public void placeSettlement(VertexLocation vertLoc) 
     {
         this.currentState.placeSettlement(vertLoc);
+        this.cancelMove();
     }
 
     public void placeCity(VertexLocation vertLoc) 
@@ -137,17 +139,17 @@ public class MapController extends Controller implements IMapController, Observe
 
     public void placeRobber(HexLocation hexLoc) 
     {
-        this.currentState.placeRobber(hexLoc);
-        getRobView().showModal();
+        this.currentState.placeRobber(hexLoc, this);
     }
 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) 
     {	
-        getView().startDrop(pieceType, this.myCatanColor, !isFree);
+        this.currentState.startMove(pieceType, isFree, allowDisconnected, this);
     }
 
     public void cancelMove() 
     {
+        
     }
 
     public void playSoldierCard() 

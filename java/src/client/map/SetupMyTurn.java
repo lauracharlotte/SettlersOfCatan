@@ -24,6 +24,7 @@ import model.map.EdgeObject;
 import model.map.VertexObject;
 import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
+import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.EdgeDirection;
@@ -177,13 +178,7 @@ class SetupMyTurn implements IMapState
     }
 
     @Override
-    public void placeRobber(HexLocation hexLoc)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected)
+    public void placeRobber(HexLocation hexLoc, MapController mapController)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -201,7 +196,7 @@ class SetupMyTurn implements IMapState
     }
 
     @Override
-    public void playRoadBuildingCard()
+    public void playRoadBuildingCard(MapController controller)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -210,6 +205,13 @@ class SetupMyTurn implements IMapState
     public void robPlayer(RobPlayerInfo victim)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected, MapController controller)
+    {
+        CatanColor myColor = ClientModelSupplier.getInstance().getClientPlayerObject().getColor();
+        controller.getView().startDrop(pieceType, myColor, !isFree);
     }
     
 }

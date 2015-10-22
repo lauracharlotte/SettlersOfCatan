@@ -63,13 +63,14 @@ public class MapModelFacade
         ArrayList<Player> players = new ArrayList<>();
         for(VertexObject v: this.getCurrentMap().getCities())
         {
-            if(vertLocations.contains(v.getLocation()))
+            if(vertLocations.contains(v.getLocation().getNormalizedLocation()))
                 players.add((Player) allPlayers.toArray()[v.getOwner().getIndex()]);
                 
         }
-        for(VertexObject v: this.getCurrentMap().getSettlements())
+        Collection<VertexObject> settlements = this.getCurrentMap().getSettlements();
+        for(VertexObject v: settlements)
         {
-            if(vertLocations.contains(v.getLocation()))
+            if(vertLocations.contains(v.getLocation().getNormalizedLocation()))
                 players.add((Player) allPlayers.toArray()[v.getOwner().getIndex()]);
         }
         return players;

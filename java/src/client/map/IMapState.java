@@ -28,15 +28,15 @@ public interface IMapState
 
     public void placeCity(VertexLocation vertLoc);
 
-    public void placeRobber(HexLocation hexLoc);
+    public void placeRobber(HexLocation hexLoc, MapController mapController);
 
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected);
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected, MapController controller);
 
     public void cancelMove();
 
     public void playSoldierCard();
 
-    public void playRoadBuildingCard();
+    public void playRoadBuildingCard(MapController controller);
 
     public void robPlayer(RobPlayerInfo victim);
 }

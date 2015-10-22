@@ -7,6 +7,9 @@ package client.map;
 
 import client.data.RobPlayerInfo;
 import java.util.Observable;
+import model.ClientModel;
+import model.ClientModelSupplier;
+import model.player.PlayerIdx;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -19,14 +22,22 @@ import shared.locations.VertexLocation;
 class NotMyTurnNormal implements IMapState
 {
 
+    PlayerIdx playerIndex;
+    
     public NotMyTurnNormal()
     {
+        this.playerIndex = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     }
 
     @Override
     public IMapState update(Observable o, Object arg)
     {
-        return this;
+        //need to fix this!
+        ClientModel model = (ClientModel)arg;
+        if(model.getTurnTracker().getCurrentTurn().equals(this.playerIndex))
+            return new MyTurnNormal();
+        else
+            return this;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -80,16 +91,11 @@ class NotMyTurnNormal implements IMapState
     }
 
     @Override
-    public void placeRobber(HexLocation hexLoc)
+    public void placeRobber(HexLocation hexLoc, MapController mapController)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void cancelMove()
@@ -104,7 +110,7 @@ class NotMyTurnNormal implements IMapState
     }
 
     @Override
-    public void playRoadBuildingCard()
+    public void playRoadBuildingCard(MapController controller)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -114,5 +120,9 @@ class NotMyTurnNormal implements IMapState
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected, MapController controller)
+    {} //do nothing
     
 }
