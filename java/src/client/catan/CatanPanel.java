@@ -58,7 +58,7 @@ public class CatanPanel extends JPanel
 		rollView.setController(rollController);
 		rollResultView.setController(rollController);
 		
-		JButton testButton = new JButton("Test");
+		/*JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
 			
 //			 @Override
@@ -114,7 +114,7 @@ public class CatanPanel extends JPanel
 				}
 			}
 		});
-		this.add(testButton, BorderLayout.SOUTH);
+		this.add(testButton, BorderLayout.SOUTH);*/
 	}
 	
 }
