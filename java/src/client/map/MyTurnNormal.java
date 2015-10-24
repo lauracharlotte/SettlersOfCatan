@@ -20,6 +20,8 @@ import clientcommunicator.operations.RobPlayerRequest;
 import guicommunicator.MapModelFacade;
 import guicommunicator.ResourceModelFacade;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
@@ -207,26 +209,30 @@ class MyTurnNormal implements IMapState
             this.robberMovingTo = hexLoc;
         else
             return;
-        Set<Player> allPlayersBy = new HashSet<Player>(this.mapFacade.playersByHex(hexLoc));
+        Set<Player> allPlayersBy = new HashSet<>(this.mapFacade.playersByHex(hexLoc));
         if(allPlayersBy.contains(ClientModelSupplier.getInstance().getClientPlayerObject()))
             allPlayersBy.remove(ClientModelSupplier.getInstance().getClientPlayerObject());
         if(allPlayersBy.isEmpty())
             return;
-        RobPlayerInfo[] playerInfo = new RobPlayerInfo[allPlayersBy.size()];
-        int idx = 0;
+        Collection<RobPlayerInfo> playerInfo = new ArrayList<>();
         for(Player p: allPlayersBy)
         {
             int numCards = p.getHand().getResourceCards().getTotal();
             if(numCards>0)
             {
-                playerInfo[idx] = new RobPlayerInfo();
-                playerInfo[idx].setNumCards(numCards);
-                playerInfo[idx].setColor(p.getColor());
-                playerInfo[idx].setPlayerIndex(p.getPlayerIndex().getIndex());
-                idx++;
+                RobPlayerInfo newPlayerInfo = new RobPlayerInfo(); 
+                newPlayerInfo.setNumCards(numCards);
+                newPlayerInfo.setColor(p.getColor());
+                newPlayerInfo.setPlayerIndex(p.getPlayerIndex().getIndex());
+                newPlayerInfo.setName(p.getName());
+                playerInfo.add(newPlayerInfo);
             }
         }
-        mapController.getRobView().setPlayers(playerInfo);
+        if(playerInfo.isEmpty())
+            return;
+        RobPlayerInfo[] finalArray = new RobPlayerInfo[playerInfo.size()];
+        playerInfo.toArray(finalArray);
+        mapController.getRobView().setPlayers(finalArray);
         mapController.getRobView().showModal();
     }
 
