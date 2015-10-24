@@ -56,8 +56,8 @@ public class DiscardingState implements IDiscardState
 	public IDiscardState modelUpdated(Observable o, Object arg, IDiscardView disView, IWaitView waitView) 
 	{
 		ClientModel model = (ClientModel) arg;
-	if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
-	{
+		if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
+		{
 			return new NotDiscardingState();
         }
         else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
@@ -247,6 +247,52 @@ public class DiscardingState implements IDiscardState
         view.setResourceDiscardAmount(ResourceType.BRICK, 0);
         view.setResourceDiscardAmount(ResourceType.SHEEP, 0);
 	}
+	
+	private void updateResourceArrows(ResourceType type, int discarded, int total, IDiscardView view)
+	{
+		if (discarded > 0 && discarded < total)
+		{
+			view.setResourceAmountChangeEnabled(type, true, true);
+		}
+		else if (discarded > 0 && discarded == total)
+		{
+			view.setResourceAmountChangeEnabled(type, false, true);
+		}
+		else if (discarded == 0 && total == 0) 
+		{
+			view.setResourceAmountChangeEnabled(type, false, false);
+		}
+		else
+		{
+			view.setResourceAmountChangeEnabled(type, true, false);
+		}
+	}
+	
+	private void updateEnabledArrows(IDiscardView view, int totalDiscarded)
+	{
+		if (totalDiscarded == totalToDiscard)
+		{
+			//All up arrows should be disabled
+			if (discardedWood > 0) view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, true);
+			else view.setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+			if (discardedBrick > 0) view.setResourceAmountChangeEnabled(ResourceType.BRICK, false, true);
+			else view.setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+			if (discardedSheep > 0) view.setResourceAmountChangeEnabled(ResourceType.SHEEP, false, true);
+			else view.setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+			if (discardedWheat > 0) view.setResourceAmountChangeEnabled(ResourceType.WHEAT, false, true);
+			else view.setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+			if (discardedOre > 0) view.setResourceAmountChangeEnabled(ResourceType.ORE, false, true);
+			else view.setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+		}
+		else
+		{
+			updateResourceArrows(ResourceType.WOOD, discardedWood, totalWood, view);
+			updateResourceArrows(ResourceType.BRICK, discardedBrick, totalBrick, view);
+			updateResourceArrows(ResourceType.SHEEP, discardedSheep, totalSheep, view);
+			updateResourceArrows(ResourceType.WHEAT, discardedWheat, totalWheat, view);
+			updateResourceArrows(ResourceType.ORE, discardedOre, totalOre, view);
+		}
+	}
 
 	private void updateView(IDiscardView view) 
 	{
@@ -259,10 +305,12 @@ public class DiscardingState implements IDiscardState
     	if (totalDiscarded == totalToDiscard) 
     	{
     		view.setDiscardButtonEnabled(true);
+    		updateEnabledArrows(view, totalDiscarded);
     	}
     	else
     	{
     		view.setDiscardButtonEnabled(false);
+    		updateEnabledArrows(view, totalDiscarded);
     	}
 	}
 
