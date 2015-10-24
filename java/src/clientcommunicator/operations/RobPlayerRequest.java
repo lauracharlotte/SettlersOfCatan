@@ -5,6 +5,7 @@
  */
 package clientcommunicator.operations;
 
+import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -18,7 +19,7 @@ public class RobPlayerRequest implements IJSONSerializable
 {
 
     private PlayerIdx playerThatsRobbingIndex;
-    private PlayerIdx victimIndex;
+    private NullablePlayerIdx victimIndex;
     private HexLocation location;
 
     /**
@@ -27,7 +28,7 @@ public class RobPlayerRequest implements IJSONSerializable
      * @param victimIndex The player that is being robbed.
      * @param location The new robber location.
      */
-    public RobPlayerRequest(PlayerIdx playerThatsRobbingIndex, PlayerIdx victimIndex, HexLocation location)
+    public RobPlayerRequest(PlayerIdx playerThatsRobbingIndex, NullablePlayerIdx victimIndex, HexLocation location)
     {
         this.playerThatsRobbingIndex = playerThatsRobbingIndex;
         this.victimIndex = victimIndex;
@@ -47,7 +48,7 @@ public class RobPlayerRequest implements IJSONSerializable
      *
      * @return The player that is being robbed.
      */
-    public PlayerIdx getVictimIndex()
+    public NullablePlayerIdx getVictimIndex()
     {
         return victimIndex;
     }

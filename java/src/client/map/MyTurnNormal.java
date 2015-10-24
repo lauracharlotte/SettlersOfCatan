@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ClientModel;
 import model.ClientModelSupplier;
+import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
@@ -208,12 +209,13 @@ class MyTurnNormal implements IMapState
         if(this.canPlaceRobber(hexLoc))
             this.robberMovingTo = hexLoc;
         else
+        {
+            this.robPlayer(null);
             return;
+        }
         Set<Player> allPlayersBy = new HashSet<>(this.mapFacade.playersByHex(hexLoc));
         if(allPlayersBy.contains(ClientModelSupplier.getInstance().getClientPlayerObject()))
             allPlayersBy.remove(ClientModelSupplier.getInstance().getClientPlayerObject());
-        if(allPlayersBy.isEmpty())
-            return;
         Collection<RobPlayerInfo> playerInfo = new ArrayList<>();
         for(Player p: allPlayersBy)
         {
@@ -229,7 +231,10 @@ class MyTurnNormal implements IMapState
             }
         }
         if(playerInfo.isEmpty())
+        {
+            this.robPlayer(null);
             return;
+        }
         RobPlayerInfo[] finalArray = new RobPlayerInfo[playerInfo.size()];
         playerInfo.toArray(finalArray);
         mapController.getRobView().setPlayers(finalArray);
@@ -260,14 +265,21 @@ class MyTurnNormal implements IMapState
     @Override
     public void robPlayer(RobPlayerInfo victim)
     {
+        if(victim == null) //nobody to rob
+        {
+            victim = new RobPlayerInfo();
+            victim.setPlayerIndex(-1);
+        }
         try
         {
             this.isRobbing = false;
             if(!this.soldiering)
-                this.turnManager.robPlayer(new RobPlayerRequest(this.playerIndex, new PlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
+                this.turnManager.robPlayer(new RobPlayerRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
             else
-                this.devCardManager.playSoldier(new PlaySoldierRequest(this.playerIndex, new PlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
-            this.soldiering = false;
+            {
+                this.soldiering = false;
+                this.devCardManager.playSoldier(new PlaySoldierRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
+            }
             this.robberMovingTo = null;
         }
         catch (ClientException ex)

@@ -5,6 +5,7 @@
  */
 package clientcommunicator.operations;
 
+import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import shared.locations.HexLocation;
 
@@ -16,7 +17,7 @@ public class PlaySoldierRequest implements IJSONSerializable
 {
 
     private PlayerIdx playerIndex;
-    private PlayerIdx victimIndex;
+    private NullablePlayerIdx victimIndex;
     private HexLocation newLocation;
 
     /**
@@ -25,7 +26,7 @@ public class PlaySoldierRequest implements IJSONSerializable
      * @param victimIndex The index of the player being robbed
      * @param newLocation The location where the robber should be placed
      */
-    public PlaySoldierRequest(PlayerIdx playerIndex, PlayerIdx victimIndex, HexLocation newLocation)
+    public PlaySoldierRequest(PlayerIdx playerIndex, NullablePlayerIdx victimIndex, HexLocation newLocation)
     {
         this.playerIndex = playerIndex;
         this.victimIndex = victimIndex;
@@ -45,7 +46,7 @@ public class PlaySoldierRequest implements IJSONSerializable
      *
      * @return The index of the player being robbed
      */
-    public PlayerIdx getVictimIndex()
+    public NullablePlayerIdx getVictimIndex()
     {
         return victimIndex;
     }
