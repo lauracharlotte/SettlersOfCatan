@@ -278,11 +278,14 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     }
 
     @Override
-    public void setPlayerToTradeWith(int playerIndex) {        
-        // set the player index in the trade offer
-        trade.setReceiverNumber(new PlayerIdx(playerIndex));
-        personToAsk = true;
-        updateEnableTrade();
+    public void setPlayerToTradeWith(int playerIndex) {
+        if (playerIndex > -1)
+        {
+            // set the player index in the trade offer
+            trade.setReceiverNumber(new PlayerIdx(playerIndex));
+            personToAsk = true;
+            updateEnableTrade();
+        }
     }
 
     @Override
