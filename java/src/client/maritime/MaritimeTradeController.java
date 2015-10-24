@@ -3,6 +3,9 @@ package client.maritime;
 import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
+import clientcommunicator.modelserverfacade.ClientException;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
+import clientcommunicator.modelserverfacade.TradeServerOperationsManager;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,10 +13,13 @@ import model.player.PlayerIdx;
 import model.ClientModelSupplier;
 import model.map.CatanMap;
 import clientcommunicator.operations.MaritimeTradeRequest;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.cards.ResourceCards;
 import model.map.Port;
 import model.map.VertexObject;
 
@@ -57,20 +63,25 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         ratios = new HashMap();
         enabledResources = getAvailablePorts();
-        System.out.println(enabledResources.length);
+        this.tradeOverlay.setTradeEnabled(false);
         this.tradeOverlay.showGiveOptions(enabledResources);
         getTradeOverlay().showModal();   
     }
 
     @Override
     public void makeTrade() {
-        MaritimeTradeRequest trade = new MaritimeTradeRequest(
+        MaritimeTradeRequest request = new MaritimeTradeRequest(
                 playerIdx, 
                 ratio, 
                 inputResource, 
-                outputResource);
-//       TODO: Make trade 
-        getTradeOverlay().closeModal();
+                outputResource);  
+        try {
+            cancelTrade();
+            TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
+            manager.maritimeTrade(request);
+        } catch (ClientException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+            Logger.getLogger(MaritimeTradeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -88,7 +99,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
     @Override
     public void setGetResource(ResourceType resource) {
         outputResource = resource;
-        this.tradeOverlay.selectGetOption(resource, ratio);
+        this.tradeOverlay.selectGetOption(resource, 1);
         this.tradeOverlay.setTradeEnabled(true);
     }
 
@@ -97,19 +108,23 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         inputResource = resource;
         ratio = ratios.get(resource);
         this.tradeOverlay.selectGiveOption(resource, ratio);
+        this.tradeOverlay.showGetOptions(getAvailableResources());
     }
 
     @Override
     public void unsetGetValue() {
         outputResource = null;
         this.tradeOverlay.setTradeEnabled(false);
-        this.tradeOverlay.showGetOptions(enabledResources);
+        this.tradeOverlay.showGetOptions(getAvailableResources());
     }
 
     @Override
     public void unsetGiveValue() {
         inputResource = null;
         ratio = 0;
+        this.tradeOverlay.setTradeEnabled(false);
+        this.tradeOverlay.hideGetOptions();
+        this.tradeOverlay.showGiveOptions(enabledResources);
         this.tradeOverlay.reset();
     }
 
@@ -125,6 +140,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         CatanMap map = ClientModelSupplier.getInstance().getModel().getMap();
         ArrayList<Port> ports = (ArrayList<Port>) map.getPorts();
         ArrayList<VertexObject> settlements = (ArrayList<VertexObject>) map.getSettlements();
+        ResourceCards playerCards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
         for (int i = 0; i < settlements.size(); i++)
         {
             VertexObject settlement = settlements.get(i);
@@ -134,18 +150,19 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 {
                     Port port = ports.get(j);
                     VertexObject[] portPlaces = getPortVertexObjects(port);
-                    System.out.println(port.getHex().toString());
-                    System.out.println(port.getResource());
-                    System.out.println("1" + portPlaces[0].getLocation().toString());
-                    System.out.println("2" + portPlaces[1].getLocation().toString());
-                    System.out.println(settlement.getLocation().toString());
-                    System.out.println("");
                     // if the player's settlement touches that port
-                    if (portPlaces[0].equals(settlement) || portPlaces[1].equals(settlement))
+                    if (portPlaces[0].getLocation().equals(settlement.getLocation().getNormalizedLocation()) 
+                            || portPlaces[1].getLocation().equals(settlement.getLocation().getNormalizedLocation()))
                     {
-                        resources.add(port.getResource());
-                        getRatio(port);
-                        System.out.println(port.getResource());
+                        if (port.getResource() == null)
+                        {
+                            resources = dealWithWildPort(port, resources, playerCards);
+                        }
+                        else if (playerHasResource(playerCards, port.getResource(), port.getRatio()))
+                        {
+                            resources.add(port.getResource());
+                            getRatio(port.getRatio(), port.getResource());
+                        }
                     }
                 }
             }
@@ -159,19 +176,111 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         HexLocation hexLocation = port.getHex();
         EdgeDirection edgeDirection = port.getDirection();
         VertexDirection[] vertexDirection = edgeDirection.convertEdgeDirToVertexDir();
-        vertices[0] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[0]), playerIdx);
-        vertices[1] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[1]), playerIdx);
+        vertices[0] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[0]).getNormalizedLocation(), playerIdx);
+        vertices[1] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[1]).getNormalizedLocation(), playerIdx);
         return vertices;
     }
     
-    private void getRatio(Port port)
+    private void getRatio(int portRatio, ResourceType portResource)
     {
-        int portRatio = port.getRatio();
-        ResourceType portResource = port.getResource();
         if (!ratios.containsKey(portResource) || ratios.get(portResource) > portRatio)
         {
             ratios.put(portResource, portRatio);
         }
+    }
+    
+    private ArrayList<ResourceType> dealWithWildPort(Port port, ArrayList<ResourceType> resources, ResourceCards playerCards)
+    {
+        if (playerHasResource(playerCards, ResourceType.BRICK, 3))
+        {
+            resources.add(ResourceType.BRICK);
+            getRatio(3, ResourceType.BRICK);
+        }
+        
+        if (playerHasResource(playerCards, ResourceType.ORE, 3))
+        {
+           resources.add(ResourceType.ORE);
+            getRatio(3, ResourceType.ORE); 
+        }
+
+        if (playerHasResource(playerCards, ResourceType.SHEEP, 3))
+        {
+            resources.add(ResourceType.SHEEP);
+            getRatio(3, ResourceType.SHEEP);
+        }
+        
+        if (playerHasResource(playerCards, ResourceType.WHEAT, 3))
+        {
+            resources.add(ResourceType.WHEAT);
+            getRatio(3, ResourceType.WHEAT);
+        }
+        
+        if (playerHasResource(playerCards, ResourceType.WOOD, 3))
+        {
+            resources.add(ResourceType.WOOD);
+            getRatio(3, ResourceType.WOOD);
+        }
+        
+        return resources;
+    }
+    
+    private boolean playerHasResource(ResourceCards playerCards, ResourceType resource, int portRatio)
+    {
+        switch (resource)
+        {
+            case BRICK:
+                if (playerCards.getBrick() >= portRatio)
+                {
+                    return true;
+                }
+                break;
+            case ORE:
+                if (playerCards.getOre() >= portRatio)
+                {
+                    return true;
+                }
+                break;
+            case SHEEP:
+                if (playerCards.getWool() >= portRatio)
+                {
+                    return true;
+                }
+                break;
+            case WHEAT:
+                if (playerCards.getGrain() >= portRatio)
+                {
+                    return true;
+                }
+                break;
+            case WOOD:
+                if (playerCards.getLumber() >= portRatio)
+                {
+                    return true;
+                }
+                break; 
+        }
+        return false;
+    }
+    
+    private ResourceType[] getAvailableResources(){
+        ArrayList<ResourceType> resources = new ArrayList();
+        ResourceCards bank = ClientModelSupplier.getInstance().getModel().getBank().getResourceCards();
+        if (bank.getBrick() > 0){
+            resources.add(ResourceType.BRICK);
+        }
+        if (bank.getOre() > 0){
+            resources.add(ResourceType.ORE);
+        }
+        if (bank.getWool() > 0){
+            resources.add(ResourceType.SHEEP);
+        }
+        if (bank.getGrain() > 0){
+            resources.add(ResourceType.WHEAT);
+        }
+        if (bank.getLumber() > 0){
+            resources.add(ResourceType.WOOD);
+        }
+        return resources.toArray(new ResourceType[resources.size()]);
     }
 
 }

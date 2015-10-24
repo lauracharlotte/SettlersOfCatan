@@ -411,7 +411,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         // update if you get a trade
         ClientModel model = ClientModelSupplier.getInstance().getModel();
         if (model != null)
-        {
+        {            
             TradeOffer currentTrade = ClientModelSupplier.getInstance().getModel().getTradeOffer();
             
             
