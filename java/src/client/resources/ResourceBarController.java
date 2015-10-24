@@ -7,6 +7,7 @@ import guicommunicator.ResourceModelFacade;
 import model.ClientModelSupplier;
 import model.cards.ResourceCards;
 import model.player.Player;
+import model.player.PlayerIdx;
 
 
 /**
@@ -113,6 +114,14 @@ public class ResourceBarController extends Controller implements IResourceBarCon
                     resourceModelFacade.canPlayDevCard());
             this.getView().setElementEnabled(ResourceBarElement.BUY_CARD,
                     resourceModelFacade.canBuyDevCard());
+            
+            PlayerIdx currentTurn = ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn();
+            if (player.getPlayerIndex().getIndex() != currentTurn.getIndex()){
+                this.getView().setElementEnabled(ResourceBarElement.ROAD, false);
+                this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+                this.getView().setElementEnabled(ResourceBarElement.CITY, false);
+                this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+            }      
         }
     }
 

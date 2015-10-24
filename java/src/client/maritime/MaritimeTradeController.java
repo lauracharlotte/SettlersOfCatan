@@ -11,6 +11,7 @@ import model.ClientModelSupplier;
 import model.map.CatanMap;
 import clientcommunicator.operations.MaritimeTradeRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import model.map.Port;
@@ -56,8 +57,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         ratios = new HashMap();
         enabledResources = getAvailablePorts();
-        getTradeOverlay().showModal();
+        System.out.println(enabledResources.length);
         this.tradeOverlay.showGiveOptions(enabledResources);
+        getTradeOverlay().showModal();   
     }
 
     @Override
@@ -132,6 +134,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 {
                     Port port = ports.get(j);
                     VertexObject[] portPlaces = getPortVertexObjects(port);
+                    System.out.println(port.getHex().toString());
+                    System.out.println(port.getResource());
+                    System.out.println("1" + portPlaces[0].getLocation().toString());
+                    System.out.println("2" + portPlaces[1].getLocation().toString());
+                    System.out.println(settlement.getLocation().toString());
+                    System.out.println("");
                     // if the player's settlement touches that port
                     if (portPlaces[0].equals(settlement) || portPlaces[1].equals(settlement))
                     {
@@ -151,8 +159,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         HexLocation hexLocation = port.getHex();
         EdgeDirection edgeDirection = port.getDirection();
         VertexDirection[] vertexDirection = edgeDirection.convertEdgeDirToVertexDir();
-        vertices[0] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[0]).getNormalizedLocation(), playerIdx);
-        vertices[1] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[1]).getNormalizedLocation(), playerIdx);
+        vertices[0] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[0]), playerIdx);
+        vertices[1] = new VertexObject(new VertexLocation(hexLocation, vertexDirection[1]), playerIdx);
         return vertices;
     }
     
