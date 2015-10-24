@@ -24,6 +24,8 @@ public interface IDomesticTradeOverlay extends IOverlayView
 	 *            Information about the players that can be traded with
 	 */
 	void setPlayers(PlayerInfo[] value);
+        
+        void resetPlayers(PlayerInfo[] value);
 	
 	/**
 	 * Enables or disables the ability to select a player to trade with.

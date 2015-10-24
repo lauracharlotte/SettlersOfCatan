@@ -384,6 +384,11 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			panel.setVisible(false);
 		}
 	}
+        
+        @Override
+        public void resetPlayers(PlayerInfo[] value){
+            this.players = value;
+        }
 
 	
 //	Alternative way to deal with the enabling/disabling of the

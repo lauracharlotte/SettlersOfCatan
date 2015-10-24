@@ -103,17 +103,25 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
     @Override
     public void startTrade() {
+        PlayerIdx playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        setPlayers(playerIdx);
+        trade = new TradeOffer(playerIdx, null, new ResourceCards(0,0,0,0,0));
+        
         this.tradeOverlay.hideUpDownArrows(ResourceType.WOOD);
         this.tradeOverlay.hideUpDownArrows(ResourceType.BRICK);
         this.tradeOverlay.hideUpDownArrows(ResourceType.ORE);
         this.tradeOverlay.hideUpDownArrows(ResourceType.SHEEP);
         this.tradeOverlay.hideUpDownArrows(ResourceType.WHEAT);
-        
+        getTradeOverlay().showModal();
+    }
+    
+    private void setPlayers(PlayerIdx playerIdx)
+    {
         Player[] players = ClientModelSupplier.getInstance().getModel().getPlayers().toArray(new Player[4]);
         ArrayList<PlayerInfo> playerInfos = new ArrayList();
-        PlayerIdx playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
-        for (int i = 0; i < players.length; i++) 
+        for (int i = 0; i < players.length; i++)
         {
+            
             if (playerIdx.getIndex() != i)
             {
                 Player player = players[i];
@@ -125,11 +133,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
             }
         }
         PlayerInfo[] newPlayerInfos = new PlayerInfo[3];
-        this.tradeOverlay.setPlayers(playerInfos.toArray(newPlayerInfos));
-        ResourceCards resourceCards = new ResourceCards(0,0,0,0,0);
-        trade = new TradeOffer(playerIdx, null, resourceCards);
-        
-        getTradeOverlay().showModal();
+        this.tradeOverlay.resetPlayers(playerInfos.toArray(newPlayerInfos));
+        this.tradeOverlay.reset();
     }
 
     @Override
@@ -379,6 +384,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         sending = false;
         receiving = false;
         personToAsk = false;
+        getTradeOverlay().reset();
         getTradeOverlay().closeModal();
     }
 
