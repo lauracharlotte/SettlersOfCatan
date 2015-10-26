@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ClientModel;
 import model.cards.ResourceCards;
 import model.map.Port;
 import model.map.VertexObject;
@@ -43,6 +44,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
             super(tradeView);
 
             setTradeOverlay(tradeOverlay);
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public IMaritimeTradeView getTradeView() {
@@ -131,7 +133,17 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
     @Override
     public void update(Observable o, Object arg)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClientModel model = ClientModelSupplier.getInstance().getModel();
+        if (model != null)
+        { 
+            this.getTradeView().enableMaritimeTrade(false);
+            int currentTurn = model.getTurnTracker().getCurrentTurn().getIndex();
+            int clientPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex();
+            if (currentTurn == clientPlayer)
+            {
+                this.getTradeView().enableMaritimeTrade(true);
+            }
+        }
     }
     
     private ResourceType[] getAvailablePorts()

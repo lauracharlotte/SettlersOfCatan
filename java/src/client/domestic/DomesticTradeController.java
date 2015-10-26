@@ -412,9 +412,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         // update if you get a trade
         ClientModel model = ClientModelSupplier.getInstance().getModel();
         if (model != null)
-        {            
+        {   
+            this.getTradeView().enableDomesticTrade(false);
+            int currentTurn = model.getTurnTracker().getCurrentTurn().getIndex();
+            int clientPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex();
+            if (currentTurn == clientPlayer)
+            {
+                this.getTradeView().enableDomesticTrade(true);
+            }
             TradeOffer currentTrade = ClientModelSupplier.getInstance().getModel().getTradeOffer();
-            
             
             if (currentTrade == null && trade != null)
             {
