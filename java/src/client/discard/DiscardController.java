@@ -66,7 +66,7 @@ public class DiscardController extends Controller implements IDiscardController,
     {
     	if (arg != null)
     	{
-    		state = state.modelUpdated(o, arg, this.discardView, waitView);
+    		state = state.modelUpdated(o, arg, this.discardView, this.waitView);
     	}
     }
 

@@ -55,29 +55,34 @@ public class DiscardingState implements IDiscardState
 	@Override
 	public IDiscardState modelUpdated(Observable o, Object arg, IDiscardView disView, IWaitView waitView) 
 	{
-		ClientModel model = (ClientModel) arg;
-		if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
-		{
-			return new NotDiscardingState();
-        }
-        else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
-        {
-            disView.closeModal();
-            waitView.closeModal();
-            return new DiscardingState(disView);
-        }
-        else
-		{
-			if (discarded)
-			{
-				disView.closeModal();
-				return new WaitingState(waitView);
-			}
-			else
-			{
-				return this;
-			}
-		}
+            //System.out.println("Discarding State going to...");
+            ClientModel model = (ClientModel) arg;
+            if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
+            {
+                //System.out.println("Not discarding state");
+		return new NotDiscardingState();
+            }
+            else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
+            {
+                //System.out.println("new discarding state");
+                disView.closeModal();
+                waitView.closeModal();
+                return new DiscardingState(disView);
+            }
+            else
+            {
+                    if (discarded)
+                    {
+                        //System.out.println("New waiting state");
+                            disView.closeModal();
+                            return new WaitingState(waitView);
+                    }
+                    else
+                    {
+                        //System.out.println("Same discarding state.");
+                        return this;
+                    }
+            }
 	}
 
 	@Override

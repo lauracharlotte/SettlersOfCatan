@@ -17,16 +17,17 @@ public class WaitingState implements IDiscardState
 	@Override
 	public IDiscardState modelUpdated(Observable o, Object arg, IDiscardView disView, IWaitView waitView) 
 	{
-		ClientModel model = (ClientModel) arg;
-		if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
-		{
-			waitView.closeModal();
-			return new NotDiscardingState();
-		}
-		else
-		{
-			return this;
-		}
+            //System.out.println("Waiting State going to");
+            ClientModel model = (ClientModel) arg;
+            if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
+            {
+		waitView.closeModal();
+		return new NotDiscardingState();
+            }
+            else
+            {
+		return this;
+            }
 	}
 
 	@Override
