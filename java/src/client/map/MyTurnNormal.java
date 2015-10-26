@@ -100,7 +100,7 @@ class MyTurnNormal implements IMapState
     public void render(MapController controller)
     {
         if(isRobbing && this.robberMovingTo == null)
-            controller.startMove(PieceType.ROBBER, false, false);   
+            controller.startMove(PieceType.ROBBER, true, false);   
         controller.initFromModel();
     }
 
@@ -273,14 +273,15 @@ class MyTurnNormal implements IMapState
         try
         {
             this.isRobbing = false;
+            HexLocation movingTo = this.robberMovingTo;
+            this.robberMovingTo = null;
             if(!this.soldiering)
-                this.turnManager.robPlayer(new RobPlayerRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
+                this.turnManager.robPlayer(new RobPlayerRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), movingTo));
             else
             {
                 this.soldiering = false;
-                this.devCardManager.playSoldier(new PlaySoldierRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), this.robberMovingTo));
+                this.devCardManager.playSoldier(new PlaySoldierRequest(this.playerIndex, new NullablePlayerIdx(victim.getPlayerIndex()), movingTo));
             }
-            this.robberMovingTo = null;
         }
         catch (ClientException ex)
         {
