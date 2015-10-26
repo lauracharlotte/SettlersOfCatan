@@ -111,7 +111,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
             // update can buy card and can play card
             this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD,
-                    resourceModelFacade.canPlayDevCard());
+                    true);
             this.getView().setElementEnabled(ResourceBarElement.BUY_CARD,
                     resourceModelFacade.canBuyDevCard());
             
