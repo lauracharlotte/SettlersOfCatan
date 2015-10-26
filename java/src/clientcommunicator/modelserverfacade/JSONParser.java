@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import model.ClientModel;
+import model.ClientModelSupplier;
 import model.cards.DevelopmentCards;
 import model.cards.Hand;
 import model.cards.ResourceCards;
@@ -92,7 +93,18 @@ public class JSONParser
     	TurnTracker newTurnTracker = fromJSONToTurnTracker(turnTracker);
     	int version = model.getInt("version");
     	int winner = model.getInt("winner");
-    	NullablePlayerIdx newWinner = new NullablePlayerIdx(winner);
+    	
+    	NullablePlayerIdx newWinner = new NullablePlayerIdx(-1);//new NullablePlayerIdx(winner);
+    	if(ClientModelSupplier.getInstance().getModel() != null)
+    	{
+	    	for(Player curPlayer: ClientModelSupplier.getInstance().getModel().getPlayers())
+	    	{
+	    		if(curPlayer.getPlayerId() == winner)
+	    		{
+	    			newWinner = curPlayer.getPlayerIndex();
+	    		}
+	    	}
+    	}
     	
     	ClientModel newModel = new ClientModel(newBank, newChat, newLog, newMap, newPlayers,
     			newTradeOffer, newTurnTracker, version, newWinner);
