@@ -34,6 +34,7 @@ public class ChatController extends Controller implements IChatController, Obser
 
     @Override
     public void sendMessage(String message) {
+        message = checkForBackSlash(message);
     	CatanColor currentColor = ClientModelSupplier.getInstance().getClientPlayerObject().getColor();
     	LogEntry newEntry = new LogEntry(currentColor, message);
     	List<LogEntry> myLogList = new ArrayList<LogEntry>();
@@ -83,6 +84,19 @@ public class ChatController extends Controller implements IChatController, Obser
 	    	getView().setEntries(myLogList);
 	    	ClientModelSupplier.getInstance().getModel().setChat(curModel.getChat());
     	}
+    }
+    
+    private String checkForBackSlash(String message)
+    {
+        System.out.println(message);
+        int index = message.indexOf('\\');
+        while (index > -1)
+        {
+            message = new StringBuilder(message).insert(index, "\\").toString();
+            System.out.println(message);
+            index = message.indexOf('\\', index + 2);
+        }
+        return message;
     }
 }
 
