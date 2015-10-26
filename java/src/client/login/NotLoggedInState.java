@@ -14,6 +14,8 @@ import clientcommunicator.operations.LoginCredentials;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.ClientModelSupplier;
 
 /**
@@ -67,54 +69,25 @@ public class NotLoggedInState implements ILoginState
     
     private boolean isValidPassword(String password)
     {
+        // [A-Za-z_0-9-]{5,}
         if(password.trim().isEmpty())
             return false;
-        final int MIN_PASS_LENGTH = 5;
+        
+        Pattern r = Pattern.compile("[A-Za-z_0-9-]{5,}");
+        Matcher m = r.matcher(password);
 
-        if (password.length() < MIN_PASS_LENGTH)
-        {
-            return false;
-        }
-        else
-        {
-            for (char c : password.toCharArray())
-            {
-                if (!Character.isLetterOrDigit(c)
-                        && c != '_' && c != '-')
-                {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return m.find();
     }
     
     private boolean isValidUsername(String username)
     {
         if(username.trim().isEmpty())
             return false;
-        final int MIN_UNAME_LENGTH = 3;
-        final int MAX_UNAME_LENGTH = 7;
+        
+        Pattern r = Pattern.compile("[A-Za-z_0-9-]{3,7}");
+        Matcher m = r.matcher(username);
 
-        if (username.length() < MIN_UNAME_LENGTH
-                || username.length() > MAX_UNAME_LENGTH)
-        {
-            return false;
-        }
-        else
-        {
-            for (char c : username.toCharArray())
-            {
-                if (!Character.isLetterOrDigit(c)
-                        && c != '_' && c != '-')
-                {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return m.find();
     }
     
     @Override
