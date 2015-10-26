@@ -126,8 +126,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         ratio = 0;
         this.tradeOverlay.setTradeEnabled(false);
         this.tradeOverlay.hideGetOptions();
-        this.tradeOverlay.showGiveOptions(enabledResources);
         this.tradeOverlay.reset();
+        this.tradeOverlay.showGiveOptions(enabledResources);
+        
     }
 
     @Override
@@ -152,11 +153,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         CatanMap map = ClientModelSupplier.getInstance().getModel().getMap();
         ArrayList<Port> ports = (ArrayList<Port>) map.getPorts();
         ArrayList<VertexObject> settlements = (ArrayList<VertexObject>) map.getSettlements();
+        settlements.addAll(map.getCities());
         ResourceCards playerCards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
         resources = getFourTrade(resources, playerCards);
-        for (int i = 0; i < settlements.size(); i++)
+        for (VertexObject settlement : settlements)
         {
-            VertexObject settlement = settlements.get(i);
             if (settlement.getOwner().getIndex() == playerIdx.getIndex())
             {
                 for (int j = 0; j < ports.size(); j++)

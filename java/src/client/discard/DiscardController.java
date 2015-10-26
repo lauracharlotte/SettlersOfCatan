@@ -28,9 +28,8 @@ public class DiscardController extends Controller implements IDiscardController,
     	super(view);
     	this.waitView = waitView;
         this.discardView = view;
-    	ClientModelSupplier.getInstance().addObserver(this);
-    	
     	state = new NotDiscardingState();
+        ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public IDiscardView getDiscardView() 

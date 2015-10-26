@@ -47,6 +47,7 @@ public class NotDiscardingState implements IDiscardState
                     {
                         //System.out.println("Waiting State");
                         ResourceCards emptyCards = new ResourceCards(0, 0, 0, 0, 0);
+                        PlayerIdx turnItIs = model.getTurnTracker().getCurrentTurn();
                         PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
                         DiscardCardsRequest request = new DiscardCardsRequest(index, emptyCards);
                         TurnServerOperationsManager manager;
@@ -55,13 +56,20 @@ public class NotDiscardingState implements IDiscardState
                                 this.inMiddleOfDiscard = true;
                                 manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
                                 manager.discardCards(request);
+                                this.inMiddleOfDiscard = false;
                             } 
                             catch (NoSuchMethodException | InstantiationException | IllegalAccessException
                                             | InvocationTargetException | ClientException e) 
                             {
                                     Logger.getLogger(NotDiscardingState.class.getName()).log(Level.SEVERE, null, e);
                             }
-                            return new WaitingState(waitView);
+                            ClientModel newModel = ClientModelSupplier.getInstance().getModel();
+                            if(newModel.getTurnTracker().getStatus() == TurnStatusEnumeration.discarding && newModel.getTurnTracker().getCurrentTurn().equals(turnItIs))
+                                return new WaitingState(waitView);
+                            else if(newModel.getTurnTracker().getStatus() == TurnStatusEnumeration.discarding)
+                                return this.modelUpdated(o, arg, disView, waitView);
+                            else 
+                                return this;
                     }
 		}
 		else
