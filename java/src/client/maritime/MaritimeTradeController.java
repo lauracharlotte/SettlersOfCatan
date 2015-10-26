@@ -141,6 +141,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         ArrayList<Port> ports = (ArrayList<Port>) map.getPorts();
         ArrayList<VertexObject> settlements = (ArrayList<VertexObject>) map.getSettlements();
         ResourceCards playerCards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
+        resources = getFourTrade(resources, playerCards);
         for (int i = 0; i < settlements.size(); i++)
         {
             VertexObject settlement = settlements.get(i);
@@ -168,6 +169,36 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
             }
         }
         return resources.toArray(new ResourceType[resources.size()]);
+    }
+    
+    private ArrayList<ResourceType> getFourTrade(ArrayList<ResourceType> resources, ResourceCards playerCards)
+    {
+        if (playerCards.getBrick() >= 4)
+        {
+            resources.add(ResourceType.BRICK);
+            ratios.put(ResourceType.BRICK, 4);
+        }
+        if (playerCards.getOre() >= 4)
+        {
+            resources.add(ResourceType.ORE);
+            ratios.put(ResourceType.ORE, 4);
+        }
+        if (playerCards.getWool() >= 4)
+        {
+            resources.add(ResourceType.SHEEP);
+            ratios.put(ResourceType.SHEEP, 4);
+        }
+        if (playerCards.getGrain() >= 4)
+        {
+            resources.add(ResourceType.WHEAT);
+            ratios.put(ResourceType.WHEAT, 4);
+        }
+        if (playerCards.getLumber() >= 4)
+        {
+            resources.add(ResourceType.WOOD);
+            ratios.put(ResourceType.WOOD, 4);
+        }
+        return resources;
     }
     
     private VertexObject[] getPortVertexObjects(Port port)
