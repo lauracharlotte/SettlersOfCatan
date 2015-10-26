@@ -69,7 +69,6 @@ public class RollController extends Controller implements IRollController, Obser
     	int roll = dice.nextInt(diceUpperBound) + 2;
     	getRollView().closeModal();
     	getResultView().setRollValue(roll);
-    	getResultView().showModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	RollNumberRequest request = new RollNumberRequest(index, roll);
 		TurnServerOperationsManager manager;
@@ -83,6 +82,7 @@ public class RollController extends Controller implements IRollController, Obser
 		{
 			Logger.getLogger(RollController.class.getName()).log(Level.SEVERE, null, e);
 		}
+		getResultView().showModal();
     }
     
     public void stopTimer()
