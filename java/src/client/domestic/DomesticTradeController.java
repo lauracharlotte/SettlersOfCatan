@@ -397,6 +397,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         AcceptTradeRequest request = new AcceptTradeRequest(index, willAccept);
         
         try {
+            getAcceptOverlay().reset();
             getAcceptOverlay().closeModal();
             TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
             manager.acceptTrade(request);
@@ -447,13 +448,13 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     
     private void createAcceptOverlay(ResourceCards resourceCards, String offerer)
     {
+        getAcceptOverlay().setAcceptEnabled(true);
         interpretTradeOffer(resourceCards.getLumber(), ResourceType.WOOD);
         interpretTradeOffer(resourceCards.getBrick(), ResourceType.BRICK);
         interpretTradeOffer(resourceCards.getGrain(), ResourceType.WHEAT);
         interpretTradeOffer(resourceCards.getWool(), ResourceType.SHEEP);
         interpretTradeOffer(resourceCards.getOre(), ResourceType.ORE);
         getAcceptOverlay().setPlayerName(offerer);
-        getAcceptOverlay().setAcceptEnabled(new ResourceModelFacade().hasEnoughResource(resourceCards));
         getAcceptOverlay().showModal();
     }
     
@@ -463,12 +464,52 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         {
             // Player will give this resource
             getAcceptOverlay().addGiveResource(resource, Math.abs(resourceAmount));
+            getAcceptOverlay().setAcceptEnabled(hasResourceToTrade(resource, Math.abs(resourceAmount)));
         }
         else if (resourceAmount > 0)
         {
             // Player will receive this resource
             getAcceptOverlay().addGetResource(resource, resourceAmount);
         }
+    }
+    
+    private boolean hasResourceToTrade(ResourceType resource, int resourceAmount)
+    {
+        ResourceCards playerCards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
+        switch (resource)
+        {
+            case BRICK:
+                if (playerCards.getBrick() >= resourceAmount)
+                {
+                    return true;
+                }
+                break;
+            case ORE:
+                if (playerCards.getOre() >= resourceAmount)
+                {
+                    return true;
+                }
+                break;
+            case SHEEP:
+                if (playerCards.getWool() >= resourceAmount)
+                {
+                    return true;
+                }
+                break;
+            case WHEAT:
+                if (playerCards.getGrain() >= resourceAmount)
+                {
+                    return true;
+                }
+                break;
+            case WOOD:
+                if (playerCards.getLumber() >= resourceAmount)
+                {
+                    return true;
+                }
+                break;
+        }
+        return false;
     }
     
     private void decreaseTradeResource(ResourceType resource)
