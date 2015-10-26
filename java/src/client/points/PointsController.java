@@ -1,6 +1,7 @@
 package client.points;
 
 import client.base.*;
+import client.join.JoinGameController;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.player.Player;
@@ -30,6 +31,8 @@ public class PointsController extends Controller implements IPointsController, O
             setFinishedView(finishedView);
 
             initFromModel();
+            
+            ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public IPointsView getPointsView() {
@@ -54,30 +57,39 @@ public class PointsController extends Controller implements IPointsController, O
     @Override
     public void update(Observable o, Object arg)
     {
-    	ClientModel curModel = (ClientModel) arg;
-    	ClientModelSupplier curSupplier = (ClientModelSupplier) o;
-		int locPlayerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex();
-		
-		for(Player player: curModel.getPlayers())
-		{
-			if(player.getPlayerIndex().getIndex() == locPlayerIdx)
-			{
-				getPointsView().setPoints(player.getVictoryPoints());
-				//Do I need to change the Victory points in the other as well or is that done elsewhere?
-				//I'm not sure where this is even showing up.
-			}
-			if(player.getVictoryPoints() >= 10)
+    	if(arg != null)
+    	{
+	    	ClientModel curModel = (ClientModel) arg;
+	    	ClientModelSupplier curSupplier = (ClientModelSupplier) o;
+			int locPlayerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex();
+			
+			for(Player player: curModel.getPlayers())
 			{
 				if(player.getPlayerIndex().getIndex() == locPlayerIdx)
 				{
-					getFinishedView().setWinner(player.getName(), true);
+					getPointsView().setPoints(player.getVictoryPoints());
+					//Do I need to change the Victory points in the other as well or is that done elsewhere?
+					//I'm not sure where this is even showing up.
 				}
-				else
+				if(player.getVictoryPoints() >= 10)
 				{
-					getFinishedView().setWinner(player.getName(), false);
+					if(player.getPlayerIndex().getIndex() == locPlayerIdx)
+					{
+						getFinishedView().setWinner(player.getName(), true);
+						//if(getFinishedView().isModalShowing() == false)
+						//{
+							getFinishedView().showModal();
+							//getFinishedView().setController(new JoinGameController());
+						//}
+					}
+					else
+					{
+						getFinishedView().setWinner(player.getName(), false);
+						getFinishedView().showModal();
+					}
 				}
-			}
-		}	
+			}	
+    	}
     }
 }
 
