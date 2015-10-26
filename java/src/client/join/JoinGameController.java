@@ -194,6 +194,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     {
         getJoinGameView().closeModal();
         this.shouldShowGameList = false;
+        getNewGameView().setTitle("");
+        getNewGameView().setRandomlyPlaceHexes(false);
+        getNewGameView().setRandomlyPlaceNumbers(false);
+        getNewGameView().setUseRandomPorts(false);
         getNewGameView().showModal();
     }
 
@@ -212,9 +216,19 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         boolean randomlyPlaceNumbers = getNewGameView().getRandomlyPlaceNumbers();
         String title = getNewGameView().getTitle();
         boolean randomPorts = getNewGameView().getUseRandomPorts();
-        if(title.trim().equals("") || title == null)
+        boolean validTitle = !(title == null || title.trim().equals(""));
+        for(GameInfo info: this.lastList)
         {
-            this.getMessageView().setMessage("Invalid title");
+            if(!validTitle || info.getTitle().equals(title.trim()))
+            {
+                validTitle = false;
+                break;
+            }
+                
+        }
+        if(!validTitle)
+        {
+            this.getMessageView().setMessage("Invalid title -- check to see if a game with that name already exists.");
             this.getMessageView().showModal();
             return;
         }
