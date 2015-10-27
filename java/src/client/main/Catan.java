@@ -103,5 +103,49 @@ public class Catan extends JFrame
 		});
 	}
 	
+	public static void thankYouTas()
+	{
+		//try
+		//{
+			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		//}
+		//catch(Exception e)
+		//{
+			//e.printStackTrace();
+		//}
+		
+		//SwingUtilities.invokeLater(new Runnable() {
+			//public void run()
+			//{
+				new Catan();
+				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
+				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
+																									playerWaitingView);
+				playerWaitingView.setController(playerWaitingController);
+				
+				JoinGameView joinView = new JoinGameView();
+				NewGameView newGameView = new NewGameView();
+				SelectColorView selectColorView = new SelectColorView();
+				MessageView joinMessageView = new MessageView();
+				final JoinGameController joinController = new JoinGameController(
+																				 joinView,
+																				 newGameView,
+																				 selectColorView,
+																				 joinMessageView);
+				joinController.setJoinAction(new IAction() {
+					@Override
+					public void execute()
+					{
+						playerWaitingController.start();
+					}
+				});
+				joinView.setController(joinController);
+				newGameView.setController(joinController);
+				selectColorView.setController(joinController);
+				joinMessageView.setController(joinController);
+				joinController.start();
+			//}
+		//});
+	}
 }
 

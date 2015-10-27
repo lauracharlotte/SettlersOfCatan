@@ -41,13 +41,28 @@ public class CreateTurnTrackerState implements ITurnTrackerState {
 	    		for(Player findPlayer: ClientModelSupplier.getInstance().getModel().getPlayers())
 	    		{
 	    			view.initializePlayer(findPlayer.getPlayerIndex().getIndex(), findPlayer.getName(), findPlayer.getColor());
-	    			//
-	    			view.updatePlayer(findPlayer.getPlayerIndex().getIndex(), findPlayer.getVictoryPoints(), true, false, false);
-	    			//
+	    			
+	    			Boolean whooseTurn = false;
+	    			Boolean longestRoad = false;
+	    			Boolean largestArmy = false;
+	    			
+	    			if(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn().equals(findPlayer.getPlayerIndex()))
+	    			{
+	    				whooseTurn = true;
+	    			}
+	    			if(ClientModelSupplier.getInstance().getModel().getTurnTracker().getLargestArmy().getIndex() == findPlayer.getPlayerIndex().getIndex())
+	    			{
+	    				largestArmy = true;
+	    			}
+	    			if(ClientModelSupplier.getInstance().getModel().getTurnTracker().getLongestRoad().getIndex() == findPlayer.getPlayerIndex().getIndex())
+	    			{
+	    				longestRoad = true;
+	    			}
+	    			
+	    			view.updatePlayer(findPlayer.getPlayerIndex().getIndex(), findPlayer.getVictoryPoints(), whooseTurn, largestArmy, longestRoad);
 	    		}
 	    		playersReady = true;
-	    		view.updatePlayer(ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex(), ClientModelSupplier.getInstance().getClientPlayerObject().getVictoryPoints(), true, false, false);
-	    		//view.updatePlayer(0, 0, true, false, false);
+	    		
 	    		if(ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex() == 0)
 	    		{
 	    			view.updateGameState("Finish Turn", true);

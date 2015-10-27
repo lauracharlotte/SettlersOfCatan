@@ -6,7 +6,10 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import com.sun.security.ntlm.Client;
+
 import client.base.*;
+import client.main.Catan;
 import client.utils.*;
 
 
@@ -78,6 +81,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 			
 			if (e.getSource() == okButton) {
 				closeModal();
+				Catan.thankYouTas();
 			}
 		}	
 	};
