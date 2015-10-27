@@ -170,6 +170,20 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             getJoinGameView().closeModal();
             getJoinGameView().showModal();
         }
+        else if(this.game != null)
+        {
+            for(GameInfo gameInList : this.lastList)
+            {
+                if(this.game.getId() == gameInList.getId())
+                {
+                    if(gameInList.getPlayers().size() == 4)
+                        this.cancelJoinGame();
+                    else
+                        this.startJoinGame(gameInList);
+                    return;
+                }
+            }
+        }
     }
     
     @Override
@@ -185,7 +199,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             }
         };
         this.timer = new Timer();
-        this.timer.schedule(timerTask, 0, 3000);
+        this.timer.schedule(timerTask, 0, 1500);
     }
     
 
@@ -263,7 +277,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                 this.joinGame(pInfo.getColor());
                 return;
             }
-        getSelectColorView().showModal();
+        if(!getSelectColorView().isModalShowing())
+            getSelectColorView().showModal();
     }
 
     @Override
@@ -295,4 +310,3 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 
 }
-
