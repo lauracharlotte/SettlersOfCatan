@@ -6,7 +6,6 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
-import com.sun.security.ntlm.Client;
 
 import client.base.*;
 import client.main.Catan;
