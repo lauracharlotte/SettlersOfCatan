@@ -28,7 +28,7 @@ import org.json.JSONException;
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController
+public class JoinGameController extends Controller implements IJoinGameController, Observer
 {
 
     private INewGameView newGameView;
@@ -63,6 +63,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         {
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ClientModelSupplier.getInstance().addObserver(this);
     }
 
     public IJoinGameView getJoinGameView() 
@@ -177,7 +178,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                 if(this.game.getId() == gameInList.getId())
                 {
                     if(gameInList.getPlayers().size() == 4)
+                    {
+                        for(PlayerInfo pInfo: gameInList.getPlayers())
+                            if(pInfo.getId() == localPlayer.getId())
+                            {
+                                getJoinGameView().closeModal();
+                                getSelectColorView().closeModal();
+                                return;
+                            }
                         this.cancelJoinGame();
+                    }
                     else
                         this.startJoinGame(gameInList);
                     return;
@@ -277,8 +287,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                 this.joinGame(pInfo.getColor());
                 return;
             }
-        if(!getSelectColorView().isModalShowing())
-            getSelectColorView().showModal();
+        getSelectColorView().showModal();
     }
 
     @Override
@@ -286,12 +295,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     {
         this.game = null;
         this.shouldShowGameList = true;
-        getJoinGameView().closeModal();
+        getJoinGameView().showModal();
     }
 
     @Override
     public void joinGame(CatanColor color) 
     {
+        
         try
         {
             this.manager.joinGame(new JoinGameRequest(this.game.getId(), color), true);
@@ -301,11 +311,22 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        // If join succeeded
         this.timer.cancel();
         getSelectColorView().closeModal();
         getJoinGameView().closeModal();
         joinAction.execute();
+    }
+
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        if(arg != null)
+        {
+            this.getJoinGameView().closeModal();
+            this.getMessageView().closeModal();
+            this.getNewGameView().closeModal();
+            this.getSelectColorView().closeModal();
+        }
     }
 
 
