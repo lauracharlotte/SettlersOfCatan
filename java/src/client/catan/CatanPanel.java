@@ -45,18 +45,19 @@ public class CatanPanel extends JPanel
 		this.add(midPanel, BorderLayout.CENTER);
 		this.add(rightPanel, BorderLayout.EAST);
 		
-		discardView = new DiscardView();
-		discardWaitView = new WaitView();
-		discardWaitView.setMessage("Waiting for other Players to Discard");
-		discardController = new DiscardController(discardView, discardWaitView);
-		discardView.setController(discardController);
-		discardWaitView.setController(discardController);
-		
+				
 		rollView = new RollView();
 		rollResultView = new RollResultView();
 		rollController = new RollController(rollView, rollResultView);
 		rollView.setController(rollController);
 		rollResultView.setController(rollController);
+                
+                discardView = new DiscardView();
+		discardWaitView = new WaitView();
+		discardWaitView.setMessage("Waiting for other Players to Discard");
+		discardController = new DiscardController(discardView, discardWaitView);
+		discardView.setController(discardController);
+		discardWaitView.setController(discardController);
 		
 		/*JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {

@@ -32,7 +32,6 @@ class NotMyTurnNormal implements IMapState
     @Override
     public IMapState update(Observable o, Object arg)
     {
-        //need to fix this!
         ClientModel model = (ClientModel)arg;
         if(model.getTurnTracker().getCurrentTurn().equals(this.playerIndex))
             return new MyTurnNormal();
