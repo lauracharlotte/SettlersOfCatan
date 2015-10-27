@@ -126,8 +126,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         ratio = 0;
         this.tradeOverlay.setTradeEnabled(false);
         this.tradeOverlay.hideGetOptions();
-        this.tradeOverlay.showGiveOptions(enabledResources);
         this.tradeOverlay.reset();
+        this.tradeOverlay.showGiveOptions(enabledResources);
+        
     }
 
     @Override
