@@ -80,11 +80,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                 idx++;
             }
             getView().setPlayers(playerInfo);
-            if(getView().isModalShowing())
-            {
-                getView().closeModal();
-                getView().showModal();
-            }
+            
+            getView().closeModal();
+            getView().showModal();
         }
         catch (JSONException | ClientException ex)
         {
@@ -95,7 +93,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
     @Override
     public void start() 
     {
-        getView().showModal();
+        //getView().showModal();
         String[] aiChoices = new String[1];
         manager.listAI().toArray(aiChoices);
         getView().setAIChoices(aiChoices);
