@@ -259,7 +259,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         getNewGameView().closeModal();
         try
         {
-            GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceHexes, randomlyPlaceNumbers, randomPorts, title));
+            GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceNumbers, randomlyPlaceHexes, randomPorts, title));
             //manager.joinGame(new JoinGameRequest(game.getGameId(), CatanColor.RED), randomPorts);
         }
         catch (ClientException | JSONException ex)
