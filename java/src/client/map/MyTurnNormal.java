@@ -60,6 +60,8 @@ class MyTurnNormal implements IMapState
     private EdgeLocation roadBuilding2 = null;
     private boolean isRobbing = false;
     
+    private static RobPlayerInfo nonePlayer = new RobPlayerInfo();
+    
     public MyTurnNormal()
     {
         this.playerIndex = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
@@ -73,6 +75,8 @@ class MyTurnNormal implements IMapState
         {
             Logger.getLogger(MyTurnNormal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        nonePlayer.setName("None");
+        nonePlayer.setNumCards(0);
     }
 
     @Override
@@ -232,8 +236,7 @@ class MyTurnNormal implements IMapState
         }
         if(playerInfo.isEmpty())
         {
-            this.robPlayer(null);
-            return;
+            playerInfo.add(nonePlayer);
         }
         RobPlayerInfo[] finalArray = new RobPlayerInfo[playerInfo.size()];
         playerInfo.toArray(finalArray);
@@ -265,7 +268,7 @@ class MyTurnNormal implements IMapState
     @Override
     public void robPlayer(RobPlayerInfo victim)
     {
-        if(victim == null) //nobody to rob
+        if(victim == nonePlayer) //nobody to rob
         {
             victim = new RobPlayerInfo();
             victim.setPlayerIndex(-1);
