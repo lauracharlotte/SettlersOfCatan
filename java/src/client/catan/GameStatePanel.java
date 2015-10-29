@@ -7,20 +7,39 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import client.base.IAction;
+import shared.definitions.CatanColor;
 
 
 @SuppressWarnings("serial")
 public class GameStatePanel extends JPanel
 {
 	private JButton button;
-	
+	private Color currentButtonColor;
+        
 	public GameStatePanel()
 	{
 		this.setLayout(new FlowLayout());
 		this.setBackground(Color.white);
 		this.setOpaque(true);
-		
-		button = new JButton();
+		this.currentButtonColor = null;
+		button = new JButton(){
+                    @Override
+                    public void paintComponent(Graphics g)
+                    {
+                        
+                        if(currentButtonColor != null)
+                        {
+                            g.setColor(currentButtonColor);
+                            g.fillRect(0, 0, getSize().width, getSize().height);
+                            this.setContentAreaFilled(false);
+                        }
+                        else
+                        {
+                            this.setContentAreaFilled(true);
+                        }
+                        super.paintComponent(g);
+                    }
+                };
 		
 		Font font = button.getFont();
 		Font newFont = font.deriveFont(font.getStyle(), 20);
@@ -33,11 +52,26 @@ public class GameStatePanel extends JPanel
 		updateGameState("Waiting for other Players", false);
 	}
 	
-	public void updateGameState(String stateMessage, boolean enable)
+	public void updateGameState(String stateMessage, boolean enable, CatanColor color)
 	{
+                if(stateMessage.equals("Finish Turn") && color != null && enable)
+                {
+                    this.currentButtonColor = color.getJavaColor();
+                }
+                else
+                {
+                    this.currentButtonColor = null;
+                }
+                button.revalidate();
+                button.repaint();
 		button.setText(stateMessage);
 		button.setEnabled(enable);
 	}
+        
+        public void updateGameState(String stateMessage, boolean enable)
+        {
+            this.updateGameState(stateMessage, enable, null);
+        }
 	
 	public void setButtonAction(final IAction action)
 	{

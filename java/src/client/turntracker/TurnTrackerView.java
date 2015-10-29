@@ -8,6 +8,8 @@ import shared.definitions.*;
 import client.base.*;
 import client.catan.*;
 import client.utils.ImageUtils;
+import model.ClientModelSupplier;
+import model.player.Player;
 
 
 /**
@@ -128,9 +130,13 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	}
 
 	@Override
-	public void updateGameState(String stateMessage, boolean enable) {
-
-		gameStatePanel.updateGameState(stateMessage, enable);
+	public void updateGameState(String stateMessage, boolean enable) 
+        {
+            Player currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject();
+            if(currentPlayer != null)
+                gameStatePanel.updateGameState(stateMessage, enable, currentPlayer.getColor());
+            else
+                gameStatePanel.updateGameState(stateMessage, enable);
 	}
 	
 }
