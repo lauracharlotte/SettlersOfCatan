@@ -286,6 +286,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
             personToAsk = true;
             updateEnableTrade();
         }
+        else
+        {
+          personToAsk = false;
+          updateEnableTrade();
+        }
     }
 
     @Override
@@ -309,6 +314,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         }
         
         // makes the view show the increase buttons
+        this.tradeOverlay.setResourceAmount(resource, "0");
         tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
     }
 
@@ -333,6 +339,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         }
         
         // get current client model
+        this.tradeOverlay.setResourceAmount(resource, "0");
         ClientModelSupplier clientModelSupplier = ClientModelSupplier.getInstance();
         ResourceCards playerCards = clientModelSupplier.getClientPlayerObject().getHand().getResourceCards();
  
@@ -374,6 +381,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
                 this.tradeOverlay.setResourceAmount(resource, "0");
                 break;
         }
+        if (tradeWood < 1 && tradeBrick < 1 && tradeSheep < 1 && tradeOre < 1 && tradeWheat < 1)
+        {
+            sending = false;
+        }
+        if (tradeWood > -1 && tradeBrick > -1 && tradeSheep > -1 && tradeOre > -1 && tradeWheat > -1)
+        {
+            receiving = false;
+        }
+        updateEnableTrade();
     }
 
     @Override
@@ -525,6 +541,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         // show the decrease in the overlay
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(change));
         
+        this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, true);
         // if the resource is now zero
         if (change == 0)
         {
@@ -540,7 +557,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         
         // show the increase in the overlay
         this.tradeOverlay.setResourceAmount(resource, Integer.toString(change));
-        this.sending = true;
+        this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, true);
         
         // if the resource is now reached its limit
         if (playerCardLimit(resource, playerCards, change))
