@@ -282,11 +282,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         for(PlayerInfo pInfo: playersInGame)
             if(pInfo.getId() != ClientModelSupplier.getInstance().getClientPlayerID())
                 getSelectColorView().setColorEnabled(pInfo.getColor(), false);
-            else
-            {
-                this.joinGame(pInfo.getColor());
-                return;
-            }
         getSelectColorView().showModal();
     }
 
