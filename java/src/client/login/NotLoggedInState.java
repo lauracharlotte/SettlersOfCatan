@@ -59,11 +59,6 @@ public class NotLoggedInState implements ILoginState
     @Override
     public void login(String username, String password, IMessageView messageView)
     {
-        if(!this.isValidPassword(password) || !this.isValidUsername(username))
-        {
-            this.showMessage(messageView, "Invalid input", "Bad username or password combination");
-            return;
-        }
         this.tryLogin(username, password, true, messageView);
     }
     
