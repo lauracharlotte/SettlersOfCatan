@@ -7,6 +7,7 @@ import client.login.*;
 import client.join.*;
 import client.misc.*;
 import client.base.*;
+import clientcommunicator.Server.ServerProxy;
 
 /**
  * Main entry point for the Catan program
@@ -55,8 +56,10 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
+                                ServerProxy.setSERVER_HOST(args[0]);
+                                ServerProxy.setSERVER_PORT(args[1]);
+                            
 				new Catan();
-				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
 																									playerWaitingView);
