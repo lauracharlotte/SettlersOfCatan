@@ -50,6 +50,11 @@ public class PointsView extends ComponentView implements IPointsView
 			this.points = points;
 			this.repaint();
 		}
+                else if (points > MAX_POINTS)
+                {
+                    this.points = 10;
+                    this.repaint();
+                }
 		else
 		{
 			throw new IllegalArgumentException("invalid points value");
