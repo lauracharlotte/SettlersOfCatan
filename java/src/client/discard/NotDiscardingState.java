@@ -37,7 +37,7 @@ public class NotDiscardingState implements IDiscardState
             {
                     //Check amount of cards in current player's hand
                     ResourceCards cards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getResourceCards();
-                    int totalCards = cards.getBrick() + cards.getGrain() + cards.getLumber() + cards.getOre() + cards.getWool();
+                    int totalCards = cards.getTotal();
                     if (totalCards > 7)
                     {
                             //System.out.println("Discarding State");

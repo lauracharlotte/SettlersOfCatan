@@ -80,6 +80,8 @@ public class DiscardingState implements IDiscardState
                     else
                     {
                         //System.out.println("Same discarding state.");
+                        if(!disView.isModalShowing())
+                            disView.showModal();
                         return this;
                     }
             }
