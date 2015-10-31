@@ -15,6 +15,7 @@ import clientcommunicator.operations.PlayerJSONResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -40,6 +41,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     private GameInfo game = null;
     private boolean shouldShowGameList = true;
     private GameInfo[] lastList = null;
+    private Collection<CatanColor> colorsTaken = null;
     /**
      * JoinGameController constructor
      * 
@@ -141,6 +143,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         if (gamesCollection == null)
             return;
         GameInfo[] games = new GameInfo[gamesCollection.size()];
+        GameInfo currentGame = null;
         int idx = 0;
         for(GameJSONResponse gameChoice: gamesCollection)
         {
@@ -158,7 +161,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                 playerIndex++;
                 games[idx].addPlayer(onePlayersInfo);
             }
+            if(this.game != null && games[idx].getId() == this.game.getId())
+                currentGame = games[idx];
             idx++;   
+        }
+        if(currentGame != null)
+        {
+            this.startJoinGame(currentGame);
         }
         if(Arrays.equals(games, this.lastList))
             return;
@@ -277,12 +286,21 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         this.game = game;
         this.shouldShowGameList = false;
         Collection<PlayerInfo> playersInGame = game.getPlayers();
-        for(CatanColor color: CatanColor.values())
-            getSelectColorView().setColorEnabled(color, true);
+        Collection<CatanColor> currentColorsTaken = new HashSet<>();
         for(PlayerInfo pInfo: playersInGame)
+        {
             if(pInfo.getId() != ClientModelSupplier.getInstance().getClientPlayerID())
-                getSelectColorView().setColorEnabled(pInfo.getColor(), false);
-        getSelectColorView().showModal();
+            {
+                currentColorsTaken.add(pInfo.getColor());
+            }
+        }
+        if(currentColorsTaken.equals(this.colorsTaken))
+            return;
+        this.colorsTaken = currentColorsTaken;
+        for(CatanColor color: CatanColor.values())
+            getSelectColorView().setColorEnabled(color, !colorsTaken.contains(color));
+        if(!this.getMessageView().isModalShowing())
+            getSelectColorView().showModal();
     }
 
     @Override
@@ -290,18 +308,36 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     {
         this.game = null;
         this.shouldShowGameList = true;
+        this.colorsTaken = null;
         getJoinGameView().showModal();
     }
 
     @Override
     public void joinGame(CatanColor color) 
     {
-        
         try
         {
+            Collection<GameJSONResponse> games = this.manager.listGames();
+            for(GameJSONResponse game: games)
+            {
+                if(game.getGameId() == this.game.getId())
+                {
+                    for(PlayerJSONResponse player: game.getPlayers())
+                    {
+                        this.getSelectColorView().setColorEnabled(color, false);
+                        if(player.getColor().equals(color) && player.getId() != ClientModelSupplier.getInstance().getClientPlayerID())
+                        {
+                            this.getMessageView().setMessage("Cannot join with that color.  Already taken.");
+                            this.getMessageView().showModal();
+                            return;
+                        }
+                    }
+                    break;
+                }
+            }
             this.manager.joinGame(new JoinGameRequest(this.game.getId(), color), true);
         }
-        catch (ClientException ex)
+        catch (ClientException | JSONException ex)
         {
             Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
             return;
