@@ -24,6 +24,7 @@ public class SameTurnState implements ITurnTrackerState {
 	{
 		for(Player playerInCurModel: ClientModelSupplier.getInstance().getModel().getPlayers())
 		{
+	    		view.initializePlayer(playerInCurModel.getPlayerIndex().getIndex(), playerInCurModel.getName(), playerInCurModel.getColor());
 			int longestRoad = curModel.getTurnTracker().getLongestRoad().getIndex();
 			int largestArmy = curModel.getTurnTracker().getLargestArmy().getIndex();
 			int curTurn = curModel.getTurnTracker().getCurrentTurn().getIndex();

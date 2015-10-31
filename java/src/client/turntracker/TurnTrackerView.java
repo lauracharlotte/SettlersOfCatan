@@ -43,6 +43,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		for(int i = 0; i < NUM_PLAYERS; i++)
 		{
 			playerPanel[i] = new JPanel();
+                        playerPanel[i].setBackground(Color.GRAY);
 			this.add(playerPanel[i]);
 		}
 		
@@ -80,7 +81,11 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 	@Override
 	public void initializePlayer(int playerIndex, String playerName,
 			CatanColor playerColor) {
-				
+                if(playerPanel[playerIndex].getBackground() == playerColor.getJavaColor())
+                    return;
+		this.remove(playerPanel[playerIndex]);
+                playerPanel[playerIndex] = new JPanel();
+                this.add(playerPanel[playerIndex]);
 		playerPanel[playerIndex].setLayout(new BorderLayout());
 		
 		JLabel name = new JLabel(playerName);
