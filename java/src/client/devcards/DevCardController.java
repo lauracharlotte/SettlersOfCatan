@@ -107,7 +107,9 @@ public class DevCardController extends Controller implements IDevCardController,
     {
     	getPlayCardView().showModal();
     	DevelopmentCards cards = ClientModelSupplier.getInstance().getClientPlayerObject().getHand().getDevelopmentCards();
-    	
+    	//
+    	DevelopmentCards newCards = ClientModelSupplier.getInstance().getClientPlayerObject().getNewDevCards();
+    	//
     	//Set each type of card as enabled or disabled
     	if (cards.getMonopoly() > 0) getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, true);
     	else getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, false);
@@ -120,12 +122,31 @@ public class DevCardController extends Controller implements IDevCardController,
     	if (cards.getYearOfPlenty() > 0) getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, true);
     	else getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, false);
     	
+    	//
+
+    	//Get Amounts with the newDevcards
+    	
+    	int monopolyAmount = cards.getMonopoly() + newCards.getMonopoly();
+    	int monumentAmount = cards.getMonument() + newCards.getMonument();
+    	int roadBuildAmount = cards.getRoadBuilding() + newCards.getRoadBuilding();
+    	int soldierAmount = cards.getSoldier() + newCards.getSoldier();
+    	int yearOfPlentyAmount = cards.getYearOfPlenty() + newCards.getYearOfPlenty();    	
+    	//
+    	
+    	//
+    	getPlayCardView().setCardAmount(DevCardType.MONOPOLY, monopolyAmount);
+    	getPlayCardView().setCardAmount(DevCardType.MONUMENT, monumentAmount);
+    	getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, roadBuildAmount);
+    	getPlayCardView().setCardAmount(DevCardType.SOLDIER, soldierAmount);
+    	getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, yearOfPlentyAmount);
+    	//
+    	
     	//Set card amounts
-    	getPlayCardView().setCardAmount(DevCardType.MONOPOLY, cards.getMonopoly());
+    	/*getPlayCardView().setCardAmount(DevCardType.MONOPOLY, cards.getMonopoly());
     	getPlayCardView().setCardAmount(DevCardType.MONUMENT, cards.getMonument());
     	getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, cards.getRoadBuilding());
     	getPlayCardView().setCardAmount(DevCardType.SOLDIER, cards.getSoldier());
-    	getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, cards.getYearOfPlenty());
+    	getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, cards.getYearOfPlenty());*/
         
         if (!ClientModelSupplier.getInstance().getClientPlayerObject().canPlayDev())
         {
