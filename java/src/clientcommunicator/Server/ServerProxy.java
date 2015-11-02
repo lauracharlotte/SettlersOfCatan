@@ -313,17 +313,17 @@ public class ServerProxy implements IServerProxy
         ServerProxy.URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
     }
 
-    // -------------------------------------------------------------------------
-    // Below are all of the private variables/functions
-    // They're down here at the bottom because they are only for making 
-    // HTTP requests.
-    // -------------------------------------------------------------------------
     public static void setSERVER_PORT(String SERVER_PORT)
     {
         ServerProxy.SERVER_PORT = SERVER_PORT;
         ServerProxy.URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
     }
     
+    // -------------------------------------------------------------------------
+    // Below are all of the private variables/functions
+    // They're down here at the bottom because they are only for making 
+    // HTTP requests.
+    // -------------------------------------------------------------------------
     
     private static String SERVER_HOST="";
     private static String SERVER_PORT="";

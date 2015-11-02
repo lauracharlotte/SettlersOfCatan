@@ -29,6 +29,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
     private GameServerOperationsManager manager;
     private Timer timer;
     private int numPlayers = 0;
+    private ServerPoller serverPoller;
     
     public PlayerWaitingController(IPlayerWaitingView view) {
 
@@ -59,7 +60,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
             if(currentModel.getPlayers().size() == 4)
             {
                 this.timer.cancel();
-                ServerPoller serverPoller = new ServerPoller();
+                serverPoller = new ServerPoller();
                 serverPoller.setFacade(ModelServerFacadeFactory.getInstance());
                 serverPoller.setServer(ModelServerFacadeFactory.getInstance().getServerProxy());
                 serverPoller.setPollingMilliseconds(2000);
@@ -121,6 +122,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         {
             Logger.getLogger(PlayerWaitingController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void stopPoller()
+    {
+    	serverPoller.stop();
     }
 
 }

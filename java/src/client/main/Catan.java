@@ -8,6 +8,7 @@ import client.join.*;
 import client.misc.*;
 import client.base.*;
 import clientcommunicator.Server.ServerProxy;
+import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 
 /**
  * Main entry point for the Catan program
@@ -15,12 +16,22 @@ import clientcommunicator.Server.ServerProxy;
 @SuppressWarnings("serial")
 public class Catan extends JFrame
 {
+	private static Catan catanObj;
 	
+	private static PlayerWaitingView playerWaitingView;
+	private static PlayerWaitingController playerWaitingController;
+	private static JoinGameView joinView;
+	private static NewGameView newGameView;
+	private static SelectColorView selectColorView;
+	private static MessageView joinMessageView;
+	private static JoinGameController joinController;
+	private static LoginView loginView;
+	private static MessageView loginMessageView;
+	private static LoginController loginController;
 	private CatanPanel catanPanel;
 	
-	public Catan()
+	private Catan()
 	{
-		
 		client.base.OverlayView.setWindow(this);
 		
 		this.setTitle("Settlers of Catan");
@@ -41,7 +52,6 @@ public class Catan extends JFrame
 	//
 	// Main
 	//
-	
 	public static void main(final String[] args)
 	{
 		try
@@ -56,24 +66,19 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-                                ServerProxy.setSERVER_HOST(args[0]);
-                                ServerProxy.setSERVER_PORT(args[1]);
+                ServerProxy.setSERVER_HOST(args[0]);
+                ServerProxy.setSERVER_PORT(args[1]);
                             
-				new Catan();
-				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
-																									playerWaitingView);
+				catanObj = new Catan();
+				playerWaitingView = new PlayerWaitingView();
+				playerWaitingController = new PlayerWaitingController(playerWaitingView);
 				playerWaitingView.setController(playerWaitingController);
 				
-				JoinGameView joinView = new JoinGameView();
-				NewGameView newGameView = new NewGameView();
-				SelectColorView selectColorView = new SelectColorView();
-				MessageView joinMessageView = new MessageView();
-				final JoinGameController joinController = new JoinGameController(
-																				 joinView,
-																				 newGameView,
-																				 selectColorView,
-																				 joinMessageView);
+				joinView = new JoinGameView();
+				newGameView = new NewGameView();
+				selectColorView = new SelectColorView();
+				joinMessageView = new MessageView();
+				joinController = new JoinGameController(joinView, newGameView, selectColorView, joinMessageView);
 				joinController.setJoinAction(new IAction() {
 					@Override
 					public void execute()
@@ -86,11 +91,9 @@ public class Catan extends JFrame
 				selectColorView.setController(joinController);
 				joinMessageView.setController(joinController);
 				
-				LoginView loginView = new LoginView();
-				MessageView loginMessageView = new MessageView();
-				LoginController loginController = new LoginController(
-																	  loginView,
-																	  loginMessageView);
+				loginView = new LoginView();
+				loginMessageView = new MessageView();
+				loginController = new LoginController(loginView, loginMessageView);
 				loginController.setLoginAction(new IAction() {
 					@Override
 					public void execute()
@@ -108,47 +111,54 @@ public class Catan extends JFrame
 	
 	public static void thankYouTas()
 	{
-		//try
-		//{
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		//}
-		//catch(Exception e)
-		//{
-			//e.printStackTrace();
-		//}
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
-		//SwingUtilities.invokeLater(new Runnable() {
-			//public void run()
-			//{
-				new Catan();
-				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
-				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
-																									playerWaitingView);
-				playerWaitingView.setController(playerWaitingController);
-				
-				JoinGameView joinView = new JoinGameView();
-				NewGameView newGameView = new NewGameView();
-				SelectColorView selectColorView = new SelectColorView();
-				MessageView joinMessageView = new MessageView();
-				final JoinGameController joinController = new JoinGameController(
-																				 joinView,
-																				 newGameView,
-																				 selectColorView,
-																				 joinMessageView);
-				joinController.setJoinAction(new IAction() {
-					@Override
-					public void execute()
-					{
-						playerWaitingController.start();
-					}
-				});
-				joinView.setController(joinController);
-				newGameView.setController(joinController);
-				selectColorView.setController(joinController);
-				joinMessageView.setController(joinController);
+		playerWaitingController.stopPoller();
+		catanObj.dispose();
+		catanObj = new Catan();
+		playerWaitingView = new PlayerWaitingView();
+		playerWaitingController = new PlayerWaitingController(playerWaitingView);
+		playerWaitingView.setController(playerWaitingController);
+		
+		joinView = new JoinGameView();
+		newGameView = new NewGameView();
+		selectColorView = new SelectColorView();
+		joinMessageView = new MessageView();
+		joinController = new JoinGameController(joinView, newGameView, selectColorView, joinMessageView);
+		joinController.setJoinAction(new IAction() {
+			@Override
+			public void execute()
+			{
+				playerWaitingController.start();
+			}
+		});
+		joinView.setController(joinController);
+		newGameView.setController(joinController);
+		selectColorView.setController(joinController);
+		joinMessageView.setController(joinController);
+		joinController.start();
+		
+		loginView = new LoginView();
+		loginMessageView = new MessageView();
+		loginController = new LoginController(loginView, loginMessageView);
+		loginController.setLoginAction(new IAction() {
+			@Override
+			public void execute()
+			{
 				joinController.start();
-			//}
-		//});
+			}
+		});
+		loginView.setController(loginController);
+		loginView.setController(loginController);
+		
+		loginController.start();
 	}
 }
 
