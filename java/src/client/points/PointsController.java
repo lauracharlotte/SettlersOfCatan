@@ -87,6 +87,7 @@ public class PointsController extends Controller implements IPointsController, O
 						getFinishedView().setWinner(player.getName(), false);
 						getFinishedView().showModal();
 					}
+                                        ClientModelSupplier.getInstance().deleteObservers();
 				}
 			}	
     	}

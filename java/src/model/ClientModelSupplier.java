@@ -2,6 +2,7 @@ package model;
 
 import java.util.Collection;
 import java.util.Observable;
+import java.util.Observer;
 import model.player.Player;
 
 public class ClientModelSupplier extends Observable
@@ -25,7 +26,7 @@ public class ClientModelSupplier extends Observable
         this.setChanged();
         this.notifyObservers(this.currentModel);
     }
-
+    
     public Player getClientPlayerObject()
     {
         if(this.ClientPlayerID == -1 || this.currentModel == null)
