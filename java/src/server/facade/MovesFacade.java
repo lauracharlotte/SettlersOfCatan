@@ -8,27 +8,28 @@ public class MovesFacade implements IMovesFacade {
     
     public MovesFacade() {}    
     
-    public void sendChat()
+    public void sendChat(int playerIdx, String message)
     {
         
     }
     
-    public void rollNumber()
+    public void rollNumber(int playerIdx, int number)
     {
         
     }
     
-    public void robPlayer()
+    // This needs a HexLocation
+    public void robPlayer(int playerIdx, int victimIndex)
     {
         
     }
     
-    public void finishTurn()
+    public void finishTurn(int playerIdx)
     {
         
     }
     
-    public void buyDevCard()
+    public void buyDevCard(int playerIdx)
     {
         
     }

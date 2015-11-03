@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Accept Trade request.
  * @author Scott
  */
 public class AcceptTradeCommand implements ICommand {

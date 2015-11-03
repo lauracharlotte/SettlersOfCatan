@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Road Building request.
  * @author Scott
  */
 public class RoadBuildingCommand implements ICommand {

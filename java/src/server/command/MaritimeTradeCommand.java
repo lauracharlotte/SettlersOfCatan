@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Maritime Trade request.
  * @author Scott
  */
 public class MaritimeTradeCommand implements ICommand {

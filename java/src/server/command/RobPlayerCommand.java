@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Rob Player request.
  * @author Scott
  */
 public class RobPlayerCommand implements ICommand {

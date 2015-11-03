@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Send Chat request.
  * @author Scott
  */
 public class SendChatCommand implements ICommand {

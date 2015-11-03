@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Build City request.
  * @author Scott
  */
 public class BuildCityCommand implements ICommand {

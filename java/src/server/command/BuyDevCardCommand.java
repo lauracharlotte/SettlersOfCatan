@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Buy Development Card request.
  * @author Scott
  */
 public class BuyDevCardCommand implements ICommand {

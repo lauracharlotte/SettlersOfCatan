@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package server.command;
 
 import server.facade.IModelFacade;
@@ -13,5 +8,11 @@ import server.facade.IModelFacade;
  */
 public interface ICommand
 {
+    /**
+     * Executes the requested function using the given facade.
+     * @param facade
+     * @param requestBody
+     * @return 
+     */
     public String execute(IModelFacade facade, String requestBody);
 }

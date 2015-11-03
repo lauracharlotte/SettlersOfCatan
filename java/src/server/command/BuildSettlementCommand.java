@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Build Settlement request.
  * @author Scott
  */
 public class BuildSettlementCommand implements ICommand {

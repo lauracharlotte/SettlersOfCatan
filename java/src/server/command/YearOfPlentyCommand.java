@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Year of Plenty request.
  * @author Scott
  */
 public class YearOfPlentyCommand implements ICommand {

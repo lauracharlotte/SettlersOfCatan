@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Roll Number request.
  * @author Scott
  */
 public class RollNumber implements ICommand {

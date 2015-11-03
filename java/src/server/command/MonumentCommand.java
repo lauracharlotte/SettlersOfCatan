@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Monument request.
  * @author Scott
  */
 public class MonumentCommand implements ICommand {

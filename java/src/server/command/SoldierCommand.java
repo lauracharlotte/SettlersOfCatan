@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Soldier request.
  * @author Scott
  */
 public class SoldierCommand implements ICommand {

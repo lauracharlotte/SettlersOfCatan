@@ -8,7 +8,7 @@ package server.command;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Finish Turn request.
  * @author Scott
  */
 public class FinishTurnCommand implements ICommand {
