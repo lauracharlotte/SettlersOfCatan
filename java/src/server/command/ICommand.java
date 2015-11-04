@@ -13,5 +13,5 @@ import server.facade.IModelFacade;
  */
 public interface ICommand
 {
-    public String execute(IModelFacade facade);
+    public String execute(IModelFacade facade, String requestBody);
 }
