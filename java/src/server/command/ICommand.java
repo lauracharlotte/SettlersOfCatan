@@ -5,11 +5,13 @@
  */
 package server.command;
 
+import server.facade.IModelFacade;
+
 /**
  *
  * @author Michael
  */
 public interface ICommand
 {
-    
+    public String execute(IModelFacade facade);
 }
