@@ -11,8 +11,5 @@ package server.facade;
  */
 public interface IModelFacade
 {
-	/**
-	 * Calls on the class ModelCommand to perform functions.
-	 */
-	void modelCommand();
+
 }
