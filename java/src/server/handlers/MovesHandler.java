@@ -17,7 +17,7 @@ public class MovesHandler implements HttpHandler {
     
     /**
      * 
-     * @param he  HTTP Exchange, corresponds to each of the moves methods
+     * @param he HTTP Exchange, corresponds to each of the moves methods
      * @throws IOException 
      */
     @Override
