@@ -28,32 +28,35 @@ public class GamesFacade implements IGamesFacade
 	
 	/**
 	 * Gets the list of games
+	 * @return list of games in the form of ClientModels
 	 */
 	@Override
-	public void list() 
+	public List<ClientModel> list() 
 	{
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	/**
 	 * Creates a new game
 	 */
 	@Override
-	public void create() 
+	public ClientModel create() 
 	{
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	/**
-	 * 
+	 * Joins a user to a game
+	 * @param user the User to be joined
+	 * @param gameIndex the index of the game in the list of ClientModels
 	 */
 	@Override
-	public void join() 
+	public ClientModel join(User user, int gameIndex) 
 	{
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }

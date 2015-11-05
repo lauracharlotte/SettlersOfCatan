@@ -5,24 +5,19 @@
  */
 package server.handlers;
 
+import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import java.io.IOException;
 
 /**
  *
  * @author Scott
  */
-public class MovesHandler implements HttpHandler {
-    
-    /**
-     * 
-     * @param he HTTP Exchange, corresponds to each of the moves methods
-     * @throws IOException 
-     */
+public class MovesHandler extends AbstractHandler 
+{
     @Override
-    public void handle(HttpExchange he) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void reallyHandle(HttpExchange he, Cookie currentCookie)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package server.handlers;
 
+import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
@@ -13,16 +14,11 @@ import java.io.IOException;
  *
  * @author Michael
  */
-public class UserHandler implements HttpHandler
+public class UserHandler extends AbstractHandler
 {
 
-    /**
-     *
-     * @param he The current httpExchange -- should only correspond to a login or register request
-     * @throws IOException When the connection is bad in some way
-     */
     @Override
-    public void handle(HttpExchange he) throws IOException
+    public void reallyHandle(HttpExchange he, Cookie currentCookie)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
