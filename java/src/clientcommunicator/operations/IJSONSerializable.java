@@ -20,5 +20,12 @@ public interface IJSONSerializable
      */
     public String serialize();
     
+    /**
+     * 
+     * This method populates the data in the IJSONSerializable object with
+     * the information from the JSON parameter
+     * @param JSON The JSON representing the request object
+     * @throws JSONException
+     */
     public void deserialize(String JSON) throws JSONException;
 }
