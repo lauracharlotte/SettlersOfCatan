@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import model.player.User;
 
 /**
  *
@@ -52,7 +53,7 @@ public class Cookie
      * @param gameCookieString The whole value of the "Set-cookie:" header.  
      * Should be in the form "catan.game=NN;Path=/;" where NN is an integer
      */
-    public void setGameNumberFromCookie(String gameCookieString) throws MalformedCookieException
+    public int setGameNumberFromCookie(String gameCookieString) throws MalformedCookieException
     {
         if(gameCookieString.substring(0, 11).equals("catan.game="))
         {
@@ -72,6 +73,7 @@ public class Cookie
         {
             throw new MalformedCookieException();
         }
+        return this.gameNumber;
     }
     
     /**
@@ -131,4 +133,13 @@ public class Cookie
         }
     }
     
+    /**
+     *
+     * @param incomingCookie The cookie value that is coming into the server
+     * @return The user information contained within the cookie
+     */
+    public static User getUserFromCookieString(String incomingCookie)
+    {
+        throw new UnsupportedOperationException();
+    }
 }
