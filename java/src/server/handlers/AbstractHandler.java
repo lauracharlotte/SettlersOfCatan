@@ -9,6 +9,7 @@ import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import server.facade.IModelFacade;
 
 /**
  *
@@ -16,6 +17,8 @@ import java.io.IOException;
  */
 public abstract class AbstractHandler implements HttpHandler
 {
+    private IModelFacade currentFacade;
+    private CookieVerifier cookieVerifier;
     
     /**
      * This method grabs the cookie information sent by the client. 
