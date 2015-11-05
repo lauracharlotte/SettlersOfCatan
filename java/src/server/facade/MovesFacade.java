@@ -1,90 +1,186 @@
 package server.facade;
 
+import model.cards.ResourceCards;
+import model.player.PlayerIdx;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
+
 /**
  *
  * @author Scott
  */
 public class MovesFacade implements IMovesFacade {
     
+    /**
+     * The constructor for the Moves Facade
+     */
     public MovesFacade() {}    
     
-    public void sendChat(int playerIdx, String message)
+    /**
+     * 
+     * @param playerIdx
+     * @param message 
+     */
+    public void sendChat(PlayerIdx playerIdx, String message)
     {
         
     }
     
-    public void rollNumber(int playerIdx, int number)
+    /**
+     * 
+     * @param playerIdx
+     * @param number 
+     */
+    public void rollNumber(PlayerIdx playerIdx, int number)
     {
         
     }
     
-    // This needs a HexLocation
-    public void robPlayer(int playerIdx, int victimIndex)
+    /**
+     * 
+     * @param playerIdx
+     * @param victimIndex
+     * @param location 
+     */
+    public void robPlayer(PlayerIdx playerIdx, PlayerIdx victimIndex, HexLocation location)
     {
         
     }
     
-    public void finishTurn(int playerIdx)
+    /**
+     * 
+     * @param playerIdx 
+     */
+    public void finishTurn(PlayerIdx playerIdx)
     {
         
     }
     
-    public void buyDevCard(int playerIdx)
+    /**
+     * 
+     * @param playerIdx 
+     */
+    public void buyDevCard(PlayerIdx playerIdx)
     {
         
     }
     
-    public void yearOfPlenty()
+    /**
+     * 
+     * @param playerIdx
+     * @param resource1
+     * @param resource2 
+     */
+    public void yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2)
     {
         
     }
     
-    public void roadBuilding()
+    /**
+     * 
+     * @param playerIdx
+     * @param spot1
+     * @param spot2 
+     */
+    public void roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2)
     {
         
     }
     
-    public void soldier()
+    /**
+     * 
+     * @param playerIdx
+     * @param victimIdx
+     * @param location 
+     */
+    public void soldier(PlayerIdx playerIdx, PlayerIdx victimIdx, HexLocation location)
     {
         
     }
     
-    public void monument()
+    /**
+     * 
+     * @param resource
+     * @param playerIdx 
+     */
+    public void monument(ResourceType resource, PlayerIdx playerIdx)
     {
         
     }
     
-    public void buildRoad()
+    /**
+     * 
+     * @param playerIdx
+     * @param roadLocation
+     * @param free 
+     */
+    public void buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free)
     {
         
     }
     
-    public void buildCity()
+    /**
+     * 
+     * @param playerIdx
+     * @param vertexLocation 
+     */
+    public void buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation)
     {
         
     }
     
-    public void buildSettlement()
+    /**
+     * 
+     * @param playerIdx
+     * @param vertexLocation
+     * @param free 
+     */
+    public void buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free)
     {
         
     }
     
-    public void offerTrade()
+    /**
+     * 
+     * @param playerIdx
+     * @param offer
+     * @param receiver 
+     */
+    public void offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver)
     {
         
     }
     
-    public void acceptTrade()
+    /**
+     * 
+     * @param playerIdx
+     * @param willAccept 
+     */
+    public void acceptTrade(PlayerIdx playerIdx, boolean willAccept)
     {
         
     }
     
-    public void maritimeTrade()
+    /**
+     * 
+     * @param playerIdx
+     * @param ratio
+     * @param inputResource
+     * @param outputResource 
+     */
+    public void maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource)
     {
         
     }
     
-    public void discardCards()
+    /**
+     * 
+     * @param playerIdx
+     * @param discardedCards 
+     */
+    public void discardCards(PlayerIdx playerIdx, ResourceCards discardedCards)
     {
         
     }
