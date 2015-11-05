@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import org.json.JSONException;
+
 /**
  *
  * @author Michael
@@ -17,4 +19,6 @@ public interface IJSONSerializable
      * @return String that represents object as JSON.
      */
     public String serialize();
+    
+    public void deserialize(String JSON) throws JSONException;
 }

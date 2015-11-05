@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -75,4 +76,10 @@ public class BuildRoadRequest implements IJSONSerializable
     						+ ", direction: \""+ theDirection + "\"}, free: " + free + "}";
         return serializing;
      }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

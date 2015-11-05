@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 
 /**
  *
@@ -75,5 +76,11 @@ public class CreateGameRequest implements IJSONSerializable
     	String serializing = "{randomTiles: "+randomTiles +", randomNumbers: "+ randomNumbers+", "
     						+"randomPorts: "+randomPorts+", name: \""+ name +"\"}";
 		return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

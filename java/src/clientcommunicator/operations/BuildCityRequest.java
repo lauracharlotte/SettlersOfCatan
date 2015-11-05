@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -61,5 +62,11 @@ public class BuildCityRequest implements IJSONSerializable
     						+ "x: " + location.getHexLoc().getX() + ", y: "+ location.getHexLoc().getY()
     						+ ", direction: \""+ theDirection + "\"}}";
     	return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

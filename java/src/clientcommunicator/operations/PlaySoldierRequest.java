@@ -7,6 +7,7 @@ package clientcommunicator.operations;
 
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.HexLocation;
 
 /**
@@ -67,5 +68,11 @@ public class PlaySoldierRequest implements IJSONSerializable
     	String serializing = "{type: \"Soldier\", playerIndex: "+ playerIndex.getIndex() +
     			", victimIndex: "+ victimIndex.getIndex() + ", location: {x: "+ newLocation.getX() + ", y: " + newLocation.getY()+"}}";
     	return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

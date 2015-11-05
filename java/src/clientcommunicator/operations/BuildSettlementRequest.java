@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -74,4 +75,10 @@ public class BuildSettlementRequest implements IJSONSerializable
 				+ ", direction: \""+ theDirection + "\"}, free: " + free +"}";
     	return serializing;
      }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

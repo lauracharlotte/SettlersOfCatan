@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 
 /**
  *
@@ -52,5 +53,11 @@ public class SendChatRequest implements IJSONSerializable
     {
     	String serializing = "{type: \"sendChat\", playerIndex: " + playerIndex.getIndex() + ", content: \"" + content +"\"}";
         return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

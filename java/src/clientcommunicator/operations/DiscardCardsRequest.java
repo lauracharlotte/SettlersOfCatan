@@ -33,6 +33,7 @@ import com.google.gson.JsonSerializer;
 import model.cards.ResourceCards;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 
 /**
 
@@ -86,5 +87,11 @@ public class DiscardCardsRequest implements IJSONSerializable
      +"ore: "+discardedCards.getOre() +", sheep: "+discardedCards.getWool() + ", wheat: "+discardedCards.getGrain()+", wood: "
      +discardedCards.getLumber()+"}}";
      return longString;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

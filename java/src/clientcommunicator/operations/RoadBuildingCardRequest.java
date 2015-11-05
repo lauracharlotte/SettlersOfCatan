@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -74,5 +75,11 @@ public class RoadBuildingCardRequest implements IJSONSerializable
     	+ ", spot1: {x: "+spot1.getHexLoc().getX()+", y: "+ spot1.getHexLoc().getY()+", direction: \""+ theDirection1+"\"}, spot2: {"
     	+ "x: "+spot2.getHexLoc().getX() + ", y: "+spot2.getHexLoc().getY()+", direction: \""+theDirection2+"\"}}";
         return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

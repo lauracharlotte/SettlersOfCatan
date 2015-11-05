@@ -7,6 +7,7 @@ package clientcommunicator.operations;
 
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.definitions.ResourceType;
 
 /**
@@ -70,5 +71,11 @@ public class YearOfPlentyRequest implements IJSONSerializable
     	String serializing = "{type: \"Year_of_Plenty\", playerIndex: " + playerIndex.getIndex()
     	+ ", resource1: \"" + recLower1 + "\", resource2: \""+ recLower2 + "\"}";
     	return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -7,6 +7,7 @@ package clientcommunicator.operations;
 
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -67,5 +68,11 @@ public class RobPlayerRequest implements IJSONSerializable
     {
     	String serializing = "{type: \"robPlayer\", playerIndex: "+ playerThatsRobbingIndex.getIndex() +", victimIndex: "+victimIndex.getIndex() + ", location: {x: "+location.getX()+ ", y: " + location.getY()+ "}}";
         return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

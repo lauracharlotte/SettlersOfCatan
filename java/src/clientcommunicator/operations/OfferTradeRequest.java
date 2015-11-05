@@ -2,6 +2,7 @@ package clientcommunicator.operations;
 
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
+import org.json.JSONException;
 
 public class OfferTradeRequest implements IJSONSerializable {
 	
@@ -37,5 +38,11 @@ public class OfferTradeRequest implements IJSONSerializable {
     			+", wheat: "+offer.getGrain()+ ", wood: "+offer.getLumber()+"}, receiver: "+receiver+"}";
     	return serializing;
      }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

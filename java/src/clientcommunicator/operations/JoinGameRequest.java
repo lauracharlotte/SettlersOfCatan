@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.definitions.CatanColor;
 
 /**
@@ -55,4 +56,10 @@ public class JoinGameRequest implements IJSONSerializable
     	String serializing = "{id: "+ gameId + ", color: \""+ lowerCaseColor+"\"}";
     	return serializing;
     }    
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

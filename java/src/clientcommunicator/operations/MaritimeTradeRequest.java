@@ -6,6 +6,7 @@
 package clientcommunicator.operations;
 
 import model.player.PlayerIdx;
+import org.json.JSONException;
 import shared.definitions.ResourceType;
 
 /**
@@ -83,5 +84,11 @@ public class MaritimeTradeRequest implements IJSONSerializable
     						+ ", ratio: " + ratio + ", inputResource: \"" +rec1Lower + "\", "
     						+ "outputResource: \""+ rec2Lower + "\"}";
         return serializing;
+    }
+
+    @Override
+    public void deserialize(String JSON) throws JSONException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
