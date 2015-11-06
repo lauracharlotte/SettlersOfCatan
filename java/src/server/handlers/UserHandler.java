@@ -11,7 +11,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
- *
+ * Handles login and user
  * @author Michael
  */
 public class UserHandler extends AbstractHandler
