@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author Scott
  */
-public class MovesHandler extends abstractHandler 
+public class MovesHandler extends AbstractHandler 
 {
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)

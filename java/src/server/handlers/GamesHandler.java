@@ -9,7 +9,7 @@ import com.sun.net.httpserver.HttpHandler;
 /**
  * Handler for games requests
  */
-public class GamesHandler extends abstractHandler
+public class GamesHandler extends AbstractHandler
 {
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)

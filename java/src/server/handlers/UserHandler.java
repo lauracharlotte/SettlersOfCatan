@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author Michael
  */
-public class UserHandler extends abstractHandler
+public class UserHandler extends AbstractHandler
 {
 
     @Override
