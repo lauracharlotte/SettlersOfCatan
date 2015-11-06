@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author Michael
  */
-public abstract class abstractHandler implements HttpHandler
+public abstract class AbstractHandler implements HttpHandler
 {
     
     /**
