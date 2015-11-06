@@ -4,7 +4,7 @@ import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
 /**
- * 
+ * Executes the Join Game request.
  * @author Madison Brooks
  *
  */

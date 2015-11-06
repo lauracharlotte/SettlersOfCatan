@@ -3,6 +3,12 @@ package server.command;
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
+
+/**
+ * Executes the List request.
+ * @author madisonbrooks
+ *
+ */
 public class ListCommand implements ICommand
 {
 

@@ -4,7 +4,7 @@ import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
 /**
- * 
+ * Executes the Create Game request.
  * @author Madison Brooks
  *
  */

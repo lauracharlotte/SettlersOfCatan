@@ -9,7 +9,7 @@ import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
 /**
- *
+ * Executes the Register request.
  * @author Michael
  */
 public class RegisterCommand implements ICommand

@@ -9,7 +9,7 @@ import server.ServerException;
 import server.facade.IModelFacade;
 
 /**
- *
+ * Executes the Login request.
  * @author Michael
  */
 public class LoginCommand implements ICommand

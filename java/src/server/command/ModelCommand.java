@@ -4,9 +4,9 @@ import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
 /**
- * 
+ * This class gives the model of the game.
  * @author LaurasAdventurePC
- * This class mainly gives the model of the game.
+ * 
  */
 public class ModelCommand implements ICommand 
 {
