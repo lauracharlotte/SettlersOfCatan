@@ -6,6 +6,7 @@
 package server.command;
 
 import clientcommunicator.Server.Cookie;
+import server.ServerException;
 import server.facade.IModelFacade;
 
 /**
