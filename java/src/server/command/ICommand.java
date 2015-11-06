@@ -1,5 +1,6 @@
 package server.command;
 
+import clientcommunicator.Server.Cookie;
 import server.facade.IModelFacade;
 
 /**
@@ -14,5 +15,5 @@ public interface ICommand
      * @param requestBody The body that was sent in the http request
      * @return 
      */
-    public String execute(IModelFacade facade, String requestBody);
+    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie);
 }
