@@ -15,7 +15,8 @@ import server.facade.IModelFacade;
 public class AcceptTradeCommand implements ICommand {
 
     @Override
-    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) {
+    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

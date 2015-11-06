@@ -2,6 +2,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import server.ServerException;
 /**
  * 
  * @author LaurasAdventurePC
@@ -21,7 +22,8 @@ public class ModelCommand implements ICommand
 	 * Gives the Model for that game.
 	 */
 	@Override
-	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) {
+	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
+        {
 		// TODO Auto-generated method stub
 		return null;
 	}

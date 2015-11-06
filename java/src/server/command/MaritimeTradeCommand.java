@@ -5,6 +5,7 @@
  */
 package server.command;
 import clientcommunicator.Server.Cookie;
+import server.ServerException;
 import server.facade.IModelFacade;
 
 /**
@@ -14,7 +15,8 @@ import server.facade.IModelFacade;
 public class MaritimeTradeCommand implements ICommand {
 
     @Override
-    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) {
+    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
