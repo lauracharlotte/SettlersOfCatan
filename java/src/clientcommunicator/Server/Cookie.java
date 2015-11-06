@@ -136,9 +136,9 @@ public class Cookie
     /**
      *
      * @param incomingCookie The cookie value that is coming into the server
-     * @return The user information contained within the cookie
+     * @return The user information contained within the cookie, null otherwise
      */
-    public static User getUserFromCookieString(String incomingCookie)
+    public User getUser(String incomingCookie)
     {
         throw new UnsupportedOperationException();
     }

@@ -5,10 +5,24 @@
  */
 package server.handlers;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import java.io.IOException;
+
 /**
  *
  * @author Scott
  */
-public class MovesHandler {
+public class MovesHandler implements HttpHandler {
+    
+    /**
+     * 
+     * @param he  HTTP Exchange, corresponds to each of the moves methods
+     * @throws IOException 
+     */
+    @Override
+    public void handle(HttpExchange he) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
