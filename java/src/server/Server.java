@@ -14,7 +14,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- *
+ * Java Server that can handle httpRequests dealing with Settlers of Catan
  * @author Michael
  */
 public class Server extends HttpServer
