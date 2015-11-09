@@ -94,32 +94,46 @@ public class Cookie
         userInformationCookieString = userInformationCookieString.trim();
         userInformationCookieString = userInformationCookieString.replaceFirst("catan.user=", "");
         userInformationCookieString = userInformationCookieString.substring(0, userInformationCookieString.length() - 7);
-        String urlDecoded = userInformationCookieString.substring(0, userInformationCookieString.length() - 1);
+        String userPart = userInformationCookieString.substring(0, userInformationCookieString.length() - 1);
         //this.userInformationString = urlDecoded;
-        JsonElement element;
+        JsonElement element = this.decodeJSON(userPart);
+        if(element.isJsonObject())
+        {
+            JsonObject jobject = this.getUserJsonObject(element, true);
+            return jobject.get("playerID").getAsInt();
+        }
+        else
+        {
+            throw new MalformedCookieException();
+        }
+    }
+    
+    private JsonElement decodeJSON(String urlDecoded) throws MalformedCookieException
+    {
         try
         {
             urlDecoded = java.net.URLDecoder.decode(urlDecoded, "UTF-8");
-            element = new JsonParser().parse(urlDecoded);
+            return new JsonParser().parse(urlDecoded);
         }
         catch (UnsupportedEncodingException | JsonSyntaxException ex)
         {
             throw new MalformedCookieException();
         }
-        if(element.isJsonObject())
+    }
+    
+    private JsonObject getUserJsonObject(JsonElement element, boolean setNew) throws MalformedCookieException
+    {
+        JsonObject jobject = element.getAsJsonObject();
+        if(!jobject.has("playerID"))
         {
-            JsonObject jobject = element.getAsJsonObject();
-            if(jobject.has("playerID"))
-            {
-            }
-            else
-            {
-                throw new MalformedCookieException();
-            }
-            JsonObject resultingCookie = new JsonObject();
-            resultingCookie.add("name", jobject.get("name"));
-            resultingCookie.add("password", jobject.get("password"));
-            resultingCookie.add("playerID", jobject.get("playerID"));
+            throw new MalformedCookieException();
+        }
+        JsonObject resultingCookie = new JsonObject();
+        resultingCookie.add("name", jobject.get("name"));
+        resultingCookie.add("password", jobject.get("password"));
+        resultingCookie.add("playerID", jobject.get("playerID"));
+        if(setNew)
+        {
             try
             {
                 String realCookie = resultingCookie.toString();
@@ -130,12 +144,8 @@ public class Cookie
             {
                 Logger.getLogger(Cookie.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return jobject.get("playerID").getAsInt();
         }
-        else
-        {
-            throw new MalformedCookieException();
-        }
+        return jobject;
     }
     
     /**
@@ -145,16 +155,53 @@ public class Cookie
      */
     public User getUser()
     {
-        throw new UnsupportedOperationException();
+        if(this.userInformationString == null)
+            return null;
+        try
+        {
+            JsonObject userJSONObject = this.getUserJsonObject(this.decodeJSON(this.userInformationString), false);
+            User myUser = new User(userJSONObject.get("name").getAsString(), userJSONObject.get("password").getAsString());
+            myUser.setPlayerId(userJSONObject.getAsInt());
+            return myUser;
+        } 
+        catch(MalformedCookieException e)
+        {
+            return null;
+        }
     }
     
     public void setUser(User userToBeSet)
     {
-        throw new UnsupportedOperationException();
+        JsonObject resultingCookie = new JsonObject();
+        resultingCookie.addProperty("name", userToBeSet.getUsername());
+        resultingCookie.addProperty("password", userToBeSet.getPassword());
+        resultingCookie.addProperty("playerID", userToBeSet.getPlayerId());
+        try
+        {
+            this.getUserJsonObject(resultingCookie, true);
+        }
+        catch (MalformedCookieException ex)
+        {
+            Logger.getLogger(Cookie.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void parseCookieString(String cookieString)
-    {
-        return;
+    public void parseCookieString(String cookieString) throws MalformedCookieException
+    {   
+        StringBuilder userString = new StringBuilder(cookieString);
+        if(cookieString.contains("catan.game="))
+        {
+            StringBuilder gameNumberString = new StringBuilder();
+            while(userString.charAt(userString.length()-1) != 'c')
+            {
+                gameNumberString.insert(0, userString.charAt(userString.length() - 1));
+                userString.deleteCharAt(gameNumberString.length() - 1);
+            }
+            userString.deleteCharAt(gameNumberString.length() - 1);
+            gameNumberString.insert(0, 'c');
+            this.setGameNumberFromCookie(gameNumberString.toString());
+        }
+        if (!userString.toString().trim().equals(""))
+            this.setUserCookieString(userString.toString());
     }
 }
