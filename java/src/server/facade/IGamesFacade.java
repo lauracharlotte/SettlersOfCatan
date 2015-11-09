@@ -21,7 +21,7 @@ public interface IGamesFacade extends IModelFacade
 	/**
 	 * Creates a new game
 	 */
-	public ClientModel create();
+	public ClientModel create(); //need name, randomness for each thing (bools)
 	
 	/**
 	 * Joins a user to a game
