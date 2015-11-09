@@ -147,4 +147,9 @@ public class Cookie
     {
         throw new UnsupportedOperationException();
     }
+    
+    public void parseCookieString(String cookieString)
+    {
+        return;
+    }
 }
