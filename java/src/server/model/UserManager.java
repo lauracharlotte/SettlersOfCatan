@@ -33,6 +33,8 @@ public class UserManager
     public int addUser(User newUser)
     {
         this.userList.add(newUser);
+        if(this.getUserWithUsername(newUser.getUsername()) != null)
+            return -1;
         return this.userList.size() - 1;
     }
     

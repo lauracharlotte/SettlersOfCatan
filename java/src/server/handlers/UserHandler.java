@@ -9,14 +9,21 @@ import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import server.facade.IUserFacade;
 
 /**
  * Handles login and user
  * @author Michael
  */
 public class UserHandler extends AbstractHandler
-{
-
+{   
+    IUserFacade facade;
+    
+    public UserHandler(IUserFacade newFacade)
+    {
+        this.facade = newFacade;
+    }
+    
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)
     {
