@@ -1,7 +1,11 @@
 package server.handlers;
 
 import clientcommunicator.Server.Cookie;
+import model.ClientModel;
+import model.player.User;
 import server.model.GameManager;
+import model.ClientModel;
+import model.player.Player;
 import server.model.UserManager;
 
 /**
@@ -27,6 +31,30 @@ public class CookieVerifier
      */
     public boolean isVerified(Cookie cookie)
     {
+        if(cookie.getCompleteCookieString().equals(""))
+            return true;
+        User cookiedUser = cookie.getUser();
+        if(!uManager.verifyUser(cookiedUser))
             return false;
+        int gameNumber = cookie.getGameNumber();
+        if (gameNumber == -1)
+            return true;
+        ClientModel currentModel;
+        try
+        {
+            currentModel = gManager.getGameWithNumber(gameNumber);
+        }
+        catch(IllegalArgumentException e)
+        {
+            return false;
+        }
+        for(Player p: currentModel.getPlayers())
+        {
+            if(p.getPlayerId() == cookiedUser.getPlayerId() && p.getName().equals(cookiedUser.getUsername()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

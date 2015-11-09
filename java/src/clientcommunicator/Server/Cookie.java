@@ -46,6 +46,11 @@ public class Cookie
         }
     }
     
+    public int getGameNumber()
+    {
+        return this.gameNumber == Integer.MIN_VALUE? -1: this.gameNumber;
+    }
+    
     /**
      * @pre The user has been logged in and this comes from the response
      * for a successful games/join request
@@ -138,7 +143,7 @@ public class Cookie
      * @param incomingCookie The cookie value that is coming into the server
      * @return The user information contained within the cookie, null otherwise
      */
-    public User getUser(String incomingCookie)
+    public User getUser()
     {
         throw new UnsupportedOperationException();
     }

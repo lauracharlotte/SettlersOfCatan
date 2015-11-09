@@ -17,4 +17,16 @@ import model.ClientModel;
 public class GameManager
 {
     private Collection<ClientModel> gameList = Collections.synchronizedList(new ArrayList<ClientModel>());
+
+    public ClientModel getGameWithNumber(int gameId)
+    {
+        if(gameId >= gameList.size() || gameId<0)
+            throw new IllegalArgumentException();
+        return (ClientModel)(gameList.toArray()[gameId]);
+    }
+    
+    public ClientModel getGameWithName(String name)
+    {
+        throw new UnsupportedOperationException();
+    }
 }
