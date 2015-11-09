@@ -9,6 +9,10 @@ import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.facade.IModelFacade;
 import server.facade.IUserFacade;
 
@@ -26,7 +30,32 @@ public class UserHandler extends AbstractHandler
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!currentCookie.getCompleteCookieString().equals(""))
+        {
+            try
+            {
+                he.sendResponseHeaders(400, 0);
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+            OutputStream response = he.getResponseBody();
+            PrintWriter pw = new PrintWriter(response);
+            pw.print("Invalid cookie state");
+            pw.close();
+            try
+            {
+                response.close();
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            he.close();
+        }
+        //Get right command class
     }
     
 }

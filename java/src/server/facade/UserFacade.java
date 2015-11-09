@@ -25,7 +25,13 @@ public class UserFacade implements IUserFacade
     @Override
     public int login(User attemptingUser)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User result = manager.getUserWithUsername(attemptingUser.getUsername());
+        if(result == null)
+            return -1;
+        else
+            return result.getUsername().equals(attemptingUser.getUsername()) 
+                    && result.getPassword().equals(attemptingUser.getPassword()) 
+                    ? result.getPlayerId() : -1;
     }
 
     @Override
