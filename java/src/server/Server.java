@@ -64,7 +64,7 @@ public class Server
         }
         server.setExecutor(null);
         IUserFacade userFacade = new UserFacade(myUserManager);
-        HttpHandler userHandler = new UserHandler(userFacade);
+        HttpHandler userHandler = new UserHandler(cookieVerifier, userFacade);
         /*
         Give handlers appropriate Facades and create them
         private HttpHandler gameHandler = new GameHandler();
