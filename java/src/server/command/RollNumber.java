@@ -7,7 +7,12 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.operations.RollNumberRequest;
+import model.ClientModel;
+import model.player.PlayerIdx;
+import org.json.JSONException;
 import server.ServerException;
+import server.facade.IMovesFacade;
 /**
  * Executes the Roll Number request.
  * @author Scott
@@ -17,7 +22,26 @@ public class RollNumber implements ICommand {
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        RollNumberRequest roll = new RollNumberRequest(null, 0);
+        
+        try
+        {
+            roll.deserialize(requestBody);
+        }
+        catch (JSONException ex)
+        {
+            return "Invalid JSON in request";
+        }
+        
+        PlayerIdx playerIdx = roll.getPlayerIndex();
+        int number = roll.getNumberRolled();
+        
+        ClientModel result = myMovesFacade.rollNumber(playerIdx, number);
+        
+        // return result.serialize(); or whatever
+        return "";
     }
     
 }

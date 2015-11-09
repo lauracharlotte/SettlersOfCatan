@@ -2,6 +2,7 @@ package server.facade;
 
 import model.ClientModel;
 import model.cards.ResourceCards;
+import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -13,9 +14,7 @@ import shared.locations.VertexLocation;
  * @author Scott
  */
 public class MockMovesFacade implements IMovesFacade {
-    
-    public MockMovesFacade() {}    
-    
+        
     /**
      * Sends a chat message from a player and logs it in the chat message box
      * 
@@ -23,9 +22,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param message The message string sent by the player
      * @return The new model information
      */
+    @Override
     public ClientModel sendChat(PlayerIdx playerIdx, String message)
     {
-        return null; 
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -35,9 +36,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param number The number rolled
      * @return The new model information
      */
+    @Override
     public ClientModel rollNumber(PlayerIdx playerIdx, int number)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -48,9 +51,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param location The hex location of the placed robber
      * @return The new model information
      */
-    public ClientModel robPlayer(PlayerIdx playerIdx, PlayerIdx victimIndex, HexLocation location)
+    @Override
+    public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -59,9 +64,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param playerIdx The turn tracker index of the player who is finishing their turn
      * @return The new model information
      */
+    @Override
     public ClientModel finishTurn(PlayerIdx playerIdx)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -70,9 +77,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param playerIdx The turn tracker index of the player who is buying the development card
      * @return The new model information
      */
+    @Override
     public ClientModel buyDevCard(PlayerIdx playerIdx)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -83,9 +92,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param resource2 The second resource chosen to collect
      * @return The new model information
      */
+    @Override
     public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -96,9 +107,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param spot2 The second location chosen to build a road
      * @return The new model information
      */
+    @Override
     public ClientModel roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -109,9 +122,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param location The hex location of the placed robber
      * @return The new model information
      */
-    public ClientModel soldier(PlayerIdx playerIdx, PlayerIdx victimIdx, HexLocation location)
+    @Override
+    public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -120,9 +135,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param playerIdx The turn tracker index of the player who played the development card
      * @return The new model information
      */
+    @Override
     public ClientModel monument(PlayerIdx playerIdx)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -132,9 +149,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param playerIdx The turn tracker index of the player who played the development card
      * @return The new model information
      */
+    @Override
     public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -145,9 +164,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param free Whether the road was built during the game setup or if it was bought
      * @return The new model information
      */
+    @Override
     public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -157,9 +178,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param vertexLocation The location of the city being built
      * @return The new model information
      */
+    @Override
     public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -170,9 +193,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param free Whether the settlement was built during the game setup or if it was bought
      * @return The new model information
      */
+    @Override
     public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -183,9 +208,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param receiver The turn tracker index of the player being offered the trade
      * @return The new model information
      */
+    @Override
     public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -195,9 +222,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param willAccept Whether the player will accept the trade or not
      * @return The new model information
      */
+    @Override
     public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -209,9 +238,11 @@ public class MockMovesFacade implements IMovesFacade {
      * @param outputResource The resource the player wants to receive
      * @return The new model information
      */
+    @Override
     public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
     
     /**
@@ -221,8 +252,10 @@ public class MockMovesFacade implements IMovesFacade {
      * @param discardedCards The cards the player is discarding
      * @return The new model information
      */
+    @Override
     public ClientModel discardCards(PlayerIdx playerIdx, ResourceCards discardedCards)
     {
-        return null;
+        ClientModel model = new ClientModel();
+        return model; 
     }
 }

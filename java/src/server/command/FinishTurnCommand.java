@@ -7,7 +7,12 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.operations.FinishTurnRequest;
+import model.ClientModel;
+import model.player.PlayerIdx;
+import org.json.JSONException;
 import server.ServerException;
+import server.facade.IMovesFacade;
 /**
  * Executes the Finish Turn request.
  * @author Scott
@@ -16,7 +21,25 @@ public class FinishTurnCommand implements ICommand {
 
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        FinishTurnRequest finish = new FinishTurnRequest(null);
+        
+        try
+        {
+            finish.deserialize(requestBody);
+        }
+        catch (JSONException ex)
+        {
+            return "Invalid JSON in request";
+        }
+        
+        PlayerIdx playerIdx = finish.getPlayerIndex();
+        
+        ClientModel result = myMovesFacade.finishTurn(playerIdx);
+        
+        // return result.serialize(); or whatever
+        return "";
     }
     
 }
