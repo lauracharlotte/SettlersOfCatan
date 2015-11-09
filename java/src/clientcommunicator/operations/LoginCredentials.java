@@ -5,8 +5,11 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
+import org.json.JSONObject;
 import shared.definitions.CatanColor;
 
 /**
@@ -61,6 +64,8 @@ public class LoginCredentials implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonElement obj = new JsonParser().parse(JSON);
+        this.username = obj.getAsJsonObject().get("username").getAsString();
+        this.password = obj.getAsJsonObject().get("password").getAsString();
     }
 }

@@ -54,6 +54,7 @@ public class UserHandler extends AbstractHandler
                 Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
             he.close();
+            return;
         }
         //Get right command class
     }
