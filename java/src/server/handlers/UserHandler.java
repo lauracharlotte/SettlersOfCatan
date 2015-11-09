@@ -9,6 +9,7 @@ import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import server.facade.IModelFacade;
 import server.facade.IUserFacade;
 
 /**
@@ -17,9 +18,9 @@ import server.facade.IUserFacade;
  */
 public class UserHandler extends AbstractHandler
 {   
-    public UserHandler(IUserFacade newFacade)
+    public UserHandler(CookieVerifier cv, IModelFacade facade)
     {
-        this.currentFacade = newFacade;
+        super(cv, facade);
     }
     
     @Override

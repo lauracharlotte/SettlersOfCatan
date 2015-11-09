@@ -7,6 +7,7 @@ package server.handlers;
 
 import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
+import server.facade.IModelFacade;
 
 /**
  *
@@ -14,6 +15,11 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public class MovesHandler extends AbstractHandler 
 {
+    public MovesHandler(CookieVerifier cv, IModelFacade facade)
+    {
+        super(cv, facade);
+    }
+    
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)
     {

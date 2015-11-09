@@ -2,6 +2,7 @@ package server.handlers;
 
 import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
+import server.facade.IModelFacade;
 
 /**
  * 
@@ -11,6 +12,11 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public class GameHandler extends AbstractHandler
 {
+    public GameHandler(CookieVerifier cv, IModelFacade facade)
+    {
+        super(cv, facade);
+    }
+    
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie)
     {

@@ -17,8 +17,14 @@ import server.facade.IModelFacade;
  */
 public abstract class AbstractHandler implements HttpHandler
 {
-    protected IModelFacade currentFacade;
-    protected CookieVerifier cookieVerifier;
+    protected final IModelFacade currentFacade;
+    private final CookieVerifier cookieVerifier;
+    
+    public AbstractHandler(CookieVerifier cv, IModelFacade facade)
+    {
+        this.cookieVerifier = cv;
+        this.currentFacade = facade;
+    }
     
     /**
      * This method grabs the cookie information sent by the client. 
