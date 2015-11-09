@@ -10,6 +10,7 @@ public interface IGameFacade extends IModelFacade
 {
 	/**
 	 * Calls on the class ModelCommand to perform functions.
+	 * @return the model
 	 */
-	void modelCommand();
+	public void model();
 }
