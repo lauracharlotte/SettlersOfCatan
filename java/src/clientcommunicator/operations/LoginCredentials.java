@@ -30,6 +30,9 @@ public class LoginCredentials implements IJSONSerializable
         this.password = password;
     }
 
+    public LoginCredentials()
+    {}
+
     /**
      *
      * @return The user's username

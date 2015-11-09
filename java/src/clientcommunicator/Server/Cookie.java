@@ -142,4 +142,9 @@ public class Cookie
     {
         throw new UnsupportedOperationException();
     }
+    
+    public void setUser(User userToBeSet)
+    {
+        throw new UnsupportedOperationException();
+    }
 }
