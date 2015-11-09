@@ -6,6 +6,7 @@
 package server.facade;
 
 import model.player.User;
+import server.model.UserManager;
 
 /**
  *
@@ -14,6 +15,13 @@ import model.player.User;
 public class UserFacade implements IUserFacade
 {
 
+    UserManager manager;
+    
+    public UserFacade(UserManager myManager)
+    {
+        this.manager = myManager;
+    }
+    
     @Override
     public int login(User attemptingUser)
     {
@@ -23,7 +31,7 @@ public class UserFacade implements IUserFacade
     @Override
     public int register(User attemptingUser)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return manager.addUser(attemptingUser);
     }
     
 }
