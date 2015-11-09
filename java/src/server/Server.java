@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.facade.IUserFacade;
 import server.facade.UserFacade;
+import server.handlers.CookieVerifier;
 import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
 import server.handlers.MovesHandler;
@@ -50,6 +51,7 @@ public class Server
     {
         GameManager myGameManager = new GameManager();
         UserManager myUserManager = new UserManager();
+        CookieVerifier cookieVerifier = new CookieVerifier(myUserManager, myGameManager);
         HttpServer server;
         try
         {

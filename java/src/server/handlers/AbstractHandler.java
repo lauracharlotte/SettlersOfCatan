@@ -17,8 +17,8 @@ import server.facade.IModelFacade;
  */
 public abstract class AbstractHandler implements HttpHandler
 {
-    private IModelFacade currentFacade;
-    private CookieVerifier cookieVerifier;
+    protected IModelFacade currentFacade;
+    protected CookieVerifier cookieVerifier;
     
     /**
      * This method grabs the cookie information sent by the client. 
@@ -29,7 +29,11 @@ public abstract class AbstractHandler implements HttpHandler
     @Override
     public void handle(HttpExchange he) throws IOException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //grab cookie information
+        //create new cookie object
+        //call the cookie verifer to make sure the data is valid
+        //if it's not valid, return an error message to client
+        //else call reallyHandle with he and the cookie you created
     }
     
     /**

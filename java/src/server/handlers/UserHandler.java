@@ -17,11 +17,9 @@ import server.facade.IUserFacade;
  */
 public class UserHandler extends AbstractHandler
 {   
-    IUserFacade facade;
-    
     public UserHandler(IUserFacade newFacade)
     {
-        this.facade = newFacade;
+        this.currentFacade = newFacade;
     }
     
     @Override
