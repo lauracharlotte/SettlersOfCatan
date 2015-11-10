@@ -5,6 +5,7 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.YearOfPlentyRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -19,6 +20,9 @@ public class YearOfPlentyCommand implements ICommand {
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         YearOfPlentyRequest yop = new YearOfPlentyRequest(null, null, null);
         
@@ -35,7 +39,7 @@ public class YearOfPlentyCommand implements ICommand {
         ResourceType resource1 = yop.getResource1();
         ResourceType resource2 = yop.getResource2();
         
-        ClientModel result = myMovesFacade.yearOfPlenty(playerIdx, resource1, resource2);
+        ClientModel result = myMovesFacade.yearOfPlenty(playerIdx, resource1, resource2, game, playerId);
         // return result.serialize(); or whatever
         return "";
     }

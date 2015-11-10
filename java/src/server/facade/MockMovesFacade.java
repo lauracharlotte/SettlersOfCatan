@@ -4,6 +4,7 @@ import model.ClientModel;
 import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
+import model.player.User;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -23,7 +24,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel sendChat(PlayerIdx playerIdx, String message)
+    public ClientModel sendChat(PlayerIdx playerIdx, String message, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -37,7 +38,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel rollNumber(PlayerIdx playerIdx, int number)
+    public ClientModel rollNumber(PlayerIdx playerIdx, int number, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -52,7 +53,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location)
+    public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -65,7 +66,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel finishTurn(PlayerIdx playerIdx)
+    public ClientModel finishTurn(PlayerIdx playerIdx, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -78,7 +79,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel buyDevCard(PlayerIdx playerIdx)
+    public ClientModel buyDevCard(PlayerIdx playerIdx, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -93,7 +94,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2)
+    public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -108,7 +109,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2)
+    public ClientModel roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -123,7 +124,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location)
+    public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -136,7 +137,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel monument(PlayerIdx playerIdx)
+    public ClientModel monument(PlayerIdx playerIdx, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -150,7 +151,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx)
+    public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -165,7 +166,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free)
+    public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -179,7 +180,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation)
+    public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -194,7 +195,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free)
+    public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -209,7 +210,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver)
+    public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -223,7 +224,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept)
+    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -239,7 +240,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource)
+    public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 
@@ -253,7 +254,7 @@ public class MockMovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel discardCards(PlayerIdx playerIdx, ResourceCards discardedCards)
+    public ClientModel discardCards(PlayerIdx playerIdx, ResourceCards discardedCards, int game, User user)
     {
         ClientModel model = new ClientModel();
         return model; 

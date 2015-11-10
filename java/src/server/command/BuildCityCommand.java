@@ -6,8 +6,15 @@
 package server.command;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.operations.BuildCityRequest;
+import model.ClientModel;
+import model.player.PlayerIdx;
+import model.player.User;
+import org.json.JSONException;
 import server.ServerException;
 import server.facade.IModelFacade;
+import server.facade.IMovesFacade;
+import shared.locations.VertexLocation;
 
 /**
  * Executes the Build City request.
@@ -16,8 +23,30 @@ import server.facade.IModelFacade;
 public class BuildCityCommand implements ICommand {
 
     @Override
-    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException {
+        IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
+        
+        BuildCityRequest city = new BuildCityRequest(null, null);
+        
+        try
+        {
+            city.deserialize(requestBody);
+        }
+        catch (JSONException ex)
+        {
+            return "Invalid JSON in request";
+        }
+        
+        PlayerIdx playerIdx = city.getPlayerIndex();
+        VertexLocation location = city.getLocation();
+        
+        ClientModel result = myMovesFacade.buildCity(playerIdx, location, game, playerId);
+        
+        // return result.serialize(); or whatever
+        return "";
     }
     
 }

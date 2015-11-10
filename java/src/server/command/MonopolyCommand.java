@@ -5,44 +5,45 @@
  */
 package server.command;
 
-import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
-import clientcommunicator.operations.SendChatRequest;
+import clientcommunicator.operations.MonopolyRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
 import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
+import server.facade.IModelFacade;
 import server.facade.IMovesFacade;
+import shared.definitions.ResourceType;
+
 /**
- * Executes the Send Chat request.
+ *
  * @author Scott
  */
-public class SendChatCommand implements ICommand {
+public class MonopolyCommand implements ICommand {
 
     @Override
-    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
-    {
+    public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
         
         int game = currentCookie.getGameNumber();
         User playerId = currentCookie.getUser();
         
-        SendChatRequest chat = new SendChatRequest(null, null);
+        MonopolyRequest monopoly = new MonopolyRequest(null, null);
         
         try
         {
-            chat.deserialize(requestBody);
+            monopoly.deserialize(requestBody);
         }
         catch (JSONException ex)
         {
             return "Invalid JSON in request";
         }
         
-        PlayerIdx playerIdx = chat.getPlayerIndex();
-        String message = chat.getContent();
+        PlayerIdx playerIdx = monopoly.getPlayerIndex();
+        ResourceType resource = monopoly.getResource();
         
-        ClientModel result = myMovesFacade.sendChat(playerIdx, message, game, playerId);
+        ClientModel result = myMovesFacade.monopoly(resource, playerIdx, game, playerId);
         
         // return result.serialize(); or whatever
         return "";

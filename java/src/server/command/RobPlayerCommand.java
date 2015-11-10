@@ -11,6 +11,7 @@ import clientcommunicator.operations.RobPlayerRequest;
 import model.ClientModel;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -25,6 +26,9 @@ public class RobPlayerCommand implements ICommand {
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         RobPlayerRequest rob = new RobPlayerRequest(null, null, null);
         
@@ -41,7 +45,7 @@ public class RobPlayerCommand implements ICommand {
         NullablePlayerIdx victimIdx = rob.getVictimIndex();
         HexLocation location = rob.getLocation();
         
-        ClientModel result = myMovesFacade.robPlayer(playerIdx, victimIdx, location);
+        ClientModel result = myMovesFacade.robPlayer(playerIdx, victimIdx, location, game, playerId);
         
         // return result.serialize(); or whatever
         return "";
