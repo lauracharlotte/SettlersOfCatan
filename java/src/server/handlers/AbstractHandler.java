@@ -6,6 +6,7 @@
 package server.handlers;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.Server.MalformedCookieException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
@@ -36,10 +37,25 @@ public abstract class AbstractHandler implements HttpHandler
     public void handle(HttpExchange he) throws IOException
     {
         //grab cookie information
+        String cookieParam = (String) he.getAttribute("Cookie");
         //create new cookie object
+        Cookie cookie = new Cookie();
+        try {
+            cookie.setUserCookieString(cookieParam);
+        } catch (MalformedCookieException ex) {
+            throw new IOException(String.format("cookie error: %s", ex.getMessage()), ex);
+        }
         //call the cookie verifer to make sure the data is valid
         //if it's not valid, return an error message to client
-        //else call reallyHandle with he and the cookie you created
+        if (!cookieVerifier.isVerified(cookie))
+        {
+            throw new IOException("Invalid Cookie");
+        }
+        else
+        {
+            //else call reallyHandle with he and the cookie you created
+            reallyHandle(he, cookie);
+        }
     }
     
     /**
