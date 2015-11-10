@@ -5,6 +5,7 @@ import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import model.player.User;
+import server.model.GameManager;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -15,6 +16,13 @@ import shared.locations.VertexLocation;
  * @author Scott
  */
 public class MovesFacade implements IMovesFacade { 
+    
+    GameManager manager;
+    
+    public MovesFacade(GameManager myManager)
+    {
+        this.manager = myManager;
+    }
     
     /**
      * Sends a chat message from a player and logs it in the chat message box

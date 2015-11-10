@@ -1,9 +1,7 @@
 package server.facade;
 
-import java.util.List;
-
-import model.ClientModel;
-import model.player.User;
+import server.model.GameManager;
+import server.model.UserManager;
 
 /**
  * 
@@ -13,14 +11,17 @@ import model.player.User;
  */
 public class GameFacade implements IGameFacade 
 {
+        private UserManager userManager;
+        private GameManager gameManager;
 	/**
 	 * The Constructor
-	 * @param users
-	 * @param games
+	 * @param userManager
+	 * @param gameManager
 	 */
-	public GameFacade(List<User> users, List<ClientModel> games)
+	public GameFacade(UserManager userManager, GameManager gameManager)
 	{
-		
+            this.userManager = userManager;
+            this.gameManager = gameManager;
 	}
 	/**
 	 * Access to the model.

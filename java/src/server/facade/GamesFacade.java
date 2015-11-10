@@ -6,6 +6,8 @@ import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.player.User;
+import server.model.GameManager;
+import server.model.UserManager;
 
 /**
  * Facade to the server model that deals with games operations
@@ -14,18 +16,18 @@ import model.player.User;
  */
 public class GamesFacade implements IGamesFacade 
 {
-	private List<User> users;
-	private List<ClientModel> games;
-	
+	private UserManager userManager;
+        private GameManager gameManager;
+        
 	/**
-	 * Constructor
-	 * @param users Non-persistent list of Users
-	 * @param games Non-persistent list of games
+	 * The Constructor
+	 * @param userManager
+	 * @param gameManager
 	 */
-	public GamesFacade(List<User> users, List<ClientModel> games)
+	public GamesFacade(UserManager userManager, GameManager gameManager)
 	{
-		this.users = users;
-		this.games = games;
+            this.userManager = userManager;
+            this.gameManager = gameManager;
 	}
 	
 	/**

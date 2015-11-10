@@ -24,6 +24,11 @@ public class MovesHandler extends AbstractHandler
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException
     {
+        if (currentCookie.getCompleteCookieString().equals(""))
+        {
+            this.sendQuickResponse(he, "Missing necessary cookie.", 400);
+            return;
+        }
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
