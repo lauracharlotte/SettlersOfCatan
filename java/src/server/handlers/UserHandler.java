@@ -28,32 +28,11 @@ public class UserHandler extends AbstractHandler
     }
     
     @Override
-    public void reallyHandle(HttpExchange he, Cookie currentCookie)
+    public void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException
     {
         if (!currentCookie.getCompleteCookieString().equals(""))
         {
-            try
-            {
-                he.sendResponseHeaders(400, 0);
-            }
-            catch (IOException ex)
-            {
-                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-                return;
-            }
-            OutputStream response = he.getResponseBody();
-            PrintWriter pw = new PrintWriter(response);
-            pw.print("Invalid cookie state");
-            pw.close();
-            try
-            {
-                response.close();
-            }
-            catch (IOException ex)
-            {
-                Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            he.close();
+            this.sendQuickResponse(he, "Cannot be already in logged in.", 400);
             return;
         }
         //Get right command class
