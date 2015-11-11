@@ -2,6 +2,8 @@ package server.facade;
 
 import java.util.List;
 
+import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.player.User;
 
@@ -41,10 +43,10 @@ public class GamesFacade implements IGamesFacade
 	 * Creates a new game
 	 */
 	@Override
-	public ClientModel create() 
+	public boolean create(CreateGameRequest request) 
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class GamesFacade implements IGamesFacade
 	 * @param gameIndex the index of the game in the list of ClientModels
 	 */
 	@Override
-	public ClientModel join(User user, int gameIndex) 
+	public ClientModel join(User user, JoinGameRequest request) 
 	{
 		// TODO Auto-generated method stub
 		return null;

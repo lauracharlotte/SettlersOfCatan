@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
 import model.cards.Hand;
@@ -70,7 +72,16 @@ public class MockGamesFacade implements IGamesFacade
 	 * Returns a sample result for creating a new game
 	 */
 	@Override
-	public ClientModel create() 
+	public boolean create(CreateGameRequest request) 
+	{
+		return true;
+	}
+
+	/**
+	 * Returns a sample result for joining a game
+	 */
+	@Override
+	public ClientModel join(User user, JoinGameRequest request) 
 	{
 		ResourceCards bankResources = new ResourceCards(19, 19, 19, 19, 19);
 		DevelopmentCards bankDevCards = new DevelopmentCards(2, 5, 2, 14, 2);
@@ -84,25 +95,6 @@ public class MockGamesFacade implements IGamesFacade
 				new NullablePlayerIdx(-1), new NullablePlayerIdx(-1));
 		int version = 0;
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
-		ClientModel model = new ClientModel(bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
-		return model;
-	}
-
-	/**
-	 * Returns a sample result for joining a game
-	 */
-	@Override
-	public ClientModel join(User user, int gameIndex) 
-	{
-		Hand bank = null;
-		MessageList chat = null;
-		MessageList log = null;
-		CatanMap map = null;
-		Collection<Player> players = null;
-		TradeOffer tradeOffer = null;
-		TurnTracker turnTracker = null;
-		int version = 1;
-		NullablePlayerIdx winner = null;
 		ClientModel model = new ClientModel(bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
 		return model;
 	}

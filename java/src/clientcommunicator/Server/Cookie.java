@@ -81,6 +81,23 @@ public class Cookie
         return this.gameNumber;
     }
     
+    public void setGameNumber(int gameNumber)
+    {
+    	StringBuilder gameString = new StringBuilder();
+    	gameString.append("catan.game=");
+    	gameString.append(gameNumber);
+    	gameString.append(";Path=/");
+    	try 
+    	{
+			setGameNumberFromCookie(gameString.toString());
+		} 
+    	catch (MalformedCookieException e) 
+    	{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     /**
      * @throws MalformedCookieException The Cookie was not of the proper form
      * @pre The server has just successfully called login/register and this is the cookie response
