@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
@@ -36,11 +37,11 @@ public class MockGamesFacade implements IGamesFacade
 	}
 	
 	/**
-	 * Returns a sample list of games (ClientModels)
+	 * Returns a sample list of games (GameJSONResponses)
 	 * @return sample list
 	 */
 	@Override
-	public List<ClientModel> list() 
+	public List<GameJSONResponse> list() 
 	{
 		List<ClientModel> games = new ArrayList<ClientModel>();
 		Hand bank1 = null;
@@ -65,7 +66,7 @@ public class MockGamesFacade implements IGamesFacade
 		NullablePlayerIdx winner2 = null;
 		ClientModel model2 = new ClientModel(bank2, chat2, log2, map2, players2, tradeOffer2, turnTracker2, version2, winner2);
 		games.add(model2);
-		return games;
+		return null;
 	}
 
 	/**

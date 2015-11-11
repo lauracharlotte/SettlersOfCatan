@@ -6,12 +6,15 @@
 package clientcommunicator.operations;
 
 import java.util.Collection;
+import java.util.Iterator;
+
+import org.json.*;
 
 /**
  *
  * @author Michael
  */
-public class GameJSONResponse
+public class GameJSONResponse implements IJSONSerializable
 {
     private String title;
     private int gameId;
@@ -75,6 +78,46 @@ public class GameJSONResponse
         this(title, gameId);
         this.players = players;
     }
+
+	@Override
+	public String serialize() 
+	{
+		JSONObject game = new JSONObject();
+		try 
+		{
+			game.put("title", title);
+			game.put("gameId", gameId);
+			JSONArray playersJSON = new JSONArray();
+			Iterator<PlayerJSONResponse> i = players.iterator();
+			while (i.hasNext())
+			{
+				playersJSON.put(i.next().serialize());
+			}
+			game.put("players", playersJSON);
+		} 
+		catch (JSONException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return game.toString();
+	}
+
+	@Override
+	public void deserialize(String JSON) throws JSONException {
+		JSONObject game = new JSONObject(JSON);
+		title = game.getString("title");
+		gameId = game.getInt("gameId");
+		players.clear();
+		JSONArray playersJSON = new JSONArray(game.getJSONArray("players"));
+		for (int i = 0; i < playersJSON.length(); i++)
+		{
+			PlayerJSONResponse player = new PlayerJSONResponse(null, null, 0);
+			player.deserialize(playersJSON.get(i).toString());
+			players.add(player);
+		}
+	}
 
     
 }

@@ -3,6 +3,7 @@ package server.facade;
 import java.util.List;
 
 import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.player.User;
@@ -16,9 +17,9 @@ public interface IGamesFacade extends IModelFacade
 {
 	/**
 	 * Gets the list of games
-	 * @return list of games in the form of ClientModels
+	 * @return list of games in the form of GameJSONResponses
 	 */
-	public List<ClientModel> list();
+	public List<GameJSONResponse> list();
 	
 	/**
 	 * Creates a new game

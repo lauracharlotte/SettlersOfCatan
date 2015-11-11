@@ -5,13 +5,16 @@
  */
 package clientcommunicator.operations;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import shared.definitions.CatanColor;
 
 /**
  *
  * @author Michael
  */
-public class PlayerJSONResponse
+public class PlayerJSONResponse implements IJSONSerializable
 {
 
     private CatanColor color;
@@ -66,4 +69,31 @@ public class PlayerJSONResponse
     {
         throw new UnsupportedOperationException();
     }
+
+	@Override
+	public String serialize()
+	{
+		JSONObject player = new JSONObject();
+		try 
+		{
+			player.put("color", color.toString());
+			player.put("name", name);
+			player.put("playerID", id);
+		} 
+		catch (JSONException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return player.toString();
+	}
+
+	@Override
+	public void deserialize(String JSON) throws JSONException 
+	{
+		JSONObject player = new JSONObject(JSON);
+		color = CatanColor.valueOf(player.getString("color"));
+		name = player.getString("name");
+		id = player.getInt("playerID");	
+	}
 }
