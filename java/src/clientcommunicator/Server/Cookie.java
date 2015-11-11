@@ -90,12 +90,12 @@ public class Cookie
     	try 
     	{
 			setGameNumberFromCookie(gameString.toString());
-		} 
+        } 
     	catch (MalformedCookieException e) 
     	{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
     }
     
     /**
@@ -204,7 +204,9 @@ public class Cookie
     }
     
     public void parseCookieString(String cookieString) throws MalformedCookieException
-    {   
+    {
+        if(cookieString == null)
+            return;
         StringBuilder userString = new StringBuilder(cookieString);
         if(cookieString.contains("catan.game="))
         {

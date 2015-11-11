@@ -9,11 +9,16 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.Server.MalformedCookieException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import server.command.ICommand;
 import server.facade.IModelFacade;
 
 /**
@@ -84,6 +89,38 @@ public abstract class AbstractHandler implements HttpHandler
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         he.close();
+    }
+    
+    public ICommand getCommand(HttpExchange he) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    {
+        URI currentURI = he.getRequestURI();
+        String path = currentURI.getPath();
+        String commandPath = path.substring(path.lastIndexOf('/') + 1);
+        StringBuilder sb = new StringBuilder(commandPath);
+        while(sb.lastIndexOf("_") != -1)
+        {
+            sb.deleteCharAt(sb.lastIndexOf("_"));
+        }
+        sb.setCharAt(0, Character.toUpperCase(commandPath.charAt(0)));
+        sb.insert(0, "server.command.");
+        sb.append("Command");
+        Class commandClass = Class.forName(sb.toString());
+        return (ICommand)commandClass.newInstance();
+    }
+    
+    public String getRequestBody(HttpExchange he) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(he.getRequestBody()));
+        StringBuilder output = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) 
+        {
+            output.append(line);
+        }    
+        // Close the buffer
+        br.close();
+        return output.toString();
+        // Disconnect from the server
     }
     
     /**

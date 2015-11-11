@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import server.ServerException;
+import server.command.ICommand;
 import server.facade.IModelFacade;
 import server.facade.IUserFacade;
 
@@ -35,7 +37,27 @@ public class UserHandler extends AbstractHandler
             this.sendQuickResponse(he, "Cannot be already in logged in.", 400);
             return;
         }
-        //Get right command class
+        ICommand command;
+        String result = "";
+        try
+        {
+            command = this.getCommand(he);
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex)
+        {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        
+        try
+        {
+            result = command.execute(currentFacade, this.getRequestBody(he), currentCookie);
+        }
+        catch (ServerException ex)
+        {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(result);
     }
     
 }

@@ -2,6 +2,7 @@ package server.handlers;
 
 import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
+import java.io.IOException;
 import server.facade.IModelFacade;
 
 /**
@@ -18,7 +19,7 @@ public class GameHandler extends AbstractHandler
     }
     
     @Override
-    public void reallyHandle(HttpExchange he, Cookie currentCookie)
+    public void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
