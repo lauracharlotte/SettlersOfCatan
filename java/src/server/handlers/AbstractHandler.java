@@ -10,6 +10,10 @@ import clientcommunicator.Server.MalformedCookieException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.facade.IModelFacade;
 
 /**
@@ -40,16 +44,21 @@ public abstract class AbstractHandler implements HttpHandler
         String cookieParam = (String) he.getAttribute("Cookie");
         //create new cookie object
         Cookie cookie = new Cookie();
-        try {
-            cookie.setUserCookieString(cookieParam);
-        } catch (MalformedCookieException ex) {
-            throw new IOException(String.format("cookie error: %s", ex.getMessage()), ex);
+        try 
+        {
+            cookie.parseCookieString(cookieParam);
+        } 
+        catch (MalformedCookieException ex) 
+        {
+            this.sendQuickResponse(he, String.format("cookie error: %s", ex.getMessage()), 400);
+            return;
         }
         //call the cookie verifer to make sure the data is valid
         //if it's not valid, return an error message to client
         if (!cookieVerifier.isVerified(cookie))
         {
-            throw new IOException("Invalid Cookie");
+            this.sendQuickResponse(he, String.format("cookie error"), 400);
+            return;
         }
         else
         {
@@ -58,11 +67,30 @@ public abstract class AbstractHandler implements HttpHandler
         }
     }
     
+    public void sendQuickResponse(HttpExchange he, String responseBodyText, int responseCode) throws IOException
+    {
+        he.sendResponseHeaders(responseCode, 0);
+        OutputStream response = he.getResponseBody();
+        try (PrintWriter pw = new PrintWriter(response))
+        {
+            pw.print(responseBodyText);
+        }
+        try
+        {
+            response.close();
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        he.close();
+    }
+    
     /**
      * This method completes the httpExchange initiated by the handle method.
      * @param he The httpExchange initiated by the server
      * @param currentCookie The cookie information parsed by handle.
      */
-    public abstract void reallyHandle(HttpExchange he, Cookie currentCookie);
+    public abstract void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException;
     
 }
