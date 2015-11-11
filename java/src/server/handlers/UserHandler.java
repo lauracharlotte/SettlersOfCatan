@@ -60,7 +60,8 @@ public class UserHandler extends AbstractHandler
         int status = 400;
         if(result.equals("Success"))
         {
-            he.getResponseHeaders().add("Set-cookie", currentCookie.getCompleteCookieString());
+            String cookieString = currentCookie.getCompleteCookieString()+";Path=/;";
+            he.getResponseHeaders().add("Set-cookie", cookieString);
             status = 200;
         }
         this.sendQuickResponse(he, result, status);
