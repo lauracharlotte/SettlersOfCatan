@@ -81,10 +81,10 @@ public class Server
         IMovesFacade movesFacade = new MovesFacade(myGameManager);
         HttpHandler movesHandler = new MovesHandler(cookieVerifier, movesFacade);
         
-//        server.createContext("/games", gamesHandler);
-//        server.createContext("/game", gameHandler);
-//        server.createContext("/moves", movesHandler);
-//        server.createContext("/user", userHandler);
+        server.createContext("/games", gamesHandler);
+        server.createContext("/game", gameHandler);
+        server.createContext("/moves", movesHandler);
+        server.createContext("/user", userHandler);
         server.start();
         
     }

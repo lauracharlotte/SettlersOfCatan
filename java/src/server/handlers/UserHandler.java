@@ -57,7 +57,13 @@ public class UserHandler extends AbstractHandler
         {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(result);
+        int status = 400;
+        if(result.equals("Success"))
+        {
+            he.getResponseHeaders().add("Set-cookie", currentCookie.getCompleteCookieString());
+            status = 200;
+        }
+        this.sendQuickResponse(he, result, status);
     }
     
 }
