@@ -178,7 +178,7 @@ public class Cookie
         {
             JsonObject userJSONObject = this.getUserJsonObject(this.decodeJSON(this.userInformationString), false);
             User myUser = new User(userJSONObject.get("name").getAsString(), userJSONObject.get("password").getAsString());
-            myUser.setPlayerId(userJSONObject.getAsInt());
+            myUser.setPlayerId(userJSONObject.get("playerID").getAsInt());
             return myUser;
         } 
         catch(MalformedCookieException e)
@@ -207,6 +207,11 @@ public class Cookie
     {
         if(cookieString == null)
             return;
+        if (cookieString.contains("catan.game=null"))
+        {
+            int idx = cookieString.lastIndexOf("catan.game=null");
+            cookieString = cookieString.substring(0, idx);
+        }
         StringBuilder userString = new StringBuilder(cookieString);
         if(cookieString.contains("catan.game="))
         {
@@ -219,6 +224,10 @@ public class Cookie
             userString.deleteCharAt(gameNumberString.length() - 1);
             gameNumberString.insert(0, 'c');
             this.setGameNumberFromCookie(gameNumberString.toString());
+        }
+        else if(userString.length()>0 && userString.charAt(userString.length()-1) != ';')
+        {
+            userString.append(";1234567");
         }
         if (!userString.toString().trim().equals(""))
             this.setUserCookieString(userString.toString());

@@ -5,6 +5,8 @@
  */
 package model.player;
 
+import java.util.Objects;
+
 /**
  *
  * @author Michael
@@ -76,4 +78,43 @@ public class User
     private int playerId;
     private String username;
     private String password;
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 97 * hash + this.playerId;
+        hash = 97 * hash + Objects.hashCode(this.username);
+        hash = 97 * hash + Objects.hashCode(this.password);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.playerId != other.playerId)
+        {
+            return false;
+        }
+        if (!Objects.equals(this.username, other.username))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password))
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ public abstract class AbstractHandler implements HttpHandler
     public void handle(HttpExchange he) throws IOException
     {
         //grab cookie information
-        String cookieParam = (String) he.getAttribute("Cookie");
+        String cookieParam = he.getRequestHeaders().getFirst("Cookie");
         //create new cookie object
         Cookie cookie = new Cookie();
         try 
