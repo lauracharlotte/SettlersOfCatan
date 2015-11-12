@@ -219,10 +219,15 @@ public class Cookie
             while(userString.charAt(userString.length()-1) != 'c')
             {
                 gameNumberString.insert(0, userString.charAt(userString.length() - 1));
-                userString.deleteCharAt(gameNumberString.length() - 1);
+                userString.deleteCharAt(userString.length() - 1);
             }
-            userString.deleteCharAt(gameNumberString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            System.out.println(userString);
+            userString.append(";1234567");
             gameNumberString.insert(0, 'c');
+            gameNumberString.append(";1234567");
             this.setGameNumberFromCookie(gameNumberString.toString());
         }
         else if(userString.length()>0 && userString.charAt(userString.length()-1) != ';')
