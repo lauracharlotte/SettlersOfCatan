@@ -25,6 +25,7 @@ import server.facade.UserFacade;
 import server.handlers.CookieVerifier;
 import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
+import server.handlers.Handlers;
 import server.handlers.MovesHandler;
 import server.handlers.UserHandler;
 import server.model.GameManager;
@@ -85,6 +86,8 @@ public class Server
         server.createContext("/game", gameHandler);
         server.createContext("/moves", movesHandler);
         server.createContext("/user", userHandler);
+        server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
+        server.createContext("/docs/api/view", new Handlers.BasicFile(""));
         server.start();
         
     }
