@@ -1,11 +1,16 @@
 package server.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
+import model.cards.DevelopmentCards;
+import model.cards.Hand;
+import model.cards.ResourceCards;
+import model.player.Player;
 import model.player.User;
 import server.model.GameManager;
 import server.model.UserManager;
@@ -38,8 +43,9 @@ public class GamesFacade implements IGamesFacade
 	@Override
 	public List<GameJSONResponse> list() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<GameJSONResponse> games = new ArrayList<GameJSONResponse>();
+		//Add new method to gameManager to get all games?
+		return games;
 	}
 
 	/**
@@ -50,7 +56,7 @@ public class GamesFacade implements IGamesFacade
 	@Override
 	public boolean create(CreateGameRequest request) 
 	{
-		// TODO Auto-generated method stub
+		//gameManager.addNewGame();
 		return false;
 	}
 
@@ -62,8 +68,16 @@ public class GamesFacade implements IGamesFacade
 	@Override
 	public ClientModel join(User user, JoinGameRequest request) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ClientModel game = gameManager.getGameWithNumber(request.getGameId());
+		ArrayList<Player> players  = (ArrayList)game.getPlayers();
+		DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
+		ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
+		Player newPlayer = new Player(4, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
+				emptyDevCards, user.getPlayerId(), 15, 5, 0, 0, new Hand(emptyResCards, emptyDevCards));
+		//Add new player to list of players
+		//Replace players in ClientModel
+		//Replace game in gameManager
+		return game;
 	}
 
 }
