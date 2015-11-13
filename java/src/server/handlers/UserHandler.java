@@ -34,7 +34,7 @@ public class UserHandler extends AbstractHandler
     {
         if (!currentCookie.getCompleteCookieString().equals(""))
         {
-            this.sendQuickResponse(he, "Cannot be already in logged in.", 400);
+            this.sendQuickResponse(he, "Cannot be already logged in.", 200);
             return;
         }
         ICommand command;

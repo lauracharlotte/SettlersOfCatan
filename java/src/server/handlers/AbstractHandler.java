@@ -7,6 +7,10 @@ package server.handlers;
 
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.Server.MalformedCookieException;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.BufferedReader;
@@ -19,6 +23,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONException;
 import server.command.ICommand;
 import server.facade.IModelFacade;
 
@@ -64,7 +69,6 @@ public abstract class AbstractHandler implements HttpHandler
         if (!cookieVerifier.isVerified(cookie))
         {
             this.sendQuickResponse(he, String.format("cookie error"), 400);
-            return;
         }
         else
         {
@@ -75,7 +79,18 @@ public abstract class AbstractHandler implements HttpHandler
     
     public void sendQuickResponse(HttpExchange he, String responseBodyText, int responseCode) throws IOException
     {
-        he.sendResponseHeaders(responseCode, 0);
+        try
+        {
+            JsonElement obj = new JsonParser().parse(responseBodyText);
+            if(obj.isJsonObject())
+                he.getResponseHeaders().add("Content-Type", "application/json");
+        } 
+        catch(JsonParseException e)
+        {
+        }
+        if(!he.getResponseHeaders().containsKey("Content-Type"))
+            he.getResponseHeaders().add("Content-Type", "application/text");
+        he.sendResponseHeaders(responseCode, responseBodyText.getBytes("utf8").length);
         OutputStream response = he.getResponseBody();
         try (PrintWriter pw = new PrintWriter(response))
         {
