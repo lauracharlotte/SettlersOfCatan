@@ -17,6 +17,7 @@ public class ResourceModelFacade
      */
     public ResourceModelFacade() { }
 
+    
     /**
      * Checks if the player has enough resources to build
      * a city
@@ -24,8 +25,13 @@ public class ResourceModelFacade
      */
     public boolean canBuildCity()
     {
-        ResourceCards neededCards = new ResourceCards(0, 2, 0, 3, 0);
         Player player = this.getClientPlayer();
+        return canBuildCityAsPlayer(player);
+    }
+
+    public boolean canBuildCityAsPlayer(Player player)
+    {
+        ResourceCards neededCards = new ResourceCards(0, 2, 0, 3, 0);
         if(!this.checkPlayerAndResources(player, neededCards))
             return false;
         if(player.getCities() == 0)
@@ -34,6 +40,7 @@ public class ResourceModelFacade
             return false;
         return true;
     }
+    
 
     /**
      * Checks if the player has enough resources to build
@@ -42,8 +49,13 @@ public class ResourceModelFacade
      */
     public boolean canBuildRoad()
     {
-        ResourceCards neededCards = new ResourceCards(1, 0, 1, 0, 0);
         Player player = this.getClientPlayer();
+        return canBuildRoadAsPlayer(player);
+    }
+
+    public boolean canBuildRoadAsPlayer(Player player)
+    {
+        ResourceCards neededCards = new ResourceCards(1, 0, 1, 0, 0);
         if(!this.checkPlayerAndResources(player, neededCards))
             return false;
         if(player.getRoads()==0)
@@ -58,8 +70,13 @@ public class ResourceModelFacade
      */
     public boolean canBuildSettlement()
     {
-        ResourceCards neededCards = new ResourceCards(1, 1, 1, 0, 1);
         Player player = this.getClientPlayer();
+        return this.canBuildSettlementAsPlayer(player);
+    }
+    
+    public boolean canBuildSettlementAsPlayer(Player player)
+    {
+        ResourceCards neededCards = new ResourceCards(1, 1, 1, 0, 1);
         if(!this.checkPlayerAndResources(player, neededCards))
             return false;
         if(player.getSettlements() == 0)
@@ -74,8 +91,13 @@ public class ResourceModelFacade
      */
     public boolean canBuyDevCard()
     {
-        ResourceCards neededCards = new ResourceCards(0, 1, 0, 1, 1);
         Player player = this.getClientPlayer();
+        return this.canBuyDevCardAsPlayer(player);
+    }
+    
+    public boolean canBuyDevCardAsPlayer(Player player)
+    {
+        ResourceCards neededCards = new ResourceCards(0, 1, 0, 1, 1);
         return this.checkPlayerAndResources(player, neededCards);
     }
     
@@ -105,6 +127,8 @@ public class ResourceModelFacade
     	Player currentPlayer = getClientPlayer();
     	return currentPlayer.canPlayDev();
     }
+    
+    
     
     public boolean hasEnoughResource(ResourceCards recCards)
     {
