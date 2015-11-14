@@ -1,5 +1,6 @@
 package server.command;
 
+import server.facade.IGameFacade;
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import server.ServerException;
@@ -24,7 +25,14 @@ public class ModelCommand implements ICommand
 	@Override
 	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
         {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub //facade to Game Model
+		IGameFacade gameFacade = (IGameFacade) facade;
+		
+		int gameNumber = currentCookie.getGameNumber();
+		gameFacade.model(gameNumber);
+		
+		
+		
 		return null;
 	}
 

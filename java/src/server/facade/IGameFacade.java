@@ -1,5 +1,7 @@
 package server.facade;
 
+import model.ClientModel;
+
 /**
  * 
  * @author LaurasAdventurePC
@@ -12,5 +14,5 @@ public interface IGameFacade extends IModelFacade
 	 * Calls on the class ModelCommand to perform functions.
 	 * @return the model
 	 */
-	public void model();
+	public  ClientModel model(int gameIndex);
 }
