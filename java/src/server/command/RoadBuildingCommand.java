@@ -10,6 +10,7 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.RoadBuildingCardRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -24,6 +25,9 @@ public class RoadBuildingCommand implements ICommand {
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         RoadBuildingCardRequest rbc = new RoadBuildingCardRequest(null, null, null);
         
@@ -40,7 +44,7 @@ public class RoadBuildingCommand implements ICommand {
         EdgeLocation location1 = rbc.getSpot1();
         EdgeLocation location2 = rbc.getSpot2();
         
-        ClientModel result = myMovesFacade.roadBuilding(playerIdx, location1, location2);
+        ClientModel result = myMovesFacade.roadBuilding(playerIdx, location1, location2, game, playerId);
         // return result.serialize(); or whatever
         return "";
     }

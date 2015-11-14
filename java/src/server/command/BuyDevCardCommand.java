@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -24,6 +25,9 @@ public class BuyDevCardCommand implements ICommand {
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException{
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         BuyDevCardRequest buy = new BuyDevCardRequest(null);
         
@@ -38,7 +42,7 @@ public class BuyDevCardCommand implements ICommand {
         
         PlayerIdx playerIdx = buy.getPlayerIndex();
         
-        ClientModel result = myMovesFacade.buyDevCard(playerIdx);
+        ClientModel result = myMovesFacade.buyDevCard(playerIdx, game, playerId);
         // return result.serialize(); or whatever
         return "";
     }

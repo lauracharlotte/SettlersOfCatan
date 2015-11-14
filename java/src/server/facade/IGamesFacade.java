@@ -2,6 +2,9 @@ package server.facade;
 
 import java.util.List;
 
+import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.GameJSONResponse;
+import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import model.player.User;
 
@@ -14,20 +17,22 @@ public interface IGamesFacade extends IModelFacade
 {
 	/**
 	 * Gets the list of games
-	 * @return list of games in the form of ClientModels
+	 * @return list of games in the form of GameJSONResponses
 	 */
-	public List<ClientModel> list();
+	public List<GameJSONResponse> list();
 	
 	/**
 	 * Creates a new game
+	 * @param request a CreateGameRequest object
+	 * @return true if created successfully, false otherwise
 	 */
-	public ClientModel create(); //need name, randomness for each thing (bools)
+	public boolean create(CreateGameRequest request);
 	
 	/**
 	 * Joins a user to a game
-	 * @param user the User to be joined
-	 * @param gameIndex the index of the game in the list of ClientModels
+	 * @param request a JoinGameRequest object
+	 * @return the ClientModel of the game the user has joined
 	 */
-	public ClientModel join(User user, int gameIndex);
+	public ClientModel join(User user, JoinGameRequest request);
 
 }

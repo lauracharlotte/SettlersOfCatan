@@ -81,6 +81,23 @@ public class Cookie
         return this.gameNumber;
     }
     
+    public void setGameNumber(int gameNumber)
+    {
+    	StringBuilder gameString = new StringBuilder();
+    	gameString.append("catan.game=");
+    	gameString.append(gameNumber);
+    	gameString.append(";Path=/");
+    	try 
+    	{
+			setGameNumberFromCookie(gameString.toString());
+        } 
+    	catch (MalformedCookieException e) 
+    	{
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        }
+    }
+    
     /**
      * @throws MalformedCookieException The Cookie was not of the proper form
      * @pre The server has just successfully called login/register and this is the cookie response
@@ -161,7 +178,7 @@ public class Cookie
         {
             JsonObject userJSONObject = this.getUserJsonObject(this.decodeJSON(this.userInformationString), false);
             User myUser = new User(userJSONObject.get("name").getAsString(), userJSONObject.get("password").getAsString());
-            myUser.setPlayerId(userJSONObject.getAsInt());
+            myUser.setPlayerId(userJSONObject.get("playerID").getAsInt());
             return myUser;
         } 
         catch(MalformedCookieException e)
@@ -187,7 +204,14 @@ public class Cookie
     }
     
     public void parseCookieString(String cookieString) throws MalformedCookieException
-    {   
+    {
+        if(cookieString == null)
+            return;
+        if (cookieString.contains("catan.game=null"))
+        {
+            int idx = cookieString.lastIndexOf("catan.game=null");
+            cookieString = cookieString.substring(0, idx);
+        }
         StringBuilder userString = new StringBuilder(cookieString);
         if(cookieString.contains("catan.game="))
         {
@@ -195,11 +219,20 @@ public class Cookie
             while(userString.charAt(userString.length()-1) != 'c')
             {
                 gameNumberString.insert(0, userString.charAt(userString.length() - 1));
-                userString.deleteCharAt(gameNumberString.length() - 1);
+                userString.deleteCharAt(userString.length() - 1);
             }
-            userString.deleteCharAt(gameNumberString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            userString.deleteCharAt(userString.length() - 1);
+            System.out.println(userString);
+            userString.append(";1234567");
             gameNumberString.insert(0, 'c');
+            gameNumberString.append(";1234567");
             this.setGameNumberFromCookie(gameNumberString.toString());
+        }
+        else if(userString.length()>0 && userString.charAt(userString.length()-1) != ';')
+        {
+            userString.append(";1234567");
         }
         if (!userString.toString().trim().equals(""))
             this.setUserCookieString(userString.toString());

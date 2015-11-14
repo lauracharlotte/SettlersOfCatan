@@ -14,11 +14,18 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import server.facade.GameFacade;
+import server.facade.GamesFacade;
+import server.facade.IGameFacade;
+import server.facade.IGamesFacade;
+import server.facade.IMovesFacade;
 import server.facade.IUserFacade;
+import server.facade.MovesFacade;
 import server.facade.UserFacade;
 import server.handlers.CookieVerifier;
 import server.handlers.GameHandler;
 import server.handlers.GamesHandler;
+import server.handlers.Handlers;
 import server.handlers.MovesHandler;
 import server.handlers.UserHandler;
 import server.model.GameManager;
@@ -65,15 +72,22 @@ public class Server
         server.setExecutor(null);
         IUserFacade userFacade = new UserFacade(myUserManager);
         HttpHandler userHandler = new UserHandler(cookieVerifier, userFacade);
-        /*
-        Give handlers appropriate Facades and create them
-        private HttpHandler gameHandler = new GameHandler();
-        private HttpHandler gamesHandler = new GamesHandler();
-        private HttpHandler movesHandler = new MovesHandler();
+        
+        IGameFacade gameFacade = new GameFacade(myUserManager, myGameManager);
+        HttpHandler gameHandler = new GameHandler(cookieVerifier, gameFacade);
+        
+        IGamesFacade gamesFacade = new GamesFacade(myUserManager, myGameManager);
+        HttpHandler gamesHandler = new GamesHandler(cookieVerifier, gamesFacade);
+        
+        IMovesFacade movesFacade = new MovesFacade(myGameManager);
+        HttpHandler movesHandler = new MovesHandler(cookieVerifier, movesFacade);
+        
         server.createContext("/games", gamesHandler);
         server.createContext("/game", gameHandler);
-        server.createContext("/moves", movesHandler);*/
+        server.createContext("/moves", movesHandler);
         server.createContext("/user", userHandler);
+        server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
+        server.createContext("/docs/api/view", new Handlers.BasicFile(""));
         server.start();
         
     }

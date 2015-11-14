@@ -1,9 +1,8 @@
 package server.facade;
 
-import java.util.List;
-
 import model.ClientModel;
-import model.player.User;
+import server.model.GameManager;
+import server.model.UserManager;
 
 /**
  * 
@@ -13,17 +12,18 @@ import model.player.User;
  */
 public class GameFacade implements IGameFacade 
 {
-	List<User> theUsers = null;
-	List<ClientModel> theGames = null;
+        private UserManager userManager;
+        private GameManager gameManager;
+
 	/**
 	 * The Constructor
-	 * @param users
-	 * @param games
+	 * @param userManager
+	 * @param gameManager
 	 */
-	public GameFacade(List<User> users, List<ClientModel> games)
+	public GameFacade(UserManager userManager, GameManager gameManager)
 	{
-		theUsers = users;
-		theGames = games;
+            this.userManager = userManager;
+            this.gameManager = gameManager;
 	}
 	/**
 	 * Access to the model.
@@ -34,7 +34,7 @@ public class GameFacade implements IGameFacade
 		// TODO Auto-generated method stub
 		ClientModel returnModel = null;
 		int gameNumber = 0;//should it start at 0 or at 1??????
-		for(ClientModel correctModel: theGames)
+		for(ClientModel correctModel: gameManager.getAllGames())
 		{
 			if(gameNumber == gameIndex)
 			{

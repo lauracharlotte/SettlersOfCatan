@@ -4,6 +4,7 @@ import model.ClientModel;
 import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
+import model.player.User;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -22,7 +23,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param message The message string sent by the player
      * @return The new model information
      */
-    public ClientModel sendChat(PlayerIdx playerIdx, String message);
+    public ClientModel sendChat(PlayerIdx playerIdx, String message, int game, User user);
     
     /**
      * A player rolls a number and the necessary players receive their resources
@@ -31,7 +32,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param number The number rolled
      * @return The new model information
      */
-    public ClientModel rollNumber(PlayerIdx playerIdx, int number);
+    public ClientModel rollNumber(PlayerIdx playerIdx, int number, int game, User user);
     
     /**
      * A player moving the robber to a specific hex, and robbing a specific player
@@ -41,7 +42,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param location The hex location of the placed robber
      * @return The new model information
      */
-    public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location);
+    public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location, int game, User user);
     
     /**
      * A player finishes their turn, and the turn tracker moves to the next player
@@ -49,7 +50,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param playerIdx The turn tracker index of the player who is finishing their turn
      * @return The new model information
      */
-    public ClientModel finishTurn(PlayerIdx playerIdx);
+    public ClientModel finishTurn(PlayerIdx playerIdx, int game, User user);
     
     /**
      * A player buys a development card and the next card is given
@@ -57,7 +58,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param playerIdx The turn tracker index of the player who is buying the development card
      * @return The new model information
      */
-    public ClientModel buyDevCard(PlayerIdx playerIdx);
+    public ClientModel buyDevCard(PlayerIdx playerIdx, int game, User user);
     
     /**
      * A player plays a development card and is given two requested resources
@@ -67,7 +68,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param resource2 The second resource chosen to collect
      * @return The new model information
      */
-    public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2);
+    public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2, int game, User user);
     
     /**
      * The player plays a development card and is allowed to build two roads
@@ -77,7 +78,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param spot2 The second location chosen to build a road
      * @return The new model information
      */
-    public ClientModel roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2);
+    public ClientModel roadBuilding(PlayerIdx playerIdx, EdgeLocation spot1, EdgeLocation spot2, int game, User user);
     
     /**
      * The player plays the development card and is allowed to move the robber and rob
@@ -87,7 +88,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param location The hex location of the placed robber
      * @return The new model information
      */
-    public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location);
+    public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location, int game, User user);
     
     /**
      * The player plays the development card and is given a victory point
@@ -95,7 +96,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param playerIdx The turn tracker index of the player who played the development card
      * @return The new model information
      */
-    public ClientModel monument(PlayerIdx playerIdx);
+    public ClientModel monument(PlayerIdx playerIdx, int game, User user);
     
     /**
      * The player plays the development card and robs the chosen resource from every other player
@@ -104,7 +105,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param playerIdx The turn tracker index of the player who played the development card
      * @return The new model information
      */
-    public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx);
+    public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx, int game, User user);
     
     /**
      * The player builds a road at a chosen location
@@ -114,7 +115,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param free Whether the road was built during the game setup or if it was bought
      * @return The new model information
      */
-    public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free);
+    public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free, int game, User user);
     
     /**
      * The player builds a city at a chosen location
@@ -123,7 +124,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param vertexLocation The location of the city being built
      * @return The new model information
      */
-    public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation);
+    public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation, int game, User user);
     
     /**
      * The player builds a settlement at a chosen location
@@ -133,7 +134,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param free Whether the settlement was built during the game setup or if it was bought
      * @return The new model information
      */
-    public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free);
+    public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user);
     
     /**
      * One player offers a trade to another player
@@ -143,7 +144,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param receiver The turn tracker index of the player being offered the trade
      * @return The new model information
      */
-    public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver);
+    public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver, int game, User user);
     
     /**
      * The player accepts/denies the trade offered to them
@@ -152,7 +153,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param willAccept Whether the player will accept the trade or not
      * @return The new model information
      */
-    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept);
+    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept, int game, User user);
     
     /**
      * The player trades in a number of their resources for one of another resource
@@ -163,7 +164,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param outputResource The resource the player wants to receive
      * @return The new model information
      */
-    public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource);
+    public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource, int game, User user);
     
     /**
      * The player discards certain cards from their hand
@@ -172,6 +173,6 @@ public interface IMovesFacade extends IModelFacade {
      * @param discardedCards The cards the player is discarding
      * @return The new model information
      */
-    public ClientModel discardCards(PlayerIdx playerIdx, ResourceCards discardedCards);
+    public ClientModel discardCards(PlayerIdx playerIdx, ResourceCards discardedCards, int game, User user);
     
 }

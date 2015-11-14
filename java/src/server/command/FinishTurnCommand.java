@@ -10,6 +10,7 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.FinishTurnRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -22,6 +23,9 @@ public class FinishTurnCommand implements ICommand {
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException{
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         FinishTurnRequest finish = new FinishTurnRequest(null);
         
@@ -36,7 +40,7 @@ public class FinishTurnCommand implements ICommand {
         
         PlayerIdx playerIdx = finish.getPlayerIndex();
         
-        ClientModel result = myMovesFacade.finishTurn(playerIdx);
+        ClientModel result = myMovesFacade.finishTurn(playerIdx, game, playerId);
         
         // return result.serialize(); or whatever
         return "";

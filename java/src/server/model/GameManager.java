@@ -29,4 +29,22 @@ public class GameManager
     {
         throw new UnsupportedOperationException();
     }
+    
+    public Collection<ClientModel> getAllGames()
+    {
+    	return gameList;
+    }
+    
+    public void addNewGame(ClientModel game)
+    {
+    	gameList.add(game);
+    }
+    
+    public void replaceGame(int index, ClientModel game)
+    {
+    	ArrayList<ClientModel> games = (ArrayList<ClientModel>)gameList;
+    	games.remove(index);
+    	games.add(index, game);
+    	gameList = Collections.synchronizedList(games);
+    }
 }

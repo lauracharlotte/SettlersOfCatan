@@ -10,6 +10,7 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.SendChatRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -23,6 +24,9 @@ public class SendChatCommand implements ICommand {
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         SendChatRequest chat = new SendChatRequest(null, null);
         
@@ -38,7 +42,7 @@ public class SendChatCommand implements ICommand {
         PlayerIdx playerIdx = chat.getPlayerIndex();
         String message = chat.getContent();
         
-        ClientModel result = myMovesFacade.sendChat(playerIdx, message);
+        ClientModel result = myMovesFacade.sendChat(playerIdx, message, game, playerId);
         
         // return result.serialize(); or whatever
         return "";

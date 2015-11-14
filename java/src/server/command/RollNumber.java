@@ -10,6 +10,7 @@ import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.RollNumberRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
+import model.player.User;
 import org.json.JSONException;
 import server.ServerException;
 import server.facade.IMovesFacade;
@@ -23,6 +24,9 @@ public class RollNumber implements ICommand {
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
         IMovesFacade myMovesFacade = (IMovesFacade)facade;
+        
+        int game = currentCookie.getGameNumber();
+        User playerId = currentCookie.getUser();
         
         RollNumberRequest roll = new RollNumberRequest(null, 0);
         
@@ -38,7 +42,7 @@ public class RollNumber implements ICommand {
         PlayerIdx playerIdx = roll.getPlayerIndex();
         int number = roll.getNumberRolled();
         
-        ClientModel result = myMovesFacade.rollNumber(playerIdx, number);
+        ClientModel result = myMovesFacade.rollNumber(playerIdx, number, game, playerId);
         
         // return result.serialize(); or whatever
         return "";
