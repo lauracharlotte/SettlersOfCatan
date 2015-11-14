@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 
@@ -18,6 +20,11 @@ public class SendChatRequest implements IJSONSerializable
     private PlayerIdx playerIndex;
     private String content;
 
+    public SendChatRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return The index of the player sending the message
@@ -58,6 +65,8 @@ public class SendChatRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.content = obj.get("content").getAsString();
     }
 }

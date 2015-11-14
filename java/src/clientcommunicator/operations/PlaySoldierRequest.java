@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import org.json.JSONException;
@@ -34,6 +36,11 @@ public class PlaySoldierRequest implements IJSONSerializable
         this.newLocation = newLocation;
     }
   
+    public PlaySoldierRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return The index of the player playing the card
@@ -73,6 +80,12 @@ public class PlaySoldierRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.victimIndex = new NullablePlayerIdx(obj.get("victimIndex").getAsInt());
+        JsonObject locationObj = obj.getAsJsonObject("location");
+        int x = locationObj.get("x").getAsInt();
+        int y = locationObj.get("y").getAsInt();
+        this.newLocation = new HexLocation(x,y);
     }
 }

@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 
@@ -28,6 +30,11 @@ public class RollNumberRequest implements IJSONSerializable
         this.numberRolled = numberRolled;
     }
 
+    public RollNumberRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return The index of the player that rolled the number
@@ -56,6 +63,8 @@ public class RollNumberRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.numberRolled = obj.get("number").getAsInt();
     }
 }

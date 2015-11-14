@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.locations.EdgeDirection;
@@ -33,6 +36,11 @@ public class BuildRoadRequest implements IJSONSerializable
         this.free = free;
     }
 
+    public BuildRoadRequest()
+    {
+        
+    }
+    
     private PlayerIdx playerIndex;
     private EdgeLocation location;
     private boolean free;
@@ -80,6 +88,13 @@ public class BuildRoadRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        JsonObject roadLocation = obj.getAsJsonObject("roadLocation");
+        this.free = obj.get("free").getAsBoolean();
+        int x = roadLocation.get("x").getAsInt();
+        int y = roadLocation.get("y").getAsInt();
+        String direction = roadLocation.get("direction").getAsString();
+        this.location = new EdgeLocation(new HexLocation(x, y), Abbreviate.unAbbreviateEdge(direction));
     }
 }

@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.definitions.CatanColor;
@@ -30,6 +32,11 @@ public class JoinGameRequest implements IJSONSerializable
         this.playerColor = playerColor;
     }
 
+    public JoinGameRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return The gameId number that the player would like to join
@@ -60,6 +67,8 @@ public class JoinGameRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+            this.gameId = obj.get("id").getAsInt();
+            this.playerColor = CatanColor.valueOf(obj.get("color").getAsString().toUpperCase());
     }
 }

@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 import org.json.JSONException;
@@ -32,6 +34,11 @@ public class YearOfPlentyRequest implements IJSONSerializable
         this.playerIndex = playerIndex;
         this.resource1 = resource1;
         this.resource2 = resource2;
+    }
+    
+    public YearOfPlentyRequest()
+    {
+        
     }
 
     /**
@@ -76,6 +83,9 @@ public class YearOfPlentyRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.resource1 = ResourceType.valueOf(obj.get("resource1").getAsString().toUpperCase());
+        this.resource2 = ResourceType.valueOf(obj.get("resource2").getAsString().toUpperCase());
     }
 }

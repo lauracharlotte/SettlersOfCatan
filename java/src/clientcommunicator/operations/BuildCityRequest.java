@@ -5,6 +5,9 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.locations.HexLocation;
@@ -27,6 +30,11 @@ public class BuildCityRequest implements IJSONSerializable
     {
         this.playerIndex = playerIndex;
         this.location = location;
+    }
+    
+    public BuildCityRequest()
+    {
+        
     }
 
     /**
@@ -67,6 +75,12 @@ public class BuildCityRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        JsonObject vertLocation = obj.get("vertexLocation").getAsJsonObject();
+        int x = vertLocation.get("x").getAsInt();
+        int y = vertLocation.get("y").getAsInt();
+        String direction = vertLocation.get("direction").getAsString();
+        this.location = new VertexLocation(new HexLocation(x, y), Abbreviate.unAbbreviateVertex(direction));
     }
 }
