@@ -2,14 +2,22 @@ package server.facade;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
 import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.cards.TradeOffer;
 import model.map.CatanMap;
+import model.map.EdgeObject;
+import model.map.Hex;
+import model.map.Port;
+import model.map.VertexObject;
+import model.messages.MessageLine;
 import model.messages.MessageList;
 import model.player.NullablePlayerIdx;
 import model.player.Player;
@@ -18,6 +26,13 @@ import model.player.TurnStatusEnumeration;
 import model.player.TurnTracker;
 import model.player.User;
 import shared.definitions.CatanColor;
+import shared.definitions.HexType;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 /**
  * 
@@ -46,6 +61,8 @@ public class MockGameFacade implements IGameFacade
 	@Override
 	public  ClientModel model(int gameIndex) {
 		// TODO Auto-generated method stub
+		MockGameFacade mockmock = null;
+		
 		ClientModel testClientModel = new ClientModel();
 		
 		ResourceCards recCards = new ResourceCards(3,3,3,3,3);
@@ -70,14 +87,66 @@ public class MockGameFacade implements IGameFacade
 		Hand playHandGame = new Hand(recCards, devCards);
 		testClientModel.setBank(playHandGame);
 		
-		MessageList chat = new MessageList(null);
+		Collection<MessageLine> lines = new ArrayList<MessageLine>();
+		lines.add(new MessageLine("Hello, how are you?", "Laura"));
+		MessageList chat = new MessageList(lines);
+		
+		
 		testClientModel.setChat(chat);
 		testClientModel.setLog(chat);
 		
+		//trying to do hexes
+        Set<Hex> hexes = new HashSet<>();
+        for(int i = -1; i<1; i++)
+            for(int j = -1; j<1; j++)
+                hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
+        int l=2;
+        for(int j=-2; j<=1; j++)
+            hexes.add(new Hex(new HexLocation(l,j), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,-2), HexType.WATER, -1));
+        hexes.add(new Hex(new HexLocation(1,0), HexType.BRICK, -1));
+		//
+		
+        //trying to do ports
+        Set<Port> ports = new HashSet<>();
+        for(int i = -1; i<1; i++)
+            for(int j = -1; j<1; j++)
+            	ports.add(new Port(new HexLocation(i, j), ResourceType.BRICK, EdgeDirection.North, -1));
+        int h=2;
+        for(int j=-2; j<=1; j++)
+        	ports.add(new Port(new HexLocation(h,j), ResourceType.WHEAT, EdgeDirection.North, -1));
+        ports.add(new Port(new HexLocation(1,2), ResourceType.WHEAT, EdgeDirection.North, -1));
+        ports.add(new Port(new HexLocation(1,-2), ResourceType.WHEAT, EdgeDirection.North, -1));
+        ports.add(new Port(new HexLocation(1,0), ResourceType.BRICK, EdgeDirection.North, -1));
+        //
+        
+        //trying to do roads
+        Collection<EdgeObject> roads;
+        roads = new HashSet<>();
+        PlayerIdx index = new PlayerIdx(2);
+        PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
+        roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
+        //
+        
+        //trying to do city/settlement
+        PlayerIdx aPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
+        VertexLocation location = new VertexLocation(new HexLocation(0,0), VertexDirection.East);
+        Collection<VertexObject> otherVertexObjects = new HashSet<>();
+        otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0, 0), VertexDirection.East), otherPlayerIndex));
+        otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.NorthWest), index));
+        //
+        
 		CatanMap map = new CatanMap();
+		map.setHexes(hexes);
+		map.setPorts(ports);
+		map.setRoads(roads);
+		map.setCities(otherVertexObjects);
+		map.setSettlements(otherVertexObjects);
+		map.setRobber(new HexLocation(1,2));
 		testClientModel.setMap(map);
 		
-		TradeOffer tradeOffer = null;
+		TradeOffer tradeOffer = new TradeOffer(new PlayerIdx(1), new PlayerIdx(2), recCardsGame);
 		testClientModel.setTradeOffer(tradeOffer);
 		
 		TurnTracker turnTracker = new TurnTracker(new PlayerIdx(1), TurnStatusEnumeration.firstround, new NullablePlayerIdx(-1), new NullablePlayerIdx(-1));
@@ -88,9 +157,11 @@ public class MockGameFacade implements IGameFacade
 		
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
 		testClientModel.setWinner(winner);
-		//Hand bank, MessageList chat, MessageList log,
-		//CatanMap map, Collection<Player> players, TradeOffer tradeOffer,
-		//TurnTracker turnTracker, int version, NullablePlayerIdx winner
+		
+		ClientModel testModel = testClientModel;
+		JSONSerializer serializeThis = new JSONSerializer();
+		//String answerSoFar = serializeThis.SerializeModel(testModel);
+		//System.out.println(answerSoFar);
 		
 		return testClientModel;
 	}

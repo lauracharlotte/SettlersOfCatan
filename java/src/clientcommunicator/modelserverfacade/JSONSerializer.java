@@ -43,6 +43,11 @@ import shared.locations.VertexLocation;
  *
  */
 public class JSONSerializer {
+	
+	public JSONSerializer()
+	{
+		
+	}
 
 	public static JSONObject devCardsJSON(DevelopmentCards devCards)
 	{
@@ -366,15 +371,10 @@ public class JSONSerializer {
 		
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
 		testClientModel.setWinner(winner);
-		//Hand bank, MessageList chat, MessageList log,
-		//CatanMap map, Collection<Player> players, TradeOffer tradeOffer,
-		//TurnTracker turnTracker, int version, NullablePlayerIdx winner
-		
-		
 		
 		ClientModel testModel = testClientModel;
 		String answerSoFar = SerializeModel(testModel);
-		//System.out.println(answerSoFar);
+		System.out.println(answerSoFar);
 	}
 	
 }
