@@ -1,5 +1,7 @@
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 import org.json.JSONException;
@@ -11,6 +13,11 @@ public class OfferTradeRequest implements IJSONSerializable {
         this.PlayerIdx = PlayerIdx;
         this.offer = offer;
         this.receiver = receiver;
+    }
+    
+    public OfferTradeRequest()
+    {
+        
     }
     
     private PlayerIdx PlayerIdx;
@@ -42,7 +49,16 @@ public class OfferTradeRequest implements IJSONSerializable {
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.PlayerIdx = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.receiver = obj.get("receiver").getAsInt();
+        JsonObject offerInJSON = obj.getAsJsonObject("offer");
+        int brick = offerInJSON.get("brick").getAsInt();
+        int ore = offerInJSON.get("ore").getAsInt();
+        int sheep = offerInJSON.get("sheep").getAsInt();
+        int wheat = offerInJSON.get("wheat").getAsInt();
+        int wood = offerInJSON.get("wood").getAsInt();
+        this.offer = new ResourceCards(brick, wheat, wood, ore, sheep);
     }
 
 }

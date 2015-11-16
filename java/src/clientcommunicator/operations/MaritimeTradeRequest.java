@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.definitions.ResourceType;
@@ -31,6 +33,11 @@ public class MaritimeTradeRequest implements IJSONSerializable
         return playerIndex;
     }
 
+    public MaritimeTradeRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return the ratio of the trade
@@ -89,6 +96,10 @@ public class MaritimeTradeRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.ratio = obj.get("ratio").getAsInt();
+        this.inputResource = ResourceType.valueOf(obj.get("inputResource").getAsString().toUpperCase());
+        this.outputResource = ResourceType.valueOf(obj.get("outputResource").getAsString().toUpperCase());
     }
 }

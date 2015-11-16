@@ -23,6 +23,7 @@ import com.google.gson.InstanceCreator;
 import com.google.gson.JsonElement;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import com.google.gson.JsonPrimitive;
 
@@ -79,6 +80,11 @@ public class DiscardCardsRequest implements IJSONSerializable
         this.playerIndex = playerIndex;
         this.discardedCards = discardedCards;
     }
+    
+    public DiscardCardsRequest()
+    {
+        
+    }
 
     @Override
     public String serialize()
@@ -92,6 +98,14 @@ public class DiscardCardsRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        JsonObject resourceCards = obj.getAsJsonObject("discardedCards");
+        int brick = resourceCards.get("brick").getAsInt();
+        int ore = resourceCards.get("ore").getAsInt();
+        int sheep = resourceCards.get("sheep").getAsInt();
+        int wheat = resourceCards.get("wheat").getAsInt();
+        int wood = resourceCards.get("wood").getAsInt();
+        this.discardedCards = new ResourceCards(brick, wheat, wood, ore, sheep);
     }
 }

@@ -39,6 +39,35 @@ public class MapModelFacade
      */
     public MapModelFacade() { }
 
+    private CatanMap useMap = null;
+    private Player myPlayer = null;
+    private ClientModel currentModel = null;
+    private boolean hasBeenSet = false;
+    
+    public void configureFacade(CatanMap currentMap, Player currentPlayer, ClientModel model)
+    {
+        this.hasBeenSet = true;
+        this.useMap = currentMap;
+        this.myPlayer = currentPlayer;
+        this.currentModel = model;
+    }
+    
+    private Player getPlayer()
+    {
+        if(this.hasBeenSet)
+            return this.myPlayer;
+        else
+            return ClientModelSupplier.getInstance().getClientPlayerObject();
+    }
+    
+    private ClientModel getModel()
+    {
+        if(this.hasBeenSet)
+            return this.currentModel;
+        else
+            return ClientModelSupplier.getInstance().getModel();
+    }
+    
     public boolean canPlaceRoadIfOtherRoadThere(EdgeLocation testingRoad, EdgeLocation ifRoadHere)
     {
       if(testingRoad.equals(ifRoadHere))
@@ -46,7 +75,7 @@ public class MapModelFacade
       else
       {
           Collection<EdgeObject> edgeObjects = new ArrayList<>(this.getCurrentMap().getRoads());
-          EdgeObject newEdgeObject = new EdgeObject(ifRoadHere, ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex());
+          EdgeObject newEdgeObject = new EdgeObject(ifRoadHere, getPlayer().getPlayerIndex());
           edgeObjects.add(newEdgeObject);
           return this.canPlaceRoadWithRoadCollection(testingRoad, edgeObjects);
       }
@@ -59,7 +88,7 @@ public class MapModelFacade
         {
             vertLocations.add(new VertexLocation(location, dir).getNormalizedLocation());
         }
-        Collection<Player> allPlayers = ClientModelSupplier.getInstance().getModel().getPlayers();
+        Collection<Player> allPlayers = getModel().getPlayers();
         ArrayList<Player> players = new ArrayList<>();
         for(VertexObject v: this.getCurrentMap().getCities())
         {
@@ -97,7 +126,7 @@ public class MapModelFacade
         location = location.getNormalizedLocation();
         CatanMap map = this.getCurrentMap();
         Map<VertexLocation, VertexObject> allObjects = this.getAllVertexObjects(map);
-        PlayerIdx currentPlayer = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        PlayerIdx currentPlayer = this.getPlayer().getPlayerIndex();
         
         Iterator<EdgeObject> roadItr = roads.iterator();
         while(roadItr.hasNext())
@@ -306,7 +335,7 @@ public class MapModelFacade
         
         //do I have a road connecting here
         Set<EdgeLocation> edgeLocations = new HashSet<>();
-        PlayerIdx currentPlayerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
+        PlayerIdx currentPlayerIdx = this.getPlayer().getPlayerIndex();
         edgeLocations.add(new EdgeLocation(location.getHexLoc(), EdgeDirection.North).getNormalizedLocation());
         if(location.getDir().equals(VertexDirection.NorthEast))
         {
@@ -366,7 +395,6 @@ public class MapModelFacade
     {
         location = location.getNormalizedLocation();
         CatanMap currentMap = this.getCurrentMap();
-        CatanColor pieceColor = null;
         PlayerIdx playerIndex = null;
         if(currentMap.getSettlements() == null)
             return false;
@@ -375,12 +403,12 @@ public class MapModelFacade
                 playerIndex = obj.getOwner();
         if(playerIndex == null)
             return false;
-        Iterator<Player> itr = ClientModelSupplier.getInstance().getModel().getPlayers().iterator();
+        Iterator<Player> itr = this.getModel().getPlayers().iterator();
         while(itr.hasNext())
         {
             Player possiblePlayer = itr.next();
             if(possiblePlayer.getPlayerIndex().equals(playerIndex))
-                return ClientModelSupplier.getInstance().getClientPlayerObject().equals(possiblePlayer);
+                return this.getPlayer().equals(possiblePlayer);
         }
         return false;
     }
@@ -414,10 +442,14 @@ public class MapModelFacade
     
     private CatanMap getCurrentMap()
     {
-        ClientModel model = ClientModelSupplier.getInstance().getModel();
-        if(model == null)
-            throw new IllegalStateException();
-        return model.getMap();
+        if(!this.hasBeenSet)
+        {
+            ClientModel model = ClientModelSupplier.getInstance().getModel();
+            if(model == null)
+                throw new IllegalStateException();
+            return model.getMap();
+        }
+        return this.useMap;
     }
     
     private Map<VertexLocation, VertexObject> getAllVertexObjects(CatanMap currentMap)

@@ -1,4 +1,7 @@
 package clientcommunicator.operations;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 import org.json.JSONException;
@@ -19,6 +22,9 @@ public class AcceptTradeRequest implements IJSONSerializable {
         this.acceptingPlayerIdx = acceptingPlayerIdx;
         this.willAccept = willAccept;
     }
+
+    AcceptTradeRequest()
+    {}
 
     /**
      *
@@ -54,6 +60,9 @@ public class AcceptTradeRequest implements IJSONSerializable {
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonElement element = new JsonParser().parse(JSON);
+        JsonObject obj = element.getAsJsonObject();
+        this.acceptingPlayerIdx = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.willAccept = obj.get("willAccept").getAsBoolean();
     }
 }

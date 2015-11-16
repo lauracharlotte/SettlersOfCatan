@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 
@@ -32,6 +34,11 @@ public class CreateGameRequest implements IJSONSerializable
         this.randomNumbers = randomNumbers;
         this.randomPorts = randomPorts;
         this.name = name;
+    }
+    
+    public CreateGameRequest()
+    {
+        
     }
     
     /**
@@ -81,6 +88,10 @@ public class CreateGameRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.randomTiles = obj.get("randomTiles").getAsBoolean();
+        this.randomNumbers = obj.get("randomNumbers").getAsBoolean();
+        this.randomPorts = obj.get("randomPorts").getAsBoolean();
+        this.name = obj.get("name").getAsString();
     }
 }

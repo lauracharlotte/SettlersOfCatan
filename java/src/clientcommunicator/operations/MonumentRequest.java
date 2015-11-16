@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.definitions.ResourceType;
@@ -37,6 +39,11 @@ public class MonumentRequest implements IJSONSerializable
         this.playerIndex = playerIndex;
     }
 
+    public MonumentRequest()
+    {
+        
+    }
+    
     
     @Override
     public String serialize()
@@ -48,6 +55,7 @@ public class MonumentRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
     }
 }

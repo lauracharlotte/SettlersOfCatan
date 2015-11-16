@@ -5,6 +5,8 @@
  */
 package clientcommunicator.operations;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.locations.EdgeDirection;
@@ -34,6 +36,11 @@ public class RoadBuildingCardRequest implements IJSONSerializable
         this.spot2 = spot2;
     }
 
+    public RoadBuildingCardRequest()
+    {
+        
+    }
+    
     /**
      *
      * @return The index of the player who wants to play the road building card
@@ -80,6 +87,17 @@ public class RoadBuildingCardRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        this.playerIndex = new PlayerIdx(obj.get("playerIndex").getAsInt());
+        this.spot1 = this.getLocation(obj.getAsJsonObject("spot1"));
+        this.spot2 = this.getLocation(obj.getAsJsonObject("spot2"));
+    }
+    
+    private EdgeLocation getLocation(JsonObject edgeObject)
+    {
+        int x = edgeObject.get("x").getAsInt();
+        int y = edgeObject.get("y").getAsInt();
+        EdgeDirection edgeDirection = Abbreviate.unAbbreviateEdge(edgeObject.get("direction").getAsString());
+        return new EdgeLocation(new HexLocation(x,y), edgeDirection);
     }
 }

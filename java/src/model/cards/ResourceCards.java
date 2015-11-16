@@ -161,4 +161,53 @@ public class ResourceCards
     	return str.toString();
     }
 
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 97 * hash + this.brick;
+        hash = 97 * hash + this.grain;
+        hash = 97 * hash + this.lumber;
+        hash = 97 * hash + this.ore;
+        hash = 97 * hash + this.wool;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ResourceCards other = (ResourceCards) obj;
+        if (this.brick != other.brick)
+        {
+            return false;
+        }
+        if (this.grain != other.grain)
+        {
+            return false;
+        }
+        if (this.lumber != other.lumber)
+        {
+            return false;
+        }
+        if (this.ore != other.ore)
+        {
+            return false;
+        }
+        if (this.wool != other.wool)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
 }
