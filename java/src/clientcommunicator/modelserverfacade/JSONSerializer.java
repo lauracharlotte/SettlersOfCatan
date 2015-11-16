@@ -273,7 +273,7 @@ public class JSONSerializer {
 		return object.toString();
 	}
 	
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		MockGameFacade mockmock = null;
 		
@@ -375,6 +375,6 @@ public class JSONSerializer {
 		ClientModel testModel = testClientModel;
 		String answerSoFar = SerializeModel(testModel);
 		System.out.println(answerSoFar);
-	}
+	}*/
 	
 }
