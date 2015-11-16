@@ -100,8 +100,11 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel rollNumber(PlayerIdx playerIdx, int number, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         // give every player their respective resources
         Collection<Hex> hexes = model.getMap().getHexes();
+        //take out of the bank resources and make sure there's enough
         for (Hex hex : hexes) 
         {
             if (hex.getNumber() == number)
@@ -150,6 +153,9 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel robPlayer(PlayerIdx playerIdx, NullablePlayerIdx victimIndex, HexLocation location, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
+        // make sure it's their turn and they can rob
         // move the robber
         if (victimIndex.getIndex() < 0)
         {
@@ -159,7 +165,7 @@ public class MovesFacade implements IMovesFacade {
         else
         {
             // Rob the victim of their precious jewels.
-            Player victim = getPlayerFromIdx(new PlayerIdx(victimIndex.getIndex()), model);
+            Player victim = getPlayerFromIdx(new PlayerIdx(victimIndex.getIndex()), model); // need to rob
             model.setLog(addLog(user, user.getUsername() + " moved the robbed and robbed " + victim.getName(), model.getLog()));
         }
         
@@ -180,7 +186,10 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel finishTurn(PlayerIdx playerIdx, int game, User user)
     {
+        //make sure it was their turn
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         // get the next player by adding one with wrap around.
         PlayerIdx nextPlayer = new PlayerIdx((playerIdx.getIndex() + 1) % 4);
         // change turn status
@@ -205,14 +214,16 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel buyDevCard(PlayerIdx playerIdx, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
-        // check that there are dev cards left, and that player has enough resources
+        // need to check that there are dev cards left, and that player has enough resources
         ResourceCards resourceCards = player.getHand().getResourceCards();
         resourceCards = changeResource(resourceCards, ResourceType.ORE, -1);
         resourceCards = changeResource(resourceCards, ResourceType.SHEEP, -1);
         resourceCards = changeResource(resourceCards, ResourceType.WHEAT, -1);
         player.getHand().setResourceCards(resourceCards);
-        // draw a random dev card from what is left
+        //need to draw a random dev card from what is left
         model = setPlayerFromIdx(playerIdx, model, player);
         
         // Update the log, version number, and model
@@ -236,6 +247,8 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel yearOfPlenty(PlayerIdx playerIdx, ResourceType resource1, ResourceType resource2, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         // can player do this?
         // take away dev card
@@ -268,8 +281,10 @@ public class MovesFacade implements IMovesFacade {
     {
         // Check if they have the card
         // discard the card
-
+        // need to make sure it's their turn
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         model = actuallyBuildRoad(playerIdx, spot1, model);
         model = actuallyBuildRoad(playerIdx, spot2, model);
         
@@ -293,8 +308,13 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel soldier(PlayerIdx playerIdx, NullablePlayerIdx victimIdx, HexLocation location, int game, User user)
     {
+        //need to make sure they have the card
+        //need to discard the card
+        //check if they have the largest army
+        //see if they won
         ClientModel model = this.manager.getGameWithNumber(game);
-        
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         // Update the log
         model.setLog(addLog(user, user.getUsername() + " used a soldier", model.getLog()));
         
@@ -319,10 +339,14 @@ public class MovesFacade implements IMovesFacade {
     {
         ClientModel model = this.manager.getGameWithNumber(game);
         Player player = getPlayerFromIdx(playerIdx, model);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         // can player do this?
         // take away dev card
+        
         player.setVictoryPoints(player.getVictoryPoints() + 1);
         model = setPlayerFromIdx(playerIdx, model, player);
+        //need to see if they won
         
         // Update the log, version number, and model
         model.setLog(addLog(user, user.getUsername() + " used a Monument", model.getLog()));
@@ -343,7 +367,10 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel monopoly(ResourceType resource, PlayerIdx playerIdx, int game, User user)
     {
+        //discard the card, make sure it's their turn. Not in that order
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Collection<Player> players = model.getPlayers();
         int amount = 0; // this is the amount of cards the player steals from everyone else
         for (Player player : players)
@@ -404,7 +431,10 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel buildRoad(PlayerIdx playerIdx, EdgeLocation roadLocation, boolean free, int game, User user)
     {
+        //need to see if it's their turn
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         if (!free)
         {
@@ -437,7 +467,10 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel buildCity(PlayerIdx playerIdx, VertexLocation vertexLocation, int game, User user)
     {
+        //is it their turn?
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         // Check if you can
         ResourceCards resourceCards = player.getHand().getResourceCards();
@@ -468,6 +501,8 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         // Check if they have enough settlements
         if (!free)
@@ -486,7 +521,7 @@ public class MovesFacade implements IMovesFacade {
         settlements.add(new VertexObject(vertexLocation, playerIdx));
         map.setSettlements(settlements);
         model.setMap(map);
-        
+        // up their victory points
         player.setSettlements(player.getSettlements() - 1);
         model = setPlayerFromIdx(playerIdx, model, player);
         
@@ -510,7 +545,10 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver, int game, User user)
     {
+        //is it their turn?
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         // Create and set the trade
         TradeOffer trade = new TradeOffer(playerIdx, receiver, offer);
         model.setTradeOffer(trade);
@@ -518,7 +556,7 @@ public class MovesFacade implements IMovesFacade {
         // Update the log, version number, and model
         model.setVersion(model.getVersion() + 1);
         this.manager.replaceGame(game, model);
-        return null;
+        return model;
     }
     
     /**
@@ -531,11 +569,14 @@ public class MovesFacade implements IMovesFacade {
      * @return The new model information
      */
     @Override
-    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept, int game, User user)
+    public ClientModel acceptTrade(PlayerIdx playerIdx, boolean willAccept, int game, User user) //user, game is from the cookie
     {
         ClientModel model = this.manager.getGameWithNumber(game);
         // check that the receiver number is the same as the playerIdx
         // check if they can accept
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
+        
         
         ResourceCards trade = model.getTradeOffer().getResourceCards();
         Player accepter = getPlayerFromIdx(model.getTradeOffer().getReceiverNumber(), model);
@@ -583,10 +624,14 @@ public class MovesFacade implements IMovesFacade {
     @Override
     public ClientModel maritimeTrade(PlayerIdx playerIdx, int ratio, ResourceType inputResource, ResourceType outputResource, int game, User user)
     {
+        //is it their turn?
         ClientModel model = this.manager.getGameWithNumber(game);
+        if(!this.isTheirTurn(model, playerIdx))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         Hand hand = player.getHand();
         ResourceCards resourceCards = hand.getResourceCards();
+        //do they have enough?
         resourceCards = changeResource(resourceCards, inputResource, 0 - ratio);
         resourceCards = changeResource(resourceCards, outputResource, 1);
         hand.setResourceCards(resourceCards);
@@ -615,6 +660,8 @@ public class MovesFacade implements IMovesFacade {
         ClientModel model = this.manager.getGameWithNumber(game);
         Player player = getPlayerFromIdx(playerIdx, model);
         Hand hand = player.getHand();
+        // make sure status is discarding
+        // all 4 players have to discard
         ResourceCards resourceCards = hand.getResourceCards();
         resourceCards = changeResource(resourceCards, ResourceType.BRICK, discardedCards.getBrick());
         resourceCards = changeResource(resourceCards, ResourceType.ORE, discardedCards.getOre());
@@ -719,7 +766,9 @@ public class MovesFacade implements IMovesFacade {
     private ClientModel actuallyBuildRoad(PlayerIdx playerIdx, EdgeLocation location, ClientModel model)
     {
         // check if they can build road there
-        
+        // check to make sure they have enough roads left to build
+        // check to see if they now have the longest road and didn't before
+        // if they do have the longest road, did they win?
         CatanMap map = model.getMap();
         Collection<EdgeObject> roads = map.getRoads();
         roads.add(new EdgeObject(location, playerIdx));
@@ -801,6 +850,11 @@ public class MovesFacade implements IMovesFacade {
                 break;
         }
         return resource;
+    }
+    
+    private boolean isTheirTurn(ClientModel model, PlayerIdx idx)
+    {
+        return model.getTurnTracker().getCurrentTurn().equals(idx);
     }
     
 }
