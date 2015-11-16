@@ -49,21 +49,10 @@ public class GamesFacade implements IGamesFacade
 	public List<GameJSONResponse> list() 
 	{
 		List<GameJSONResponse> games = new ArrayList<GameJSONResponse>();
-		ArrayList<ClientModel> allGames = (ArrayList<ClientModel>)gameManager.getAllGames();
+		ArrayList<ClientModel> allGames = new ArrayList<>(gameManager.getAllGames());
 		for (int i = 0; i < allGames.size(); i++)
 		{
-			StringBuilder title = new StringBuilder();
-			title.append("Game ");
-			title.append(i + 1);
-			ArrayList<Player> allPlayers = (ArrayList<Player>)allGames.get(i).getPlayers();
-			ArrayList<PlayerJSONResponse> players = new ArrayList<PlayerJSONResponse>();
-			for (int j = 0; j < allPlayers.size(); j++)
-			{
-				Player p = allPlayers.get(j);
-				PlayerJSONResponse player = new PlayerJSONResponse(p.getColor(), p.getName(), p.getPlayerId());
-				players.add(player);
-			}
-			GameJSONResponse game = new GameJSONResponse(title.toString(), i, players);
+			GameJSONResponse game = new GameJSONResponse(allGames.get(i), i);
 			games.add(game);
 		}
 		return games;
@@ -77,7 +66,8 @@ public class GamesFacade implements IGamesFacade
 	@Override
 	public boolean create(CreateGameRequest request) 
 	{
-		ClientModel newGame = new ClientModel(request.isRandomTiles(), request.isRandomNumbers(), request.isRandomPorts());
+		ClientModel newGame = new ClientModel(request.isRandomTiles(), request.isRandomNumbers(), request.isRandomPorts(), 
+				request.getName());
 		gameManager.addNewGame(newGame);
 		return true;
 	}

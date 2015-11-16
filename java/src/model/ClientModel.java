@@ -17,6 +17,11 @@ import model.cards.*;
 public class ClientModel
 {	
 	/**
+	 * Title of game
+	 */
+	private String title;
+	
+	/**
 	 * Bank of unused Resource and Development cards
 	 */
 	private Hand bank;
@@ -64,6 +69,7 @@ public class ClientModel
 	
 	/**
 	 * Constructor for ClientModel
+	 * @param title
 	 * @param bank
 	 * @param chat
 	 * @param log
@@ -74,10 +80,11 @@ public class ClientModel
 	 * @param version
 	 * @param winner
 	 */
-	public ClientModel(Hand bank, MessageList chat, MessageList log,
+	public ClientModel(String title, Hand bank, MessageList chat, MessageList log,
 			CatanMap map, Collection<Player> players, TradeOffer tradeOffer,
 			TurnTracker turnTracker, int version, NullablePlayerIdx winner)
 	{
+		this.title = title;
 		this.bank = bank;
 		this.chat = chat;
 		this.log = log;
@@ -95,8 +102,9 @@ public class ClientModel
 	 * @param randomNumbers
 	 * @param randomPorts
 	 */
-	public ClientModel(boolean randomTiles, boolean randomNumbers, boolean randomPorts)
+	public ClientModel(boolean randomTiles, boolean randomNumbers, boolean randomPorts, String title)
 	{
+		this.title = title;
 		this.bank = new Hand(true);
 		this.chat = new MessageList(new ArrayList<MessageLine>());
 		this.log = new MessageList(new ArrayList<MessageLine>());
@@ -105,7 +113,6 @@ public class ClientModel
 		this.turnTracker = new TurnTracker();
 		this.version = 0;
 		this.winner = new NullablePlayerIdx(-1);
-		System.out.print(toString());
 	}
 
         public ClientModel() //only should be used for testing
@@ -257,7 +264,21 @@ public class ClientModel
 		this.winner = winner;
 	}
 
-        @Override
+        /**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+		@Override
         public int hashCode()
         {
             int hash = 7;

@@ -3,6 +3,10 @@ package server.handlers;
 import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import server.ServerException;
+import server.command.ICommand;
 import server.facade.IModelFacade;
 
 /**
@@ -21,6 +25,31 @@ public class GameHandler extends AbstractHandler
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ICommand currentCommand;
+        if(currentCookie.getGameNumber()<0 || currentCookie.getUser() == null)
+            this.sendQuickResponse(he, "Invalid cookie", 400);
+        try
+        {
+            currentCommand = this.getCommand(he);
+            
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex)
+        {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            this.sendQuickResponse(he, "Invalid request", 400);
+            return;
+        }
+        String response;
+        try
+        {
+            response = currentCommand.execute(this.currentFacade, this.getRequestBody(he), currentCookie);
+        }
+        catch (ServerException ex)
+        {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            this.sendQuickResponse(he, "Invalid operation", 400);
+            return;
+        }
+        this.sendQuickResponse(he, response, 200);
     }
 }

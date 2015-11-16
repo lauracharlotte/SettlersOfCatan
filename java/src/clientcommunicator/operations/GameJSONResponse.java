@@ -5,10 +5,14 @@
  */
 package clientcommunicator.operations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.json.*;
+
+import model.ClientModel;
+import model.player.Player;
 
 /**
  *
@@ -77,6 +81,21 @@ public class GameJSONResponse implements IJSONSerializable
     {
         this(title, gameId);
         this.players = players;
+    }
+    
+    public GameJSONResponse(ClientModel model, int gameId)
+    {
+    	ArrayList<Player> allPlayers = (ArrayList<Player>)model.getPlayers();
+		ArrayList<PlayerJSONResponse> players = new ArrayList<PlayerJSONResponse>();
+		for (int i = 0; i < allPlayers.size(); i++)
+		{
+			Player p = allPlayers.get(i);
+			PlayerJSONResponse player = new PlayerJSONResponse(p.getColor(), p.getName(), p.getPlayerId());
+			players.add(player);
+		}
+		this.title = model.getTitle();
+		this.gameId = gameId; 
+		this.players = players;
     }
 
 	@Override

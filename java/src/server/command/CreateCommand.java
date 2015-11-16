@@ -7,7 +7,6 @@ import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.CreateGameRequest;
-import model.ClientModel;
 import server.ServerException;
 /**
  * Executes the Create Game request.
@@ -46,6 +45,5 @@ public class CreateCommand implements ICommand
 			return "Failed to create new game";
 		}
 	}
-
 
 }

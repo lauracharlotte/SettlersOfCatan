@@ -106,7 +106,7 @@ public class JSONParser
 	    	}
     	}
     	
-    	ClientModel newModel = new ClientModel(newBank, newChat, newLog, newMap, newPlayers,
+    	ClientModel newModel = new ClientModel("", newBank, newChat, newLog, newMap, newPlayers,
     			newTradeOffer, newTurnTracker, version, newWinner);
     	return newModel;
     }
