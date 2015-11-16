@@ -53,7 +53,7 @@ public class MockGamesFacade implements IGamesFacade
 		TurnTracker turnTracker1 = null;
 		int version1 = 0;
 		NullablePlayerIdx winner1 = null;
-		ClientModel model1 = new ClientModel(bank1, chat1, log1, map1, players1, tradeOffer1, turnTracker1, version1, winner1);
+		ClientModel model1 = new ClientModel("Game 1", bank1, chat1, log1, map1, players1, tradeOffer1, turnTracker1, version1, winner1);
 		games.add(model1);
 		Hand bank2 = null;
 		MessageList chat2 = null;
@@ -64,7 +64,7 @@ public class MockGamesFacade implements IGamesFacade
 		TurnTracker turnTracker2 = null;
 		int version2 = 0;
 		NullablePlayerIdx winner2 = null;
-		ClientModel model2 = new ClientModel(bank2, chat2, log2, map2, players2, tradeOffer2, turnTracker2, version2, winner2);
+		ClientModel model2 = new ClientModel("Game 2", bank2, chat2, log2, map2, players2, tradeOffer2, turnTracker2, version2, winner2);
 		games.add(model2);
 		return null;
 	}
@@ -96,7 +96,7 @@ public class MockGamesFacade implements IGamesFacade
 				new NullablePlayerIdx(-1), new NullablePlayerIdx(-1));
 		int version = 0;
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
-		ClientModel model = new ClientModel(bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
+		ClientModel model = new ClientModel("Game 1", bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
 		return model;
 	}
 	
