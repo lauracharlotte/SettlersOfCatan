@@ -6,9 +6,7 @@ import server.facade.IModelFacade;
 import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
-import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.JoinGameRequest;
-import model.ClientModel;
 import server.ServerException;
 /**
  * Executes the Join Game request.
@@ -36,10 +34,17 @@ public class JoinCommand implements ICommand
 			return "Invalid JSON in request";
 		}
 		
-		ClientModel result = myFacade.join(currentCookie.getUser(), join);
-		currentCookie.setGameNumber(join.getGameId());
+		boolean result = myFacade.join(currentCookie.getUser(), join);
 		
-		return JSONSerializer.SerializeModel(result);
+		if (result)
+		{
+			currentCookie.setGameNumber(join.getGameId());
+			return "Success";
+		}
+		else
+		{
+			return "Failed to join game";
+		}
 	}
 
 

@@ -63,12 +63,12 @@ public class GamesFacade implements IGamesFacade
 	 * @return true if created successfully, false otherwise
 	 */
 	@Override
-	public boolean create(CreateGameRequest request) 
+	public GameJSONResponse create(CreateGameRequest request) 
 	{
 		ClientModel newGame = new ClientModel(request.isRandomTiles(), request.isRandomNumbers(), request.isRandomPorts(), 
 				request.getName());
 		gameManager.addNewGame(newGame);
-		return true;
+		return new GameJSONResponse(newGame, gameManager.getAllGames().size()-1);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class GamesFacade implements IGamesFacade
 	 * @return the ClientModel of the game the user has joined
 	 */
 	@Override
-	public ClientModel join(User user, JoinGameRequest request) 
+	public boolean join(User user, JoinGameRequest request) 
 	{
 		ClientModel game = gameManager.getGameWithNumber(request.getGameId());
 		ArrayList<Player> players  = (ArrayList<Player>)game.getPlayers();
@@ -88,7 +88,7 @@ public class GamesFacade implements IGamesFacade
 		players.add(newPlayer);
 		game.setPlayers(players);		
 		gameManager.replaceGame(request.getGameId(), game);
-		return game;
+		return true;
 	}
 	
 }

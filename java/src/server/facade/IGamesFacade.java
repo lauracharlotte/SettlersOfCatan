@@ -5,7 +5,6 @@ import java.util.List;
 import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
-import model.ClientModel;
 import model.player.User;
 
 /**
@@ -24,15 +23,15 @@ public interface IGamesFacade extends IModelFacade
 	/**
 	 * Creates a new game
 	 * @param request a CreateGameRequest object
-	 * @return true if created successfully, false otherwise
+	 * @return GameJSONResponse of new game
 	 */
-	public boolean create(CreateGameRequest request);
+	public GameJSONResponse create(CreateGameRequest request);
 	
 	/**
 	 * Joins a user to a game
 	 * @param request a JoinGameRequest object
-	 * @return the ClientModel of the game the user has joined
+	 * @return true if joined successfully, false otherwise
 	 */
-	public ClientModel join(User user, JoinGameRequest request);
+	public boolean join(User user, JoinGameRequest request);
 
 }

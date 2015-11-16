@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.CreateGameRequest;
+import clientcommunicator.operations.GameJSONResponse;
 import server.ServerException;
 /**
  * Executes the Create Game request.
@@ -34,16 +35,8 @@ public class CreateCommand implements ICommand
 			return "Invalid JSON in request";
 		}
 		
-		boolean result = myFacade.create(create);
-		
-		if (result) 
-		{
-			return "Success";
-		}
-		else 
-		{
-			return "Failed to create new game";
-		}
+		GameJSONResponse result = myFacade.create(create);
+		return result.serialize();
 	}
 
 }

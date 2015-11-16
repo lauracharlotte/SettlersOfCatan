@@ -71,16 +71,16 @@ public class MockGamesFacade implements IGamesFacade
 	 * Returns a sample result for creating a new game
 	 */
 	@Override
-	public boolean create(CreateGameRequest request) 
+	public GameJSONResponse create(CreateGameRequest request) 
 	{
-		return true;
+		return null;
 	}
 
 	/**
 	 * Returns a sample result for joining a game
 	 */
 	@Override
-	public ClientModel join(User user, JoinGameRequest request) 
+	public boolean join(User user, JoinGameRequest request) 
 	{
 		DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
 		ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
@@ -99,7 +99,7 @@ public class MockGamesFacade implements IGamesFacade
 		int version = 0;
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
 		ClientModel model = new ClientModel("Game 1", bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
-		return model;
+		return true;
 	}
 	
 }
