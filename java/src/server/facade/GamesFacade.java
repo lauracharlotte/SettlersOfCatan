@@ -49,7 +49,7 @@ public class GamesFacade implements IGamesFacade
 	public List<GameJSONResponse> list() 
 	{
 		List<GameJSONResponse> games = new ArrayList<GameJSONResponse>();
-		ArrayList<ClientModel> allGames = (ArrayList<ClientModel>)gameManager.getAllGames();
+		ArrayList<ClientModel> allGames = new ArrayList<>(gameManager.getAllGames());
 		for (int i = 0; i < allGames.size(); i++)
 		{
 			GameJSONResponse game = new GameJSONResponse(allGames.get(i), i);
