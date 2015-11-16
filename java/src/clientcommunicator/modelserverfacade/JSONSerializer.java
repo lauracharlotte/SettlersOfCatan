@@ -55,7 +55,7 @@ public class JSONSerializer {
 		try {
 			devCardObject.put("monopoly", devCards.getMonopoly());
 			devCardObject.put("monument", devCards.getMonument());
-			devCardObject.put("roadBuilding:", devCards.getRoadBuilding());
+			devCardObject.put("roadBuilding", devCards.getRoadBuilding());
 			devCardObject.put("soldier", devCards.getSoldier());
 			devCardObject.put("yearOfPlenty", devCards.getYearOfPlenty());
 		} catch (JSONException e) {
@@ -135,10 +135,12 @@ public class JSONSerializer {
 		ResourceCards theBank = theModel.getBank().getResourceCards();	
 		MessageList chatMessages = theModel.getChat();
 		MessageList logMessages = theModel.getLog();
+		DevelopmentCards theDeck = theModel.getBank().getDevelopmentCards();
 		
 		try {
 			//Bank Section
 			object.put("bank", recCardsJSON(theBank)); //use the function for the bank instead
+			object.put("deck", devCardsJSON(theDeck));
 			//Chat/Log Section
 			object.put("chat", messageListJSON(chatMessages));
 			object.put("log", messageListJSON(logMessages));
@@ -239,8 +241,8 @@ public class JSONSerializer {
 				playerObject.put("playerID", curPlayer.getPlayerId());
 				playerObject.put("resources", recCardsJSON(curPlayer.getHand().getResourceCards()));
 				playerObject.put("roads", curPlayer.getRoads());
-				playerObject.put("cities", curPlayer.getCities());
-				playerObject.put("soldier", curPlayer.getSoldiers());
+				playerObject.put("settlements", curPlayer.getSettlements());
+				playerObject.put("soldiers", curPlayer.getSoldiers());
 				playerObject.put("victoryPoints", curPlayer.getVictoryPoints());
 				playerArray.put(playerObject);
 			}
