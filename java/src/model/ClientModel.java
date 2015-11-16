@@ -113,7 +113,6 @@ public class ClientModel
 		this.turnTracker = new TurnTracker();
 		this.version = 0;
 		this.winner = new NullablePlayerIdx(-1);
-		System.out.print(toString());
 	}
 
         public ClientModel() //only should be used for testing

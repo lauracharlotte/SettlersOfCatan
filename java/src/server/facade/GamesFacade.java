@@ -52,15 +52,7 @@ public class GamesFacade implements IGamesFacade
 		ArrayList<ClientModel> allGames = (ArrayList<ClientModel>)gameManager.getAllGames();
 		for (int i = 0; i < allGames.size(); i++)
 		{
-			ArrayList<Player> allPlayers = (ArrayList<Player>)allGames.get(i).getPlayers();
-			ArrayList<PlayerJSONResponse> players = new ArrayList<PlayerJSONResponse>();
-			for (int j = 0; j < allPlayers.size(); j++)
-			{
-				Player p = allPlayers.get(j);
-				PlayerJSONResponse player = new PlayerJSONResponse(p.getColor(), p.getName(), p.getPlayerId());
-				players.add(player);
-			}
-			GameJSONResponse game = new GameJSONResponse(allGames.get(i).getTitle(), i, players);
+			GameJSONResponse game = new GameJSONResponse(allGames.get(i), i);
 			games.add(game);
 		}
 		return games;
