@@ -6,6 +6,13 @@ package model.cards;
  */
 public class Hand
 {
+	private final int CARDS_PER_RESOURCE = 19;
+	private final int MONUMENTS = 5;
+	private final int YEAR_OF_PLENTY = 2;
+	private final int MONOPOLY = 2;
+	private final int ROAD_BUILDING = 2;
+	private final int SOLDIER = 14;
+	
     /**
      * An instance of a ResourceCards
      * (The list of resource cards)
@@ -27,6 +34,18 @@ public class Hand
     {
         this.resourceCards = resourceCards;
         this.developmentCards = developmentCards;
+    }
+    
+    /**
+     * Constructor for a new Bank
+     * @param newBank
+     */
+    public Hand(boolean newBank)
+    {
+		this.resourceCards = new ResourceCards(CARDS_PER_RESOURCE, CARDS_PER_RESOURCE, CARDS_PER_RESOURCE, 
+    			CARDS_PER_RESOURCE, CARDS_PER_RESOURCE);
+		this.developmentCards = new DevelopmentCards(MONOPOLY, MONUMENTS, ROAD_BUILDING, SOLDIER, 
+				YEAR_OF_PLENTY);
     }
 
     /**

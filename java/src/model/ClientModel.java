@@ -88,6 +88,25 @@ public class ClientModel
 		this.version = version;
 		this.winner = winner;
 	}
+	
+	/**
+	 * Creates a default new game 
+	 * @param randomTiles
+	 * @param randomNumbers
+	 * @param randomPorts
+	 */
+	public ClientModel(boolean randomTiles, boolean randomNumbers, boolean randomPorts)
+	{
+		this.bank = new Hand(true);
+		this.chat = new MessageList(new ArrayList<MessageLine>());
+		this.log = new MessageList(new ArrayList<MessageLine>());
+		this.map = new CatanMap(randomTiles, randomNumbers, randomPorts);
+		this.players = new ArrayList<Player>();
+		this.turnTracker = new TurnTracker();
+		this.version = 0;
+		this.winner = new NullablePlayerIdx(-1);
+		System.out.print(toString());
+	}
 
         public ClientModel() //only should be used for testing
         {

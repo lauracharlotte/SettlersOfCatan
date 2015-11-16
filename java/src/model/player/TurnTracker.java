@@ -41,6 +41,17 @@ public class TurnTracker {
 	}
 	
 	/**
+	 * Default TurnTracker constructor
+	 */
+	public TurnTracker()
+	{
+		currentTurn = new PlayerIdx(0);
+		status = TurnStatusEnumeration.firstround;
+		longestRoad = new NullablePlayerIdx(-1);
+		largestArmy = new NullablePlayerIdx(-1);
+	}
+	
+	/**
 	 * Gets whos turn it currently is.
 	 * @return currentTurn
 	 */
