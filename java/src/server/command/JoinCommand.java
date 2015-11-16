@@ -6,6 +6,7 @@ import server.facade.IModelFacade;
 import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.JoinGameRequest;
 import model.ClientModel;
 import server.ServerException;
@@ -38,8 +39,7 @@ public class JoinCommand implements ICommand
 		ClientModel result = myFacade.join(currentCookie.getUser(), join);
 		currentCookie.setGameNumber(join.getGameId());
 		
-		//return result.serialize();
-		return "";
+		return JSONSerializer.SerializeModel(result);
 	}
 
 
