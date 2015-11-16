@@ -87,4 +87,17 @@ public class TradeOffer
     {
         this.resourceCards = resourceCards;
     }
+    
+    @Override
+    public String toString()
+    {
+    	StringBuilder str = new StringBuilder();
+    	str.append("Sender Number: ");
+    	str.append(senderNumber.toString());
+    	str.append("\nReceiver Number: ");
+    	str.append(receiverNumber.toString());
+    	str.append("\nOffer: \n");
+    	str.append(resourceCards.toString());
+    	return str.toString();
+    }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
-import clientcommunicator.operations.PlayerJSONResponse;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
 import model.cards.Hand;
