@@ -9,27 +9,27 @@ public class DevelopmentCards
     /**
      * Amount of monopoly cards
      */
-    private int monopoly;
+    private int monopoly = 0;
 
     /**
      * Amount of monument cards
      */
-    private int monument;
+    private int monument = 0;
 
     /**
      * Amount of roadBuilding cards
      */
-    private int roadBuilding;
+    private int roadBuilding = 0;
 
     /**
      * Amount of soldier cards
      */
-    private int soldier;
+    private int soldier = 0;
 
     /**
      * Amount of yearOfPlenty cards
      */
-    private int yearOfPlenty;
+    private int yearOfPlenty = 0;
 
     /**
      * Constructor for DevelopmentCards
@@ -47,6 +47,9 @@ public class DevelopmentCards
         this.soldier = soldier;
         this.yearOfPlenty = yearOfPlenty;
     }
+
+    public DevelopmentCards()
+    {}
 
     public int getTotal()
     {
