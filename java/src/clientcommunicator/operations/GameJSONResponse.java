@@ -101,27 +101,31 @@ public class GameJSONResponse implements IJSONSerializable
 	@Override
 	public String serialize() 
 	{
-		JSONObject game = new JSONObject();
-		try 
-		{
-			game.put("title", title);
-			game.put("gameId", gameId);
-			JSONArray playersJSON = new JSONArray();
-			Iterator<PlayerJSONResponse> i = players.iterator();
-			while (i.hasNext())
-			{
-				playersJSON.put(i.next().serialize());
-			}
-			game.put("players", playersJSON);
-		} 
-		catch (JSONException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return game.toString();
+		return this.serializeToObject().toString();
 	}
+        
+        public JSONObject serializeToObject()
+        {
+            JSONObject game = new JSONObject();
+            try 
+            {
+                    game.put("title", title);
+                    game.put("id", gameId);
+                    JSONArray playersJSON = new JSONArray();
+                    Iterator<PlayerJSONResponse> i = players.iterator();
+                    while (i.hasNext())
+                    {
+                            playersJSON.put(i.next().serializeToObject());
+                    }
+                    game.put("players", playersJSON);
+            } 
+            catch (JSONException e) 
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            return game;
+        }
 
 	@Override
 	public void deserialize(String JSON) throws JSONException {

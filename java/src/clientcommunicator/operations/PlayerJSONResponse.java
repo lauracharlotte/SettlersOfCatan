@@ -73,20 +73,26 @@ public class PlayerJSONResponse implements IJSONSerializable
 	@Override
 	public String serialize()
 	{
-		JSONObject player = new JSONObject();
-		try 
-		{
-			player.put("color", color.toString());
-			player.put("name", name);
-			player.put("playerID", id);
-		} 
-		catch (JSONException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return player.toString();
+		
+		return this.serializeToObject().toString();
 	}
+        
+        public JSONObject serializeToObject()
+        {
+            JSONObject player = new JSONObject();
+            try 
+            {
+                    player.put("color", color.toString());
+                    player.put("name", name);
+                    player.put("playerID", id);
+            } 
+            catch (JSONException e) 
+            {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            }
+            return player;
+        }
 
 	@Override
 	public void deserialize(String JSON) throws JSONException 

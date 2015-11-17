@@ -250,15 +250,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         String title = getNewGameView().getTitle();
         boolean randomPorts = getNewGameView().getUseRandomPorts();
         boolean validTitle = !(title == null || title.trim().equals(""));
-        for(GameInfo info: this.lastList)
-        {
-            if(!validTitle || info.getTitle().equals(title.trim()))
+        if(this.lastList != null)
+            for(GameInfo info: this.lastList)
             {
-                validTitle = false;
-                break;
+                if(!validTitle || info.getTitle().equals(title.trim()))
+                {
+                    validTitle = false;
+                    break;
+                }
+
             }
-                
-        }
         if(!validTitle)
         {
             this.getMessageView().setMessage("Invalid title -- check to see if a game with that name already exists.");

@@ -29,7 +29,7 @@ public class ListCommand implements ICommand
 		JSONArray gamesJSON = new JSONArray();
 		for (int i = 0; i < games.size(); i++)
 		{
-			gamesJSON.put(games.get(i).serialize());
+                    gamesJSON.put(games.get(i).serializeToObject());
 		}
 		return gamesJSON.toString();
 	}
