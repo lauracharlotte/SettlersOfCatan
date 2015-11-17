@@ -134,5 +134,10 @@ public class ResourceModelFacade
     {
     	return checkPlayerAndResources(getClientPlayer(), recCards);
     }
+    
+    public boolean hasEnoughResourcesAsPlayer(Player currentPlayer, ResourceCards recCards)
+    {
+        return checkPlayerAndResources(currentPlayer, recCards);
+    }
 
 }

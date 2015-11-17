@@ -48,6 +48,11 @@ public class DevelopmentCards
         this.yearOfPlenty = yearOfPlenty;
     }
 
+    public int getTotal()
+    {
+        return this.monopoly + this.monument + this.roadBuilding + this.soldier + this.yearOfPlenty;
+    }
+    
     /**
      * Obvious
      * @return monopoly
