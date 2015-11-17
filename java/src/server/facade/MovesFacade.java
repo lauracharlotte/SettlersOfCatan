@@ -2,11 +2,8 @@ package server.facade;
 
 import guicommunicator.MapModelFacade;
 import guicommunicator.ResourceModelFacade;
-import static java.lang.Math.abs;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Random;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
@@ -30,30 +27,6 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
-
-// Function Checklist:
-// x sendChat
-// x rollNumber (try to refactor)
-// - robPlayer
-// x finishTurn
-// - buyDevCard
-// x yearOfPlenty
-// x roadBuilding
-// x soldier (depends on robPlayer, which isn't done)
-// x monument
-// x monopoly
-// x buildRoad
-// x buildCity
-// x buildSettlement
-// x offerTrade
-// x acceptTrade (needs logging)
-// x maritimeTrade
-// x discardCards
-
-// TODO: 
-// - Check that the user is able to make each move
-// - Discard the development cards
-// - set winner
 
 public class MovesFacade implements IMovesFacade { 
     
@@ -342,6 +315,8 @@ public class MovesFacade implements IMovesFacade {
         int numberOfCards = player.getHand().getDevelopmentCards().getYearOfPlenty();
         if(numberOfCards <= 0)
             return model;
+        if(!bankHasYearOfPlenty(resource1, resource2, model.getBank().getResourceCards()))
+            return model;
         // take away dev card
         player.getHand().getDevelopmentCards().setYearOfPlenty(numberOfCards - 1);
         ResourceCards resourceCards = player.getHand().getResourceCards();
@@ -576,6 +551,8 @@ public class MovesFacade implements IMovesFacade {
         ClientModel model = this.manager.getGameWithNumber(game);
         if(!this.isTheirTurn(model, playerIdx))
             return model;
+        if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
+            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         if(player.getRoads() <= 0)
             return model;
@@ -722,9 +699,12 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel offerTrade(PlayerIdx playerIdx, ResourceCards offer, PlayerIdx receiver, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
+        Player player = getPlayerFromIdx(playerIdx, model);
         if(!this.isTheirTurn(model, playerIdx))
             return model;
         if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
+            return model;
+        if(!player.hasEnoughResources(offer))
             return model;
         // Create and set the trade
         TradeOffer trade = new TradeOffer(playerIdx, receiver, offer);
@@ -758,6 +738,8 @@ public class MovesFacade implements IMovesFacade {
             return model;
         if(willAccept)
         {
+            if(!accepter.hasEnoughResources(new ResourceCards(-trade.getBrick(), -trade.getOre(), -trade.getLumber(), -trade.getGrain(), -trade.getWool())))
+                    return model;
             Hand accepterHand = accepter.getHand();
             ResourceCards accepterCards = accepterHand.getResourceCards();
             //does acceptor have enough cards?
@@ -1065,6 +1047,19 @@ public class MovesFacade implements IMovesFacade {
         Player currentPlayer = this.getPlayerFromIdx(idx, model);
         if(currentPlayer.getVictoryPoints() >= 10)
             model.setWinner(new NullablePlayerIdx(idx.getIndex()));
+    }
+    
+    private boolean bankHasYearOfPlenty(ResourceType resource1, ResourceType resource2, ResourceCards cards)
+    {
+        ResourceCards yopCards = changeResource(new ResourceCards(0,0,0,0,0), resource1, 1);
+        yopCards = changeResource(yopCards, resource2, 1);
+        boolean hasEnough = true;
+        hasEnough = hasEnough && (yopCards.getBrick() <= cards.getBrick());
+        hasEnough = hasEnough && (yopCards.getGrain() <= cards.getGrain());
+        hasEnough = hasEnough && (yopCards.getLumber() <= cards.getLumber());
+        hasEnough = hasEnough && (yopCards.getOre() <= cards.getOre());
+        hasEnough = hasEnough && (yopCards.getWool() <= cards.getWool());
+        return hasEnough;
     }
     
 }
