@@ -332,6 +332,8 @@ public class MovesFacade implements IMovesFacade {
         resourceCards = changeResource(resourceCards, resource1, 1);
         resourceCards = changeResource(resourceCards, resource2, 1);
         player.getHand().setResourceCards(resourceCards);
+        model.getBank().setResourceCards(changeResource(model.getBank().getResourceCards(), resource1, -1));
+        model.getBank().setResourceCards(changeResource(model.getBank().getResourceCards(), resource2, -1));
         
         model = setPlayerFromIdx(playerIdx, model, player);
         
@@ -585,6 +587,8 @@ public class MovesFacade implements IMovesFacade {
             resourceCards = changeResource(resourceCards, ResourceType.BRICK, -1);
             resourceCards = changeResource(resourceCards, ResourceType.WOOD, -1);
             player.getHand().setResourceCards(resourceCards);
+            model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + 1);
+            model.getBank().getResourceCards().setLumber(model.getBank().getResourceCards().getLumber() + 1);
         }
         else if(!(mapFacade.onLand(roadLocation) && (mapFacade.spaceForSettlement(vertLocations[0]) || mapFacade.spaceForSettlement(vertLocations[1]))))
             return model;
@@ -631,6 +635,8 @@ public class MovesFacade implements IMovesFacade {
         resourceCards = changeResource(resourceCards, ResourceType.WHEAT, -2);
         resourceCards = changeResource(resourceCards, ResourceType.ORE, -3);
         player.getHand().setResourceCards(resourceCards);
+        model.getBank().getResourceCards().setOre(model.getBank().getResourceCards().getOre() + 3);
+        model.getBank().getResourceCards().setGrain(model.getBank().getResourceCards().getGrain() + 2);
         model.getMap().getCities().add(new VertexObject(vertexLocation, playerIdx));
         player.setCities(player.getCities()-1);
         player.setSettlements(player.getSettlements() + 1);
@@ -710,7 +716,7 @@ public class MovesFacade implements IMovesFacade {
         if (!free)
         {
             ResourceModelFacade resourceFacade = new ResourceModelFacade();
-            if(resourceFacade.canBuildSettlementAsPlayer(player))
+            if(!resourceFacade.canBuildSettlementAsPlayer(player))
                 return model;
             // Check if you have enough resources
             ResourceCards resourceCards = player.getHand().getResourceCards();
@@ -719,6 +725,10 @@ public class MovesFacade implements IMovesFacade {
             resourceCards = changeResource(resourceCards, ResourceType.WHEAT, -1);
             resourceCards = changeResource(resourceCards, ResourceType.SHEEP, -1);
             player.getHand().setResourceCards(resourceCards);
+            model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + 1);
+            model.getBank().getResourceCards().setLumber(model.getBank().getResourceCards().getLumber() + 1);
+            model.getBank().getResourceCards().setWool(model.getBank().getResourceCards().getWool() + 1);
+            model.getBank().getResourceCards().setGrain(model.getBank().getResourceCards().getGrain() + 1);
         }
         CatanMap map = model.getMap();
         Collection<VertexObject> settlements = map.getSettlements();
@@ -922,6 +932,11 @@ public class MovesFacade implements IMovesFacade {
         hand.setResourceCards(resourceCards);
         player.setHand(hand);
         model = setPlayerFromIdx(playerIdx, model, player);
+        model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getBrick());
+        model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getOre());
+        model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getWool());
+        model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getGrain());
+        model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getLumber());
         
         // if all players have finished discarding
         if (playersHaveDiscarded(model))
