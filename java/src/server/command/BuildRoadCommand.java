@@ -43,6 +43,8 @@ public class BuildRoadCommand implements ICommand {
         EdgeLocation resource = road.getLocation();
         boolean free = road.isFree();
         
+        System.out.println("HERE");
+        
         ClientModel result = myMovesFacade.buildRoad(playerIdx, resource, free, game, playerId);
         
         // return result.serialize(); or whatever
