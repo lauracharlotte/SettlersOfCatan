@@ -82,7 +82,7 @@ public class Server
         IGameFacade gameFacade = new GameFacade(myUserManager, myGameManager);
         HttpHandler gameHandler = new GameHandler(cookieVerifier, gameFacade);
         
-        IGamesFacade gamesFacade = new GamesFacade(myUserManager, myGameManager);
+        IGamesFacade gamesFacade = new GamesFacade(myGameManager);
         HttpHandler gamesHandler = new GamesHandler(cookieVerifier, gamesFacade);
         
         IMovesFacade movesFacade = new MovesFacade(myGameManager);
