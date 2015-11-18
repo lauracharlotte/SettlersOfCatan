@@ -49,7 +49,7 @@ public class GamesHandler extends AbstractHandler
             this.sendQuickResponse(he, ex.getMessage(), 400);
             return;
         }
-        if(!currentCookie.getCompleteCookieString().equals(oldCookieString))
+        if(currentCookie.getGameNumber() >= 0)
         {
             String cookieString = "catan.game="+currentCookie.getGameNumber()+";Path=/;";
             he.getResponseHeaders().add("Set-cookie", cookieString);

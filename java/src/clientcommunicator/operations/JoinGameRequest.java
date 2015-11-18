@@ -69,9 +69,9 @@ public class JoinGameRequest implements IJSONSerializable
     	JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
     	this.gameId = obj.get("id").getAsInt();
     	String color = obj.get("color").getAsString().toUpperCase();
-    	if (color != "RED" && color != "ORANGE" && color != "YELLOW" &&
-    			color != "BLUE" && color != "GREEN" && color != "PURPLE" &&
-    			color != "PUCE" && color != "WHITE" && color != "BROWN")
+    	if (!"RED".equals(color) && !"ORANGE".equals(color) && !"YELLOW".equals(color) &&
+    			!"BLUE".equals(color) && !"GREEN".equals(color) && !"PURPLE".equals(color) &&
+    			!"PUCE".equals(color) && !"WHITE".equals(color) && !"BROWN".equals(color))
     	{
     		throw new JSONException("Malformed JoinGameRequest");
     	}
