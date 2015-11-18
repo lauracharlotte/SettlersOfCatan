@@ -6,6 +6,8 @@
 package server.command;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.operations.LoginCredentials;
+import model.player.User;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,6 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import server.facade.IModelFacade;
+import server.facade.UserFacade;
+import server.model.UserManager;
 
 /**
  *
@@ -48,15 +52,24 @@ public class LoginCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
-        IModelFacade facade = null;
-        String requestBody = "";
-        Cookie currentCookie = null;
+        System.out.println("Login User execute");
+        UserManager manager = new UserManager();
+        User newUser = new User("bobby", "bobby");
+        newUser.setPlayerId(0);
+        manager.addUser(newUser);
+        IModelFacade facade = new UserFacade(manager);
+        LoginCredentials creds = new LoginCredentials("bobby", "bobby");
+        String requestBody = creds.serialize();
+        Cookie currentCookie = new Cookie();
         LoginCommand instance = new LoginCommand();
-        String expResult = "";
         String result = instance.execute(facade, requestBody, currentCookie);
+        String expResult = "Success";
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        assert(!"".equals(currentCookie.getCompleteCookieString()));
+        creds = new LoginCredentials("bobby", "notbobby"); 
+        requestBody = creds.serialize();
+        result = instance.execute(facade, requestBody, new Cookie());
+        assertNotEquals(expResult, result);
     }
     
 }
