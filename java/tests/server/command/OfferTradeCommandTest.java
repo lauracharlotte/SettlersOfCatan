@@ -94,6 +94,7 @@ public class OfferTradeCommandTest
         newUser.setPlayerId(0);
         currentCookie.setUser(newUser);
         OfferTradeCommand command = new OfferTradeCommand();
+        assert(manager.getGameWithNumber(0).getTradeOffer() == null);
         command.execute(facade, requestBody, currentCookie);
         assert(manager.getGameWithNumber(0).getTradeOffer() != null);
     }
