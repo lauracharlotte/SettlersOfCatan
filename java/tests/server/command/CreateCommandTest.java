@@ -48,7 +48,7 @@ public class CreateCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
+        System.out.println("execute create game");
         IModelFacade facade = null;
         String requestBody = "";
         Cookie currentCookie = null;

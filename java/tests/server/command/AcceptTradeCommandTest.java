@@ -62,7 +62,7 @@ public class AcceptTradeCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
+        System.out.println("execute accept trade");
         GameManager manager= new GameManager();
         manager.addNewGame(new ClientModel(true, false, true, "name"));
         ClientModel currentModel = manager.getGameWithNumber(0);
