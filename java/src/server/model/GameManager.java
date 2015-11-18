@@ -42,7 +42,7 @@ public class GameManager
     
     public void replaceGame(int index, ClientModel game)
     {
-    	ArrayList<ClientModel> games = (ArrayList<ClientModel>)gameList;
+    	ArrayList<ClientModel> games = new ArrayList<>(gameList);
     	games.remove(index);
     	games.add(index, game);
     	gameList = Collections.synchronizedList(games);
