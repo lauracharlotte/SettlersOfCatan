@@ -38,7 +38,6 @@ public class GamesHandler extends AbstractHandler
             return;
         }
         String response;
-        String oldCookieString = currentCookie.getCompleteCookieString();
         try
         {
             response = command.execute(currentFacade, this.getRequestBody(he), currentCookie);

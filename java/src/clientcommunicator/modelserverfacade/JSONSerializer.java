@@ -49,7 +49,7 @@ public class JSONSerializer {
 		
 	}
 
-	public static JSONObject devCardsJSON(DevelopmentCards devCards)
+	public /*static*/ JSONObject devCardsJSON(DevelopmentCards devCards)
 	{
 		JSONObject devCardObject = new JSONObject();
 		try {
@@ -65,7 +65,7 @@ public class JSONSerializer {
 		return devCardObject;	
 	}
 	
-	public static JSONObject recCardsJSON(ResourceCards recCards)
+	public /*static*/ JSONObject recCardsJSON(ResourceCards recCards)
 	{
 		JSONObject recCardsObject = new JSONObject();		
 		try {
@@ -81,7 +81,7 @@ public class JSONSerializer {
 		return recCardsObject;
 	}
 	
-	public static JSONObject messageListJSON(MessageList messList)
+	public /*static*/ JSONObject messageListJSON(MessageList messList)
 	{
 		JSONObject theMessageListObject = new JSONObject();
 		JSONArray messListArray = new JSONArray();
@@ -106,11 +106,11 @@ public class JSONSerializer {
 		return theMessageListObject;
 	}
 	
-	public static JSONObject roadCitySettlementJSON(VertexObject settlementOrCity)
+	public /*static*/ JSONObject roadCitySettlementJSON(VertexObject settlementOrCity)
 	{
 		JSONObject settlementOrCityObject = new JSONObject();
 		JSONObject settlementorCityLocObject = new JSONObject();
-    	String theDirection = settlementOrCity.getLocation().getDir().name();//.getLocation().getDir();
+    	String theDirection = settlementOrCity.getLocation().getDir().name();
     	Abbreviate abrev = new Abbreviate();
     	theDirection = abrev.abbreviate(theDirection);
 		
@@ -127,7 +127,7 @@ public class JSONSerializer {
 		return settlementOrCityObject;
 	}
 	
-	public static String SerializeModel(ClientModel theModel)
+	public /*static*/ String SerializeModel(ClientModel theModel)
 	{
 		JSONObject object = new JSONObject();
 		
@@ -136,7 +136,6 @@ public class JSONSerializer {
 		MessageList chatMessages = theModel.getChat();
 		MessageList logMessages = theModel.getLog();
 		DevelopmentCards theDeck = theModel.getBank().getDevelopmentCards();
-		
 		try {
 			//Bank Section
 			object.put("bank", recCardsJSON(theBank)); //use the function for the bank instead
@@ -154,10 +153,13 @@ public class JSONSerializer {
 				hexLocObject.put("x", curHex.getLocation().getX());
 				hexLocObject.put("y", curHex.getLocation().getY());
 				hexObject.put("location", hexLocObject);
-				String stringResource = curHex.getType().name();
-		    	String lowerCaseResource = stringResource.toLowerCase();
-				hexObject.put("resource", lowerCaseResource);
-				hexObject.put("number", curHex.getNumber());
+				if(curHex.getType() != HexType.DESERT)
+				{
+					String stringResource = curHex.getType().name();
+			    	String lowerCaseResource = stringResource.toLowerCase();
+					hexObject.put("resource", lowerCaseResource);
+					hexObject.put("number", curHex.getNumber());
+				}
 				hexArray.put(hexObject);
 			}
 			mapObject.put("hexes", hexArray);
@@ -167,9 +169,12 @@ public class JSONSerializer {
 			{
 				JSONObject portObject = new JSONObject();
 				JSONObject portHexLocObject = new JSONObject();
-				String stringResource = curPort.getResource().name().toString();
-		    	String lowerCaseResource = stringResource.toLowerCase();
-				portObject.put("resource", lowerCaseResource);
+				if(curPort.getResource()!=null)
+				{
+					String stringResource = curPort.getResource().name().toString();
+			    	String lowerCaseResource = stringResource.toLowerCase();
+					portObject.put("resource", lowerCaseResource);
+				}
 				portHexLocObject.put("x", curPort.getHex().getX());
 				portHexLocObject.put("y", curPort.getHex().getY());
 				portObject.put("location", portHexLocObject);
@@ -221,7 +226,6 @@ public class JSONSerializer {
 			robberObject.put("y", theModel.getMap().getRobber().getY());
 			mapObject.put("robber", robberObject);
 			object.put("map", mapObject);
-			
 			//PlayerObject----------------------------------------------------------------------------------------
 			JSONArray playerArray = new JSONArray();
 			for(Player curPlayer : theModel.getPlayers())
@@ -236,8 +240,12 @@ public class JSONSerializer {
 				playerObject.put("name", curPlayer.getName());
 				playerObject.put("newDevCards", devCardsJSON(curPlayer.getNewDevCards()));
 				playerObject.put("oldDevCards", devCardsJSON(curPlayer.getHand().getDevelopmentCards()));
-				playerObject.put("playerIndex", curPlayer.getPlayerIndex().getIndex());
-				playerObject.put("playedDevCard", curPlayer.canPlayDev());//COULD BE THE OPPOSITE, CHECK THIS!!!!!
+				if(curPlayer.getPlayerIndex() != null)
+				{
+					playerObject.put("playerIndex", curPlayer.getPlayerIndex().getIndex());
+				}
+				
+				playerObject.put("playedDevCard", !curPlayer.canPlayDev());//COULD BE THE OPPOSITE, CHECK THIS!!!!!
 				playerObject.put("playerID", curPlayer.getPlayerId());
 				playerObject.put("resources", recCardsJSON(curPlayer.getHand().getResourceCards()));
 				playerObject.put("roads", curPlayer.getRoads());
@@ -248,12 +256,15 @@ public class JSONSerializer {
 			}
 			object.put("players", playerArray);
 			//TradeOfferObject-------------------------------------------------------------------------------------
-			TradeOffer curTradeOffer = theModel.getTradeOffer();
-			JSONObject tradeOfferObject = new JSONObject();
-			tradeOfferObject.put("sender", curTradeOffer.getSenderNumber().getIndex());
-			tradeOfferObject.put("receiver", curTradeOffer.getReceiverNumber().getIndex());
-			tradeOfferObject.put("offer", recCardsJSON(curTradeOffer.getResourceCards()));
-			object.put("tradeOffer", tradeOfferObject);
+			if(theModel.getTradeOffer()!=null)
+			{
+				TradeOffer curTradeOffer = theModel.getTradeOffer();
+				JSONObject tradeOfferObject = new JSONObject();
+				tradeOfferObject.put("sender", curTradeOffer.getSenderNumber().getIndex());
+				tradeOfferObject.put("receiver", curTradeOffer.getReceiverNumber().getIndex());
+				tradeOfferObject.put("offer", recCardsJSON(curTradeOffer.getResourceCards()));
+				object.put("tradeOffer", tradeOfferObject);
+			}
 			//TurnTrackerObject------------------------------------------------------------------------------------
 			TurnTracker curTurnTracker = theModel.getTurnTracker();
 			JSONObject turnTrackerObject = new JSONObject();
@@ -264,14 +275,22 @@ public class JSONSerializer {
 			object.put("turnTracker", turnTrackerObject);
 			//VersionNumber and Winner
 			object.put("version", theModel.getVersion());
-			object.put("winner", theModel.getWinner().getIndex());
-			
+			int winnerIndex = theModel.getWinner().getIndex();
+			int i = 0;
+			int thePlayerID = -1;
+			for(Player curPlayer : theModel.getPlayers())
+			{
+				if(i == winnerIndex)
+				{
+					thePlayerID = curPlayer.getPlayerId();
+				}
+			}
+			object.put("winner", thePlayerID);//object.put("winner", theModel.getWinner().getIndex());
 			
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		return object.toString();
 	}
 	
