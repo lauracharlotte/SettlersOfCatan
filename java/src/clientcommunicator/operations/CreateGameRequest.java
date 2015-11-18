@@ -89,6 +89,28 @@ public class CreateGameRequest implements IJSONSerializable
     public void deserialize(String JSON) throws JSONException
     {
         JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+        if (!obj.has("randomTiles") || !obj.has("randomNumbers") || !obj.has("randomPorts") || !obj.has("name"))
+        {
+        	throw new JSONException("Malformed CreateGameRequest: missing field");
+        }
+        String randomTilesJSON = obj.get("randomTiles").getAsString();
+        randomTilesJSON = randomTilesJSON.toLowerCase();
+        if (randomTilesJSON != "true" && randomTilesJSON != "false" && randomTilesJSON != "1" && randomTilesJSON != "0")
+        {
+        	throw new JSONException("Malformed CreateGameRequest: invalid randomTiles");
+        }
+        String randomNumbersJSON = obj.get("randomNumbers").getAsString();
+        randomNumbersJSON = randomNumbersJSON.toLowerCase();
+        if (randomNumbersJSON != "true" && randomNumbersJSON != "false" && randomNumbersJSON != "1" && randomNumbersJSON != "0")
+        {
+        	throw new JSONException("Malformed CreateGameRequest: invalid randomNumbers");
+        }
+        String randomPortsJSON = obj.get("randomPorts").getAsString();
+        randomPortsJSON = randomPortsJSON.toLowerCase();
+        if (randomPortsJSON != "true" && randomPortsJSON != "false" && randomPortsJSON != "1" && randomPortsJSON != "0")
+        {
+        	throw new JSONException("Malformed CreateGameRequest: invalid randomPorts");
+        }
         this.randomTiles = obj.get("randomTiles").getAsBoolean();
         this.randomNumbers = obj.get("randomNumbers").getAsBoolean();
         this.randomPorts = obj.get("randomPorts").getAsBoolean();

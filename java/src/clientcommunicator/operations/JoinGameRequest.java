@@ -67,7 +67,10 @@ public class JoinGameRequest implements IJSONSerializable
     public void deserialize(String JSON) throws JSONException
     {
     	JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
-    	this.gameId = obj.get("id").getAsInt();
+    	if (!obj.has("id") || !obj.has("color"))
+    	{
+    		throw new JSONException("Malformed JoinGameRequest: missing field");
+    	}
     	String color = obj.get("color").getAsString().toUpperCase();
     	if (!"RED".equals(color) && !"ORANGE".equals(color) && !"YELLOW".equals(color) &&
     			!"BLUE".equals(color) && !"GREEN".equals(color) && !"PURPLE".equals(color) &&
@@ -76,5 +79,6 @@ public class JoinGameRequest implements IJSONSerializable
     		throw new JSONException("Malformed JoinGameRequest");
     	}
     	this.playerColor = CatanColor.valueOf(color);
+    	this.gameId = obj.get("id").getAsInt();
     }
 }
