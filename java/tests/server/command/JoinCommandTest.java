@@ -13,6 +13,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import server.facade.IModelFacade;
+import server.facade.GamesFacade;
+import clientcommunicator.operations.JoinGameRequest;
+import server.model.UserManager;
+import server.model.GameManager;
+import model.ClientModel;
+import model.player.User;
+import shared.definitions.CatanColor;
 
 /**
  *
@@ -48,15 +55,34 @@ public class JoinCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
-        IModelFacade facade = null;
-        String requestBody = "";
-        Cookie currentCookie = null;
+    	//Test 1
+        System.out.println("Testing execute join game...");
+        UserManager umanager = new UserManager();
+        User newUser = new User("Bobby", "bobby");
+        newUser.setPlayerId(0);
+        umanager.addUser(newUser);
+        GameManager gmanager = new GameManager();
+        ClientModel model = new ClientModel(false, false, false, "Game1");
+        gmanager.addNewGame(model);
+        IModelFacade facade = new GamesFacade(umanager, gmanager);
+        JoinGameRequest request = new JoinGameRequest(0, CatanColor.WHITE);
+        String requestBody = request.serialize();
+        Cookie currentCookie = new Cookie();
+        currentCookie.setUser(newUser);
         JoinCommand instance = new JoinCommand();
-        String expResult = "";
+        String expResult = "Success";
         String result = instance.execute(facade, requestBody, currentCookie);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        System.out.println("Test join game passed.");
+        
+        //Test 2
+        /*System.out.println("Join Game bad game ID test");
+        JoinGameRequest request2 = new JoinGameRequest(1, CatanColor.RED);
+        requestBody = request2.serialize();
+        currentCookie = new Cookie();
+        currentCookie.setUser(newUser);
+        expResult = "";
+        result = instance.execute(facade, requestBody, currentCookie);
+        System.out.println("Result2: \n" + result);*/
     }
-    
 }

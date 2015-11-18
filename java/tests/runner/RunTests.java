@@ -6,7 +6,8 @@ import clientcommunicator.Server.ServerProxyTest;
 import clientcommunicator.modelserverfacade.JSONParserTest;
 import guicommunicator.MapModelFacadeTest;
 import guicommunicator.ResourceModelFacadeTest;
-
+import server.command.JoinCommandTest;
+import server.command.CreateCommandTest;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,6 +32,8 @@ public class RunTests {
       testCases.add(MapModelFacadeTest.class);
       testCases.add(ResourceModelFacadeTest.class);
       testCases.add(JSONParserTest.class);
+      testCases.add(JoinCommandTest.class);
+      testCases.add(CreateCommandTest.class);
       
         for (Iterator it = testCases.iterator(); it.hasNext();) {
             Class testCase = (Class) it.next();
