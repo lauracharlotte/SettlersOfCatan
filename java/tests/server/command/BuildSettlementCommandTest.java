@@ -64,6 +64,12 @@ public class BuildSettlementCommandTest
                         emptyDevCards, 0, 14, 5, 0, 0, new Hand(ResCards, emptyDevCards));
         players.add(newPlayer);
         newPlayer.setPlayerIndex(new PlayerIdx(0));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(1));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(2));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(3));
         currentModel.setPlayers(players);
         currentModel.getTurnTracker().setStatus(TurnStatusEnumeration.firstround);
         currentModel.getTurnTracker().setCurrentTurn(new PlayerIdx(0));
