@@ -103,6 +103,7 @@ public class SoldierCommandTest
         Player robbedPlayer = (Player) itr.next();
         assert(!robbedPlayer.getHand().getResourceCards().equals(new ResourceCards(3, 3, 3, 3, 3)));
         assert(manager.getGameWithNumber(0).getTurnTracker().getStatus() == TurnStatusEnumeration.playing);
+        assert(manager.getGameWithNumber(0).getTurnTracker().getLargestArmy().getIndex() == 0);
     }
     
 }
