@@ -110,7 +110,7 @@ public class JSONSerializer {
 	{
 		JSONObject settlementOrCityObject = new JSONObject();
 		JSONObject settlementorCityLocObject = new JSONObject();
-    	String theDirection = settlementOrCity.getLocation().getDir().name();//.getLocation().getDir();
+    	String theDirection = settlementOrCity.getLocation().getDir().name();
     	Abbreviate abrev = new Abbreviate();
     	theDirection = abrev.abbreviate(theDirection);
 		
@@ -153,7 +153,7 @@ public class JSONSerializer {
 				hexLocObject.put("x", curHex.getLocation().getX());
 				hexLocObject.put("y", curHex.getLocation().getY());
 				hexObject.put("location", hexLocObject);
-				if(curHex.getType() != HexType.DESERT)//?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!!?!??!?!?!?!?!?!?!?!?!?!?!!!!!!!!!!!!!!!!!!!!!!!!!!
+				if(curHex.getType() != HexType.DESERT)
 				{
 					String stringResource = curHex.getType().name();
 			    	String lowerCaseResource = stringResource.toLowerCase();
@@ -169,7 +169,7 @@ public class JSONSerializer {
 			{
 				JSONObject portObject = new JSONObject();
 				JSONObject portHexLocObject = new JSONObject();
-				if(curPort.getResource()!=null)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				if(curPort.getResource()!=null)
 				{
 					String stringResource = curPort.getResource().name().toString();
 			    	String lowerCaseResource = stringResource.toLowerCase();
@@ -245,7 +245,7 @@ public class JSONSerializer {
 					playerObject.put("playerIndex", curPlayer.getPlayerIndex().getIndex());
 				}
 				
-				playerObject.put("playedDevCard", curPlayer.canPlayDev());//COULD BE THE OPPOSITE, CHECK THIS!!!!!
+				playerObject.put("playedDevCard", !curPlayer.canPlayDev());//COULD BE THE OPPOSITE, CHECK THIS!!!!!
 				playerObject.put("playerID", curPlayer.getPlayerId());
 				playerObject.put("resources", recCardsJSON(curPlayer.getHand().getResourceCards()));
 				playerObject.put("roads", curPlayer.getRoads());
@@ -256,7 +256,7 @@ public class JSONSerializer {
 			}
 			object.put("players", playerArray);
 			//TradeOfferObject-------------------------------------------------------------------------------------
-			if(theModel.getTradeOffer()!=null)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if(theModel.getTradeOffer()!=null)
 			{
 				TradeOffer curTradeOffer = theModel.getTradeOffer();
 				JSONObject tradeOfferObject = new JSONObject();
