@@ -996,6 +996,7 @@ public class MovesFacade implements IMovesFacade {
         model.setMap(map);
         player.setRoads(player.getRoads() - 1);
         model = setPlayerFromIdx(playerIdx, model, player);
+        model = this.checkLongestRoad(model, playerIdx);
         this.setWinner(model, playerIdx);
         return model;
     }
@@ -1065,6 +1066,30 @@ public class MovesFacade implements IMovesFacade {
         Player currentPlayer = this.getPlayerFromIdx(idx, model);
         if(currentPlayer.getVictoryPoints() >= 10)
             model.setWinner(new NullablePlayerIdx(idx.getIndex()));
+    }
+    
+    private ClientModel checkLongestRoad(ClientModel model, PlayerIdx idx)
+    {
+        Player currentPlayer = this.getPlayerFromIdx(idx, model);
+        if(currentPlayer.getRoads() <= 10)
+        {
+            NullablePlayerIdx currentHolder = model.getTurnTracker().getLongestRoad();
+            if(currentHolder.getIndex() == currentPlayer.getPlayerId())
+                return model;
+            if(currentHolder.isNull() || this.getPlayerFromIdx(new PlayerIdx(currentHolder.getIndex()), model).getRoads() > currentPlayer.getRoads())
+            {
+                model.getTurnTracker().setLongestRoad(new NullablePlayerIdx(idx.getIndex()));
+                currentPlayer.setVictoryPoints(currentPlayer.getVictoryPoints() + 2);
+                model = this.setPlayerFromIdx(idx, model, currentPlayer);
+                if(currentHolder.isNotNull())
+                {
+                    Player oldPlayer = this.getPlayerFromIdx(new PlayerIdx(currentHolder.getIndex()), model);
+                    oldPlayer.setVictoryPoints(oldPlayer.getVictoryPoints() - 2);
+                    model = this.setPlayerFromIdx(oldPlayer.getPlayerIndex(), model, oldPlayer);
+                }
+            }
+        }
+        return model;
     }
     
 }
