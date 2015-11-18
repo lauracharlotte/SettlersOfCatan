@@ -14,7 +14,6 @@ import model.player.Player;
 import model.player.User;
 import server.ServerException;
 import server.model.GameManager;
-import server.model.UserManager;
 
 /**
  * Facade to the server model that deals with games operations
@@ -23,7 +22,6 @@ import server.model.UserManager;
  */
 public class GamesFacade implements IGamesFacade 
 {
-	private UserManager userManager;
     private GameManager gameManager;
     
     private final int PLAYER_CITIES = 4;
@@ -36,9 +34,8 @@ public class GamesFacade implements IGamesFacade
 	 * @param userManager
 	 * @param gameManager
 	 */
-	public GamesFacade(UserManager userManager, GameManager gameManager)
+	public GamesFacade(GameManager gameManager)
 	{
-    	this.userManager = userManager;
     	this.gameManager = gameManager;
 	}
 	

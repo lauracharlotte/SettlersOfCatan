@@ -6,6 +6,19 @@
 package server.command;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.operations.IJSONSerializable;
+import clientcommunicator.operations.MonopolyRequest;
+import clientcommunicator.operations.MonumentRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import model.ClientModel;
+import model.cards.DevelopmentCards;
+import model.cards.Hand;
+import model.cards.ResourceCards;
+import model.player.Player;
+import model.player.PlayerIdx;
+import model.player.TurnStatusEnumeration;
+import model.player.User;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,6 +26,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import server.facade.IModelFacade;
+import server.facade.MovesFacade;
+import server.model.GameManager;
+import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -48,15 +65,38 @@ public class MonumentCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
-        IModelFacade facade = null;
-        String requestBody = "";
-        Cookie currentCookie = null;
-        MonumentCommand instance = new MonumentCommand();
-        String expResult = "";
-        String result = instance.execute(facade, requestBody, currentCookie);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        System.out.println("monument execute");
+        GameManager manager= new GameManager();
+        manager.addNewGame(new ClientModel(true, false, true, "name"));
+        ClientModel currentModel = manager.getGameWithNumber(0);
+        Collection<Player> players = new ArrayList<>();
+        DevelopmentCards devCards = new DevelopmentCards(1, 1, 1, 1, 1);
+        ResourceCards ResCards = new ResourceCards(3, 3, 3, 3, 3);
+        Player newPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby", null, false, 
+                        devCards, 0, 11, 3, 0, 0, new Hand(ResCards, devCards));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(0));
+        Player otherPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby2", null, false, 
+                        devCards, 0, 11, 3, 0, 0, new Hand(ResCards, devCards)); 
+        otherPlayer.setPlayerIndex(new PlayerIdx(1));
+        players.add(otherPlayer);
+        currentModel.setPlayers(players);
+        currentModel.getTurnTracker().setStatus(TurnStatusEnumeration.playing);
+        currentModel.getTurnTracker().setCurrentTurn(new PlayerIdx(0));
+        manager.replaceGame(0, currentModel);
+        IModelFacade facade = new MovesFacade(manager);
+        Cookie currentCookie = new Cookie();
+        currentCookie.setGameNumber(0);
+        User newUser = new User("bobby", "bobby");
+        newUser.setPlayerId(0);
+        currentCookie.setUser(newUser);
+        IJSONSerializable req = new MonumentRequest(new PlayerIdx(0));
+        String requestString = req.serialize();
+        ICommand cmd = new MonumentCommand();
+        cmd.execute(facade, requestString, currentCookie);
+        assert(manager.getGameWithNumber(0).getPlayers().iterator().next().getVictoryPoints() == 1);
+        cmd.execute(facade, requestString, currentCookie);
+        assert(manager.getGameWithNumber(0).getPlayers().iterator().next().getVictoryPoints() == 1);
     }
     
 }
