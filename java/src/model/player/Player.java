@@ -143,11 +143,11 @@ public class Player {
 	/**
 	 * Checks whether the player has more than 7 cards to see 
 	 * if the player needs to discard cards when a robber is rolled.
-	 * @return if dicard is needed.
+	 * @return if discard is needed.
 	 */
 	public Boolean needtoDiscard()
 	{
-		return null;
+		return this.hand.getResourceCards().getTotal() > 7;
 	}
 	/**
 	 * Gets the number of cities left

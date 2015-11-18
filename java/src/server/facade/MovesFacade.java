@@ -70,11 +70,9 @@ public class MovesFacade implements IMovesFacade {
      * 
      * @param playerIdx The turn tracker index of the player who rolled
      * @param number The number rolled
-     * @return The new model information
      * @param game The game number of the game being modified
      * @param user The user ID of the player making the request
-     * 
-     * TODO: REFACTOR THIS MESS
+     * @return The new model information
      */
     @Override
     public ClientModel rollNumber(PlayerIdx playerIdx, int number, int game, User user)
@@ -89,38 +87,25 @@ public class MovesFacade implements IMovesFacade {
         // give every player their respective resources
         Collection<Hex> hexes = model.getMap().getHexes();
         //take out of the bank resources and make sure there's enough
-        for (Hex hex : hexes) 
-        {
-            if (hex.getNumber() == number)
-            {
-                Collection<Player> players = getSettlementsByHexLocation(hex.getLocation(), model);
-                for (Player player : players)
-                {
-                    ResourceType resource = hexToResource(hex);
-                    Hand hand = player.getHand();
-                    ResourceCards cards = changeResource(hand.getResourceCards(), resource, 1);
-                    hand.setResourceCards(cards);
-                    player.setHand(hand);
-                    model = setPlayerFromIdx(player.getPlayerIndex(), model, player);
-                }
-                players = getCitiesByHexLocation(hex.getLocation(), model);
-                for (Player player : players)
-                {
-                    ResourceType resource = hexToResource(hex);
-                    Hand hand = player.getHand();
-                    ResourceCards cards = changeResource(hand.getResourceCards(), resource, 2);
-                    hand.setResourceCards(cards);
-                    player.setHand(hand);
-                    model = setPlayerFromIdx(player.getPlayerIndex(), model, player);
-                }
-            }
-        }
+        model = safeGiveRolledResource(ResourceType.BRICK, model, model, number, hexes);
+        model = safeGiveRolledResource(ResourceType.WOOD, model, model, number, hexes);
+        model = safeGiveRolledResource(ResourceType.SHEEP, model, model, number, hexes);
+        model = safeGiveRolledResource(ResourceType.WHEAT, model, model, number, hexes);
+        model = safeGiveRolledResource(ResourceType.ORE, model, model, number, hexes);
         
         // Update the log, version number, and model
         model.setLog(addLog(user, user.getUsername() + " rolled a " + Integer.toString(number), model.getLog()));
+        
         if(number == 7)
-            model.getTurnTracker().setStatus(TurnStatusEnumeration.discarding); //if somebody needs to discard
-            //else set status to robbing
+        {
+            model = playersDiscard(model);
+            //if somebody needs to discard
+            if (!playersHaveDiscarded(model))
+                model.getTurnTracker().setStatus(TurnStatusEnumeration.discarding);
+            else
+                model.getTurnTracker().setStatus(TurnStatusEnumeration.robbing);
+        }
+  
         model.setVersion(model.getVersion() + 1);
         this.manager.replaceGame(game, model);
         return model;
@@ -854,6 +839,8 @@ public class MovesFacade implements IMovesFacade {
     {
         ClientModel model = this.manager.getGameWithNumber(game);
         Player player = getPlayerFromIdx(playerIdx, model);
+        if (!player.needtoDiscard())
+            return model;
         Hand hand = player.getHand();
         if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.discarding))
             return model;
@@ -869,6 +856,10 @@ public class MovesFacade implements IMovesFacade {
         hand.setResourceCards(resourceCards);
         player.setHand(hand);
         model = setPlayerFromIdx(playerIdx, model, player);
+        
+        // if all players have finished discarding
+        if (playersHaveDiscarded(model))
+            model.getTurnTracker().setStatus(TurnStatusEnumeration.robbing);
         
         // Discard doesn't need to log - according to what is being done on the TA server.
         // Update the version number and model
@@ -1087,4 +1078,113 @@ public class MovesFacade implements IMovesFacade {
         return model;
     }
     
+    /**
+     * Sets all players haveDiscarded
+     * @param model The current game we're working on.
+     * @return The new game with the modified players
+     */
+    private ClientModel playersDiscard(ClientModel model)
+    {
+        Collection<Player> players = model.getPlayers();
+        for (Player player : players)
+        {
+            player.setDiscarded(!player.needtoDiscard());
+            model = setPlayerFromIdx(player.getPlayerIndex(), model, player);
+        }
+        return model;
+    }
+    
+    /**
+     * Checks if there is a player that still hasn't discarded.
+     * @param model The current game we are working with
+     * @return Boolean (true if all players have discarded)
+     */
+    private boolean playersHaveDiscarded(ClientModel model)
+    {
+        Collection<Player> players = model.getPlayers();
+        for (Player player : players)
+        {
+            if (!player.getDiscarded())
+                return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Safely gives the players the resources they deserve due to the roll. If there aren't enough resources
+     * for everyone then nobody gets any cards.
+     * @param resource
+     * @param model
+     * @param original
+     * @param number
+     * @param hexes
+     * @return 
+     */
+    private ClientModel safeGiveRolledResource(ResourceType resource, ClientModel model, ClientModel original, int number, Collection<Hex> hexes)
+    {
+        for (Hex hex : hexes) 
+        {
+            if (hex.getNumber() == number && hexToResource(hex) == resource)
+            {
+                Hand bank = model.getBank();
+                ResourceCards bankCards = bank.getResourceCards();
+                Collection<Player> players = getSettlementsByHexLocation(hex.getLocation(), model);
+                for (Player player : players)
+                {
+                    if (!bankHasResource(bankCards, resource, 1))
+                        return original;
+                    Hand hand = player.getHand();
+                    ResourceCards cards = changeResource(hand.getResourceCards(), resource, 1);
+                    hand.setResourceCards(cards);
+                    player.setHand(hand);
+                    model = setPlayerFromIdx(player.getPlayerIndex(), model, player);
+                    
+                    bankCards = changeResource(bankCards, resource, -1);
+                    bank.setResourceCards(bankCards);
+                    model.setBank(bank);
+                }
+                players = getCitiesByHexLocation(hex.getLocation(), model);
+                for (Player player : players)
+                {
+                    if (!bankHasResource(bankCards, resource, 2))
+                        return original;
+                    Hand hand = player.getHand();
+                    ResourceCards cards = changeResource(hand.getResourceCards(), resource, 2);
+                    hand.setResourceCards(cards);
+                    player.setHand(hand);
+                    model = setPlayerFromIdx(player.getPlayerIndex(), model, player);
+                    
+                    bankCards = changeResource(bankCards, resource, -2);
+                    bank.setResourceCards(bankCards);
+                    model.setBank(bank);
+                }
+            }
+        }
+        return model;
+    }
+    
+    /**
+     * Check if the bank has enough of that resource
+     * @param bank
+     * @param resource
+     * @param amount
+     * @return 
+     */
+    private boolean bankHasResource(ResourceCards bank, ResourceType resource, int amount)
+    {
+        switch (resource)
+        {
+            case BRICK:
+                return bank.getBrick() >= amount;
+            case WOOD:
+                return bank.getLumber() >= amount;
+            case ORE:
+                return bank.getOre() >= amount;
+            case WHEAT:
+                return bank.getGrain() >= amount;
+            case SHEEP:
+                return bank.getWool() >= amount;
+        }
+        return false;
+    }
 }
