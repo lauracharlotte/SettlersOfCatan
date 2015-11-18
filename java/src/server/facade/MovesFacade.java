@@ -108,6 +108,10 @@ public class MovesFacade implements IMovesFacade {
             else
                 model.getTurnTracker().setStatus(TurnStatusEnumeration.robbing);
         }
+        else
+        {
+            model.getTurnTracker().setStatus(TurnStatusEnumeration.playing);
+        }
   
         model.setVersion(model.getVersion() + 1);
         this.manager.replaceGame(game, model);
