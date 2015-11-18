@@ -185,22 +185,39 @@ public class MovesFacade implements IMovesFacade {
         ClientModel model = this.manager.getGameWithNumber(game);
         if(!this.isTheirTurn(model, playerIdx))
             return model;
-        // get the next player by adding one with wrap around.
-        PlayerIdx nextPlayer = new PlayerIdx((playerIdx.getIndex() + 1) % 4);
-        // change turn status
-        model.getTurnTracker().setCurrentTurn(nextPlayer);
-        model.getTurnTracker().setStatus(TurnStatusEnumeration.rolling);
-        // Update the log, version number, and model
-        Player p = this.getPlayerFromIdx(playerIdx, model);
-        DevelopmentCards old = p.getHand().getDevelopmentCards();
-        DevelopmentCards newDevCards = p.getNewDevCards();
-        old.setMonopoly(old.getMonopoly() + newDevCards.getMonopoly());
-        old.setRoadBuilding(old.getRoadBuilding() + newDevCards.getRoadBuilding());
-        old.setSoldier(old.getSoldier() + newDevCards.getSoldier());
-        old.setYearOfPlenty(old.getYearOfPlenty() + newDevCards.getYearOfPlenty());
-        p.setNewDevCards(new DevelopmentCards());
-        model.setLog(addLog(user, user.getUsername() + "'s turn just ended", model.getLog()));
-        model.setVersion(model.getVersion() + 1);
+        if(model.getTurnTracker().getStatus() == TurnStatusEnumeration.firstround)
+        {
+            if(model.getTurnTracker().getCurrentTurn().getIndex() == 3)
+                model.getTurnTracker().setStatus(TurnStatusEnumeration.secondround);
+            else
+                model.getTurnTracker().setCurrentTurn(new PlayerIdx(model.getTurnTracker().getCurrentTurn().getIndex() +1));
+        }
+        else if(model.getTurnTracker().getStatus() == TurnStatusEnumeration.secondround)
+        {
+            if(model.getTurnTracker().getCurrentTurn().getIndex() == 0)
+                model.getTurnTracker().setStatus(TurnStatusEnumeration.rolling);
+            else
+                model.getTurnTracker().setCurrentTurn(new PlayerIdx(model.getTurnTracker().getCurrentTurn().getIndex() - 1));
+        }
+        else
+        {
+            // get the next player by adding one with wrap around.
+            PlayerIdx nextPlayer = new PlayerIdx((playerIdx.getIndex() + 1) % 4);
+            // change turn status
+            model.getTurnTracker().setCurrentTurn(nextPlayer);
+            model.getTurnTracker().setStatus(TurnStatusEnumeration.rolling);
+            // Update the log, version number, and model
+            Player p = this.getPlayerFromIdx(playerIdx, model);
+            DevelopmentCards old = p.getHand().getDevelopmentCards();
+            DevelopmentCards newDevCards = p.getNewDevCards();
+            old.setMonopoly(old.getMonopoly() + newDevCards.getMonopoly());
+            old.setRoadBuilding(old.getRoadBuilding() + newDevCards.getRoadBuilding());
+            old.setSoldier(old.getSoldier() + newDevCards.getSoldier());
+            old.setYearOfPlenty(old.getYearOfPlenty() + newDevCards.getYearOfPlenty());
+            p.setNewDevCards(new DevelopmentCards());
+            model.setLog(addLog(user, user.getUsername() + "'s turn just ended", model.getLog()));
+            model.setVersion(model.getVersion() + 1);
+        }
         this.manager.replaceGame(game, model);
         return model;
     }
