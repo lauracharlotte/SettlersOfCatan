@@ -558,7 +558,7 @@ public class MovesFacade implements IMovesFacade {
                 && !model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.secondround))
             return model;
         Player player = getPlayerFromIdx(playerIdx, model);
-        System.out.println(player.getRoads());
+        //System.out.println(player.getRoads());
         if(player.getRoads() <= 0)
             return model;
         MapModelFacade mapFacade = new MapModelFacade();
@@ -650,7 +650,13 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
-        if(!this.isTheirTurn(model, playerIdx))
+        if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.secondround))
+        {
+            //they get stuff.
+        }
+        else if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.firstround))
+        {}
+        else if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
             return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         if(player.getSettlements() <= 0)
@@ -974,12 +980,8 @@ public class MovesFacade implements IMovesFacade {
      */
     private ClientModel actuallyBuildRoad(PlayerIdx playerIdx, EdgeLocation location, ClientModel model)
     {
-        System.out.println("1");
         MapModelFacade modelFacade = new MapModelFacade();
         modelFacade.configureFacade(model.getMap(), this.getPlayerFromIdx(playerIdx, model), model);
-        if(!modelFacade.canPlaceRoad(location))
-            return model;
-        System.out.println("2");
         Player player = getPlayerFromIdx(playerIdx, model);
         if(player.getRoads() <= 0)
             return model;
@@ -990,7 +992,6 @@ public class MovesFacade implements IMovesFacade {
         map.setRoads(roads);
         model.setMap(map);
         player.setRoads(player.getRoads() - 1);
-        System.out.println(player.getRoads());
         model = setPlayerFromIdx(playerIdx, model, player);
         model = this.checkLongestRoad(model, playerIdx);
         this.setWinner(model, playerIdx);
