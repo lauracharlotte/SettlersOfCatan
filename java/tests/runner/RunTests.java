@@ -8,6 +8,7 @@ import guicommunicator.MapModelFacadeTest;
 import guicommunicator.ResourceModelFacadeTest;
 import server.command.JoinCommandTest;
 import server.command.CreateCommandTest;
+import server.command.ListCommandTest;
 import server.command.ModelCommandTest;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class RunTests {
       testCases.add(JoinCommandTest.class);
       testCases.add(CreateCommandTest.class);
       testCases.add(ModelCommandTest.class);
+      testCases.add(ListCommandTest.class);
       
         for (Iterator it = testCases.iterator(); it.hasNext();) {
             Class testCase = (Class) it.next();
