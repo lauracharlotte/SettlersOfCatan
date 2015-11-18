@@ -82,7 +82,6 @@ public class GamesFacade implements IGamesFacade
 	@Override
 	public boolean join(User user, JoinGameRequest request) throws ServerException 
 	{
-		if (request.getPlayerColor() == null) throw new ServerException("Malformed JoinGameRequest");
 		//Check for valid game ID
 		int greatestID = gameManager.getAllGames().size() - 1;
 		if (request.getGameId() > greatestID || request.getGameId() < 0)

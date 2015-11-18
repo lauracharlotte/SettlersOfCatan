@@ -67,8 +67,15 @@ public class JoinGameRequest implements IJSONSerializable
     @Override
     public void deserialize(String JSON) throws JSONException
     {
-            JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
-            this.gameId = obj.get("id").getAsInt();
-            this.playerColor = CatanColor.valueOf(obj.get("color").getAsString().toUpperCase());
+    	JsonObject obj = new JsonParser().parse(JSON).getAsJsonObject();
+    	this.gameId = obj.get("id").getAsInt();
+    	String color = obj.get("color").getAsString().toUpperCase();
+    	if (color != "RED" && color != "ORANGE" && color != "YELLOW" &&
+    			color != "BLUE" && color != "GREEN" && color != "PURPLE" &&
+    			color != "PUCE" && color != "WHITE" && color != "BROWN")
+    	{
+    		throw new JSONException("Malformed JoinGameRequest");
+    	}
+    	this.playerColor = CatanColor.valueOf(color);
     }
 }
