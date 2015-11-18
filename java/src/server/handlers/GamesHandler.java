@@ -27,11 +27,6 @@ public class GamesHandler extends AbstractHandler
     @Override
     public void reallyHandle(HttpExchange he, Cookie currentCookie) throws IOException
     {
-        if("".equals(currentCookie.getCompleteCookieString()))
-        {
-            this.sendQuickResponse(he, "Cookie error", 400);
-            return;
-        }
         ICommand command;
         try
         {
@@ -57,7 +52,7 @@ public class GamesHandler extends AbstractHandler
         }
         if(!currentCookie.getCompleteCookieString().equals(oldCookieString))
         {
-            String cookieString = currentCookie.getCompleteCookieString()+";Path=/;";
+            String cookieString = "catan.game="+currentCookie.getGameNumber()+";Path=/;";
             he.getResponseHeaders().add("Set-cookie", cookieString);
         }
         this.sendQuickResponse(he, response, 200);
