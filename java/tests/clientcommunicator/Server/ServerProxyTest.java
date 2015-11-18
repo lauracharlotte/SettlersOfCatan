@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import server.Server;
 //import static org.junit.Assert.*;
 
 /**
@@ -18,10 +19,15 @@ public class ServerProxyTest {
     
     @BeforeClass
     public static void setUpClass() {
+        ServerProxy.setSERVER_HOST("localhost");
+        ServerProxy.setSERVER_PORT("8081");
+        server = new Server(8081);
+        server.run();
     }
-    
+    private static Server server;
     @AfterClass
     public static void tearDownClass() {
+        server.stop();
     }
     
     @Before
