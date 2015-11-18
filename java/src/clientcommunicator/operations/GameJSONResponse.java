@@ -85,7 +85,7 @@ public class GameJSONResponse implements IJSONSerializable
     
     public GameJSONResponse(ClientModel model, int gameId)
     {
-    	ArrayList<Player> allPlayers = (ArrayList<Player>)model.getPlayers();
+    	ArrayList<Player> allPlayers = new ArrayList<Player>(model.getPlayers());
 		ArrayList<PlayerJSONResponse> players = new ArrayList<PlayerJSONResponse>();
 		for (int i = 0; i < allPlayers.size(); i++)
 		{

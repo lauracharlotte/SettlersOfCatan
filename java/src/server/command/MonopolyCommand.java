@@ -6,6 +6,7 @@
 package server.command;
 
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.MonopolyRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
@@ -46,7 +47,7 @@ public class MonopolyCommand implements ICommand {
         ClientModel result = myMovesFacade.monopoly(resource, playerIdx, game, playerId);
         
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }

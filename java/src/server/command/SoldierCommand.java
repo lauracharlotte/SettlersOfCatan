@@ -2,6 +2,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.PlaySoldierRequest;
 import model.ClientModel;
 import model.player.NullablePlayerIdx;
@@ -43,7 +44,7 @@ public class SoldierCommand implements ICommand {
         ClientModel result = myMovesFacade.soldier(playerIdx, victimIdx, location, game, playerId);
         
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }

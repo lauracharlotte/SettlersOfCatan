@@ -2,6 +2,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.DiscardCardsRequest;
 import model.ClientModel;
 import model.cards.ResourceCards;
@@ -40,7 +41,7 @@ public class DiscardCardsCommand implements ICommand{
         ClientModel result = myMovesFacade.discardCards(playerIdx, resourceCards, game, playerId);
         
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }
