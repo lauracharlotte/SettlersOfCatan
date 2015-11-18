@@ -18,7 +18,7 @@ import server.facade.IMovesFacade;
  * Executes the Roll Number request.
  * @author Scott
  */
-public class RollNumber implements ICommand {
+public class RollNumberCommand implements ICommand {
 
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException

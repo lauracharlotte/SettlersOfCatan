@@ -10,6 +10,9 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONException;
+
 import server.ServerException;
 import server.command.ICommand;
 import server.facade.IModelFacade;
@@ -49,7 +52,7 @@ public class MovesHandler extends AbstractHandler
         {
             result = command.execute(currentFacade, this.getRequestBody(he), currentCookie);
         }
-        catch (ServerException ex)
+        catch (JSONException | ServerException ex)
         {
             Logger.getLogger(MovesHandler.class.getName()).log(Level.SEVERE, null, ex);
             this.sendQuickResponse(he, "Something died", 400);

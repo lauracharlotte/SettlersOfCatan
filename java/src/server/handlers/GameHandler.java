@@ -5,6 +5,9 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.json.JSONException;
+
 import server.ServerException;
 import server.command.ICommand;
 import server.facade.IModelFacade;
@@ -44,7 +47,7 @@ public class GameHandler extends AbstractHandler
         {
             response = currentCommand.execute(this.currentFacade, this.getRequestBody(he), currentCookie);
         }
-        catch (ServerException ex)
+        catch (JSONException | ServerException ex)
         {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             this.sendQuickResponse(he, "Invalid operation", 400);

@@ -12,6 +12,7 @@ import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.player.Player;
 import model.player.User;
+import server.ServerException;
 import server.model.GameManager;
 import server.model.UserManager;
 
@@ -28,7 +29,8 @@ public class GamesFacade implements IGamesFacade
     private final int PLAYER_CITIES = 4;
     private final int PLAYER_ROADS = 15;
     private final int PLAYER_SETTLEMENTS = 5; 
-        
+    private final int FULL_GAME = 4;    
+    
 	/**
 	 * The Constructor
 	 * @param userManager
@@ -75,20 +77,54 @@ public class GamesFacade implements IGamesFacade
 	 * Joins a user to a game
 	 * @param request a JoinGameRequest object
 	 * @return the ClientModel of the game the user has joined
+	 * @throws ServerException 
 	 */
 	@Override
-	public boolean join(User user, JoinGameRequest request) 
+	public boolean join(User user, JoinGameRequest request) throws ServerException 
 	{
+		//Check for valid game ID
+		int greatestID = gameManager.getAllGames().size() - 1;
+		if (request.getGameId() > greatestID || request.getGameId() < 0)
+		{
+			throw new ServerException("Invalid game ID");
+		}
 		ClientModel game = gameManager.getGameWithNumber(request.getGameId());
 		ArrayList<Player> players  = (ArrayList<Player>)game.getPlayers();
-		DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
-		ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
-		Player newPlayer = new Player(PLAYER_CITIES, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
-				emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
-		players.add(newPlayer);
+		int playerIndex = find(user.getUsername(), players);
+		if (playerIndex == -1)
+		{
+			if (players.size() == FULL_GAME)
+			{
+				throw new ServerException("Cannot join a full game");
+			}
+			else
+			{
+				DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
+				ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
+				Player newPlayer = new Player(PLAYER_CITIES, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
+						emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
+				players.add(newPlayer);
+			}
+		}
+		else
+		{
+			//Change color
+			players.get(playerIndex).setColor(request.getPlayerColor());
+		}
 		game.setPlayers(players);		
 		gameManager.replaceGame(request.getGameId(), game);
 		return true;
 	}
 	
+	private int find(String username, ArrayList<Player> players)
+	{
+		for (int i = 0; i < players.size(); i++)
+		{
+			if (players.get(i).getName() == username)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 }

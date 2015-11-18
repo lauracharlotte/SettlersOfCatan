@@ -6,6 +6,7 @@ import clientcommunicator.operations.CreateGameRequest;
 import clientcommunicator.operations.GameJSONResponse;
 import clientcommunicator.operations.JoinGameRequest;
 import model.player.User;
+import server.ServerException;
 
 /**
  * Interface for facades that deal with games operations
@@ -31,7 +32,8 @@ public interface IGamesFacade extends IModelFacade
 	 * Joins a user to a game
 	 * @param request a JoinGameRequest object
 	 * @return true if joined successfully, false otherwise
+	 * @throws ServerException 
 	 */
-	public boolean join(User user, JoinGameRequest request);
+	public boolean join(User user, JoinGameRequest request) throws ServerException;
 
 }

@@ -54,12 +54,18 @@ public class Server
         new Server(port).run();
     }
     
-    private void run()
+    public void stop()
+    {
+        server.stop(0);
+    }
+    
+    private HttpServer server;
+    
+    public void run()
     {
         GameManager myGameManager = new GameManager();
         UserManager myUserManager = new UserManager();
         CookieVerifier cookieVerifier = new CookieVerifier(myUserManager, myGameManager);
-        HttpServer server;
         try
         {
             server = HttpServer.create(new InetSocketAddress(port), 10);

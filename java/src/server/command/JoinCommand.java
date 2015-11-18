@@ -18,21 +18,16 @@ public class JoinCommand implements ICommand
 
 	/**
 	 * Joins a user to a game
+	 * @throws ServerException
+	 * @throws JSONException 
 	 */
 	@Override
-	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
+	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException, JSONException
 	{
 		IGamesFacade myFacade = (IGamesFacade)facade;
 		JoinGameRequest join = new JoinGameRequest(0, null);
 		
-		try 
-		{
-			join.deserialize(requestBody);
-		} 
-		catch (JSONException e) 
-		{
-			return "Invalid JSON in request";
-		}
+		join.deserialize(requestBody);
 		
 		boolean result = myFacade.join(currentCookie.getUser(), join);
 		

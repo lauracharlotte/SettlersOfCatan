@@ -40,7 +40,7 @@ public class Cookie
             if(this.gameNumber != Integer.MIN_VALUE)
             {
                 cookie.append(";");
-                cookie.append(" catan.game=").append(this.gameNumber);
+                cookie.append("catan.game=").append(this.gameNumber);
             }
             return cookie.toString();
         }
@@ -207,34 +207,26 @@ public class Cookie
     {
         if(cookieString == null)
             return;
-        if (cookieString.contains("catan.game=null"))
+        cookieString = cookieString.trim();
+        String[] allCookies = cookieString.split(";");
+        for(String currentCookie : allCookies)
         {
-            int idx = cookieString.lastIndexOf("catan.game=null");
-            cookieString = cookieString.substring(0, idx);
-        }
-        StringBuilder userString = new StringBuilder(cookieString);
-        if(cookieString.contains("catan.game="))
-        {
-            StringBuilder gameNumberString = new StringBuilder();
-            while(userString.charAt(userString.length()-1) != 'c')
+            currentCookie = currentCookie.trim();
+            if(currentCookie.contains("catan.game=null"))
+                continue;
+            else if(currentCookie.startsWith("catan.game="))
             {
-                gameNumberString.insert(0, userString.charAt(userString.length() - 1));
-                userString.deleteCharAt(userString.length() - 1);
+                currentCookie = currentCookie.concat(";");
+                this.setGameNumberFromCookie(currentCookie);
             }
-            userString.deleteCharAt(userString.length() - 1);
-            userString.deleteCharAt(userString.length() - 1);
-            userString.deleteCharAt(userString.length() - 1);
-            System.out.println(userString);
-            userString.append(";1234567");
-            gameNumberString.insert(0, 'c');
-            gameNumberString.append(";1234567");
-            this.setGameNumberFromCookie(gameNumberString.toString());
+            else if(currentCookie.startsWith("catan.user="))
+            {
+                StringBuilder sb = new StringBuilder(currentCookie);
+                sb.append(";1234567");
+                this.setUserCookieString(sb.toString());
+            }
+            else
+                continue;
         }
-        else if(userString.length()>0 && userString.charAt(userString.length()-1) != ';')
-        {
-            userString.append(";1234567");
-        }
-        if (!userString.toString().trim().equals(""))
-            this.setUserCookieString(userString.toString());
     }
 }
