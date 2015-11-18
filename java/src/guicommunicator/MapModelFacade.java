@@ -83,19 +83,38 @@ public class MapModelFacade
     
     public Collection<Player> playersByHex(HexLocation location)
     {
-        Set<VertexLocation> vertLocations = new HashSet<VertexLocation>();
+        Collection<Player> values = this.playersWithCitiesByHex(location);
+        values.addAll(this.playersWithSettlementsByHex(location));
+        return values;
+    }
+    
+    public Collection<Player> playersWithCitiesByHex(HexLocation location)
+    {
+        ArrayList<Player> allPlayers = new ArrayList<>(this.getModel().getPlayers());
+        Set<VertexLocation> vertLocations = new HashSet<>();
         for(VertexDirection dir : VertexDirection.values())
         {
             vertLocations.add(new VertexLocation(location, dir).getNormalizedLocation());
         }
-        Collection<Player> allPlayers = getModel().getPlayers();
-        ArrayList<Player> players = new ArrayList<>();
-        for(VertexObject v: this.getCurrentMap().getCities())
+        Collection<Player> players = new ArrayList<>();
+        Collection<VertexObject> settlements = this.getCurrentMap().getCities();
+        for(VertexObject v: settlements)
         {
             if(vertLocations.contains(v.getLocation().getNormalizedLocation()))
                 players.add((Player) allPlayers.toArray()[v.getOwner().getIndex()]);
-                
         }
+        return players;
+    }
+    
+    public Collection<Player> playersWithSettlementsByHex(HexLocation location)
+    {
+        ArrayList<Player> allPlayers = new ArrayList<>(this.getModel().getPlayers());
+        Set<VertexLocation> vertLocations = new HashSet<>();
+        for(VertexDirection dir : VertexDirection.values())
+        {
+            vertLocations.add(new VertexLocation(location, dir).getNormalizedLocation());
+        }
+        Collection<Player> players = new ArrayList<>();
         Collection<VertexObject> settlements = this.getCurrentMap().getSettlements();
         for(VertexObject v: settlements)
         {

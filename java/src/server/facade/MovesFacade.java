@@ -190,6 +190,8 @@ public class MovesFacade implements IMovesFacade {
             int cardNumber = new Random().nextInt(victim.getHand().getResourceCards().getTotal());
             ResourceType type;
             ResourceCards victimsHand = victim.getHand().getResourceCards();
+            if(victimsHand.getTotal() == 0)
+                return model;
             if(victimsHand.getBrick() > cardNumber)
                 type = ResourceType.BRICK;
             else if(victimsHand.getBrick() + victimsHand.getGrain() > cardNumber)
@@ -690,7 +692,6 @@ public class MovesFacade implements IMovesFacade {
             resourceCards = changeResource(resourceCards, ResourceType.SHEEP, -1);
             player.getHand().setResourceCards(resourceCards);
         }
-        // Check if they can build the settlement there
         CatanMap map = model.getMap();
         Collection<VertexObject> settlements = map.getSettlements();
         settlements.add(new VertexObject(vertexLocation, playerIdx));
@@ -760,11 +761,11 @@ public class MovesFacade implements IMovesFacade {
             Hand accepterHand = accepter.getHand();
             ResourceCards accepterCards = accepterHand.getResourceCards();
             //does acceptor have enough cards?
-            accepterCards = changeResource(accepterCards, ResourceType.BRICK, abs(trade.getBrick())); // this looks scary
-            accepterCards = changeResource(accepterCards, ResourceType.ORE, abs(trade.getOre()));
-            accepterCards = changeResource(accepterCards, ResourceType.SHEEP, abs(trade.getWool()));
-            accepterCards = changeResource(accepterCards, ResourceType.WHEAT, abs(trade.getGrain()));
-            accepterCards = changeResource(accepterCards, ResourceType.WOOD, abs(trade.getLumber()));
+            accepterCards = changeResource(accepterCards, ResourceType.BRICK, -trade.getBrick());
+            accepterCards = changeResource(accepterCards, ResourceType.ORE, -trade.getOre());
+            accepterCards = changeResource(accepterCards, ResourceType.SHEEP, -trade.getWool());
+            accepterCards = changeResource(accepterCards, ResourceType.WHEAT, -trade.getGrain());
+            accepterCards = changeResource(accepterCards, ResourceType.WOOD, -trade.getLumber());
             accepterHand.setResourceCards(accepterCards);
             accepter.setHand(accepterHand);
             model = setPlayerFromIdx(model.getTradeOffer().getReceiverNumber(), model, accepter);
@@ -1007,17 +1008,9 @@ public class MovesFacade implements IMovesFacade {
      */
     private Collection<Player> getSettlementsByHexLocation(HexLocation hexLocation, ClientModel model)
     {
-        Collection<VertexObject> settlements = model.getMap().getSettlements();
-        Collection<Player> players = new ArrayList();
-        for (VertexObject settlement : settlements)
-        {
-            if (hexLocation == settlement.getLocation().getHexLoc())
-            {
-                players.add(getPlayerFromIdx(settlement.getOwner(), model));
-            }
-        }
-        
-        return players;
+        MapModelFacade mapFacade = new MapModelFacade();
+        mapFacade.configureFacade(model.getMap(), null, model);
+        return mapFacade.playersWithSettlementsByHex(hexLocation);
     }
     
     /**
@@ -1028,17 +1021,9 @@ public class MovesFacade implements IMovesFacade {
      */
     private Collection<Player> getCitiesByHexLocation(HexLocation hexLocation, ClientModel model)
     {
-        Collection<Player> players = new ArrayList();
-        Collection<VertexObject> cities = model.getMap().getCities();
-        for (VertexObject city : cities)
-        {
-            if (hexLocation == city.getLocation().getHexLoc()) //this might not work because of how normalized locations work
-            {
-                players.add(getPlayerFromIdx(city.getOwner(), model));
-            }
-        }
-        
-        return players;
+        MapModelFacade mapFacade = new MapModelFacade();
+        mapFacade.configureFacade(model.getMap(), null, model);
+        return mapFacade.playersWithCitiesByHex(hexLocation);
     }
     
     /**
