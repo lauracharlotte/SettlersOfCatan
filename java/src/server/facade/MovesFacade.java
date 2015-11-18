@@ -2,6 +2,7 @@ package server.facade;
 
 import guicommunicator.MapModelFacade;
 import guicommunicator.ResourceModelFacade;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
@@ -22,7 +23,9 @@ import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
 import model.player.User;
 import server.model.GameManager;
+import shared.definitions.HexType;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -650,22 +653,55 @@ public class MovesFacade implements IMovesFacade {
     public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
-        if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.secondround))
-        {
-            //they get stuff.
-        }
-        else if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.firstround))
-        {}
-        else if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
-            return model;
         Player player = getPlayerFromIdx(playerIdx, model);
         if(player.getSettlements() <= 0)
-            return model;
-        if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
             return model;
         MapModelFacade mapFacade = new MapModelFacade();
         mapFacade.configureFacade(model.getMap(), player, model);
         if(!mapFacade.canPlaceSettlement(vertexLocation))
+            return model;
+        if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.secondround))
+        {
+            ArrayList<HexLocation> hexLocations = new ArrayList<>();
+            vertexLocation = vertexLocation.getNormalizedLocation();
+            hexLocations.add(vertexLocation.getHexLoc());
+            hexLocations.add(vertexLocation.getHexLoc().getNeighborLoc(EdgeDirection.North));
+            if(vertexLocation.getDir() == VertexDirection.NorthEast)
+                hexLocations.add(vertexLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast));
+            else if(vertexLocation.getDir() == VertexDirection.NorthWest)
+                hexLocations.add(vertexLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest));
+            ArrayList<HexType> rTypes = new ArrayList<>();
+            for(HexLocation location: hexLocations)
+            {
+                for(Hex h: model.getMap().getHexes())
+                    if(h.getLocation().equals(location))
+                        rTypes.add(h.getType());
+            }
+            for(HexType type: rTypes)
+            {
+                switch(type)
+                {
+                    case WOOD:
+                        player.getHand().getResourceCards().setLumber(player.getHand().getResourceCards().getLumber() + 1);
+                        break;
+                    case SHEEP: 
+                        player.getHand().getResourceCards().setWool(player.getHand().getResourceCards().getWool() + 1);
+                        break;
+                    case BRICK: 
+                        player.getHand().getResourceCards().setBrick(player.getHand().getResourceCards().getBrick() + 1);
+                        break;
+                    case ORE: 
+                        player.getHand().getResourceCards().setOre(player.getHand().getResourceCards().getOre() + 1);
+                        break;
+                    case WHEAT: 
+                        player.getHand().getResourceCards().setGrain(player.getHand().getResourceCards().getGrain() + 1);
+                        break;
+                }
+            }
+        }
+        else if(model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.firstround))
+        {}
+        else if(!model.getTurnTracker().getStatus().equals(TurnStatusEnumeration.playing))
             return model;
         if (!free)
         {
