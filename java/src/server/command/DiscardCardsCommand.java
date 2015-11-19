@@ -40,8 +40,7 @@ public class DiscardCardsCommand implements ICommand{
         
         ClientModel result = myMovesFacade.discardCards(playerIdx, resourceCards, game, playerId);
         
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

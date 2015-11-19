@@ -8,8 +8,6 @@ package server.command;
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.operations.LoginCredentials;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.player.User;
 import org.json.JSONException;
 import server.ServerException;

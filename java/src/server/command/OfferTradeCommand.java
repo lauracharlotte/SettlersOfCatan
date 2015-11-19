@@ -46,8 +46,7 @@ public class OfferTradeCommand implements ICommand {
         
         ClientModel result = myMovesFacade.offerTrade(playerIdx, resourceCards, receiver, game, playerId);
         
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

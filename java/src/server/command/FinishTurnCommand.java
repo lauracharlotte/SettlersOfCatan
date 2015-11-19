@@ -43,8 +43,7 @@ public class FinishTurnCommand implements ICommand {
         
         ClientModel result = myMovesFacade.finishTurn(playerIdx, game, playerId);
         
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

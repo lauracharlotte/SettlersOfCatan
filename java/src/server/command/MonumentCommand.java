@@ -7,6 +7,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.MonumentRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
@@ -43,8 +44,7 @@ public class MonumentCommand implements ICommand {
         
         ClientModel result = myMovesFacade.monument(playerIdx, game, playerId);
         
-        // return result.serialize(); or whatever
-        return "";
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

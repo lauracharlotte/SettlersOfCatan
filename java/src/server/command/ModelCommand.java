@@ -1,22 +1,11 @@
 package server.command;
 
-import server.facade.GameFacade;
 import server.facade.IGameFacade;
 import server.facade.IModelFacade;
-import server.facade.MockGameFacade;
-import server.model.GameManager;
-import server.model.UserManager;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
-import clientcommunicator.modelserverfacade.JSONParser;
 import clientcommunicator.modelserverfacade.JSONSerializer;
 import model.ClientModel;
-import model.player.User;
 import server.ServerException;
 /**
  * This class gives the model of the game.
@@ -44,8 +33,7 @@ public class ModelCommand implements ICommand
 		
 		int gameNumber = currentCookie.getGameNumber();
 		ClientModel curModel = gameFacade.model(gameNumber);
-		JSONSerializer serializeThis = new JSONSerializer();
-		String answerSoFar = serializeThis.SerializeModel(curModel);
+		String answerSoFar = JSONSerializer.SerializeModel(curModel);
 		//System.out.println(answerSoFar);
 		
 		return answerSoFar;

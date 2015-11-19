@@ -46,8 +46,7 @@ public class BuildRoadCommand implements ICommand {
         
         ClientModel result = myMovesFacade.buildRoad(playerIdx, resource, free, game, playerId);
         
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

@@ -1,11 +1,5 @@
 package clientcommunicator.modelserverfacade;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,30 +7,17 @@ import org.json.JSONObject;
 import clientcommunicator.operations.Abbreviate;
 import model.ClientModel;
 import model.cards.DevelopmentCards;
-import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.cards.TradeOffer;
-import model.map.CatanMap;
 import model.map.EdgeObject;
 import model.map.Hex;
 import model.map.Port;
 import model.map.VertexObject;
 import model.messages.MessageLine;
 import model.messages.MessageList;
-import model.player.NullablePlayerIdx;
 import model.player.Player;
-import model.player.PlayerIdx;
-import model.player.TurnStatusEnumeration;
 import model.player.TurnTracker;
-import server.facade.MockGameFacade;
-import shared.definitions.CatanColor;
 import shared.definitions.HexType;
-import shared.definitions.ResourceType;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 
 /**
  * 
@@ -50,7 +31,7 @@ public class JSONSerializer {
 		
 	}
 
-	public /*static*/ JSONObject devCardsJSON(DevelopmentCards devCards)
+	public static JSONObject devCardsJSON(DevelopmentCards devCards)
 	{
 		JSONObject devCardObject = new JSONObject();
 		try {
@@ -66,7 +47,7 @@ public class JSONSerializer {
 		return devCardObject;	
 	}
 	
-	public /*static*/ JSONObject recCardsJSON(ResourceCards recCards)
+	public static JSONObject recCardsJSON(ResourceCards recCards)
 	{
 		JSONObject recCardsObject = new JSONObject();		
 		try {
@@ -82,7 +63,7 @@ public class JSONSerializer {
 		return recCardsObject;
 	}
 	
-	public /*static*/ JSONObject messageListJSON(MessageList messList)
+	public static JSONObject messageListJSON(MessageList messList)
 	{
 		JSONObject theMessageListObject = new JSONObject();
 		JSONArray messListArray = new JSONArray();
@@ -107,7 +88,7 @@ public class JSONSerializer {
 		return theMessageListObject;
 	}
 	
-	public /*static*/ JSONObject roadCitySettlementJSON(VertexObject settlementOrCity)
+	public static JSONObject roadCitySettlementJSON(VertexObject settlementOrCity)
 	{
 		JSONObject settlementOrCityObject = new JSONObject();
 		JSONObject settlementorCityLocObject = new JSONObject();
@@ -128,7 +109,7 @@ public class JSONSerializer {
 		return settlementOrCityObject;
 	}
 	
-	public /*static*/ String SerializeModel(ClientModel theModel)
+	public static String SerializeModel(ClientModel theModel)
 	{
 		JSONObject object = new JSONObject();
 		

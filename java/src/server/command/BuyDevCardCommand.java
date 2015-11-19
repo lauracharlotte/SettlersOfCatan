@@ -9,8 +9,6 @@ import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.BuyDevCardRequest;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.ClientModel;
 import model.player.PlayerIdx;
 import model.player.User;
@@ -44,8 +42,8 @@ public class BuyDevCardCommand implements ICommand {
         PlayerIdx playerIdx = buy.getPlayerIndex();
         
         ClientModel result = myMovesFacade.buyDevCard(playerIdx, game, playerId);
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+
+        return JSONSerializer.SerializeModel(result);
     }
     
 }

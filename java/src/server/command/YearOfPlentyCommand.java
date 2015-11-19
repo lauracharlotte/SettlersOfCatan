@@ -41,8 +41,8 @@ public class YearOfPlentyCommand implements ICommand {
         ResourceType resource2 = yop.getResource2();
         
         ClientModel result = myMovesFacade.yearOfPlenty(playerIdx, resource1, resource2, game, playerId);
-        // return result.serialize(); or whatever
-        return new JSONSerializer().SerializeModel(result);
+
+        return JSONSerializer.SerializeModel(result);
     }
     
 }
