@@ -824,10 +824,12 @@ public class MovesFacade implements IMovesFacade {
             traderHand.setResourceCards(traderCards);
             trader.setHand(traderHand);
             model = setPlayerFromIdx(model.getTradeOffer().getSenderNumber(), model, trader);
+            model.setLog(addLog(user, user.getUsername()+" accepted the trade.", model.getLog()));
         }
+        else
+            model.setLog(addLog(user, user.getUsername()+" declined the trade.", model.getLog()));
         model.setTradeOffer(null);
         // Update the log, version number, and model
-        model.setLog(addLog(user, "message", model.getLog()));
         model.setVersion(model.getVersion() + 1);
         this.manager.replaceGame(game, model);
         return model;
