@@ -354,10 +354,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     {
         if(arg != null)
         {
-            this.getJoinGameView().closeModal();
-            this.getMessageView().closeModal();
-            this.getNewGameView().closeModal();
-            this.getSelectColorView().closeModal();
+            if(this.getJoinGameView().isModalShowing())
+                this.getJoinGameView().closeModal();
+            if(this.getMessageView().isModalShowing())
+                this.getMessageView().closeModal();
+            if(this.getNewGameView().isModalShowing())
+                this.getNewGameView().closeModal();
+            if(this.getSelectColorView().isModalShowing())
+                this.getSelectColorView().closeModal();
         }
     }
 

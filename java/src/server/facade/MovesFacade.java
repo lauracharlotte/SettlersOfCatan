@@ -794,11 +794,11 @@ public class MovesFacade implements IMovesFacade {
             Hand accepterHand = accepter.getHand();
             ResourceCards accepterCards = accepterHand.getResourceCards();
             //does acceptor have enough cards?
-            accepterCards = changeResource(accepterCards, ResourceType.BRICK, -trade.getBrick());
-            accepterCards = changeResource(accepterCards, ResourceType.ORE, -trade.getOre());
-            accepterCards = changeResource(accepterCards, ResourceType.SHEEP, -trade.getWool());
-            accepterCards = changeResource(accepterCards, ResourceType.WHEAT, -trade.getGrain());
-            accepterCards = changeResource(accepterCards, ResourceType.WOOD, -trade.getLumber());
+            accepterCards = changeResource(accepterCards, ResourceType.BRICK, trade.getBrick());
+            accepterCards = changeResource(accepterCards, ResourceType.ORE, trade.getOre());
+            accepterCards = changeResource(accepterCards, ResourceType.SHEEP, trade.getWool());
+            accepterCards = changeResource(accepterCards, ResourceType.WHEAT, trade.getGrain());
+            accepterCards = changeResource(accepterCards, ResourceType.WOOD, trade.getLumber());
             accepterHand.setResourceCards(accepterCards);
             accepter.setHand(accepterHand);
             model = setPlayerFromIdx(model.getTradeOffer().getReceiverNumber(), model, accepter);
@@ -806,11 +806,11 @@ public class MovesFacade implements IMovesFacade {
             Player trader = getPlayerFromIdx(model.getTradeOffer().getSenderNumber(), model);
             Hand traderHand = trader.getHand();
             ResourceCards traderCards = traderHand.getResourceCards();
-            traderCards = changeResource(traderCards, ResourceType.BRICK, trade.getBrick());
-            traderCards = changeResource(traderCards, ResourceType.ORE, trade.getOre());
-            traderCards = changeResource(traderCards, ResourceType.SHEEP, trade.getWool());
-            traderCards = changeResource(traderCards, ResourceType.WHEAT, trade.getGrain());
-            traderCards = changeResource(traderCards, ResourceType.WOOD, trade.getLumber());
+            traderCards = changeResource(traderCards, ResourceType.BRICK, -trade.getBrick());
+            traderCards = changeResource(traderCards, ResourceType.ORE, -trade.getOre());
+            traderCards = changeResource(traderCards, ResourceType.SHEEP, -trade.getWool());
+            traderCards = changeResource(traderCards, ResourceType.WHEAT, -trade.getGrain());
+            traderCards = changeResource(traderCards, ResourceType.WOOD, -trade.getLumber());
             traderHand.setResourceCards(traderCards);
             trader.setHand(traderHand);
             model = setPlayerFromIdx(model.getTradeOffer().getSenderNumber(), model, trader);

@@ -64,7 +64,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                 serverPoller.setFacade(ModelServerFacadeFactory.getInstance());
                 serverPoller.setServer(ModelServerFacadeFactory.getInstance().getServerProxy());
                 serverPoller.setPollingMilliseconds(2000);
-                getView().closeModal();
+                if(getView().isModalShowing())
+                    getView().closeModal();
                 serverPoller.run();
                 return;
             }
