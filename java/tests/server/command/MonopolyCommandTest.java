@@ -73,13 +73,17 @@ public class MonopolyCommandTest
         ResourceCards ResCards = new ResourceCards(3, 3, 3, 3, 3);
         Player newPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby", null, false, 
                         devCards, 0, 11, 3, 0, 0, new Hand(ResCards, devCards));
-        players.add(newPlayer);
         newPlayer.setPlayerIndex(new PlayerIdx(0));
+        players.add(newPlayer);
         ResCards = new ResourceCards(3, 3, 3, 3, 3);
-        Player otherPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby2", null, false, 
-                        devCards, 0, 11, 3, 0, 0, new Hand(ResCards, devCards)); 
-        otherPlayer.setPlayerIndex(new PlayerIdx(1));
-        players.add(otherPlayer);
+        newPlayer = new Player(1, CatanColor.PURPLE, false, 0, "bobby2", null, false, 
+                        devCards, 1, 11, 3, 0, 0, new Hand(ResCards, devCards));
+        newPlayer.setPlayerIndex(new PlayerIdx(1));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(2));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(3));
+        players.add(newPlayer);
         currentModel.setPlayers(players);
         currentModel.getTurnTracker().setStatus(TurnStatusEnumeration.playing);
         currentModel.getTurnTracker().setCurrentTurn(new PlayerIdx(0));

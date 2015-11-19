@@ -71,13 +71,17 @@ public class AcceptTradeCommandTest
         ResourceCards ResCards = new ResourceCards(3, 3, 3, 3, 3);
         Player newPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby", null, false, 
                         emptyDevCards, 0, 11, 3, 0, 0, new Hand(ResCards, emptyDevCards));
+                newPlayer.setPlayerIndex(new PlayerIdx(0));
         players.add(newPlayer);
-        newPlayer.setPlayerIndex(new PlayerIdx(0));
         ResCards = new ResourceCards(3, 3, 3, 3, 3);
         newPlayer = new Player(1, CatanColor.PURPLE, false, 0, "bobby2", null, false, 
                         emptyDevCards, 1, 11, 3, 0, 0, new Hand(ResCards, emptyDevCards));
-        players.add(newPlayer);
         newPlayer.setPlayerIndex(new PlayerIdx(1));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(2));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(3));
+        players.add(newPlayer);
         currentModel.setPlayers(players);
         currentModel.setTradeOffer(new TradeOffer(new PlayerIdx(1), new PlayerIdx(0), new ResourceCards(0,-1,1,2,-2)));
         manager.replaceGame(0, currentModel);

@@ -81,13 +81,17 @@ public class MaritimeTradeCommandTest
         ResourceCards ResCards = new ResourceCards(0, 3, 3, 3, 3);
         Player newPlayer = new Player(1, CatanColor.PUCE, false, 0, "bobby", null, false, 
                         emptyDevCards, 0, 11, 3, 0, 0, new Hand(ResCards, emptyDevCards));
+                newPlayer.setPlayerIndex(new PlayerIdx(0));
         players.add(newPlayer);
-        newPlayer.setPlayerIndex(new PlayerIdx(0));
-        ResCards = new ResourceCards(0, 3, 3, 3, 3);
+        ResCards = new ResourceCards(3, 3, 3, 3, 3);
         newPlayer = new Player(1, CatanColor.PURPLE, false, 0, "bobby2", null, false, 
                         emptyDevCards, 1, 11, 3, 0, 0, new Hand(ResCards, emptyDevCards));
-        players.add(newPlayer);
         newPlayer.setPlayerIndex(new PlayerIdx(1));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(2));
+        players.add(newPlayer);
+        newPlayer.setPlayerIndex(new PlayerIdx(3));
+        players.add(newPlayer);
         currentModel.setPlayers(players);
         currentModel.getTurnTracker().setCurrentTurn(new PlayerIdx(0));
         currentModel.getTurnTracker().setStatus(TurnStatusEnumeration.playing);
