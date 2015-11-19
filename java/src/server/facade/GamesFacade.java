@@ -87,7 +87,7 @@ public class GamesFacade implements IGamesFacade
 			throw new ServerException("Invalid game ID");
 		}
 		ClientModel game = gameManager.getGameWithNumber(request.getGameId());
-		ArrayList<Player> players  = (ArrayList<Player>)game.getPlayers();
+		ArrayList<Player> players  = new ArrayList<>(game.getPlayers());
 		int playerIndex = find(user.getUsername(), players);
 		if (playerIndex == -1)
 		{
