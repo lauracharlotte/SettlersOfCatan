@@ -223,8 +223,8 @@ public class MovesFacade implements IMovesFacade {
             old.setYearOfPlenty(old.getYearOfPlenty() + newDevCards.getYearOfPlenty());
             p.setNewDevCards(new DevelopmentCards());
             model.setLog(addLog(user, user.getUsername() + "'s turn just ended", model.getLog()));
-            model.setVersion(model.getVersion() + 1);
         }
+        model.setVersion(model.getVersion() + 1);
         this.manager.replaceGame(game, model);
         return model;
     }
