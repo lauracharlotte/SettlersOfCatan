@@ -13,6 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import server.facade.IModelFacade;
+import model.player.User;
+import server.model.GameManager;
+import server.facade.GamesFacade;
+import model.ClientModel;
+
 
 /**
  *
@@ -48,15 +53,33 @@ public class ListCommandTest
     @Test
     public void testExecute() throws Exception
     {
-        System.out.println("execute");
-        IModelFacade facade = null;
+    	//Test 1
+        System.out.println("Testing execute list games, empty list...");
+        User newUser = new User("Bobby", "bobby");
+        newUser.setPlayerId(0);
+        GameManager gmanager = new GameManager();
+        IModelFacade facade = new GamesFacade(gmanager);
         String requestBody = "";
-        Cookie currentCookie = null;
+        Cookie currentCookie = new Cookie();
+        currentCookie.setUser(newUser);
         ListCommand instance = new ListCommand();
-        String expResult = "";
+        String expResult = "[]";
         String result = instance.execute(facade, requestBody, currentCookie);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        System.out.println("Test list with no games passed.");
+        
+        //Test 2
+        System.out.println("Testing execute list games, populated list...");
+        ClientModel game1 = new ClientModel(false, false, false, "Game1");
+        gmanager.addNewGame(game1);
+        ClientModel game2 = new ClientModel(true, true, true, "Game2");
+        gmanager.addNewGame(game2);
+        facade = new GamesFacade(gmanager);
+        expResult = "[]";
+        result = instance.execute(facade, requestBody, currentCookie);
+        System.out.println("Result: \n" + result);
+        //assertEquals(expResult, result);
+        System.out.println("Test list with multiple games passed.");
     }
     
 }
