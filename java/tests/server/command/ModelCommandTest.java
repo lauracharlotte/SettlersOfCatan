@@ -14,6 +14,45 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import server.facade.IModelFacade;
 
+//Imports for test
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
+
+import model.ClientModel;
+import model.cards.DevelopmentCards;
+import model.cards.Hand;
+import model.cards.ResourceCards;
+import model.cards.TradeOffer;
+import model.map.CatanMap;
+import model.map.EdgeObject;
+import model.map.Hex;
+import model.map.Port;
+import model.map.VertexObject;
+import model.messages.MessageLine;
+import model.messages.MessageList;
+import model.player.NullablePlayerIdx;
+import model.player.Player;
+import model.player.PlayerIdx;
+import model.player.TurnStatusEnumeration;
+import model.player.TurnTracker;
+import server.facade.MockGameFacade;
+import shared.definitions.CatanColor;
+import shared.definitions.HexType;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
+
+import clientcommunicator.modelserverfacade.JSONParser;
+import clientcommunicator.modelserverfacade.JSONSerializer;
+import org.json.JSONException;
+
+
 /**
  *
  * @author Michael
@@ -62,6 +101,8 @@ public class ModelCommandTest
 	    @Test
     public void testExecute2() throws Exception
     {
+		System.out.println("Big test of Command Execute");
+		
 		MockGameFacade mockmock = null;
 		
 		ClientModel testClientModel = new ClientModel();
@@ -97,7 +138,7 @@ public class ModelCommandTest
 		testClientModel.setLog(chat);
 		
 		//trying to do hexes
-        Set<Hex> hexes = new HashSet<>();
+        List<Hex> hexes = new ArrayList<>();
         for(int i = -1; i<1; i++)
             for(int j = -1; j<1; j++)
                 hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
@@ -110,7 +151,7 @@ public class ModelCommandTest
 		//
 		
         //trying to do ports
-        Set<Port> ports = new HashSet<>();
+        List<Port> ports = new ArrayList<>();
         for(int i = -1; i<1; i++)
             for(int j = -1; j<1; j++)
             	ports.add(new Port(new HexLocation(i, j), ResourceType.BRICK, EdgeDirection.North, -1));
@@ -124,7 +165,7 @@ public class ModelCommandTest
         
         //trying to do roads
         Collection<EdgeObject> roads;
-        roads = new HashSet<>();
+        roads = new ArrayList<>();
         PlayerIdx index = new PlayerIdx(2);
         PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
@@ -133,7 +174,7 @@ public class ModelCommandTest
         //trying to do city/settlement
         PlayerIdx aPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         VertexLocation location = new VertexLocation(new HexLocation(0,0), VertexDirection.East);
-        Collection<VertexObject> otherVertexObjects = new HashSet<>();
+        Collection<VertexObject> otherVertexObjects = new ArrayList<>();
         otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0, 0), VertexDirection.East), otherPlayerIndex));
         otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.NorthWest), index));
         //
@@ -160,13 +201,30 @@ public class ModelCommandTest
 		testClientModel.setWinner(winner);
 		
 		ClientModel testModel = testClientModel;
-		String answerSoFar = SerializeModel(testModel);
+		
+		JSONSerializer testSerializer = new JSONSerializer();
+		String answerSoFar = testSerializer.SerializeModel(testModel);
 		//System.out.println(answerSoFar);
 		
 		JSONParser testParser = new JSONParser();
-		ClientModel parsedModelTest = testParser.fromJSONToModel(answerSoFar);
+		ClientModel parsedModelTest  = new ClientModel();
+		try {
+			parsedModelTest = testParser.fromJSONToModel(answerSoFar);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("ParsedModelTest");
+		//System.out.println(parsedModelTest.toString());
+		
+		//System.out.println("Before Parsed");
+		//System.out.println(testClientModel.toString());
+		 
+		//System.out.println(answerSoFar);
+		//System.out.println(testSerializer.SerializeModel(parsedModelTest));
 		 
 		assertEquals(testModel, parsedModelTest);
+		//System.out.println("Finished big test of Model Command Execute");
     }
     
 }

@@ -60,7 +60,7 @@ public class CreateCommandTest
         newUser.setPlayerId(0);
         umanager.addUser(newUser);
         GameManager gmanager = new GameManager();
-        IModelFacade facade = new GamesFacade(umanager, gmanager);
+        IModelFacade facade = new GamesFacade(gmanager);
         CreateGameRequest request = new CreateGameRequest(false, false, false, "Game1");
         String requestBody = request.serialize();
         Cookie currentCookie = new Cookie();

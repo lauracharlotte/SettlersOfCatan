@@ -64,7 +64,7 @@ public class JoinCommandTest
         GameManager gmanager = new GameManager();
         ClientModel model = new ClientModel(false, false, false, "Game1");
         gmanager.addNewGame(model);
-        IModelFacade facade = new GamesFacade(umanager, gmanager);
+        IModelFacade facade = new GamesFacade(gmanager);
         JoinGameRequest request = new JoinGameRequest(0, CatanColor.WHITE);
         String requestBody = request.serialize();
         Cookie currentCookie = new Cookie();
