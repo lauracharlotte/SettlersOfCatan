@@ -52,6 +52,11 @@ import clientcommunicator.modelserverfacade.JSONParser;
 import clientcommunicator.modelserverfacade.JSONSerializer;
 import org.json.JSONException;
 
+import server.facade.GameFacade;
+import server.facade.IModelFacade;
+import server.model.UserManager;
+import model.player.User;
+import server.model.GameManager;
 
 /**
  *
@@ -83,26 +88,18 @@ public class ModelCommandTest
     public void tearDown()
     {
     }
-
-    @Test
-    public void testExecute() throws Exception //does this work?
-    {
-        System.out.println("execute");
-        IModelFacade facade = null;
-        String requestBody = "";
-        Cookie currentCookie = null;
-        ModelCommand instance = new ModelCommand();
-        String expResult = "";
-        String result = instance.execute(facade, requestBody, currentCookie);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
 	
-	    @Test
-    public void testExecute2() throws Exception
+	@Test
+    public void testExecute() throws Exception
     {
-		System.out.println("Big test of Command Execute");
+		System.out.println("Testing Command Execute...");
 		
+		UserManager umanager = new UserManager();
+        User newUser = new User("Bobby", "bobby");
+        newUser.setPlayerId(0);
+        umanager.addUser(newUser);
+        
+		//-----------------------------------------------------
 		MockGameFacade mockmock = null;
 		
 		ClientModel testClientModel = new ClientModel();
@@ -144,10 +141,10 @@ public class ModelCommandTest
                 hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
         int l=2;
         for(int j=-2; j<=1; j++)
-            hexes.add(new Hex(new HexLocation(l,j), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,2), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,-2), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,0), HexType.BRICK, -1));
+            hexes.add(new Hex(new HexLocation(l,j), HexType.WHEAT, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.WHEAT, -1));
+        hexes.add(new Hex(new HexLocation(-1,-2), HexType.WOOD, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.BRICK, -1));
 		//
 		
         //trying to do ports
@@ -202,9 +199,21 @@ public class ModelCommandTest
 		
 		ClientModel testModel = testClientModel;
 		
+		//-----------------------------
+		GameManager gmanager = new GameManager(); 
+        gmanager.addNewGame(testModel);
+        IModelFacade facade = new GameFacade(umanager, gmanager); 
+        String requestBody = "";
+        Cookie currentCookie = new Cookie();
+        currentCookie.setGameNumber(0);
+        currentCookie.setUser(newUser);
+       
+        ModelCommand instance = new ModelCommand();
+		String nextBigString = instance.execute(facade, requestBody, currentCookie);
+		//-----------------------------
+		
 		JSONSerializer testSerializer = new JSONSerializer();
 		String answerSoFar = testSerializer.SerializeModel(testModel);
-		//System.out.println(answerSoFar);
 		
 		JSONParser testParser = new JSONParser();
 		ClientModel parsedModelTest  = new ClientModel();
@@ -214,17 +223,27 @@ public class ModelCommandTest
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("ParsedModelTest");
-		//System.out.println(parsedModelTest.toString());
 		
-		//System.out.println("Before Parsed");
-		//System.out.println(testClientModel.toString());
-		 
-		//System.out.println(answerSoFar);
-		//System.out.println(testSerializer.SerializeModel(parsedModelTest));
-		 
+		//Time to deal with the parser
+		Collection<Hex> theHexes = parsedModelTest.getMap().getHexes();
+		Collection<Hex> newHexes = new ArrayList<Hex>();
+		for(Hex testingOne : theHexes)
+		{
+			if(testingOne.getType() != HexType.WATER)
+			{
+				newHexes.add(testingOne);
+			}
+		}
+		parsedModelTest.getMap().setHexes(newHexes);
+		String theNextBigParsedString = testSerializer.SerializeModel(parsedModelTest);
+		
+		System.out.println("Testing Serializing function");
 		assertEquals(testModel, parsedModelTest);
-		//System.out.println("Finished big test of Model Command Execute");
+		System.out.println("Serializing Function passed");
+		System.out.println("Testing Model Command Execute function");
+		assertEquals(nextBigString, theNextBigParsedString);
+		System.out.println("Model Command Execute function passed");
+		System.out.println("Finished test of Model Command Execute");
     }
     
 }
