@@ -75,10 +75,10 @@ public class ListCommandTest
         ClientModel game2 = new ClientModel(true, true, true, "Game2");
         gmanager.addNewGame(game2);
         facade = new GamesFacade(gmanager);
-        expResult = "[]";
+        expResult = "[{\"players\":[],\"id\":0,\"title\":\"Game1\"},"
+        		+ "{\"players\":[],\"id\":1,\"title\":\"Game2\"}]";
         result = instance.execute(facade, requestBody, currentCookie);
-        System.out.println("Result: \n" + result);
-        //assertEquals(expResult, result);
+        assertEquals(expResult, result);
         System.out.println("Test list with multiple games passed.");
     }
     
