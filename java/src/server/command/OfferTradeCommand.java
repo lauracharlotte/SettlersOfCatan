@@ -7,6 +7,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.OfferTradeRequest;
 import model.ClientModel;
 import model.cards.ResourceCards;
@@ -46,7 +47,7 @@ public class OfferTradeCommand implements ICommand {
         ClientModel result = myMovesFacade.offerTrade(playerIdx, resourceCards, receiver, game, playerId);
         
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }

@@ -7,6 +7,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.BuildSettlementRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
@@ -46,7 +47,7 @@ public class BuildSettlementCommand implements ICommand {
         ClientModel result = myMovesFacade.buildSettlement(playerIdx, location, free, game, playerId);
         
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }

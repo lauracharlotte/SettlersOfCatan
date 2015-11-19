@@ -7,6 +7,7 @@ package server.command;
 
 import server.facade.IModelFacade;
 import clientcommunicator.Server.Cookie;
+import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.RoadBuildingCardRequest;
 import model.ClientModel;
 import model.player.PlayerIdx;
@@ -46,7 +47,7 @@ public class RoadBuildingCommand implements ICommand {
         
         ClientModel result = myMovesFacade.roadBuilding(playerIdx, location1, location2, game, playerId);
         // return result.serialize(); or whatever
-        return "";
+        return new JSONSerializer().SerializeModel(result);
     }
     
 }
