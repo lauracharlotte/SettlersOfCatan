@@ -6,10 +6,7 @@ import clientcommunicator.Server.ServerProxyTest;
 import clientcommunicator.modelserverfacade.JSONParserTest;
 import guicommunicator.MapModelFacadeTest;
 import guicommunicator.ResourceModelFacadeTest;
-import server.command.JoinCommandTest;
-import server.command.CreateCommandTest;
-import server.command.ListCommandTest;
-import server.command.ModelCommandTest;
+import server.command.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +35,26 @@ public class RunTests {
       testCases.add(CreateCommandTest.class);
       testCases.add(ModelCommandTest.class);
       testCases.add(ListCommandTest.class);
-      
+      testCases.add(AcceptTradeCommandTest.class);
+      testCases.add(BuildCityCommandTest.class);
+      testCases.add(BuildRoadCommandTest.class);
+      testCases.add(BuildSettlementCommandTest.class);
+      testCases.add(BuyDevCardCommandTest.class);
+      testCases.add(DiscardCardsCommandTest.class);
+      testCases.add(FinishTurnCommandTest.class);
+      testCases.add(LoginCommandTest.class);
+      testCases.add(MaritimeTradeCommandTest.class);
+      testCases.add(MonopolyCommandTest.class);
+      testCases.add(MonumentCommandTest.class);
+      testCases.add(OfferTradeCommandTest.class);
+      testCases.add(RegisterCommandTest.class);
+      testCases.add(RoadBuildingCommandTest.class);
+      testCases.add(RobPlayerCommandTest.class);
+      testCases.add(RollNumberCommandTest.class);
+      testCases.add(SendChatCommandTest.class);
+      testCases.add(SoldierCommandTest.class);
+      testCases.add(YearOfPlentyCommandTest.class);
+      //testCases.add();
         for (Iterator it = testCases.iterator(); it.hasNext();) {
             Class testCase = (Class) it.next();
             runTestCase(testCase);
