@@ -11,6 +11,7 @@ import model.cards.DevelopmentCards;
 import model.cards.Hand;
 import model.cards.ResourceCards;
 import model.player.Player;
+import model.player.PlayerIdx;
 import model.player.User;
 import server.ServerException;
 import server.model.GameManager;
@@ -99,8 +100,9 @@ public class GamesFacade implements IGamesFacade
 				DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
 				ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
 				Player newPlayer = new Player(PLAYER_CITIES, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
-						emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
-				players.add(newPlayer);
+				emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
+				newPlayer.setPlayerIndex(new PlayerIdx(players.size() + 1));
+                                players.add(newPlayer);
 			}
 		}
 		else
@@ -117,7 +119,7 @@ public class GamesFacade implements IGamesFacade
 	{
 		for (int i = 0; i < players.size(); i++)
 		{
-			if (players.get(i).getName() == username)
+			if (players.get(i).getName().equals(username))
 			{
 				return i;
 			}
