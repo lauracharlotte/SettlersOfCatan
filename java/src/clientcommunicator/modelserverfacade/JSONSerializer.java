@@ -338,10 +338,10 @@ public class JSONSerializer {
                 hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
         int l=2;
         for(int j=-2; j<=1; j++)
-            hexes.add(new Hex(new HexLocation(l,j), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,2), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,-2), HexType.WATER, -1));
-        hexes.add(new Hex(new HexLocation(1,0), HexType.BRICK, -1));
+            hexes.add(new Hex(new HexLocation(l,j), HexType.WHEAT, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.WHEAT, -1));
+        hexes.add(new Hex(new HexLocation(-1,-2), HexType.WOOD, -1));
+        hexes.add(new Hex(new HexLocation(1,2), HexType.BRICK, -1));
 		//
 		
         //trying to do ports
@@ -408,13 +408,28 @@ public class JSONSerializer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("ParsedModelTest");
-		System.out.println(parsedModelTest.toString());
+		//System.out.println("ParsedModelTest");
+		//System.out.println(parsedModelTest.toString());
 		
-		System.out.println("Before Parsed");
-		System.out.println(testClientModel.toString());
+		//System.out.println("Before Parsed");
+		//System.out.println(testClientModel.toString());
 		
-		System.out.println(answerSoFar);
+		//System.out.println(answerSoFar);
+		
+		//Time to deal with the parser
+		Collection<Hex> theHexes = parsedModelTest.getMap().getHexes();
+		Collection<Hex> newHexes = new ArrayList<Hex>();
+		for(Hex testingOne : theHexes)
+		{
+			if(testingOne.getType() != HexType.WATER)
+			{
+				newHexes.add(testingOne);
+			}
+		}
+		parsedModelTest.getMap().setHexes(newHexes);
+		//
+		
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println(testSerializer.SerializeModel(parsedModelTest));
 		
 	}*/
