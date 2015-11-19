@@ -15,7 +15,7 @@ import shared.definitions.ResourceType;
  * Executes the Year of Plenty request.
  * @author Scott
  */
-public class YearOfPlentyCommand implements ICommand {
+public class YearofPlentyCommand implements ICommand {
 
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
