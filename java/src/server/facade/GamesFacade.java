@@ -101,7 +101,7 @@ public class GamesFacade implements IGamesFacade
 				ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
 				Player newPlayer = new Player(PLAYER_CITIES, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
 				emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
-				newPlayer.setPlayerIndex(new PlayerIdx(players.size() + 1));
+				newPlayer.setPlayerIndex(new PlayerIdx(players.size()));
                                 players.add(newPlayer);
 			}
 		}
