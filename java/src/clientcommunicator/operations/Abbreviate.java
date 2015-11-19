@@ -20,6 +20,14 @@ public class Abbreviate {
     	{
     		newDirection = "S";
     	}
+    	else if(originalDirection.equals("East"))
+    	{
+    		newDirection = "E";
+    	}
+    	else if(originalDirection.equals("West"))
+    	{
+    		newDirection = "W";
+    	}
     	else if(originalDirection.equals("SouthWest")) 
     	{
     		newDirection = "SW";

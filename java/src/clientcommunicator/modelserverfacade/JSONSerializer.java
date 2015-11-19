@@ -414,6 +414,9 @@ public class JSONSerializer {
 		System.out.println("Before Parsed");
 		System.out.println(testClientModel.toString());
 		
+		System.out.println(answerSoFar);
+		System.out.println(testSerializer.SerializeModel(parsedModelTest));
+		
 	}*/
 	
 }
