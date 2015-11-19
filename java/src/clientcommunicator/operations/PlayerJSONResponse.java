@@ -84,7 +84,7 @@ public class PlayerJSONResponse implements IJSONSerializable
             {
                     player.put("color", color.toString());
                     player.put("name", name);
-                    player.put("playerID", id);
+                    player.put("id", id);
             } 
             catch (JSONException e) 
             {
