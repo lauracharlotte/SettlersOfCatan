@@ -370,10 +370,12 @@ public class MovesFacade implements IMovesFacade {
         // take away dev card
         MapModelFacade mapFacade = new MapModelFacade();
         mapFacade.configureFacade(model.getMap(), player, model);
-        if(!mapFacade.canPlaceRoad(spot1) || !mapFacade.canPlaceRoad(spot2))
+        if(!mapFacade.canPlaceRoad(spot1))
             return model;
         player.getHand().getDevelopmentCards().setRoadBuilding(numberOfCards - 1);
         model = actuallyBuildRoad(playerIdx, spot1, model);
+        if(!mapFacade.canPlaceRoad(spot2))
+            return model;
         model = actuallyBuildRoad(playerIdx, spot2, model);
         
         // Update the log, version number, and model
