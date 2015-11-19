@@ -404,7 +404,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         receiving = false;
         personToAsk = false;
         getTradeOverlay().reset();
-        getTradeOverlay().closeModal();
+        if(getTradeOverlay().isModalShowing())
+            getTradeOverlay().closeModal();
     }
 
     @Override
@@ -440,7 +441,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
             
             if (currentTrade == null && trade != null)
             {
-                getWaitOverlay().closeModal();
+                if(getWaitOverlay().isModalShowing())
+                    getWaitOverlay().closeModal();
                 cancelTrade();
             }
             else if (currentTrade != null)

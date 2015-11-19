@@ -799,7 +799,10 @@ public class MovesFacade implements IMovesFacade {
             return model;
         if(willAccept)
         {
-            if(!accepter.hasEnoughResources(new ResourceCards(-trade.getBrick(), -trade.getOre(), -trade.getLumber(), -trade.getGrain(), -trade.getWool())))
+            if(!accepter.hasEnoughResources(new ResourceCards(trade.getBrick()<0?-trade.getBrick():0, 
+                    trade.getGrain()<0?-trade.getGrain():0, 
+                    trade.getLumber()<0?-trade.getLumber():0, 
+                    trade.getOre()<0?-trade.getOre():0, trade.getWool()<0?-trade.getWool():0)))
                     return model;
             Hand accepterHand = accepter.getHand();
             ResourceCards accepterCards = accepterHand.getResourceCards();
