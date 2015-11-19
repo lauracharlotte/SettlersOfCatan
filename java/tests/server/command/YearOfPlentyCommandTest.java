@@ -99,7 +99,7 @@ public class YearOfPlentyCommandTest
         User newUser = new User("bobby", "bobby");
         newUser.setPlayerId(0);
         currentCookie.setUser(newUser);
-        ICommand cmd = new YearOfPlentyCommand();
+        ICommand cmd = new YearofPlentyCommand();
         cmd.execute(facade, requestBody, currentCookie);
         assert(manager.getGameWithNumber(0).getPlayers().iterator().next().getHand().getResourceCards().getBrick() == 4);
         assert(manager.getGameWithNumber(0).getPlayers().iterator().next().getHand().getResourceCards().getOre() == 4);
