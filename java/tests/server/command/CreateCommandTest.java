@@ -54,11 +54,10 @@ public class CreateCommandTest
     @Test
     public void testExecute() throws Exception
     {
+    	//Test 1
         System.out.println("Testing execute create game...");
-        UserManager umanager = new UserManager();
         User newUser = new User("Bobby", "bobby");
         newUser.setPlayerId(0);
-        umanager.addUser(newUser);
         GameManager gmanager = new GameManager();
         IModelFacade facade = new GamesFacade(gmanager);
         CreateGameRequest request = new CreateGameRequest(false, false, false, "Game1");
@@ -70,6 +69,33 @@ public class CreateCommandTest
         String result = instance.execute(facade, requestBody, currentCookie);
         assertEquals(expResult, result);
         System.out.println("Test create game passed.");
+        
+        //Test 2
+        System.out.println("Testing create with random resource tiles...");
+        request = new CreateGameRequest(true, false, false, "Game2");
+        requestBody = request.serialize();
+        expResult = "{\"players\":[],\"id\":1,\"title\":\"Game2\"}";
+        result = instance.execute(facade, requestBody, currentCookie);
+        assertEquals(expResult, result);
+        System.out.println("Test create with random tiles passed.");
+        
+        //Test 3
+        System.out.println("Testing create with random numbers...");
+        request = new CreateGameRequest(false, true, false, "Game3");
+        requestBody = request.serialize();
+        expResult = "{\"players\":[],\"id\":2,\"title\":\"Game3\"}";
+        result = instance.execute(facade, requestBody, currentCookie);
+        assertEquals(expResult, result);
+        System.out.println("Test create with random numbers passed.");
+        
+        //Test 4
+        System.out.println("Testing create with random ports...");
+        request = new CreateGameRequest(false, false, true, "Game4");
+        requestBody = request.serialize();
+        expResult = "{\"players\":[],\"id\":3,\"title\":\"Game4\"}";
+        result = instance.execute(facade, requestBody, currentCookie);
+        assertEquals(expResult, result);
+        System.out.println("Test create with random ports passed.");
     }
     
 }

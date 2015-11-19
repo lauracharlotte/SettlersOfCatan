@@ -57,10 +57,8 @@ public class JoinCommandTest
     {
     	//Test 1
         System.out.println("Testing execute join game...");
-        UserManager umanager = new UserManager();
         User newUser = new User("Bobby", "bobby");
         newUser.setPlayerId(0);
-        umanager.addUser(newUser);
         GameManager gmanager = new GameManager();
         ClientModel model = new ClientModel(false, false, false, "Game1");
         gmanager.addNewGame(model);
@@ -76,13 +74,14 @@ public class JoinCommandTest
         System.out.println("Test join game passed.");
         
         //Test 2
-        /*System.out.println("Join Game bad game ID test");
-        JoinGameRequest request2 = new JoinGameRequest(1, CatanColor.RED);
-        requestBody = request2.serialize();
+        System.out.println("Testing join game already joined...");
+        request = new JoinGameRequest(0, CatanColor.PURPLE);
+        requestBody = request.serialize();
         currentCookie = new Cookie();
         currentCookie.setUser(newUser);
-        expResult = "";
+        expResult = "Success";
         result = instance.execute(facade, requestBody, currentCookie);
-        System.out.println("Result2: \n" + result);*/
+        assertEquals(expResult, result);
+        System.out.println("Test rejoin game passed.");
     }
 }
