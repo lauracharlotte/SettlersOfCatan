@@ -3,6 +3,7 @@ package clientcommunicator.modelserverfacade;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -331,7 +332,7 @@ public class JSONSerializer {
 		testClientModel.setLog(chat);
 		
 		//trying to do hexes
-        Set<Hex> hexes = new HashSet<>();
+        List<Hex> hexes = new ArrayList<>();
         for(int i = -1; i<1; i++)
             for(int j = -1; j<1; j++)
                 hexes.add(new Hex(new HexLocation(i, j), HexType.BRICK, -1));
@@ -344,7 +345,7 @@ public class JSONSerializer {
 		//
 		
         //trying to do ports
-        Set<Port> ports = new HashSet<>();
+        List<Port> ports = new ArrayList<>();
         for(int i = -1; i<1; i++)
             for(int j = -1; j<1; j++)
             	ports.add(new Port(new HexLocation(i, j), ResourceType.BRICK, EdgeDirection.North, -1));
@@ -358,7 +359,7 @@ public class JSONSerializer {
         
         //trying to do roads
         Collection<EdgeObject> roads;
-        roads = new HashSet<>();
+        roads = new ArrayList<>();
         PlayerIdx index = new PlayerIdx(2);
         PlayerIdx otherPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         roads.add(new EdgeObject(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), otherPlayerIndex));
@@ -367,7 +368,7 @@ public class JSONSerializer {
         //trying to do city/settlement
         PlayerIdx aPlayerIndex = new PlayerIdx((index.getIndex() + 1) % 4);
         VertexLocation location = new VertexLocation(new HexLocation(0,0), VertexDirection.East);
-        Collection<VertexObject> otherVertexObjects = new HashSet<>();
+        Collection<VertexObject> otherVertexObjects = new ArrayList<>();
         otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0, 0), VertexDirection.East), otherPlayerIndex));
         otherVertexObjects.add(new VertexObject(new VertexLocation(new HexLocation(0,0), VertexDirection.NorthWest), index));
         //
@@ -394,8 +395,25 @@ public class JSONSerializer {
 		testClientModel.setWinner(winner);
 		
 		ClientModel testModel = testClientModel;
-		String answerSoFar = SerializeModel(testModel);
+		
+		JSONSerializer testSerializer = new JSONSerializer();
+		String answerSoFar = testSerializer.SerializeModel(testModel);
 		System.out.println(answerSoFar);
+		
+		JSONParser testParser = new JSONParser();
+		ClientModel parsedModelTest  = new ClientModel();
+		try {
+			parsedModelTest = testParser.fromJSONToModel(answerSoFar);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("ParsedModelTest");
+		System.out.println(parsedModelTest.toString());
+		
+		System.out.println("Before Parsed");
+		System.out.println(testClientModel.toString());
+		
 	}*/
 	
 }
