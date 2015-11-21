@@ -130,19 +130,25 @@ public class JSONSerializer {
 			JSONArray hexArray = new JSONArray();
 			for(Hex curHex: theModel.getMap().getHexes())
 			{
-				JSONObject hexObject = new JSONObject();
-				JSONObject hexLocObject = new JSONObject();
-				hexLocObject.put("x", curHex.getLocation().getX());
-				hexLocObject.put("y", curHex.getLocation().getY());
-				hexObject.put("location", hexLocObject);
-				if(curHex.getType() != HexType.DESERT)
+				if (curHex.getType() != HexType.WATER)
 				{
-					String stringResource = curHex.getType().name();
-			    	String lowerCaseResource = stringResource.toLowerCase();
-					hexObject.put("resource", lowerCaseResource);
-					hexObject.put("number", curHex.getNumber());
+					JSONObject hexObject = new JSONObject();
+					JSONObject hexLocObject = new JSONObject();
+					hexLocObject.put("x", curHex.getLocation().getX());
+					hexLocObject.put("y", curHex.getLocation().getY());
+					hexObject.put("location", hexLocObject);
+					if(curHex.getType() != HexType.DESERT)
+					{
+						String stringResource = curHex.getType().name();
+				    	String lowerCaseResource = stringResource.toLowerCase();
+						hexObject.put("resource", lowerCaseResource);
+						if (curHex.getNumber() != -1)
+						{
+							hexObject.put("number", curHex.getNumber());
+						}
+					}
+					hexArray.put(hexObject);
 				}
-				hexArray.put(hexObject);
 			}
 			mapObject.put("hexes", hexArray);
 			//Ports for Map
