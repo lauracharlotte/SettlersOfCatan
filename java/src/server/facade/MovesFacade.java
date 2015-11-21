@@ -940,6 +940,7 @@ public class MovesFacade implements IMovesFacade {
         resourceCards = changeResource(resourceCards, ResourceType.WHEAT, -discardedCards.getGrain());
         resourceCards = changeResource(resourceCards, ResourceType.WOOD, -discardedCards.getLumber());
         hand.setResourceCards(resourceCards);
+        player.setDiscarded(true);
         player.setHand(hand);
         model = setPlayerFromIdx(playerIdx, model, player);
         model.getBank().getResourceCards().setBrick(model.getBank().getResourceCards().getBrick() + discardedCards.getBrick());
@@ -950,8 +951,11 @@ public class MovesFacade implements IMovesFacade {
         
         // if all players have finished discarding
         if (playersHaveDiscarded(model))
+        {
             model.getTurnTracker().setStatus(TurnStatusEnumeration.robbing);
-        
+            for(Player p: model.getPlayers())
+                p.setDiscarded(false);
+        }
         // Discard doesn't need to log - according to what is being done on the TA server.
         // Update the version number and model
         model.setVersion(model.getVersion() + 1);
