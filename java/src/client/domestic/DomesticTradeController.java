@@ -549,6 +549,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         {
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
             this.sending = false;
+            updateEnableTrade();
         }
     }
     
@@ -582,6 +583,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         {
             this.tradeOverlay.setResourceAmountChangeEnabled(resource, true, false);
             this.receiving = false;
+            updateEnableTrade();
         }
     }
     
