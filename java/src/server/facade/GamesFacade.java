@@ -98,9 +98,10 @@ public class GamesFacade implements IGamesFacade
 			else
 			{
 				DevelopmentCards emptyDevCards = new DevelopmentCards(0, 0, 0, 0, 0);
+                                DevelopmentCards emptyDevCards2 = new DevelopmentCards(0, 0, 0, 0, 0);
 				ResourceCards emptyResCards = new ResourceCards(0, 0, 0, 0, 0);
 				Player newPlayer = new Player(PLAYER_CITIES, request.getPlayerColor(), false, 0, user.getUsername(), null, false, 
-				emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards));
+				emptyDevCards, user.getPlayerId(), PLAYER_ROADS, PLAYER_SETTLEMENTS, 0, 0, new Hand(emptyResCards, emptyDevCards2));
 				newPlayer.setPlayerIndex(new PlayerIdx(players.size()));
                                 players.add(newPlayer);
 			}

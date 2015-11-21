@@ -271,7 +271,7 @@ public class MovesFacade implements IMovesFacade {
         total+=card.getMonument();
         if(cardNumber<total && !picked)
         {
-            oldDevCardHand.setMonument(players.getMonument() + 1);
+            oldDevCardHand.setMonument(oldDevCardHand.getMonument() + 1);
             card.setMonument(card.getMonument() - 1);
             picked = true;
         }
