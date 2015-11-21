@@ -215,6 +215,7 @@ public class MovesFacade implements IMovesFacade {
             model.getTurnTracker().setStatus(TurnStatusEnumeration.rolling);
             // Update the log, version number, and model
             Player p = this.getPlayerFromIdx(playerIdx, model);
+            p.setPlayedDevCard(false);
             DevelopmentCards old = p.getHand().getDevelopmentCards();
             DevelopmentCards newDevCards = p.getNewDevCards();
             old.setMonopoly(old.getMonopoly() + newDevCards.getMonopoly());
@@ -334,7 +335,7 @@ public class MovesFacade implements IMovesFacade {
         player.getHand().setResourceCards(resourceCards);
         model.getBank().setResourceCards(changeResource(model.getBank().getResourceCards(), resource1, -1));
         model.getBank().setResourceCards(changeResource(model.getBank().getResourceCards(), resource2, -1));
-        
+        player.setPlayedDevCard(true);
         model = setPlayerFromIdx(playerIdx, model, player);
         
         // Update the log, version number, and model
@@ -376,6 +377,7 @@ public class MovesFacade implements IMovesFacade {
         model = actuallyBuildRoad(playerIdx, spot1, model);
         if(!mapFacade.canPlaceRoad(spot2))
             return model;
+        player.setPlayedDevCard(true);
         model = actuallyBuildRoad(playerIdx, spot2, model);
         
         // Update the log, version number, and model
@@ -437,7 +439,7 @@ public class MovesFacade implements IMovesFacade {
                     otherPlayer.setVictoryPoints(otherPlayer.getVictoryPoints() - 2);
                 }
             }
-                
+        player.setPlayedDevCard(true);
         model.setVersion(model.getVersion() + 1);
         this.setWinner(model, playerIdx);
         // Update the model (the version number is updated in the robPlayer function)
@@ -539,6 +541,7 @@ public class MovesFacade implements IMovesFacade {
         Hand hand = player.getHand();
         hand.setResourceCards(changeResource(hand.getResourceCards(), resource, amount));
         player.setHand(hand);
+        player.setPlayedDevCard(true);
         model = setPlayerFromIdx(playerIdx, model, player);
         
         // Update the log, version number, and model

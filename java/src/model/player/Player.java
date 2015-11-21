@@ -132,6 +132,12 @@ public class Player {
 	{
 		return !playedDevCard;
 	}
+
+        public void setPlayedDevCard(Boolean playedDevCard)
+        {
+            this.playedDevCard = playedDevCard;
+        }
+        
 	public DevelopmentCards getNewDevCards()
 	{
 		return newDevCards;
