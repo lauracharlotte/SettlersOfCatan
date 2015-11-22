@@ -579,8 +579,8 @@ public class MovesFacade implements IMovesFacade {
         mapFacade.configureFacade(model.getMap(), player, model);
         VertexDirection[] vertDir = roadLocation.getDir().convertEdgeDirToVertexDir();
         VertexLocation[] vertLocations = new VertexLocation[2];
-        vertLocations[0] = new VertexLocation(roadLocation.getHexLoc(), vertDir[0]);
-        vertLocations[1] = new VertexLocation(roadLocation.getHexLoc(), vertDir[1]);
+        vertLocations[0] = new VertexLocation(roadLocation.getHexLoc(), vertDir[0]).getNormalizedLocation();
+        vertLocations[1] = new VertexLocation(roadLocation.getHexLoc(), vertDir[1]).getNormalizedLocation();
         if (!free)
         {
             if(!mapFacade.canPlaceRoad(roadLocation))
