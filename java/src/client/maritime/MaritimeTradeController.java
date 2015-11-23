@@ -95,7 +95,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         enabledResources = null;
         ratios = new HashMap();
         this.tradeOverlay.reset();
-        getTradeOverlay().closeModal();
+        if (getTradeOverlay().isModalShowing())
+        {
+        	getTradeOverlay().closeModal();
+        }
     }
 
     @Override

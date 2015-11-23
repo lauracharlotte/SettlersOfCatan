@@ -67,7 +67,10 @@ public class RollController extends Controller implements IRollController, Obser
     {
     	Random dice = new Random();
     	int roll = dice.nextInt(diceUpperBound) + 2;
-    	getRollView().closeModal();
+    	if (getRollView().isModalShowing())
+    	{
+    		getRollView().closeModal();
+    	}
     	getResultView().setRollValue(roll);
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	RollNumberRequest request = new RollNumberRequest(index, roll);
