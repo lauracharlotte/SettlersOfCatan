@@ -65,8 +65,10 @@ public class DiscardingState implements IDiscardState
             else if (!this.whoseTurn.equals(ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn()))
             {
                 //System.out.println("new discarding state");
-                disView.closeModal();
-                waitView.closeModal();
+                if(disView.isModalShowing())
+                    disView.closeModal();
+                if(waitView.isModalShowing())
+                    waitView.closeModal();
                 return new DiscardingState(disView);
             }
             else
@@ -74,7 +76,8 @@ public class DiscardingState implements IDiscardState
                     if (discarded)
                     {
                         //System.out.println("New waiting state");
-                            disView.closeModal();
+                            if(disView.isModalShowing())
+                                disView.closeModal();
                             return new WaitingState(waitView);
                     }
                     else
