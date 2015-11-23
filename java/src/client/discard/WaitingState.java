@@ -21,8 +21,11 @@ public class WaitingState implements IDiscardState
             ClientModel model = (ClientModel) arg;
             if (model.getTurnTracker().getStatus() != TurnStatusEnumeration.discarding)
             {
-		waitView.closeModal();
-		return new NotDiscardingState();
+            	if(waitView.isModalShowing())
+            	{
+            		waitView.closeModal();
+            	}
+				return new NotDiscardingState();
             }
             else
             {

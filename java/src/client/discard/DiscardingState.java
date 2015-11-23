@@ -333,7 +333,10 @@ public class DiscardingState implements IDiscardState
         TurnServerOperationsManager manager;
         try 
         {
-            disView.closeModal();
+        	if(disView.isModalShowing())
+        	{
+        		disView.closeModal();
+        	}
             manager = (TurnServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TurnServerOperationsManager.class);
             discarded = true;
             manager.discardCards(request);

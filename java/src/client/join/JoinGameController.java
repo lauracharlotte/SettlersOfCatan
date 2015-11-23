@@ -177,7 +177,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         getJoinGameView().setGames(games, localPlayer);
         if(this.shouldShowGameList)
         {
-            getJoinGameView().closeModal();
+        	if(getJoinGameView().isModalShowing())
+        	{
+        		getJoinGameView().closeModal();
+        	}
             getJoinGameView().showModal();
         }
         else if(this.game != null)
@@ -191,8 +194,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                         for(PlayerInfo pInfo: gameInList.getPlayers())
                             if(pInfo.getId() == localPlayer.getId())
                             {
-                                getJoinGameView().closeModal();
-                                getSelectColorView().closeModal();
+                            	if(getJoinGameView().isModalShowing())
+                            	{
+                            		getJoinGameView().closeModal();
+                            	}
+                            	if(getSelectColorView().isModalShowing())
+                            	{
+                            		getSelectColorView().closeModal();
+                            	}
                                 return;
                             }
                         this.cancelJoinGame();
@@ -225,7 +234,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     @Override
     public void startCreateNewGame() 
     {
-        getJoinGameView().closeModal();
+    	if(getJoinGameView().isModalShowing())
+    	{
+    		getJoinGameView().closeModal();
+    	}
         this.shouldShowGameList = false;
         getNewGameView().setTitle("");
         getNewGameView().setRandomlyPlaceHexes(false);
@@ -237,7 +249,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     @Override
     public void cancelCreateNewGame() 
     {
-        getNewGameView().closeModal();
+    	if(getNewGameView().isModalShowing())
+    	{
+    		getNewGameView().closeModal();
+    	}
         this.shouldShowGameList = true;
         getJoinGameView().showModal();
     }
@@ -266,7 +281,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             this.getMessageView().showModal();
             return;
         }
-        getNewGameView().closeModal();
+        if(getNewGameView().isModalShowing())
+        {
+        	getNewGameView().closeModal();
+        }
         try
         {
             GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceNumbers, randomlyPlaceHexes, randomPorts, title));
@@ -344,8 +362,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             return;
         }
         this.timer.cancel();
-        getSelectColorView().closeModal();
-        getJoinGameView().closeModal();
+        if(getSelectColorView().isModalShowing())
+        {
+        	getSelectColorView().closeModal();
+        }
+        if(getJoinGameView().isModalShowing())
+        {
+        	getJoinGameView().closeModal();
+        }
         joinAction.execute();
     }
 
