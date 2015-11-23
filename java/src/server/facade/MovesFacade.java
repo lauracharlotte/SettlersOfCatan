@@ -1217,7 +1217,8 @@ public class MovesFacade implements IMovesFacade {
     {
         for (Hex hex : hexes) 
         {
-            if (hex.getNumber() == number && hexToResource(hex) == resource)
+            if (hex.getNumber() == number && hexToResource(hex) == resource && 
+            		!hex.getLocation().equals(model.getMap().getRobber()))
             {
                 Hand bank = model.getBank();
                 ResourceCards bankCards = bank.getResourceCards();
