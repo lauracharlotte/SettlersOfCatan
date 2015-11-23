@@ -81,13 +81,15 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void cancelBuyCard() 
     {
-    	getBuyCardView().closeModal();
+        if(getBuyCardView().isModalShowing())
+            getBuyCardView().closeModal();
     }
 
     @Override
     public void buyCard() 
     {
-    	getBuyCardView().closeModal();
+        if(getBuyCardView().isModalShowing())
+            getBuyCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	BuyDevCardRequest request = new BuyDevCardRequest(index);
     	try 
@@ -161,13 +163,15 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void cancelPlayCard() 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     }
 
     @Override
     public void playMonopolyCard(ResourceType resource) 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	MonopolyRequest request = new MonopolyRequest(index, resource);
     	try 
@@ -183,7 +187,8 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void playMonumentCard() 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	MonumentRequest request = new MonumentRequest(index);
     	try 
@@ -199,21 +204,24 @@ public class DevCardController extends Controller implements IDevCardController,
     @Override
     public void playRoadBuildCard() 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     	roadAction.execute();
     }
 
     @Override
     public void playSoldierCard() 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     	soldierAction.execute();
     }
 
     @Override
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) 
     {
-    	getPlayCardView().closeModal();
+        if(getPlayCardView().isModalShowing())
+            getPlayCardView().closeModal();
     	PlayerIdx index = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
     	YearOfPlentyRequest request = new YearOfPlentyRequest(index, resource1, resource2);
     	try 

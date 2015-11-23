@@ -266,7 +266,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         
         try 
         {
-            getTradeOverlay().closeModal();
+            if(getTradeOverlay().isModalShowing())
+                getTradeOverlay().closeModal();
             getWaitOverlay().showModal();
             TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
             
@@ -415,7 +416,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
         
         try {
             getAcceptOverlay().reset();
-            getAcceptOverlay().closeModal();
+            if(getAcceptOverlay().isModalShowing())
+                getAcceptOverlay().closeModal();
             TradeServerOperationsManager manager = (TradeServerOperationsManager) ModelServerFacadeFactory.getInstance().getOperationsManager(TradeServerOperationsManager.class);
             manager.acceptTrade(request);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClientException ex) {
