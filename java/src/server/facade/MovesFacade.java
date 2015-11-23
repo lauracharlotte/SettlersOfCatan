@@ -169,7 +169,7 @@ public class MovesFacade implements IMovesFacade {
                 type = ResourceType.ORE;
             this.changeResource(victimsHand, type, -1);
             this.changeResource(this.getPlayerFromIdx(playerIdx, model).getHand().getResourceCards(), type, 1);
-            model.setLog(addLog(user, user.getUsername() + " moved the robbed and robbed " + victim.getName(), model.getLog()));
+            model.setLog(addLog(user, user.getUsername() + " moved the robber and robbed " + victim.getName(), model.getLog()));
         }
         model.getTurnTracker().setStatus(TurnStatusEnumeration.playing);
         model.setVersion(model.getVersion() + 1);
