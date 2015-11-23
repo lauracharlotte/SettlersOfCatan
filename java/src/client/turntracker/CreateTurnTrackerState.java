@@ -63,7 +63,8 @@ public class CreateTurnTrackerState implements ITurnTrackerState {
 	    		}
 	    		playersReady = true;
 	    		
-	    		if(ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex() == 0)
+	    		if(ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex() == 
+	    				ClientModelSupplier.getInstance().getModel().getTurnTracker().getCurrentTurn().getIndex())
 	    		{
 	    			view.updateGameState("Finish Turn", true);
 	    		}
