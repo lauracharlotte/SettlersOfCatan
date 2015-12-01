@@ -4,6 +4,7 @@ import model.messages.*;
 import model.map.*;
 import model.player.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,7 +15,8 @@ import model.cards.*;
  * @author Madison Brooks
  *
  */
-public class ClientModel
+@SuppressWarnings("serial")
+public class ClientModel implements Serializable
 {	
 	/**
 	 * Title of game

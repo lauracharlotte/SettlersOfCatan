@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import model.ClientModel;
 import model.player.User;
+import server.IPersistenceFactory;
 
 /**
  *
@@ -19,6 +20,13 @@ import model.player.User;
 public class UserManager
 {
     private Collection<User> userList = Collections.synchronizedList(new ArrayList<User>());
+    
+    private IPersistenceFactory persistence;
+    
+    public UserManager(IPersistenceFactory persistence)
+    {
+        this.persistence = persistence;
+    }
     
     public User getUserWithId(int id)
     {

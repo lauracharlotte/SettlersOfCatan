@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import model.ClientModel;
+import server.IPersistenceFactory;
 
 /**
  *
@@ -18,6 +19,13 @@ public class GameManager
 {
     private Collection<ClientModel> gameList = Collections.synchronizedList(new ArrayList<ClientModel>());
 
+    private IPersistenceFactory persistence;
+    
+    public GameManager(IPersistenceFactory persistence)
+    {
+        this.persistence = persistence;
+    }
+    
     public ClientModel getGameWithNumber(int gameId)
     {
         if(gameId >= gameList.size() || gameId<0)

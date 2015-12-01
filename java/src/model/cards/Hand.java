@@ -1,10 +1,13 @@
 package model.cards;
 
+import java.io.Serializable;
+
 /**
  * Contains the list of resource and development cards the player/bank has
  * @author Scott Hampton
  */
-public class Hand
+@SuppressWarnings("serial")
+public class Hand implements Serializable
 {
 	private final int CARDS_PER_RESOURCE = 19;
 	private final int MONUMENTS = 5;

@@ -1,11 +1,13 @@
 package shared.locations;
 
+import java.io.Serializable;
+
 /**
  * Represents the location of a hex on a hex map
  */
-public class HexLocation
+@SuppressWarnings("serial")
+public class HexLocation implements Serializable
 {
-	
 	private int x;
 	private int y;
 	

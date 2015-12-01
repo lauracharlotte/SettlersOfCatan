@@ -2,6 +2,9 @@ package model.player;
 
 import model.cards.ResourceCards;
 import shared.definitions.CatanColor;
+
+import java.io.Serializable;
+
 import model.cards.DevelopmentCards;
 import model.cards.Hand;
 
@@ -10,7 +13,8 @@ import model.cards.Hand;
  * @author LaurasAdventurePC
  *
  */
-public class Player {
+@SuppressWarnings("serial")
+public class Player implements Serializable{
 
 	/**
 	 * The number of cities a player has left.

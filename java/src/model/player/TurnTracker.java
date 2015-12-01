@@ -1,12 +1,15 @@
 package model.player;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author LaurasAdventurePC
  *
  */
 
-public class TurnTracker {
+@SuppressWarnings("serial")
+public class TurnTracker implements Serializable{
 	/**
 	 * The index of the player whoom the current turn is on.
 	 */

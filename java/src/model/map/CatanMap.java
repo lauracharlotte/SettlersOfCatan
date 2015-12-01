@@ -1,5 +1,6 @@
 package model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,7 +14,9 @@ import shared.locations.*;
  * @author Madison Brooks
  *
  */
-public class CatanMap {
+@SuppressWarnings("serial")
+public class CatanMap implements Serializable 
+{
 	
 	private final int DEFAULT_RADIUS = 4;
 	
