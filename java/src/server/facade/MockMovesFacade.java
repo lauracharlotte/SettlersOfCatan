@@ -1,5 +1,6 @@
 package server.facade;
 
+import clientcommunicator.Server.Cookie;
 import model.ClientModel;
 import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
@@ -15,6 +16,11 @@ import shared.locations.VertexLocation;
  * @author Scott
  */
 public class MockMovesFacade implements IMovesFacade {
+    
+    @Override
+    public boolean saveCommand(String requestBody, Cookie cookie) {
+        return true;
+    }
         
     /**
      * Sends a chat message from a player and logs it in the chat message box
@@ -259,4 +265,5 @@ public class MockMovesFacade implements IMovesFacade {
         ClientModel model = new ClientModel();
         return model; 
     }
+
 }

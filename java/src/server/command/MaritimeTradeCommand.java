@@ -47,6 +47,8 @@ public class MaritimeTradeCommand implements ICommand {
         
         ClientModel result = myMovesFacade.maritimeTrade(playerIdx, ratio, input, output, game, playerId);
         
+        myMovesFacade.saveCommand(requestBody, currentCookie);
+        
         return JSONSerializer.SerializeModel(result);
     }
     

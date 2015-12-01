@@ -45,6 +45,8 @@ public class RollNumberCommand implements ICommand {
         
         ClientModel result = myMovesFacade.rollNumber(playerIdx, number, game, playerId);
         
+        myMovesFacade.saveCommand(requestBody, currentCookie);
+        
         return JSONSerializer.SerializeModel(result);
     }
     

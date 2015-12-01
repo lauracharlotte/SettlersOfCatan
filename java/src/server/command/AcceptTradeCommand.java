@@ -45,6 +45,8 @@ public class AcceptTradeCommand implements ICommand {
         
         ClientModel result = myMovesFacade.acceptTrade(playerIdx, willAccept, game, playerId);
         
+        myMovesFacade.saveCommand(requestBody, currentCookie);
+        
         return JSONSerializer.SerializeModel(result);
     }
     

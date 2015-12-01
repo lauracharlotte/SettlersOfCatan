@@ -1,5 +1,6 @@
 package server.facade;
 
+import clientcommunicator.Server.Cookie;
 import model.ClientModel;
 import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
@@ -15,6 +16,15 @@ import shared.locations.VertexLocation;
  * @author Scott
  */
 public interface IMovesFacade extends IModelFacade {
+    
+    /**
+     * Saves the command into the database for persistence
+     * 
+     * @param requestBody The request made to the server
+     * @param cookie The cookie sent in the header
+     * @return Whether the save was successful
+     */
+    public boolean saveCommand(String requestBody, Cookie cookie);
     
     /**
      * Sends a chat message from a player and logs it in the chat message box

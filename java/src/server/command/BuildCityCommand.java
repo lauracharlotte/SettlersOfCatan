@@ -46,6 +46,8 @@ public class BuildCityCommand implements ICommand {
         
         ClientModel result = myMovesFacade.buildCity(playerIdx, location, game, playerId);
         
+        myMovesFacade.saveCommand(requestBody, currentCookie);
+        
         return JSONSerializer.SerializeModel(result);
     }
     

@@ -1,5 +1,6 @@
 package server.facade;
 
+import clientcommunicator.Server.Cookie;
 import guicommunicator.MapModelFacade;
 import guicommunicator.ResourceModelFacade;
 import java.util.ArrayList;
@@ -38,6 +39,11 @@ public class MovesFacade implements IMovesFacade {
     public MovesFacade(GameManager myManager)
     {
         this.manager = myManager;
+    }
+    
+    @Override
+    public boolean saveCommand(String requestBody, Cookie cookie) {
+        return true;
     }
     
     /**

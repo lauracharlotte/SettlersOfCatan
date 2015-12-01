@@ -45,6 +45,8 @@ public class SendChatCommand implements ICommand {
         
         ClientModel result = myMovesFacade.sendChat(playerIdx, message, game, playerId);
         
+        myMovesFacade.saveCommand(requestBody, currentCookie);
+        
         return JSONSerializer.SerializeModel(result);
     }
     

@@ -46,6 +46,8 @@ public class RoadBuildingCommand implements ICommand {
         EdgeLocation location2 = rbc.getSpot2();
         
         ClientModel result = myMovesFacade.roadBuilding(playerIdx, location1, location2, game, playerId);
+        
+        myMovesFacade.saveCommand(requestBody, currentCookie);
 
         return JSONSerializer.SerializeModel(result);
     }
