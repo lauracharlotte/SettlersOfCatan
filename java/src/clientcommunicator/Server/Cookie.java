@@ -6,6 +6,7 @@
 package clientcommunicator.Server;
 
 import com.google.gson.*;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ import model.player.User;
  *
  * @author Michael
  */
-public class Cookie 
+public class Cookie implements Serializable
 {
     
     private String userInformationString = "";
