@@ -8,6 +8,9 @@ package server.command;
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.modelserverfacade.JSONSerializer;
 import clientcommunicator.operations.AcceptTradeRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import model.ClientModel;
 import model.player.PlayerIdx;
 import model.player.User;
@@ -20,7 +23,7 @@ import server.facade.IMovesFacade;
  * Executes the Accept Trade request.
  * @author Scott
  */
-public class AcceptTradeCommand implements ICommand {
+public class AcceptTradeCommand implements ICommand, Serializable {
 
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException {
@@ -45,7 +48,7 @@ public class AcceptTradeCommand implements ICommand {
         
         ClientModel result = myMovesFacade.acceptTrade(playerIdx, willAccept, game, playerId);
         
-        myMovesFacade.saveCommand(requestBody, currentCookie);
+        myMovesFacade.saveCommand(this);
         
         return JSONSerializer.SerializeModel(result);
     }

@@ -46,7 +46,7 @@ public class BuildRoadCommand implements ICommand {
         
         ClientModel result = myMovesFacade.buildRoad(playerIdx, resource, free, game, playerId);
         
-        myMovesFacade.saveCommand(requestBody, currentCookie);
+        myMovesFacade.saveCommand(this);
         
         return JSONSerializer.SerializeModel(result);
     }

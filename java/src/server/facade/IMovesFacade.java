@@ -20,11 +20,10 @@ public interface IMovesFacade extends IModelFacade {
     /**
      * Saves the command into the database for persistence
      * 
-     * @param requestBody The request made to the server
-     * @param cookie The cookie sent in the header
+     * @param command The command object being saved
      * @return Whether the save was successful
      */
-    public boolean saveCommand(String requestBody, Cookie cookie);
+    public boolean saveCommand(Object command);
     
     /**
      * Sends a chat message from a player and logs it in the chat message box

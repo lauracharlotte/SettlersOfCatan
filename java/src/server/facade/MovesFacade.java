@@ -42,7 +42,7 @@ public class MovesFacade implements IMovesFacade {
     }
     
     @Override
-    public boolean saveCommand(String requestBody, Cookie cookie) {
+    public boolean saveCommand(Object command) {
         return true;
     }
     

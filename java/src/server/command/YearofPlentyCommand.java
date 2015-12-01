@@ -42,7 +42,7 @@ public class YearofPlentyCommand implements ICommand {
         
         ClientModel result = myMovesFacade.yearOfPlenty(playerIdx, resource1, resource2, game, playerId);
         
-        myMovesFacade.saveCommand(requestBody, currentCookie);
+        myMovesFacade.saveCommand(this);
 
         return JSONSerializer.SerializeModel(result);
     }
