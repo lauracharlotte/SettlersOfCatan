@@ -108,7 +108,7 @@ public class Server
     {
         Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
         IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
-        GameManager myGameManager = new GameManager(factory);
+        GameManager myGameManager = new GameManager(factory, numberOfDiffs);
         UserManager myUserManager = new UserManager(factory);
         run(myGameManager, myUserManager);
         
