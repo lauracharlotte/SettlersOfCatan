@@ -20,10 +20,25 @@ import server.facade.IUserFacade;
  */
 public class LoginCommand implements ICommand
 {
+    
+    private String requestBody;
+    private Cookie currentCookie;
+    
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    @Override
+    public Cookie getCurrentCookie() {
+        return this.currentCookie;
+    }
 
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
+        this.requestBody = requestBody;
+        this.currentCookie = currentCookie;
         IUserFacade myFacade = (IUserFacade)facade;
         LoginCredentials creds = new LoginCredentials();
         try

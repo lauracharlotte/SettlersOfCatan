@@ -18,12 +18,27 @@ import org.json.*;
  */
 public class ListCommand implements ICommand
 {
+    
+    private String requestBody;
+    private Cookie currentCookie;
+    
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    @Override
+    public Cookie getCurrentCookie() {
+        return this.currentCookie;
+    }
 	/**
 	 * Lists all of the games on the server
 	 */
 	@Override
 	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
 	{
+                this.requestBody = requestBody;
+                this.currentCookie = currentCookie;
 		IGamesFacade myFacade = (IGamesFacade)facade;
 		List<GameJSONResponse> games = myFacade.list();
 		JSONArray gamesJSON = new JSONArray();

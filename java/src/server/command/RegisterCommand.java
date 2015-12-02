@@ -18,10 +18,24 @@ import server.facade.IUserFacade;
  */
 public class RegisterCommand implements ICommand
 {
+    private String requestBody;
+    private Cookie currentCookie;
+    
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    @Override
+    public Cookie getCurrentCookie() {
+        return this.currentCookie;
+    }
  
     @Override
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
     {
+        this.requestBody = requestBody;
+        this.currentCookie = currentCookie;
         IUserFacade myUserFacade = (IUserFacade)facade;
         LoginCredentials creds = new LoginCredentials();
         if(!currentCookie.getCompleteCookieString().equals(""))

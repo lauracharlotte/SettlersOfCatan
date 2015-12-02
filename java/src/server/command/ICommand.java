@@ -21,4 +21,8 @@ public interface ICommand
      * @throws JSONException 
      */
     public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException, JSONException;
+
+    public String getRequestBody();
+    
+    public Cookie getCurrentCookie();
 }

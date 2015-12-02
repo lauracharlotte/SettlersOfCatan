@@ -14,6 +14,19 @@ import server.ServerException;
  */
 public class ModelCommand implements ICommand 
 {
+    
+    private String requestBody;
+    private Cookie currentCookie;
+    
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    @Override
+    public Cookie getCurrentCookie() {
+        return this.currentCookie;
+    }
 	/**
 	 * The constructor
 	 */
@@ -28,6 +41,8 @@ public class ModelCommand implements ICommand
 	@Override
 	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException
         {
+                this.requestBody = requestBody;
+                this.currentCookie = currentCookie;
 		// TODO Auto-generated method stub //facade to Game Model
 		IGameFacade gameFacade = (IGameFacade) facade;
 		

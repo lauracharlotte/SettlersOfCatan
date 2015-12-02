@@ -16,6 +16,19 @@ import server.ServerException;
  */
 public class CreateCommand implements ICommand
 {
+    
+    private String requestBody;
+    private Cookie currentCookie;
+    
+    @Override
+    public String getRequestBody() {
+        return this.requestBody;
+    }
+
+    @Override
+    public Cookie getCurrentCookie() {
+        return this.currentCookie;
+    }
 
 	/**
 	 * Creates a new game
@@ -25,6 +38,8 @@ public class CreateCommand implements ICommand
 	@Override
 	public String execute(IModelFacade facade, String requestBody, Cookie currentCookie) throws ServerException, JSONException
 	{
+                this.requestBody = requestBody;
+                this.currentCookie = currentCookie;
 		IGamesFacade myFacade = (IGamesFacade)facade;
 		CreateGameRequest create = new CreateGameRequest(false, false, false, null);
 		

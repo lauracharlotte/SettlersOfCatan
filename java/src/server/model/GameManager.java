@@ -8,10 +8,16 @@ package server.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ClientModel;
+import org.json.JSONException;
 import server.IGameAccess;
 import server.IPersistenceFactory;
+import server.ServerException;
 import server.command.ICommand;
+import server.facade.IMovesFacade;
+import server.facade.MovesFacade;
 
 /**
  *
@@ -39,6 +45,13 @@ public class GameManager
         this.persistence.beginTransaction();
         IGameAccess gameAccessObject = this.persistence.getGameAccessObject();
         gameList = Collections.synchronizedList(new ArrayList<ClientModel>(gameAccessObject.getGames()));
+        // Get all the commands for each game and execute them
+        for (int i = 0; i < gameList.size(); i++)
+        {
+            Collection<ICommand> commands = gameAccessObject.getAllCommands(i);
+            gameAccessObject.deleteGameCommands(i);
+            executeCommands(commands, i);
+        }
         this.persistence.endTransaction();
     }
     
@@ -90,6 +103,20 @@ public class GameManager
         this.persistence.beginTransaction();
         IGameAccess gameAccessObject = this.persistence.getGameAccessObject();
         gameAccessObject.saveGame(this.getGameWithNumber(gameId), gameId);
+        gameAccessObject.deleteGameCommands(gameId);
         this.persistence.endTransaction();
+    }
+    
+    private void executeCommands(Collection<ICommand> commands, int gameId)
+    {
+        IMovesFacade movesFacade = new MovesFacade(this);
+        for (ICommand command : commands)
+        {
+            try {
+                command.execute(movesFacade, command.getRequestBody(), command.getCurrentCookie());
+            } catch (ServerException | JSONException ex) {
+                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
