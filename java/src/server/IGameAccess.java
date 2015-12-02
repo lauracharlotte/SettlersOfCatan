@@ -17,7 +17,8 @@ import server.command.ICommand;
 public interface IGameAccess
 {
     public Collection<ClientModel> getGames();
-    public boolean saveGame(ClientModel game);
+    public boolean saveGame(ClientModel game, int gameId);
     public boolean saveCommand(ICommand command, int gameId);
     public int getCommandAmount(int gameId);
+    public boolean deleteGameCommands(int gameId);
 }

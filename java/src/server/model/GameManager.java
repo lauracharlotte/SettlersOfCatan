@@ -11,6 +11,7 @@ import java.util.Collections;
 import model.ClientModel;
 import server.IGameAccess;
 import server.IPersistenceFactory;
+import server.command.ICommand;
 
 /**
  *
@@ -22,14 +23,17 @@ public class GameManager
 
     private IPersistenceFactory persistence;
     
+    private int interval;
+    
     public GameManager()
     {
         
     }
     
-    public GameManager(IPersistenceFactory persistence)
+    public GameManager(IPersistenceFactory persistence, int interval)
     {
         this.persistence = persistence;
+        this.interval = interval;
         
         // Get the list of games from the persistence
         this.persistence.beginTransaction();
@@ -66,5 +70,18 @@ public class GameManager
     	games.remove(index);
     	games.add(index, game);
     	gameList = Collections.synchronizedList(games);
+    }
+    
+    public void saveCommand(ICommand command, int gameId)
+    {
+        this.persistence.beginTransaction();
+        IGameAccess gameAccessObject = this.persistence.getGameAccessObject();
+        gameAccessObject.saveCommand(command, gameId);
+        if (gameAccessObject.getCommandAmount(gameId) >= interval)
+        {
+            gameAccessObject.saveGame(this.getGameWithNumber(gameId), gameId);
+            gameAccessObject.deleteGameCommands(gameId);
+        }
+        this.persistence.endTransaction();
     }
 }

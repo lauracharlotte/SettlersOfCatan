@@ -26,7 +26,7 @@ public class DBGameAccess implements IGameAccess
     }
 
     @Override
-    public boolean saveGame(ClientModel game) 
+    public boolean saveGame(ClientModel game, int gameId) 
     {
             // TODO Auto-generated method stub
             return false;
@@ -42,6 +42,11 @@ public class DBGameAccess implements IGameAccess
     @Override
     public int getCommandAmount(int gameId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public boolean deleteGameCommands(int gameId) {
+        return false;
     }
     
 }

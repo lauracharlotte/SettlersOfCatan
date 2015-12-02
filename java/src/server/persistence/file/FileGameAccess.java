@@ -26,7 +26,7 @@ public class FileGameAccess implements IGameAccess
     }
 
     @Override
-    public boolean saveGame(ClientModel game) 
+    public boolean saveGame(ClientModel game, int gameId) 
     {
             // TODO Auto-generated method stub
             return false;
@@ -42,6 +42,11 @@ public class FileGameAccess implements IGameAccess
     @Override
     public int getCommandAmount(int gameId) {
         return 0;
+    }
+
+    @Override
+    public boolean deleteGameCommands(int gameId) {
+        return false;
     }
     
 }
