@@ -45,14 +45,22 @@ public class GameManager
         this.persistence.beginTransaction();
         IGameAccess gameAccessObject = this.persistence.getGameAccessObject();
         gameList = Collections.synchronizedList(new ArrayList<ClientModel>(gameAccessObject.getGames()));
-        // Get all the commands for each game and execute them
+        Collection<Collection<ICommand>> allCommands = new ArrayList<>();
         for (int i = 0; i < gameList.size(); i++)
         {
             Collection<ICommand> commands = gameAccessObject.getAllCommands(i);
-            gameAccessObject.deleteGameCommands(i);
-            executeCommands(commands, i);
+            allCommands.add(commands);
         }
         this.persistence.endTransaction();
+        
+        // Execute all of the commands
+        int i = 0;
+        for (Collection<ICommand> commands : allCommands)
+        {
+            gameAccessObject.deleteGameCommands(i);
+            executeCommands(commands, i);
+            i++;
+        }
     }
     
     public ClientModel getGameWithNumber(int gameId)
