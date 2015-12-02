@@ -19,29 +19,25 @@ public class FileFactory implements IPersistenceFactory
 	@Override
 	public IUserAccess getUserAccessObject()
 	{
-		// TODO Auto-generated method stub
-		return null;
+            return new FileUserAccess();
 	}
 
 	@Override
 	public IGameAccess getGameAccessObject() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+            return new FileGameAccess();
 	}
 
 	@Override
 	public void beginTransaction() 
 	{
-		// TODO Auto-generated method stub
-		
+            return;
 	}
 
 	@Override
 	public void endTransaction() 
 	{
-		// TODO Auto-generated method stub
-		
+            return;	
 	}
     
 }

@@ -31,6 +31,9 @@ public class UserManager
     public UserManager(IPersistenceFactory persistence)
     {
         this.persistence = persistence;
+        this.persistence.beginTransaction();
+        ArrayList<User> allUsers = new ArrayList<>(this.persistence.getUserAccessObject().getUsers());
+        this.userList = Collections.synchronizedList(allUsers);
     }
     
     public User getUserWithId(int id)
@@ -48,6 +51,11 @@ public class UserManager
         if(this.getUserWithUsername(newUser.getUsername()) != null)
             return -1;
         this.userList.add(newUser);
+        User addedUser = new User(newUser.getUsername(), newUser.getPassword());
+        addedUser.setPlayerId(this.userList.size()-1);
+        this.persistence.beginTransaction();
+        this.persistence.getUserAccessObject().saveNewUser(addedUser);
+        this.persistence.endTransaction();
         return this.userList.size() - 1;
     }
     
