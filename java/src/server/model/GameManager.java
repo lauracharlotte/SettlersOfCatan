@@ -21,6 +21,11 @@ public class GameManager
 
     private IPersistenceFactory persistence;
     
+    public GameManager()
+    {
+        
+    }
+    
     public GameManager(IPersistenceFactory persistence)
     {
         this.persistence = persistence;

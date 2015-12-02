@@ -22,7 +22,7 @@ public class ServerProxyTest {
         ServerProxy.setSERVER_HOST("localhost");
         ServerProxy.setSERVER_PORT("8081");
         server = new Server(8081);
-        server.run();
+        server.run(null, null);
     }
     private static Server server;
     @AfterClass

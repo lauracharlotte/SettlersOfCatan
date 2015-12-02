@@ -49,7 +49,10 @@ public class Server
     public static void main(String[] args) throws Exception
     {
         if(args.length < 2)
+        {
             System.err.println("Usage: our-server <persistence-provider> <numberofdiffs>");
+            return;
+        }
         String persistenceProvider = args[0];
         int numberOfDiffs = Integer.parseInt(args[1]);
         int portNumber = 8081;
@@ -63,12 +66,12 @@ public class Server
     
     private HttpServer server;
     
-    public void run(String persistenceProvider, int numberOfDiffs) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    public void run(GameManager myGameManager, UserManager myUserManager)
     {
-        Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
-        IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
-        GameManager myGameManager = new GameManager(factory);
-        UserManager myUserManager = new UserManager(factory);
+        if(myGameManager==null)
+            myGameManager = new GameManager();
+        if(myUserManager == null)
+            myUserManager = new UserManager();
         CookieVerifier cookieVerifier = new CookieVerifier(myUserManager, myGameManager);
         try
         {
@@ -99,6 +102,15 @@ public class Server
         server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
         server.createContext("/docs/api/view", new Handlers.BasicFile(""));
         server.start();
+    }
+    
+    private void run(String persistenceProvider, int numberOfDiffs) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    {
+        Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
+        IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
+        GameManager myGameManager = new GameManager(factory);
+        UserManager myUserManager = new UserManager(factory);
+        run(myGameManager, myUserManager);
         
     }
     

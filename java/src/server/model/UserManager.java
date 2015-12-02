@@ -23,6 +23,11 @@ public class UserManager
     
     private IPersistenceFactory persistence;
     
+    public UserManager()
+    {
+        
+    }
+    
     public UserManager(IPersistenceFactory persistence)
     {
         this.persistence = persistence;
