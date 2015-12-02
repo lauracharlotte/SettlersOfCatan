@@ -1,6 +1,9 @@
 package model.map;
 
 import shared.locations.*;
+
+import java.io.Serializable;
+
 import model.player.*;
 
 /**
@@ -9,7 +12,9 @@ import model.player.*;
  * @author Madison Brooks
  *
  */
-public class VertexObject {
+@SuppressWarnings("serial")
+public class VertexObject implements Serializable 
+{
 
 	/**
 	 * Location of the piece
@@ -35,28 +40,32 @@ public class VertexObject {
 	/**
 	 * @return the location
 	 */
-	public VertexLocation getLocation() {
+	public VertexLocation getLocation() 
+	{
 		return location;
 	}
 
 	/**
 	 * @param location the location to set
 	 */
-	public void setLocation(VertexLocation location) {
+	public void setLocation(VertexLocation location) 
+	{
 		this.location = location;
 	}
 
 	/**
 	 * @return the owner
 	 */
-	public PlayerIdx getOwner() {
+	public PlayerIdx getOwner() 
+	{
 		return owner;
 	}
 
 	/**
 	 * @param owner the owner to set
 	 */
-	public void setOwner(PlayerIdx owner) {
+	public void setOwner(PlayerIdx owner) 
+	{
 		this.owner = owner;
 	}
 	

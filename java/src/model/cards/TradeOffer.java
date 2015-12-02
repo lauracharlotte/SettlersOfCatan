@@ -1,12 +1,15 @@
 package model.cards;
 
+import java.io.Serializable;
+
 import model.player.PlayerIdx;
 
 /**
  * The trade offer between two players
  * @author Scott Hampton
  */
-public class TradeOffer
+@SuppressWarnings("serial")
+public class TradeOffer implements Serializable
 {
     /**
      * The PlayerIdx of the sender

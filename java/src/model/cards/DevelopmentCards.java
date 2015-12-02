@@ -1,10 +1,13 @@
 package model.cards;
 
+import java.io.Serializable;
+
 /**
  * Contains the amount of development cards a player/bank has.
  * @author Scott Hampton
  */
-public class DevelopmentCards
+@SuppressWarnings("serial")
+public class DevelopmentCards implements Serializable
 {
     /**
      * Amount of monopoly cards

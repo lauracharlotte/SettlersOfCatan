@@ -1,6 +1,9 @@
 package model.map;
 
 import shared.locations.*;
+
+import java.io.Serializable;
+
 import shared.definitions.*;
 
 /**
@@ -8,7 +11,9 @@ import shared.definitions.*;
  * @author Madison Brooks
  *
  */
-public class Port {
+@SuppressWarnings("serial")
+public class Port implements Serializable 
+{
 
 	/**
 	 * Location of Port's Hex on the CatanMap
@@ -49,21 +54,24 @@ public class Port {
 	/**
 	 * @return the hex
 	 */
-	public HexLocation getHex() {
+	public HexLocation getHex() 
+	{
 		return hex;
 	}
 
 	/**
 	 * @param hex the hex to set
 	 */
-	public void setHex(HexLocation hex) {
+	public void setHex(HexLocation hex) 
+	{
 		this.hex = hex;
 	}
 
 	/**
 	 * @return the resource (may be null if ratio is 3)
 	 */
-	public ResourceType getResource() {
+	public ResourceType getResource() 
+	{
 		return resource;
 	}
         
@@ -85,35 +93,40 @@ public class Port {
 	/**
 	 * @param resource the resource to set
 	 */
-	public void setResource(ResourceType resource) {
+	public void setResource(ResourceType resource) 
+	{
 		this.resource = resource;
 	}
 
 	/**
 	 * @return the direction
 	 */
-	public EdgeDirection getDirection() {
+	public EdgeDirection getDirection() 
+	{
 		return direction;
 	}
 
 	/**
 	 * @param direction the direction to set
 	 */
-	public void setDirection(EdgeDirection direction) {
+	public void setDirection(EdgeDirection direction) 
+	{
 		this.direction = direction;
 	}
 
 	/**
 	 * @return the ratio
 	 */
-	public int getRatio() {
+	public int getRatio() 
+	{
 		return ratio;
 	}
 
 	/**
 	 * @param ratio the ratio to set
 	 */
-	public void setRatio(int ratio) {
+	public void setRatio(int ratio) 
+	{
 		this.ratio = ratio;
 	}
 	

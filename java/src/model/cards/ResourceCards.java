@@ -1,10 +1,13 @@
 package model.cards;
 
+import java.io.Serializable;
+
 /**
  * Contains the amount of resource cards the player/bank has.
  * @author Scott Hampton
  */
-public class ResourceCards
+@SuppressWarnings("serial")
+public class ResourceCards implements Serializable
 {
     /**
      * brick holds the amount of brick resource cards

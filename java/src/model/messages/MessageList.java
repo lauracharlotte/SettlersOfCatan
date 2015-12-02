@@ -1,5 +1,6 @@
 package model.messages;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -8,7 +9,9 @@ import java.util.Collection;
  * @author Madison Brooks
  *
  */
-public class MessageList {
+@SuppressWarnings("serial")
+public class MessageList implements Serializable 
+{
 
 	/**
 	 * All messages in list
@@ -27,14 +30,16 @@ public class MessageList {
 	/**
 	 * @return the lines
 	 */
-	public Collection<MessageLine> getLines() {
+	public Collection<MessageLine> getLines() 
+	{
 		return lines;
 	}
 
 	/**
 	 * @param lines the lines to set
 	 */
-	public void setLines(Collection<MessageLine> lines) {
+	public void setLines(Collection<MessageLine> lines) 
+	{
 		this.lines = lines;
 	}
 	

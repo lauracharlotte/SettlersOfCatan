@@ -1,11 +1,15 @@
 package model.messages;
 
+import java.io.Serializable;
+
 /**
  * Holds the content and source of a message line
  * @author Madison Brooks
  *
  */
-public class MessageLine {
+@SuppressWarnings("serial")
+public class MessageLine  implements Serializable 
+{
 
 	/**
 	 * Message content
@@ -31,28 +35,32 @@ public class MessageLine {
 	/**
 	 * @return the message
 	 */
-	public String getMessage() {
+	public String getMessage() 
+	{
 		return message;
 	}
 
 	/**
 	 * @param message the message to set
 	 */
-	public void setMessage(String message) {
+	public void setMessage(String message) 
+	{
 		this.message = message;
 	}
 
 	/**
 	 * @return the source
 	 */
-	public String getSource() {
+	public String getSource() 
+	{
 		return source;
 	}
 
 	/**
 	 * @param source the source to set
 	 */
-	public void setSource(String source) {
+	public void setSource(String source) 
+	{
 		this.source = source;
 	}
 	

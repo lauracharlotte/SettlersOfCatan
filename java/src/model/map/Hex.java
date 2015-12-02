@@ -1,6 +1,9 @@
 package model.map;
 
 import shared.locations.*;
+
+import java.io.Serializable;
+
 import shared.definitions.*;
 
 /**
@@ -8,7 +11,9 @@ import shared.definitions.*;
  * @author Madison Brooks
  *
  */
-public class Hex {
+@SuppressWarnings("serial")
+public class Hex implements Serializable 
+{
 
 	/**
 	 * Location (set of coordinates) of the Hex on the CatanMap
@@ -41,42 +46,48 @@ public class Hex {
 	/**
 	 * @return the location
 	 */
-	public HexLocation getLocation() {
+	public HexLocation getLocation() 
+	{
 		return location;
 	}
 
 	/**
 	 * @param location the location to set
 	 */
-	public void setLocation(HexLocation location) {
+	public void setLocation(HexLocation location) 
+	{
 		this.location = location;
 	}
 
 	/**
 	 * @return the type
 	 */
-	public HexType getType() {
+	public HexType getType() 
+	{
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(HexType type) {
+	public void setType(HexType type) 
+	{
 		this.type = type;
 	}
 
 	/**
 	 * @return the number
 	 */
-	public int getNumber() {
+	public int getNumber() 
+	{
 		return number;
 	}
 
 	/**
 	 * @param number the number to set
 	 */
-	public void setNumber(int number) {
+	public void setNumber(int number) 
+	{
 		this.number = number;
 	}
 	
