@@ -98,6 +98,7 @@ public class MockGamesFacade implements IGamesFacade
 				new NullablePlayerIdx(-1), new NullablePlayerIdx(-1));
 		int version = 0;
 		NullablePlayerIdx winner = new NullablePlayerIdx(-1);
+		@SuppressWarnings("unused")
 		ClientModel model = new ClientModel("Game 1", bank, chat, log, map, players, tradeOffer, turnTracker, version, winner);
 		return true;
 	}

@@ -68,7 +68,9 @@ public class GamesFacade implements IGamesFacade
 		ClientModel newGame = new ClientModel(request.isRandomTiles(), request.isRandomNumbers(), request.isRandomPorts(), 
 				request.getName());
 		gameManager.addNewGame(newGame);
-		return new GameJSONResponse(newGame, gameManager.getAllGames().size()-1);
+		int gameId = gameManager.getAllGames().size() - 1;
+		gameManager.saveGame(gameId);
+		return new GameJSONResponse(newGame, gameId);
 	}
 
 	/**
@@ -113,6 +115,7 @@ public class GamesFacade implements IGamesFacade
 		}
 		game.setPlayers(players);		
 		gameManager.replaceGame(request.getGameId(), game);
+		gameManager.saveGame(request.getGameId());
 		return true;
 	}
 	

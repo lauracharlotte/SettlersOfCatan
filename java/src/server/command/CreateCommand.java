@@ -30,7 +30,7 @@ public class CreateCommand implements ICommand
 		
 		create.deserialize(requestBody);
 		
-		GameJSONResponse result = myFacade.create(create);
+		GameJSONResponse result = myFacade.create(create);		
 		return result.serialize();
 	}
 
