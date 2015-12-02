@@ -1,11 +1,11 @@
 package server.facade;
 
-import clientcommunicator.Server.Cookie;
 import model.ClientModel;
 import model.cards.ResourceCards;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import model.player.User;
+import server.command.ICommand;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -23,7 +23,7 @@ public interface IMovesFacade extends IModelFacade {
      * @param command The command object being saved
      * @return Whether the save was successful
      */
-    public boolean saveCommand(Object command);
+    public boolean saveCommand(ICommand command, int gameId);
     
     /**
      * Sends a chat message from a player and logs it in the chat message box

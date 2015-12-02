@@ -1,6 +1,5 @@
 package server.facade;
 
-import clientcommunicator.Server.Cookie;
 import guicommunicator.MapModelFacade;
 import guicommunicator.ResourceModelFacade;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import model.player.Player;
 import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
 import model.player.User;
+import server.command.ICommand;
 import server.model.GameManager;
 import shared.definitions.HexType;
 import shared.definitions.ResourceType;
@@ -42,7 +42,8 @@ public class MovesFacade implements IMovesFacade {
     }
     
     @Override
-    public boolean saveCommand(Object command) {
+    public boolean saveCommand(ICommand command , int gameId) {
+        this.manager.saveCommand(command, gameId);
         return true;
     }
     

@@ -47,7 +47,7 @@ public class RoadBuildingCommand implements ICommand {
         
         ClientModel result = myMovesFacade.roadBuilding(playerIdx, location1, location2, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
 
         return JSONSerializer.SerializeModel(result);
     }

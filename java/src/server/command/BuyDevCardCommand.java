@@ -43,7 +43,7 @@ public class BuyDevCardCommand implements ICommand {
         
         ClientModel result = myMovesFacade.buyDevCard(playerIdx, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
 
         return JSONSerializer.SerializeModel(result);
     }

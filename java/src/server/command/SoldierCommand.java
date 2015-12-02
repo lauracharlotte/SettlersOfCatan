@@ -43,7 +43,7 @@ public class SoldierCommand implements ICommand {
         
         ClientModel result = myMovesFacade.soldier(playerIdx, victimIdx, location, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
         
         return JSONSerializer.SerializeModel(result);
     }

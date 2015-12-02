@@ -46,7 +46,7 @@ public class BuildSettlementCommand implements ICommand {
         
         ClientModel result = myMovesFacade.buildSettlement(playerIdx, location, free, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
         
         return JSONSerializer.SerializeModel(result);
     }

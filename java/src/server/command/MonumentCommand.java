@@ -44,7 +44,7 @@ public class MonumentCommand implements ICommand {
         
         ClientModel result = myMovesFacade.monument(playerIdx, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
         
         return JSONSerializer.SerializeModel(result);
     }

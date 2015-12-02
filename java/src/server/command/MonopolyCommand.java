@@ -46,7 +46,7 @@ public class MonopolyCommand implements ICommand {
         
         ClientModel result = myMovesFacade.monopoly(resource, playerIdx, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
         
         return JSONSerializer.SerializeModel(result);
     }

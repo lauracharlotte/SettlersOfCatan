@@ -48,7 +48,7 @@ public class RobPlayerCommand implements ICommand {
         
         ClientModel result = myMovesFacade.robPlayer(playerIdx, victimIdx, location, game, playerId);
         
-        myMovesFacade.saveCommand(this);
+        myMovesFacade.saveCommand(this, game);
         
         return JSONSerializer.SerializeModel(result);
     }
