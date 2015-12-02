@@ -1,5 +1,7 @@
 package model.player;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author LaurasAdventurePC
@@ -7,7 +9,8 @@ package model.player;
  */
 
 
-public class PlayerIdx extends NullablePlayerIdx
+@SuppressWarnings("serial")
+public class PlayerIdx extends NullablePlayerIdx implements Serializable
 {
 	public PlayerIdx(int index)
 	{

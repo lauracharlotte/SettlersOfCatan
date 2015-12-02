@@ -1,12 +1,15 @@
 package model.player;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author LaurasAdventurePC
  *
  */
 
-public class NullablePlayerIdx 
+@SuppressWarnings("serial")
+public class NullablePlayerIdx implements Serializable
 {
 	
     /**

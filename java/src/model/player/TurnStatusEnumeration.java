@@ -1,5 +1,6 @@
 package model.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -9,7 +10,7 @@ import java.util.Enumeration;
  *
  */
 
-public enum TurnStatusEnumeration {
+public enum TurnStatusEnumeration implements Serializable {
 	/**
 	 * We are rolling right now
 	 */

@@ -5,13 +5,15 @@
  */
 package model.player;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Michael
  */
-public class User
+@SuppressWarnings("serial")
+public class User implements Serializable
 {
 
     public User(String username, String password)
