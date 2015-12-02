@@ -118,7 +118,8 @@ public class ResourceModelFacade
     {
         if(currentPlayer == null)
             throw new IllegalStateException();
-        ResourceCards hasCards = this.getPlayersResources(currentPlayer);
+        @SuppressWarnings("unused")
+		ResourceCards hasCards = this.getPlayersResources(currentPlayer);
         return currentPlayer.hasEnoughResources(neededCards);
     }
     

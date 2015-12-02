@@ -16,7 +16,6 @@ import model.map.VertexObject;
 import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
-import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -135,7 +134,8 @@ public class MapModelFacade
         return this.canPlaceRoadWithRoadCollection(location, this.getCurrentMap().getRoads());
     }
 
-    private boolean canPlaceRoadWithRoadCollection(EdgeLocation location, Collection<EdgeObject> roads)
+    @SuppressWarnings("unused")
+	private boolean canPlaceRoadWithRoadCollection(EdgeLocation location, Collection<EdgeObject> roads)
     {
         if(!this.onLand(location))
             return false;

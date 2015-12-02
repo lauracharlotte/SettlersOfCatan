@@ -2,7 +2,6 @@ package model;
 
 import java.util.Collection;
 import java.util.Observable;
-import java.util.Observer;
 import model.player.Player;
 
 public class ClientModelSupplier extends Observable
