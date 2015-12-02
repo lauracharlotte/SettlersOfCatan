@@ -6,17 +6,22 @@
 package server.persistence.file;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.ClientModel;
+import model.player.User;
+import org.apache.commons.io.FilenameUtils;
 import server.IGameAccess;
 import server.command.ICommand;
 
@@ -30,14 +35,59 @@ public class FileGameAccess implements IGameAccess
     @Override
     public Collection<ClientModel> getGames() 
     {
-            // TODO Auto-generated method stub
-            return null;
+        ArrayList<ClientModel> models = new ArrayList<ClientModel>();
+        int gameId = 0;
+        Object o = this.loadSerializable(gameId+".catanmodel");
+        while(o!=null)
+        {
+            models.add((ClientModel)o);
+            gameId++;
+            o = this.loadSerializable(gameId+".catanmodel");
+        }
+        return models;
     }
 
     @Override
     public boolean saveGame(ClientModel game, int gameId) 
     {
         return this.saveSerialize(game, System.getProperty("user.dir")+File.separator+gameId+".catanmodel");
+    }
+    
+    private Object loadSerializable(String fName)
+    {
+        File file = new File(System.getProperty("user.dir")+File.separator+fName);
+        if(!file.exists())
+            return null;
+        FileInputStream fis;
+        try
+        {
+            fis = new FileInputStream(file);
+        }
+        catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(FileGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        ObjectInputStream objectinputstream = null;
+        try 
+        {
+            objectinputstream = new ObjectInputStream(fis);
+        }
+        catch (IOException ex) 
+        {
+            Logger.getLogger(FileUserAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        try
+        {
+            Object newObject = objectinputstream.readObject();
+            return newObject;
+        }
+        catch (IOException | ClassNotFoundException ex)
+        {
+            Logger.getLogger(FileUserAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     private boolean saveSerialize(Serializable obj, String fName)
@@ -80,12 +130,16 @@ public class FileGameAccess implements IGameAccess
     @Override
     public Collection<ICommand> getAllCommands(int gameId)
     {
-        return new ArrayList<ICommand>();
+        ArrayList<ICommand> commands = new ArrayList<>();
+        Collection<ICommand> o = (Collection<ICommand>)this.loadSerializable(gameId+".commands");
+        if(o != null)
+            commands.addAll(o);
+        return commands;
     }
     
     private boolean saveAllCommands(Collection<ICommand> commands, int gameId)
     {
-        return true;
+        return this.saveSerialize((Serializable)commands, System.getProperty("user.dir")+File.separator+gameId+".commands");
     }
     
 
@@ -106,7 +160,9 @@ public class FileGameAccess implements IGameAccess
     @Override
     public boolean deleteGameCommands(int gameId) 
     {
-        return false;
+        File currentCommandFile = new File(System.getProperty("user.dir")+File.separator+gameId+".commands");
+        boolean delete = currentCommandFile.delete();
+        return delete;
     }
     
 }
