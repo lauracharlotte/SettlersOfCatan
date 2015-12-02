@@ -11,5 +11,8 @@ package server;
  */
 public interface IPersistenceFactory
 {
-    
+    IUserAccess getUserAccessObject();
+    IGameAccess getGameAccessObject();
+    void beginTransaction();
+    void endTransaction();
 }

@@ -5,7 +5,9 @@
  */
 package server.persistence.file;
 
+import server.IGameAccess;
 import server.IPersistenceFactory;
+import server.IUserAccess;
 
 /**
  *
@@ -13,5 +15,33 @@ import server.IPersistenceFactory;
  */
 public class FileFactory implements IPersistenceFactory
 {
+
+	@Override
+	public IUserAccess getUserAccessObject()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IGameAccess getGameAccessObject() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void beginTransaction() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endTransaction() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
     
 }
