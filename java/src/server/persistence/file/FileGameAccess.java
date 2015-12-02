@@ -19,19 +19,22 @@ public class FileGameAccess implements IGameAccess
 {
 
 	@Override
-	public Collection<ClientModel> getGames() {
+	public Collection<ClientModel> getGames() 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean saveGame(ClientModel game) {
+	public boolean saveGame(ClientModel game) 
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean saveCommand(ICommand command, int gameId) {
+	public boolean saveCommand(ICommand command, int gameId) 
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
