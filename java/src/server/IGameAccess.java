@@ -21,4 +21,5 @@ public interface IGameAccess
     public boolean saveCommand(ICommand command, int gameId);
     public int getCommandAmount(int gameId);
     public boolean deleteGameCommands(int gameId);
+    public Collection<ICommand> getAllCommands(int gameId);
 }

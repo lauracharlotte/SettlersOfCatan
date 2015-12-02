@@ -76,7 +76,7 @@ public class FileUserAccess implements IUserAccess
         FileOutputStream fout;
         try
         {
-            fout = new FileOutputStream(System.getProperty("user.dir")+File.separator+newUser.getUsername()+".userobj");
+            fout = new FileOutputStream(System.getProperty("user.dir")+File.separator+newUser.getUsername()+".userobj", false);
         }
         catch (FileNotFoundException ex)
         {

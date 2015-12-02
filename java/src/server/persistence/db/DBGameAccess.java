@@ -48,5 +48,11 @@ public class DBGameAccess implements IGameAccess
     public boolean deleteGameCommands(int gameId) {
         return false;
     }
+
+    @Override
+    public Collection<ICommand> getAllCommands(int gameId)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
