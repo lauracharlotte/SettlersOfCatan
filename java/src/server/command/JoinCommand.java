@@ -30,7 +30,7 @@ public class JoinCommand implements ICommand
 		join.deserialize(requestBody);
 		
 		boolean result = myFacade.join(currentCookie.getUser(), join);
-		
+				
 		if (result)
 		{
 			currentCookie.setGameNumber(join.getGameId());
