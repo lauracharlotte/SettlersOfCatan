@@ -4,7 +4,6 @@ import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
-import clientcommunicator.Server.ServerPoller;
 import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.GameServerOperationsManager;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
@@ -287,7 +286,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         }
         try
         {
-            GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceNumbers, randomlyPlaceHexes, randomPorts, title));
+            @SuppressWarnings("unused")
+			GameJSONResponse game = manager.createGame(new CreateGameRequest(randomlyPlaceNumbers, randomlyPlaceHexes, randomPorts, title));
             //manager.joinGame(new JoinGameRequest(game.getGameId(), CatanColor.RED), randomPorts);
         }
         catch (ClientException | JSONException ex)

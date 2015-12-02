@@ -105,7 +105,8 @@ public class ModelServerFacadeFactory
      * @throws IllegalAccessException The default constructor has a restrictive access modifier
      * @throws InvocationTargetException The default constructor threw an exception
      */
-    public IServerOperationsManager getOperationsManager(Class operationsClass) 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public IServerOperationsManager getOperationsManager(Class operationsClass) 
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
     {
         IServerOperationsManager manager;

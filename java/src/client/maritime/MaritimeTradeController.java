@@ -60,7 +60,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
             this.tradeOverlay = tradeOverlay;
     }
 
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public void startTrade() {
         playerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex();
         ratios = new HashMap();
@@ -86,7 +87,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         }
     }
 
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public void cancelTrade() {
         playerIdx = null;
         ratio = 0;
@@ -151,7 +153,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
     
     private ResourceType[] getAvailablePorts()
     {
-        ArrayList<ResourceType> resources = new ArrayList();
+        ArrayList<ResourceType> resources = new ArrayList<ResourceType>();
         CatanMap map = ClientModelSupplier.getInstance().getModel().getMap();
         ArrayList<Port> ports = (ArrayList<Port>) map.getPorts();
         ArrayList<VertexObject> settlements = (ArrayList<VertexObject>) map.getSettlements();
@@ -309,7 +311,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
     }
     
     private ResourceType[] getAvailableResources(){
-        ArrayList<ResourceType> resources = new ArrayList();
+        ArrayList<ResourceType> resources = new ArrayList<ResourceType>();
         ResourceCards bank = ClientModelSupplier.getInstance().getModel().getBank().getResourceCards();
         if (bank.getBrick() > 0){
             resources.add(ResourceType.BRICK);

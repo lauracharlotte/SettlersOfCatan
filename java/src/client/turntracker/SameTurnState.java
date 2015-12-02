@@ -1,12 +1,10 @@
 package client.turntracker;
 
-import client.base.IAction;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
-import model.player.TurnStatusEnumeration;
 
 public class SameTurnState implements ITurnTrackerState {
 	

@@ -1,23 +1,13 @@
 package client.turntracker;
 
-import shared.definitions.CatanColor;
 import client.base.*;
-import clientcommunicator.Server.MockServerProxy;
-import clientcommunicator.modelserverfacade.ClientException;
-import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
-import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
-import clientcommunicator.modelserverfacade.UserServerOperationsManager;
-import clientcommunicator.operations.FinishTurnRequest;
+
 import model.ClientModel;
 import model.ClientModelSupplier;
-import model.player.Player;
 import model.player.PlayerIdx;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
-
-import org.json.JSONException;
 
 
 /**

@@ -7,10 +7,7 @@ package clientcommunicator.operations;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import model.player.PlayerIdx;
 import org.json.JSONException;
-import org.json.JSONObject;
-import shared.definitions.CatanColor;
 
 /**
  *

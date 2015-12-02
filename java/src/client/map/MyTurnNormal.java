@@ -33,11 +33,9 @@ import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
 import model.player.TurnStatusEnumeration;
-import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -49,7 +47,8 @@ class MyTurnNormal implements IMapState
 
     private PlayerIdx playerIndex;
     private MapModelFacade mapFacade = new MapModelFacade();
-    private ResourceModelFacade resourceFacade = new ResourceModelFacade();
+    @SuppressWarnings("unused")
+	private ResourceModelFacade resourceFacade = new ResourceModelFacade();
     private BuildItemServerOperationsManager manager;
     private TurnServerOperationsManager turnManager;
     private DevCardServerOperationsManager devCardManager;

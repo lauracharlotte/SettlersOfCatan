@@ -9,6 +9,7 @@ package clientcommunicator.Server;
  *
  * @author Michael
  */
+@SuppressWarnings("serial")
 public class MalformedCookieException extends Exception
 {
 

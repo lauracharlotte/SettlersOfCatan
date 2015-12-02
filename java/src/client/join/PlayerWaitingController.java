@@ -8,14 +8,11 @@ import clientcommunicator.modelserverfacade.GameServerOperationsManager;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ClientModel;
-import model.ClientModelSupplier;
 import model.player.Player;
 import org.json.JSONException;
 

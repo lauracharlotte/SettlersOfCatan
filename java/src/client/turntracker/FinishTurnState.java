@@ -2,7 +2,6 @@ package client.turntracker;
 
 import java.lang.reflect.InvocationTargetException;
 
-import client.base.IAction;
 import clientcommunicator.modelserverfacade.ClientException;
 import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 import clientcommunicator.modelserverfacade.TurnServerOperationsManager;
@@ -12,9 +11,6 @@ import model.ClientModelSupplier;
 import model.player.NullablePlayerIdx;
 import model.player.Player;
 import model.player.PlayerIdx;
-import model.player.TurnStatusEnumeration;
-import model.player.TurnTracker;
-import shared.definitions.CatanColor;
 
 public class FinishTurnState implements ITurnTrackerState 
 {

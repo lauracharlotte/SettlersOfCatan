@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
-import shared.definitions.ResourceType;
 
 /**
  *

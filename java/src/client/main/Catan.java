@@ -8,7 +8,6 @@ import client.join.*;
 import client.misc.*;
 import client.base.*;
 import clientcommunicator.Server.ServerProxy;
-import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 
 /**
  * Main entry point for the Catan program

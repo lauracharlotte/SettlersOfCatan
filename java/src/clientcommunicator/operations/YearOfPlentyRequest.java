@@ -7,7 +7,6 @@ package clientcommunicator.operations;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import model.cards.ResourceCards;
 import model.player.PlayerIdx;
 import org.json.JSONException;
 import shared.definitions.ResourceType;

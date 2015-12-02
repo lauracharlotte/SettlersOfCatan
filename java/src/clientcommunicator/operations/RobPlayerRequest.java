@@ -10,8 +10,6 @@ import com.google.gson.JsonParser;
 import model.player.NullablePlayerIdx;
 import model.player.PlayerIdx;
 import org.json.JSONException;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 
 /**

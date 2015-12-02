@@ -4,7 +4,6 @@ import model.ClientModel;
 import model.ClientModelSupplier;
 import model.player.Player;
 import model.player.PlayerIdx;
-import shared.definitions.CatanColor;
 
 public class CreateTurnTrackerState implements ITurnTrackerState {
 	private Boolean playersReady = false;

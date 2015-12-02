@@ -2,7 +2,6 @@ package client.map;
 
 import client.data.RobPlayerInfo;
 import java.util.Observable;
-import shared.definitions.CatanColor;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;

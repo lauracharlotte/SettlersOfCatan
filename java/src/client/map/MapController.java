@@ -25,7 +25,8 @@ public class MapController extends Controller implements IMapController, Observe
 	
     private IMapState currentState = new NotInGameState();
     
-    private CatanColor myCatanColor;
+    @SuppressWarnings("unused")
+	private CatanColor myCatanColor;
     
     public MapController(IMapView view, IRobView robView) 
     {

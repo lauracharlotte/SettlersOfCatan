@@ -1,7 +1,6 @@
 package client.points;
 
 import client.base.*;
-import client.join.JoinGameController;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.player.Player;
@@ -60,7 +59,8 @@ public class PointsController extends Controller implements IPointsController, O
     	if(arg != null)
     	{
 	    	ClientModel curModel = (ClientModel) arg;
-	    	ClientModelSupplier curSupplier = (ClientModelSupplier) o;
+	    	@SuppressWarnings("unused")
+			ClientModelSupplier curSupplier = (ClientModelSupplier) o;
 			int locPlayerIdx = ClientModelSupplier.getInstance().getClientPlayerObject().getPlayerIndex().getIndex();
 			
 			for(Player player: curModel.getPlayers())

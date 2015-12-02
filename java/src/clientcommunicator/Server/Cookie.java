@@ -9,8 +9,6 @@ import com.google.gson.*;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import model.player.User;
 
 /**

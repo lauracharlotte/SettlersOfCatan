@@ -5,16 +5,12 @@
  */
 package clientcommunicator.operations;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import model.player.PlayerIdx;
 import org.json.JSONException;
-import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 
 /**
  *

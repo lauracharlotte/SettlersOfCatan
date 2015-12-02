@@ -10,7 +10,6 @@ import java.util.Observable;
 import model.ClientModel;
 import model.ClientModelSupplier;
 import model.player.TurnStatusEnumeration;
-import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;

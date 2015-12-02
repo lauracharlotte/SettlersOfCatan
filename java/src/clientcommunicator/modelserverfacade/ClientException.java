@@ -4,7 +4,9 @@ package clientcommunicator.modelserverfacade;
  * This is a generic Client Exception
  * @author Scott
  */
-public class ClientException extends Exception{
+@SuppressWarnings("serial")
+public class ClientException extends Exception
+{
     public ClientException() { }
     
     public ClientException(String message)

@@ -9,7 +9,6 @@ import clientcommunicator.modelserverfacade.ModelServerFacadeFactory;
 import clientcommunicator.modelserverfacade.TradeServerOperationsManager;
 import clientcommunicator.operations.AcceptTradeRequest;
 import clientcommunicator.operations.OfferTradeRequest;
-import guicommunicator.ResourceModelFacade;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -118,7 +117,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
     private void setPlayers(PlayerIdx playerIdx)
     {
         Player[] players = ClientModelSupplier.getInstance().getModel().getPlayers().toArray(new Player[4]);
-        ArrayList<PlayerInfo> playerInfos = new ArrayList();
+        ArrayList<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
         for (int i = 0; i < players.length; i++)
         {
             

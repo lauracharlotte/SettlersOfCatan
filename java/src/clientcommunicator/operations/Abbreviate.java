@@ -2,10 +2,8 @@ package clientcommunicator.operations;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.player.PlayerIdx;
 import shared.locations.EdgeDirection;
 import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 
 public class Abbreviate {
 	
