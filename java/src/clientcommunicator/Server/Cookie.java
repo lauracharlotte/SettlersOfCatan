@@ -16,6 +16,7 @@ import model.player.User;
  *
  * @author Michael
  */
+@SuppressWarnings("serial")
 public class Cookie implements Serializable
 {
     
