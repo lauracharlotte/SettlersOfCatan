@@ -46,12 +46,14 @@ public class Server
      * Starts a Java Server that can handle httpRequests dealing with Settlers of Catan.
      * @param args args[0] must be the port number the server should be ran on
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        int port = 8081;
-        if(args.length>0)
-            port = Integer.parseInt(args[0]);
-        new Server(port).run();
+        if(args.length < 2)
+            System.err.println("Usage: our-server <persistence-provider> <numberofdiffs>");
+        String persistenceProvider = args[0];
+        int numberOfDiffs = Integer.parseInt(args[1]);
+        int portNumber = 8081;
+        new Server(portNumber).run(persistenceProvider, numberOfDiffs);
     }
     
     public void stop()
@@ -61,10 +63,12 @@ public class Server
     
     private HttpServer server;
     
-    public void run()
+    public void run(String persistenceProvider, int numberOfDiffs) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        GameManager myGameManager = new GameManager();
-        UserManager myUserManager = new UserManager();
+        Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
+        IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
+        GameManager myGameManager = new GameManager(factory);
+        UserManager myUserManager = new UserManager(factory);
         CookieVerifier cookieVerifier = new CookieVerifier(myUserManager, myGameManager);
         try
         {
