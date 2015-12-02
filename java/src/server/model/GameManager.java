@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import model.ClientModel;
+import server.IGameAccess;
 import server.IPersistenceFactory;
 
 /**
@@ -29,6 +30,12 @@ public class GameManager
     public GameManager(IPersistenceFactory persistence)
     {
         this.persistence = persistence;
+        
+        // Get the list of games from the persistence
+        this.persistence.beginTransaction();
+        IGameAccess gameAccessObject = this.persistence.getGameAccessObject();
+        gameList = Collections.synchronizedList(new ArrayList<ClientModel>(gameAccessObject.getGames()));
+        this.persistence.endTransaction();
     }
     
     public ClientModel getGameWithNumber(int gameId)

@@ -18,25 +18,30 @@ import server.command.ICommand;
 public class FileGameAccess implements IGameAccess
 {
 
-	@Override
-	public Collection<ClientModel> getGames() 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Collection<ClientModel> getGames() 
+    {
+            // TODO Auto-generated method stub
+            return null;
+    }
 
-	@Override
-	public boolean saveGame(ClientModel game) 
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean saveGame(ClientModel game) 
+    {
+            // TODO Auto-generated method stub
+            return false;
+    }
 
-	@Override
-	public boolean saveCommand(ICommand command, int gameId) 
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean saveCommand(ICommand command, int gameId) 
+    {
+            // TODO Auto-generated method stub
+            return false;
+    }
+
+    @Override
+    public int getCommandAmount(int gameId) {
+        return 0;
+    }
     
 }
