@@ -5,11 +5,18 @@
  */
 package server;
 
+import java.util.Collection;
+
+import model.ClientModel;
+import server.command.ICommand;
+
 /**
  *
  * @author Michael
  */
 public interface IGameAccess
 {
-    
+    public Collection<ClientModel> getGames();
+    public boolean saveGame(ClientModel game);
+    public boolean saveCommand(ICommand command, int gameId);
 }
