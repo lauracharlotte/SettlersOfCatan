@@ -5,11 +5,15 @@
  */
 package server;
 
+import java.util.Collection;
+import model.player.User;
+
 /**
  *
  * @author Michael
  */
 public interface IUserAccess
 {
-    
+    public Collection<User> getUsers();
+    public boolean saveNewUser(User newUser);
 }

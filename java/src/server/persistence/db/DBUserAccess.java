@@ -5,6 +5,8 @@
  */
 package server.persistence.db;
 
+import java.util.Collection;
+import model.player.User;
 import server.IUserAccess;
 
 /**
@@ -13,5 +15,17 @@ import server.IUserAccess;
  */
 public class DBUserAccess implements IUserAccess
 {
+
+    @Override
+    public Collection<User> getUsers()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveNewUser(User newUser)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
