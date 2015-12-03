@@ -4,3 +4,4 @@ demo
 java/src/model/cards/Hand.java
 *.catanmodel
 *.userobj
+*.commands

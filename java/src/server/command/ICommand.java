@@ -3,6 +3,7 @@ package server.command;
 import org.json.JSONException;
 
 import clientcommunicator.Server.Cookie;
+import java.io.Serializable;
 import server.ServerException;
 import server.facade.IModelFacade;
 
@@ -10,7 +11,7 @@ import server.facade.IModelFacade;
  *
  * @author Michael
  */
-public interface ICommand
+public interface ICommand extends Serializable
 {
     /**
      * Executes the requested function using the given facade.
