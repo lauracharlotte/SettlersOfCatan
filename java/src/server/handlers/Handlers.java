@@ -4,7 +4,6 @@ import java.util.*;
 import java.io.*;
 import com.sun.net.httpserver.*;
 import java.util.logging.*;
-import server.handlers.Handlers.BaseFile;
 
 public class Handlers 
 {

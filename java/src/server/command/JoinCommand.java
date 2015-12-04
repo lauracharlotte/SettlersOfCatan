@@ -13,6 +13,7 @@ import server.ServerException;
  * @author Madison Brooks
  *
  */
+@SuppressWarnings("serial")
 public class JoinCommand implements ICommand
 {
     

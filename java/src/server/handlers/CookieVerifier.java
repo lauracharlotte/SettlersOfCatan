@@ -4,7 +4,6 @@ import clientcommunicator.Server.Cookie;
 import model.ClientModel;
 import model.player.User;
 import server.model.GameManager;
-import model.ClientModel;
 import model.player.Player;
 import server.model.UserManager;
 

@@ -29,7 +29,8 @@ import server.IUserAccess;
 public class FileUserAccess implements IUserAccess
 {
 
-    @Override
+    @SuppressWarnings("resource")
+	@Override
     public Collection<User> getUsers()
     {
         File folder = new File(System.getProperty("user.dir"));
@@ -70,7 +71,8 @@ public class FileUserAccess implements IUserAccess
         return Arrays.asList(finalCollectionOrder);
     }
 
-    @Override
+    @SuppressWarnings("resource")
+	@Override
     public boolean saveNewUser(User newUser)
     {
         FileOutputStream fout;

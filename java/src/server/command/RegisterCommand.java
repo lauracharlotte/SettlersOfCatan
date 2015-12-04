@@ -16,6 +16,7 @@ import server.facade.IUserFacade;
  * Executes the Register request.
  * @author Michael
  */
+@SuppressWarnings("serial")
 public class RegisterCommand implements ICommand
 {
     private String requestBody;

@@ -20,6 +20,7 @@ import shared.locations.EdgeLocation;
  * Executes the Build Road request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class BuildRoadCommand implements ICommand {
     
     private String requestBody;

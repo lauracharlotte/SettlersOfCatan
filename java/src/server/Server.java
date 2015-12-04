@@ -7,9 +7,7 @@ package server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.concurrent.Executor;
 
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.util.logging.Level;
@@ -106,7 +104,8 @@ public class Server
     
     private void run(String persistenceProvider, int numberOfDiffs) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
+        @SuppressWarnings("rawtypes")
+		Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
         IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
         GameManager myGameManager = new GameManager(factory, numberOfDiffs);
         UserManager myUserManager = new UserManager(factory);

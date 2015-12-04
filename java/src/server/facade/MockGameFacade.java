@@ -58,6 +58,7 @@ public class MockGameFacade implements IGameFacade
 	 * Gets the model
 	 * @return the model
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public  ClientModel model(int gameIndex) {
 		// TODO Auto-generated method stub

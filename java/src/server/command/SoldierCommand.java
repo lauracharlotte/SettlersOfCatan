@@ -16,6 +16,7 @@ import shared.locations.HexLocation;
  * Executes the Soldier request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class SoldierCommand implements ICommand {
     
     private String requestBody;

@@ -20,6 +20,7 @@ import shared.locations.VertexLocation;
  * Executes the Build Settlement request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class BuildSettlementCommand implements ICommand {
     
     private String requestBody;

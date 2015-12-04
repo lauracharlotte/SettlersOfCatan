@@ -15,6 +15,7 @@ import shared.definitions.ResourceType;
  * Executes the Year of Plenty request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class YearofPlentyCommand implements ICommand {
     
     private String requestBody;

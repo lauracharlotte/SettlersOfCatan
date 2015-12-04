@@ -19,6 +19,7 @@ import server.facade.IMovesFacade;
  * Executes the Buy Development Card request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class BuyDevCardCommand implements ICommand {
     
     private String requestBody;

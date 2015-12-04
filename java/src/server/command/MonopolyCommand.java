@@ -21,6 +21,7 @@ import shared.definitions.ResourceType;
  *
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class MonopolyCommand implements ICommand {
     
     private String requestBody;

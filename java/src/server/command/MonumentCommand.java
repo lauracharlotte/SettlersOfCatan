@@ -19,6 +19,7 @@ import server.facade.IMovesFacade;
  * Executes the Monument request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class MonumentCommand implements ICommand {
     
     private String requestBody;

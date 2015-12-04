@@ -8,7 +8,6 @@ package server.handlers;
 import clientcommunicator.Server.Cookie;
 import clientcommunicator.Server.MalformedCookieException;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
@@ -19,11 +18,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
-import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONException;
 import server.command.ICommand;
 import server.facade.IModelFacade;
 
@@ -107,7 +103,8 @@ public abstract class AbstractHandler implements HttpHandler
         he.close();
     }
     
-    public ICommand getCommand(HttpExchange he) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    @SuppressWarnings("rawtypes")
+	public ICommand getCommand(HttpExchange he) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         URI currentURI = he.getRequestURI();
         String path = currentURI.getPath();

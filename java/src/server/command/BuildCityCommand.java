@@ -21,6 +21,7 @@ import shared.locations.VertexLocation;
  * Executes the Build City request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class BuildCityCommand implements ICommand {
     
     private String requestBody;

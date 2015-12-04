@@ -21,6 +21,7 @@ import shared.locations.HexLocation;
  * Executes the Rob Player request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class RobPlayerCommand implements ICommand {
     
     private String requestBody;

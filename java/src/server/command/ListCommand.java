@@ -16,6 +16,7 @@ import org.json.*;
  * @author madisonbrooks
  *
  */
+@SuppressWarnings("serial")
 public class ListCommand implements ICommand
 {
     

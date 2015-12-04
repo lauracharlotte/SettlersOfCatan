@@ -21,6 +21,7 @@ import server.facade.IMovesFacade;
  * Executes the Accept Trade request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class AcceptTradeCommand implements ICommand, Serializable {
     
     private String requestBody;

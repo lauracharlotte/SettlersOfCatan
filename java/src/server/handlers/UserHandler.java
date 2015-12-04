@@ -7,10 +7,7 @@ package server.handlers;
 
 import clientcommunicator.Server.Cookie;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +16,6 @@ import org.json.JSONException;
 import server.ServerException;
 import server.command.ICommand;
 import server.facade.IModelFacade;
-import server.facade.IUserFacade;
 
 /**
  * Handles login and user

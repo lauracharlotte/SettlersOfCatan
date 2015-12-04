@@ -671,7 +671,8 @@ public class MovesFacade implements IMovesFacade {
      * @param user The user ID of the player making the request
      * @return The new model information
      */
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
     public ClientModel buildSettlement(PlayerIdx playerIdx, VertexLocation vertexLocation, boolean free, int game, User user)
     {
         ClientModel model = this.manager.getGameWithNumber(game);
@@ -1105,7 +1106,8 @@ public class MovesFacade implements IMovesFacade {
      * @param hex
      * @return A ResourceType
      */
-    private ResourceType hexToResource(Hex hex)
+    @SuppressWarnings("incomplete-switch")
+	private ResourceType hexToResource(Hex hex)
     {
         ResourceType resource = null;
         switch (hex.getType())

@@ -18,6 +18,7 @@ import server.facade.IUserFacade;
  * Executes the Login request.
  * @author Michael
  */
+@SuppressWarnings("serial")
 public class LoginCommand implements ICommand
 {
     

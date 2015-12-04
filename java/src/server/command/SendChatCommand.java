@@ -19,6 +19,7 @@ import server.facade.IMovesFacade;
  * Executes the Send Chat request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class SendChatCommand implements ICommand {
     
     private String requestBody;

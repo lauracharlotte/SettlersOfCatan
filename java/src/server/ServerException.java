@@ -9,6 +9,7 @@ package server;
  * Thrown when an illegal move is requested by the client
  * @author Michael
  */
+@SuppressWarnings("serial")
 public class ServerException extends Exception
 {
     public ServerException(String msg)

@@ -19,6 +19,7 @@ import server.facade.IMovesFacade;
  * Executes the Finish Turn request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class FinishTurnCommand implements ICommand {
     
     private String requestBody;

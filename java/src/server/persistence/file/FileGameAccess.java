@@ -15,13 +15,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.ClientModel;
-import model.player.User;
-import org.apache.commons.io.FilenameUtils;
 import server.IGameAccess;
 import server.command.ICommand;
 
@@ -53,7 +50,8 @@ public class FileGameAccess implements IGameAccess
         return this.saveSerialize(game, System.getProperty("user.dir")+File.separator+gameId+".catanmodel");
     }
     
-    private Object loadSerializable(String fName)
+    @SuppressWarnings("resource")
+	private Object loadSerializable(String fName)
     {
         File file = new File(System.getProperty("user.dir")+File.separator+fName);
         if(!file.exists())
@@ -90,7 +88,8 @@ public class FileGameAccess implements IGameAccess
         return null;
     }
     
-    private boolean saveSerialize(Serializable obj, String fName)
+    @SuppressWarnings("resource")
+	private boolean saveSerialize(Serializable obj, String fName)
     {
         FileOutputStream fout;
         try
@@ -127,7 +126,8 @@ public class FileGameAccess implements IGameAccess
         return true;
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Collection<ICommand> getAllCommands(int gameId)
     {
         ArrayList<ICommand> commands = new ArrayList<>();

@@ -20,6 +20,7 @@ import server.facade.IMovesFacade;
  * Executes the Offer Trade request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class OfferTradeCommand implements ICommand {
     
     private String requestBody;

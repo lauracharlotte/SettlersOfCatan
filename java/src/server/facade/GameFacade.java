@@ -12,7 +12,8 @@ import server.model.UserManager;
  */
 public class GameFacade implements IGameFacade 
 {
-        private UserManager userManager;
+        @SuppressWarnings("unused")
+		private UserManager userManager;
         private GameManager gameManager;
 
 	/**

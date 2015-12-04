@@ -14,6 +14,7 @@ import server.ServerException;
  * @author Madison Brooks
  *
  */
+@SuppressWarnings("serial")
 public class CreateCommand implements ICommand
 {
     

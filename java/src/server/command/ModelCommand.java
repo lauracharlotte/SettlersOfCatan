@@ -12,6 +12,7 @@ import server.ServerException;
  * @author LaurasAdventurePC
  * 
  */
+@SuppressWarnings("serial")
 public class ModelCommand implements ICommand 
 {
     

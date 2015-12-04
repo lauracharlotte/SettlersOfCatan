@@ -20,6 +20,7 @@ import shared.definitions.ResourceType;
  * Executes the Maritime Trade request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class MaritimeTradeCommand implements ICommand {
     
     private String requestBody;

@@ -19,6 +19,7 @@ import server.facade.IMovesFacade;
  * Executes the Roll Number request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class RollNumberCommand implements ICommand {
     
     private String requestBody;

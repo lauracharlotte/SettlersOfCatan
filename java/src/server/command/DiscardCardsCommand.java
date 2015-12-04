@@ -15,6 +15,7 @@ import server.facade.IMovesFacade;
  * Executes the Discard Cards request.
  * @author Scott
  */
+@SuppressWarnings("serial")
 public class DiscardCardsCommand implements ICommand{
     
     private String requestBody;
