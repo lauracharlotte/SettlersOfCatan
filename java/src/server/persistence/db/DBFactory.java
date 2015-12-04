@@ -5,7 +5,12 @@
  */
 package server.persistence.db;
 
+import java.io.File;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import server.IGameAccess;
 import server.IPersistenceFactory;
@@ -22,7 +27,7 @@ public class DBFactory implements IPersistenceFactory
 	public static void initialize()
 	{
 		try {
-			final String driver = "org.sqlite.JBDC";
+			final String driver = "org.sqlite.JDBC";
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -30,16 +35,16 @@ public class DBFactory implements IPersistenceFactory
 		}
 	}
 	
-	private DBUserAccess dbUserAccess;
-	private DBGameAccess dbGameAccess;
-	private Connection connect;
+	private final DBUserAccess dbUserAccess;
+	private final DBGameAccess dbGameAccess;
+	private Connection connect = null;
 	
 	public DBFactory()
 	{
-		dbUserAccess = new DBUserAccess(this);
-		dbGameAccess = new DBGameAccess();
-		connect = null;
-		initialize();
+            initialize();
+            dbUserAccess = new DBUserAccess(this);
+            dbGameAccess = new DBGameAccess();
+            connect = null;
 	}
 	// Calling All DAOs-------------------
 	@Override
@@ -62,14 +67,42 @@ public class DBFactory implements IPersistenceFactory
 	@Override
 	public void beginTransaction() 
 	{
-		// TODO Auto-generated method stub
-		
+            final String dbname = "Catan.sqlite";
+            String URL = "jdbc:sqlite:"+"db"+File.separator+dbname;
+            try
+            {
+                this.connect = DriverManager.getConnection(URL);
+                this.connect.setAutoCommit(false);
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(DBFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	@Override
 	public void endTransaction() 
 	{
-		// TODO Auto-generated method stub
+            try
+            {
+                this.connect.commit();
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(DBFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally
+            {
+                try
+                {
+                    this.connect.close();
+                    this.connect = null;
+                }
+                catch(SQLException ex)
+                {
+                    this.connect=null;
+                }
+            }
 		
 	}
     
