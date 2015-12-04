@@ -5,6 +5,8 @@
  */
 package server.persistence.db;
 
+import java.sql.Connection;
+
 import server.IGameAccess;
 import server.IPersistenceFactory;
 import server.IUserAccess;
@@ -15,21 +17,48 @@ import server.IUserAccess;
  */
 public class DBFactory implements IPersistenceFactory
 {
-
+	//Got most of this from my 240 project - Laura
+	
+	public static void initialize()
+	{
+		try {
+			final String driver = "org.sqlite.JBDC";
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private DBUserAccess dbUserAccess;
+	private DBGameAccess dbGameAccess;
+	private Connection connect;
+	
+	public DBFactory()
+	{
+		dbUserAccess = new DBUserAccess(this);
+		dbGameAccess = new DBGameAccess();
+		connect = null;
+		initialize();
+	}
+	// Calling All DAOs-------------------
 	@Override
 	public IUserAccess getUserAccessObject() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return dbUserAccess;
 	}
 
 	@Override
 	public IGameAccess getGameAccessObject() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return dbGameAccess;
 	}
-
+	
+	public Connection getConnect()
+	{
+		return connect;
+	}
+	//------------------------------------
 	@Override
 	public void beginTransaction() 
 	{
