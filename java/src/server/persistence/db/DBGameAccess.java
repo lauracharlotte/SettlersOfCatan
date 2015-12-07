@@ -8,6 +8,7 @@ package server.persistence.db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,15 +37,58 @@ public class DBGameAccess implements IGameAccess
             // TODO Auto-generated method stub
         String query = "SELECT model " +
             "FROM Game order by ID;";
-        return null;
+        PreparedStatement pstmt;
+        
+        Collection<ClientModel> games = new ArrayList<>();
+        ResultSet rs;
+        
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            rs = pstmt.executeQuery();
+            
+            while (rs.next())
+            {
+               ClientModel game = (ClientModel) rs.getObject(1);
+               games.add(game);
+            }
+            
+            pstmt.close();
+            rs.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        return games;
     }
 
     @Override
     public boolean saveGame(ClientModel game, int gameId) 
     {
-        String query = "UPDATE Game SET model=newModel\n" +
+        String query = "UPDATE Game SET model= ? \n" +
                 "WHERE ID= ? ;";
-        return true;
+        
+        PreparedStatement pstmt;
+        int result;
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.setObject(1, game);
+            pstmt.setInt(2, gameId);
+            result = pstmt.executeUpdate();
+            
+            pstmt.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return result > 0;
     }
 
     @Override
@@ -81,14 +125,53 @@ public class DBGameAccess implements IGameAccess
         String query = "SELECT COUNT(*)\n" +
         "FROM Command\n" +
         "WHERE gameNumber= ?;";
-        return 0;
+        
+        PreparedStatement pstmt;
+        ResultSet rs;
+        int result = 0;
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.setInt(1, gameId);
+            rs = pstmt.executeQuery();
+            if (rs.next())
+            {
+                result = rs.getInt(1);
+            }
+            pstmt.close();
+            rs.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+        return result;
     }
     
     @Override
     public boolean deleteGameCommands(int gameId) {
         String query = "DELETE FROM Command\n" +
         "WHERE gameNumber= ?;";
-        return true;
+        
+        PreparedStatement pstmt;
+        int result;
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.setInt(1, gameId);
+            result = pstmt.executeUpdate();
+            
+            pstmt.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return result > 0;
     }
 
     @Override
@@ -96,9 +179,35 @@ public class DBGameAccess implements IGameAccess
     {
         String query = "SELECT *\n" +
             "FROM Command\n" +
-            "WHERE gameNumber=gameId\n" +
+            "WHERE gameNumber= ? \n" +
             "ORDER BY commandNumber";
-        return null;
+        PreparedStatement pstmt;
+        
+        Collection<ICommand> commands = new ArrayList<>();
+        ResultSet rs;
+        
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.setInt(1, gameId);
+            rs = pstmt.executeQuery();
+            
+            while (rs.next())
+            {
+               ICommand command = (ICommand) rs.getObject(1);
+               commands.add(command);
+            }
+            
+            pstmt.close();
+            rs.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        return commands;
     }
     
     @Override
