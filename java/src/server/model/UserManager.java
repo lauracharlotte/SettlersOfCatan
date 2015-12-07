@@ -32,6 +32,7 @@ public class UserManager
         this.persistence = persistence;
         this.persistence.beginTransaction();
         ArrayList<User> allUsers = new ArrayList<>(this.persistence.getUserAccessObject().getUsers());
+        this.persistence.endTransaction();
         this.userList = Collections.synchronizedList(allUsers);
     }
     

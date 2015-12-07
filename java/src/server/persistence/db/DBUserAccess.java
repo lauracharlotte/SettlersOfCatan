@@ -67,7 +67,6 @@ public class DBUserAccess implements IUserAccess
     {
     	//add Users
     	PreparedStatement stmt = null;
-    	ResultSet keyRS = null;
     	
     	try {
         	String insertQuery = "INSERT INTO User(ID, Username, Password) VALUES(?,?,?)";
@@ -84,8 +83,7 @@ public class DBUserAccess implements IUserAccess
     	finally
     	{
     		try {
-				stmt.close();
-				keyRS.close();
+                    stmt.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -122,7 +120,6 @@ public class DBUserAccess implements IUserAccess
 			}
     	}
     	
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
