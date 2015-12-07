@@ -43,7 +43,7 @@ public class DBFactory implements IPersistenceFactory
 	{
             initialize();
             dbUserAccess = new DBUserAccess(this);
-            dbGameAccess = new DBGameAccess();
+            dbGameAccess = new DBGameAccess(this);
             connect = null;
 	}
 	// Calling All DAOs-------------------
