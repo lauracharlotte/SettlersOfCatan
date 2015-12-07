@@ -106,6 +106,7 @@ public class DBFactory implements IPersistenceFactory
 		
 	}
         
+        @Override
         public void wipe()
         {
             this.beginTransaction();

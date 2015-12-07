@@ -15,4 +15,5 @@ public interface IPersistenceFactory
     IGameAccess getGameAccessObject();
     void beginTransaction();
     void endTransaction();
+    void wipe();
 }
