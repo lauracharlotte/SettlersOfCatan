@@ -22,5 +22,5 @@ public interface IGameAccess
     public int getCommandAmount(int gameId);
     public boolean deleteGameCommands(int gameId);
     public Collection<ICommand> getAllCommands(int gameId);
-    public void clearDatabase();
+    public void clearPersistance();
 }
