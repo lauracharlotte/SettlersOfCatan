@@ -51,10 +51,13 @@ public class Server
             System.err.println("Usage: our-server <persistence-provider> <numberofdiffs>");
             return;
         }
+        boolean wipe = false;
+        if(args.length>=3 && args[2].equals("wipe"))
+            wipe = true;
         String persistenceProvider = args[0];
         int numberOfDiffs = Integer.parseInt(args[1]);
         int portNumber = 8081;
-        new Server(portNumber).run(persistenceProvider, numberOfDiffs);
+        new Server(portNumber).run(persistenceProvider, numberOfDiffs, wipe);
     }
     
     public void stop()
@@ -102,11 +105,13 @@ public class Server
         server.start();
     }
     
-    private void run(String persistenceProvider, int numberOfDiffs) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    private void run(String persistenceProvider, int numberOfDiffs, boolean wipe) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         @SuppressWarnings("rawtypes")
 		Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
         IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
+        if(wipe)
+            factory.wipe();
         GameManager myGameManager = new GameManager(factory, numberOfDiffs);
         UserManager myUserManager = new UserManager(factory);
         run(myGameManager, myUserManager);

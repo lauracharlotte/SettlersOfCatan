@@ -76,7 +76,7 @@ public class FileGameAccess implements IGameAccess
         }
         catch (IOException ex) 
         {
-            Logger.getLogger(FileUserAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileGameAccess.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         try
@@ -86,7 +86,7 @@ public class FileGameAccess implements IGameAccess
         }
         catch (IOException | ClassNotFoundException ex)
         {
-            Logger.getLogger(FileUserAccess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileGameAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -120,6 +120,7 @@ public class FileGameAccess implements IGameAccess
         {
             oos.writeObject(obj);
             oos.close();
+            fout.close();
         }
         catch (IOException ex)
         {
