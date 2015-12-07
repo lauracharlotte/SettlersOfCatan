@@ -16,4 +16,5 @@ public interface IUserAccess
 {
     public Collection<User> getUsers();
     public boolean saveNewUser(User newUser);
+    public void deleteAllUsers();
 }
