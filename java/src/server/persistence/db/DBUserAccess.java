@@ -42,7 +42,9 @@ public class DBUserAccess implements IUserAccess
 				int id = rs.getInt(1);
 				String username = rs.getString(2);
 				String password = rs.getString(3);
-				results.add(new User(username, password));//do we need to change the constructor so it contains the id or does it not matter?????
+                                User user = new User(username, password);
+                                user.setPlayerId(id);
+				results.add(user);//do we need to change the constructor so it contains the id or does it not matter?????             
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
