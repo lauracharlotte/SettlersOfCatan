@@ -49,16 +49,22 @@ public class DBGameAccess implements IGameAccess
 
     @Override
     public boolean saveCommand(ICommand command, int gameId) 
-    {
-        String commandNumberQuery = "SELECT MAX(commandNumber) "+"FROM Command " +
-        "WHERE gameNumber= ? ;";
-        
+    {        
         String insertQuery = "INSERT INTO Command (gameNumber, commandNumber, command)\n" +
             "VALUES (?, ?, ?);";
         PreparedStatement pstmt;
+        
+        int commandNumber = getNextCommandNumber(gameId);
+        int result;
+        
         try
         {
-            pstmt = myFactory.getConnect().prepareStatement(commandNumberQuery);
+            pstmt = myFactory.getConnect().prepareStatement(insertQuery);
+            pstmt.setInt(1, gameId);
+            pstmt.setInt(2, commandNumber);
+            pstmt.setObject(3, command);
+            result = pstmt.executeUpdate();
+            pstmt.close();
         }
         catch (SQLException ex)
         {
@@ -66,35 +72,7 @@ public class DBGameAccess implements IGameAccess
             return false;
         }
         
-        ResultSet rs;
-        try
-        {
-            rs = pstmt.executeQuery();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        int commandNumber = 0;
-        
-        try
-        {
-            if(rs.next())
-            {
-                commandNumber = rs.getInt(1);
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        
-	//  How to store blob
-	//pstmt.setObject(2, objectToSerialize);
-        
-        return false;
+        return result > 0;
     }
 
     @Override
@@ -121,6 +99,59 @@ public class DBGameAccess implements IGameAccess
             "WHERE gameNumber=gameId\n" +
             "ORDER BY commandNumber";
         return null;
+    }
+    
+    @Override
+    public void clearPersistance()
+    {
+        
+    }
+    
+    private int getNextCommandNumber(int gameId)
+    {
+        String commandNumberQuery = "SELECT MAX(commandNumber) "+"FROM Command " +
+        "WHERE gameNumber= ? ;";
+        PreparedStatement pstmt;
+        
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(commandNumberQuery);
+            pstmt.setInt(1, gameId);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+        ResultSet rs;
+        try
+        {
+            rs = pstmt.executeQuery();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        int commandNumber = 0;
+        
+        try
+        {
+            if(rs.next())
+            {
+                commandNumber = rs.getInt(1) + 1;
+            }
+            pstmt.close();
+            rs.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+        return commandNumber;
     }
     
 }

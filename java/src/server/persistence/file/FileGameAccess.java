@@ -165,4 +165,10 @@ public class FileGameAccess implements IGameAccess
         return delete;
     }
     
+    @Override
+    public void clearPersistance()
+    {
+        
+    }
+    
 }
