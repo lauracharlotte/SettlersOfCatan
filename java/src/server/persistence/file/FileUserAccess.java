@@ -108,5 +108,11 @@ public class FileUserAccess implements IUserAccess
         }
         return true;
     }
+
+    @Override
+    public void deleteAllUsers()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
