@@ -213,7 +213,18 @@ public class DBGameAccess implements IGameAccess
     @Override
     public void clearPersistance()
     {
-        
+        String query = "DELETE FROM Game, Command";
+        PreparedStatement pstmt;
+        try
+        {
+            pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.executeUpdate();
+            pstmt.close();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private int getNextCommandNumber(int gameId)
