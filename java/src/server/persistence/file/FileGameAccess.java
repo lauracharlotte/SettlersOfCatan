@@ -15,10 +15,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.ClientModel;
+import model.player.User;
+import org.apache.commons.io.FilenameUtils;
 import server.IGameAccess;
 import server.command.ICommand;
 
@@ -168,7 +171,13 @@ public class FileGameAccess implements IGameAccess
     @Override
     public void clearPersistance()
     {
-        
+        File folder = new File(System.getProperty("user.dir"));
+        File[] filesInFolder = folder.listFiles();
+        List<User> users = new ArrayList<>();
+        for(File f : filesInFolder)
+            if(FilenameUtils.getExtension(f.getName()).equals("commands") || FilenameUtils.getExtension(f.getName()).equals("catanmodel"))
+                f.delete();
+                
     }
     
 }

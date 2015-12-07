@@ -16,28 +16,35 @@ import server.IUserAccess;
 public class FileFactory implements IPersistenceFactory
 {
 
-	@Override
-	public IUserAccess getUserAccessObject()
-	{
-            return new FileUserAccess();
-	}
+    @Override
+    public IUserAccess getUserAccessObject()
+    {
+        return new FileUserAccess();
+    }
 
-	@Override
-	public IGameAccess getGameAccessObject() 
-	{
-            return new FileGameAccess();
-	}
+    @Override
+    public IGameAccess getGameAccessObject() 
+    {
+        return new FileGameAccess();
+    }
 
-	@Override
-	public void beginTransaction() 
-	{
-            return;
-	}
+    @Override
+    public void beginTransaction() 
+    {
+        return;
+    }
 
-	@Override
-	public void endTransaction() 
-	{
-            return;	
-	}
+    @Override
+    public void endTransaction() 
+    {
+        return;	
+    }
+
+    @Override
+    public void wipe()
+    {
+        this.getGameAccessObject().clearPersistance();
+        this.getUserAccessObject().deleteAllUsers();
+    }
     
 }

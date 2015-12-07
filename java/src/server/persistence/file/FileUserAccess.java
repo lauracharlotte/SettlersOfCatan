@@ -112,7 +112,13 @@ public class FileUserAccess implements IUserAccess
     @Override
     public void deleteAllUsers()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        File folder = new File(System.getProperty("user.dir"));
+        File[] filesInFolder = folder.listFiles();
+        for(File f : filesInFolder)
+            if(FilenameUtils.getExtension(f.getName()).equals("userobj"))
+            {
+                f.delete();
+            }
     }
     
 }

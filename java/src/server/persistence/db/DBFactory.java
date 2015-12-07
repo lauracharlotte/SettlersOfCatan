@@ -105,5 +105,14 @@ public class DBFactory implements IPersistenceFactory
             }
 		
 	}
+        
+        @Override
+        public void wipe()
+        {
+            this.beginTransaction();
+            this.getGameAccessObject().clearPersistance();
+            this.getUserAccessObject().deleteAllUsers();
+            this.endTransaction();
+        }
     
 }
