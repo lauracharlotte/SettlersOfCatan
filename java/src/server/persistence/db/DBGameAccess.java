@@ -81,8 +81,9 @@ public class DBGameAccess implements IGameAccess
     @Override
     public boolean saveGame(ClientModel game, int gameId) 
     {
-        String query = "UPDATE Game SET model= ? \n" +
-                "WHERE ID= ? ;";
+        // insert or replace into Game (Model, ID) values(?,?);
+        String query = "INSERT or REPLACE into Game (Model, ID) \n" +
+                "values(?,?) ;";
         
         PreparedStatement pstmt;
         int result;
