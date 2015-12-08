@@ -5,6 +5,9 @@
  */
 package server.persistence.db;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,8 +52,18 @@ public class DBGameAccess implements IGameAccess
             
             while (rs.next())
             {
-               ClientModel game = (ClientModel) rs.getObject(1);
-               games.add(game);
+               ObjectInputStream objectIn;
+                byte[] buff = rs.getBytes(1);
+                if (buff != null)
+                {
+                    try {
+                        objectIn = new ObjectInputStream(new ByteArrayInputStream(buff));
+                        ClientModel game = (ClientModel) objectIn.readObject();
+                        games.add(game);
+                    } catch (IOException | ClassNotFoundException ex) {
+                        Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
             
             pstmt.close();
@@ -93,7 +106,7 @@ public class DBGameAccess implements IGameAccess
 
     @Override
     public boolean saveCommand(ICommand command, int gameId) 
-    {        
+    {                
         String insertQuery = "INSERT INTO Command (gameNumber, commandNumber, command)\n" +
             "VALUES (?, ?, ?);";
         PreparedStatement pstmt;
@@ -194,8 +207,18 @@ public class DBGameAccess implements IGameAccess
             
             while (rs.next())
             {
-               ICommand command = (ICommand) rs.getObject(1);
-               commands.add(command);
+                ObjectInputStream objectIn;
+                byte[] buff = rs.getBytes(1);
+                if (buff != null)
+                {
+                    try {
+                        objectIn = new ObjectInputStream(new ByteArrayInputStream(buff));
+                        ICommand command = (ICommand) objectIn.readObject();
+                        commands.add(command);
+                    } catch (IOException | ClassNotFoundException ex) {
+                        Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
             
             pstmt.close();
