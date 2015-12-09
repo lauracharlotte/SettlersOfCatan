@@ -172,7 +172,8 @@
 
 	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
 		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
-			<arg value="${port}"></arg>
+			<arg value="${provider}"></arg>
+      <arg value="${interval}"></arg>
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>
