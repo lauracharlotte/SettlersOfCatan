@@ -103,8 +103,8 @@ public class GameManager
         this.persistence.beginTransaction();
         if (gameAccessObject.getCommandAmount(gameId) == interval)
         {
-            this.persistence.endTransaction();
             gameAccessObject.saveGame(this.getGameWithNumber(gameId), gameId);
+            this.persistence.endTransaction();
             this.persistence.beginTransaction();
             gameAccessObject.deleteGameCommands(gameId);
             this.persistence.endTransaction();

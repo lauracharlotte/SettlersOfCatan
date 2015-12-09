@@ -91,7 +91,6 @@ public class DBGameAccess implements IGameAccess
         try
         {
             pstmt = myFactory.getConnect().prepareStatement(query);
-            pstmt.setObject(1, game);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream out = null;
             out = new ObjectOutputStream(baos);
