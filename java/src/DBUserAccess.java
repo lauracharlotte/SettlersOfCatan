@@ -100,7 +100,6 @@ public class DBUserAccess implements IUserAccess
     {
     	//add Users
     	PreparedStatement stmt = null;
-    	ResultSet keyRS = null;
     	
     	try {
         	String insertQuery = "DELETE FROM User";
@@ -115,7 +114,6 @@ public class DBUserAccess implements IUserAccess
     	{
     		try {
 				stmt.close();
-				keyRS.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

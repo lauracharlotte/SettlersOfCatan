@@ -7,9 +7,17 @@ package server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executor;
 
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.facade.GameFacade;
@@ -48,14 +56,14 @@ public class Server
     {
         if(args.length < 2)
         {
-            System.err.println("Usage: our-server <persistence-provider> <numberofdiffs>");
+            System.err.println("Usage: our-server <persistence-provider> <numberofdiffs> <wipe yes/no>");
             return;
         }
-        boolean wipe = false;
-        if(args.length>=3 && args[2].equals("wipe"))
-            wipe = true;
         String persistenceProvider = args[0];
         int numberOfDiffs = Integer.parseInt(args[1]);
+		boolean wipe = false;
+		if(args.length>=3 && args[2].toLowerCase().equals("y"))
+			wipe = true;
         int portNumber = 8081;
         new Server(portNumber).run(persistenceProvider, numberOfDiffs, wipe);
     }
@@ -105,17 +113,40 @@ public class Server
         server.start();
     }
     
-    private void run(String persistenceProvider, int numberOfDiffs, boolean wipe) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    private void run(String persistenceProvider, int numberOfDiffs, boolean wipe) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException
     {
-        @SuppressWarnings("rawtypes")
-		Class persistenceClass = Class.forName("server.persistence."+persistenceProvider);
-        IPersistenceFactory factory = (IPersistenceFactory)persistenceClass.newInstance();
-        if(wipe)
-            factory.wipe();
+        IPersistenceFactory factory = this.getFactory(persistenceProvider);
+		if(wipe)
+			factory.wipe();
         GameManager myGameManager = new GameManager(factory, numberOfDiffs);
         UserManager myUserManager = new UserManager(factory);
         run(myGameManager, myUserManager);
         
+    }
+    
+    private IPersistenceFactory getFactory(String argName) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
+    {
+        String pathToJar = System.getProperty("user.dir")+File.separator +
+                "lib" + File.separator + 
+                "plugins" + File.separator + 
+                argName + ".jar";
+        JarFile jarFile = new JarFile(pathToJar);
+        Enumeration e = jarFile.entries();
+        URL[] urls = {new URL("jar:file:"+pathToJar+"!/")};
+        URLClassLoader cl = URLClassLoader.newInstance(urls);
+        IPersistenceFactory factory = null;
+        while(e.hasMoreElements())
+        {
+            JarEntry je = (JarEntry)e.nextElement();
+            if(je.isDirectory() || !je.getName().endsWith(".class"))
+                continue;
+            String className = je.getName().substring(0, je.getName().length()-6);
+            className = className.replace("/", ".");
+            Class c = cl.loadClass(className);
+            if(IPersistenceFactory.class.isAssignableFrom(c))
+                factory = (IPersistenceFactory)c.newInstance();
+        }
+        return factory;
     }
     
     private final int port;

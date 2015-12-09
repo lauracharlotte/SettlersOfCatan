@@ -145,6 +145,12 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<mkdir dir="${java.dist}/db"/>
+		<copy todir="${java.dist}/db">
+			<fileset dir="${java.dir}/db">
+				<include name="**"/>
+			</fileset>
+		</copy>
  		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="client.main.Catan"/>
@@ -173,7 +179,8 @@
 	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
 		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
 			<arg value="${provider}"></arg>
-      <arg value="${interval}"></arg>
+			<arg value="${interval}"></arg>
+			<arg value ="${wipe}"></arg>
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>

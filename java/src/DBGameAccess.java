@@ -252,11 +252,15 @@ public class DBGameAccess implements IGameAccess
     @Override
     public void clearPersistance()
     {
-        String query = "DELETE FROM Game, Command";
+        String query = "DELETE FROM Game";
+        String query2 = "DELETE FROM Command";
         PreparedStatement pstmt;
         try
         {
             pstmt = myFactory.getConnect().prepareStatement(query);
+            pstmt.executeUpdate();
+            pstmt.close();
+            pstmt = myFactory.getConnect().prepareStatement(query2);
             pstmt.executeUpdate();
             pstmt.close();
         }
