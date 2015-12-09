@@ -6,8 +6,10 @@
 package server.persistence.db;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,9 +67,8 @@ public class DBGameAccess implements IGameAccess
                     }
                 }
             }
-            
-            pstmt.close();
             rs.close();
+            pstmt.close();
         }
         catch (SQLException ex)
         {
@@ -86,20 +87,28 @@ public class DBGameAccess implements IGameAccess
                 "values(?,?) ;";
         
         PreparedStatement pstmt;
-        int result;
+        int result = 0;
         try
         {
             pstmt = myFactory.getConnect().prepareStatement(query);
             pstmt.setObject(1, game);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream out = null;
+            out = new ObjectOutputStream(baos);
+            out.writeObject(game);
+            pstmt.setBytes(1, baos.toByteArray());
             pstmt.setInt(2, gameId);
             result = pstmt.executeUpdate();
-            
             pstmt.close();
         }
         catch (SQLException ex)
         {
             Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return result > 0;
@@ -113,14 +122,18 @@ public class DBGameAccess implements IGameAccess
         PreparedStatement pstmt;
         
         int commandNumber = getNextCommandNumber(gameId);
-        int result;
+        int result = 0;
         
         try
         {
             pstmt = myFactory.getConnect().prepareStatement(insertQuery);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream out = null;
+            out = new ObjectOutputStream(baos);
+            out.writeObject(command);
             pstmt.setInt(1, gameId);
             pstmt.setInt(2, commandNumber);
-            pstmt.setObject(3, command);
+            pstmt.setBytes(3, baos.toByteArray());
             result = pstmt.executeUpdate();
             pstmt.close();
         }
@@ -128,6 +141,10 @@ public class DBGameAccess implements IGameAccess
         {
             Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(DBGameAccess.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return result > 0;
@@ -152,8 +169,8 @@ public class DBGameAccess implements IGameAccess
             {
                 result = rs.getInt(1);
             }
-            pstmt.close();
             rs.close();
+            pstmt.close();
         }
         catch (SQLException ex)
         {
@@ -209,7 +226,7 @@ public class DBGameAccess implements IGameAccess
             while (rs.next())
             {
                 ObjectInputStream objectIn;
-                byte[] buff = rs.getBytes(1);
+                byte[] buff = rs.getBytes(3);
                 if (buff != null)
                 {
                     try {
@@ -221,9 +238,8 @@ public class DBGameAccess implements IGameAccess
                     }
                 }
             }
-            
-            pstmt.close();
             rs.close();
+            pstmt.close();
         }
         catch (SQLException ex)
         {
@@ -286,8 +302,8 @@ public class DBGameAccess implements IGameAccess
             {
                 commandNumber = rs.getInt(1) + 1;
             }
-            pstmt.close();
             rs.close();
+            pstmt.close();
         }
         catch (SQLException ex)
         {
