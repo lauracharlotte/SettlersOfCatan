@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,6 +82,7 @@ public class FileGameAccess implements IGameAccess
         try
         {
             Object newObject = objectinputstream.readObject();
+            fis.close();
             return newObject;
         }
         catch (IOException | ClassNotFoundException ex)
@@ -90,7 +93,7 @@ public class FileGameAccess implements IGameAccess
     }
     
     @SuppressWarnings("resource")
-	private boolean saveSerialize(Serializable obj, String fName)
+    private boolean saveSerialize(Serializable obj, String fName)
     {
         FileOutputStream fout;
         try
@@ -163,8 +166,18 @@ public class FileGameAccess implements IGameAccess
     public boolean deleteGameCommands(int gameId) 
     {
         File currentCommandFile = new File(System.getProperty("user.dir")+File.separator+gameId+".commands");
-        boolean delete = currentCommandFile.delete();
-        return delete;
+        boolean exists = currentCommandFile.exists();
+        try
+        {
+            if(exists)
+                Files.delete(currentCommandFile.toPath());
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(FileGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //boolean delete = currentCommandFile.delete();
+        return exists;
     }
     
     @Override
@@ -175,7 +188,12 @@ public class FileGameAccess implements IGameAccess
         List<User> users = new ArrayList<>();
         for(File f : filesInFolder)
             if(FilenameUtils.getExtension(f.getName()).equals("commands") || FilenameUtils.getExtension(f.getName()).equals("catanmodel"))
-                f.delete();
+                try {
+                    Files.delete(f.toPath());
+        }
+        catch (IOException ex) {
+            Logger.getLogger(FileGameAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 
     }
     
